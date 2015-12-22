@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: nee_portal
+        psr4_prefix: nee_portal
+        src_path: app
