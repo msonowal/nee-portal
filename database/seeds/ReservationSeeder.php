@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Models\Reservation;
+use nee_portal\Models\Reservation;
 
 class ReservationSeeder extends Seeder
 {

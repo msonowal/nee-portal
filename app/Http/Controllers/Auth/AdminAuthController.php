@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use nee_portal\Http\Controllers\Controller;
-//use Illuminate\Foundation\Auth\ThrottlesLogins;
-//use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
 class AdminAuthController extends Controller
 {
@@ -25,7 +23,6 @@ class AdminAuthController extends Controller
     */
     private $content ='admin.layouts.';
     protected $username = 'username';
-    //use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
     /**
      * Create a new authentication controller instance.
@@ -54,11 +51,8 @@ class AdminAuthController extends Controller
         $auth = Auth::admin()->attempt(['username' => $request->get('username'),'password' => $request->get('password'), 'active' => 'YES']);
 
         if(!$auth){
-            return redirect($this->loginPath())
-            ->withInput($request->only($this->loginUsername(), 'remember'))
-            ->withErrors([
-                $this->loginUsername() => $this->getFailedLoginMessage(),
-            ]);
+            return redirect($this->loginPath);
+            
         }
 
         $first_name = Auth::admin()->get()->first_name;

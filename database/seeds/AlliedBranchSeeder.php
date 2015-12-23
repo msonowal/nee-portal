@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\AlliedBranch;
+use nee_portal\Models\AlliedBranch;
 
 class AlliedBranchSeeder extends Seeder
 {

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Models\Qualification;
+use nee_portal\Models\Qualification;
 
 class QualificationSeeder extends Seeder
 {

@@ -39,7 +39,7 @@
                         </form>
                     
                 @endsection
-                @include('widgets.panel', array('as'=>'login', 'header'=>true))
+                @include('admin.layouts.panel', array('as'=>'login', 'header'=>true))
             </div>
         </div>
     </div>

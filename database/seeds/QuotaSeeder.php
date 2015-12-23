@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Models\Quota;
+use nee_portal\Models\Quota;
 
 class QuotaSeeder extends Seeder
 {

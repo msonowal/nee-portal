@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Models\State;
+use nee_portal\Models\State;
 
 class StateSeeder extends Seeder
 {

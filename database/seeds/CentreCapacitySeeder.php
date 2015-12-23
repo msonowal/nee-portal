@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Models\CentreCapacity;
+use nee_portal\Models\CentreCapacity;
 
 class CentreCapacitySeeder extends Seeder
 {

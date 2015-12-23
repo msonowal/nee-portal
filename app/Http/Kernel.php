@@ -27,11 +27,10 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth.admin' => \nee_portal\Http\Middleware\AuthenticateAdmin::class,
-        'auth.student' => \nee_portal\Http\Middleware\AuthenticateStudent::class,
+        'auth.candidate' => \nee_portal\Http\Middleware\AuthenticateCandidate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        //'guest' => \nee_portal\Http\Middleware\RedirectIfAuthenticated::class,
         'guest.admin' => \nee_portal\Http\Middleware\RedirectAdminIfAuthenticated::class,
-        'guest.student' => \nee_portal\Http\Middleware\RedirectStudentIfAuthenticated::class,
+        'guest.candidate' => \nee_portal\Http\Middleware\RedirectCandidateIfAuthenticated::class,
         'acl' => \nee_portal\Http\Middleware\CheckPermission::class,
     ];
 }

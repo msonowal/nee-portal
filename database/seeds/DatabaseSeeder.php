@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\AdminUser;
+use nee_portal\Models\Admin;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
    {
        Model::unguard();
 
-       factory(AdminUser::class, 5)->create();     
+       factory(Admin::class, 5)->create();     
        $this->call(ExamSeeder::class);
        $this->call(QualificationSeeder::class);
        $this->call(CentreSeeder::class);  

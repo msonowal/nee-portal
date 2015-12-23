@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\ExamDetail;
+use nee_portal\Models\ExamDetail;
 
 class ExamDetailSeeder extends Seeder
 {

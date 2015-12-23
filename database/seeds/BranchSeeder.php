@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Models\Branch;
+use nee_portal\Models\Branch;
 
 class BranchSeeder extends Seeder
 {

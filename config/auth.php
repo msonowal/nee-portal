@@ -6,12 +6,12 @@ return [
     'multi-auth' => [
     'admin' => [
         'driver' => 'eloquent',
-        'model'  => nee_portal\Models\AdminUser::class
+        'model'  => nee_portal\Models\Admin::class
     ],
 
-    'student' => [
+    'candidate' => [
         'driver' => 'eloquent',
-        'model'  => nee_portal\Models\Student::class
+        'model'  => nee_portal\Models\Candidate::class
     ]
 
     ],
