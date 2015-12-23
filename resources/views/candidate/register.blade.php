@@ -1,6 +1,5 @@
-@extends('candidate.plane')
+@extends('layouts.plane')
 @section('body')
-
 <div class="card-panel hoverable">
     <div class="col s6 offset-s3">
      <div class="row">

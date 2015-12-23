@@ -33,7 +33,7 @@ class CandidateAuthController extends Controller
      */
 
     protected $loginPath = 'candidate/login';
-    protected $redirectPath = 'candidate/dashboard';
+    protected $redirectPath = 'candidate/home';
 
     public function __construct()
     {
@@ -77,7 +77,7 @@ class CandidateAuthController extends Controller
 
         $this->validate($request, ['email' => 'required', 'password' => 'required']);
 
-        $auth = Auth::candidate()->attempt(['email' => $request->get('email'),'password' => $request->get('password'), 'status' => '1']);
+        $auth = Auth::candidate()->attempt(['email' => $request->get('email'),'password' => $request->get('password'), 'status' => '0']);
 
         if(!$auth){
             return redirect($this->loginPath);
@@ -87,7 +87,7 @@ class CandidateAuthController extends Controller
 
         Session::put('first_name', $first_name);
 
-        return redirect()->route($this->content.'dashboard');
+        return redirect()->route($this->content.'home');
     }
 
     /**

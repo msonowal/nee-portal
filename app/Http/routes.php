@@ -12,7 +12,7 @@ Route::get('candidate/logout', array('as' => 'candidate.logout', 'uses' => 'Auth
 
 Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
     Route::group(['middleware'=>['auth.candidate']], function() {
-        Route::get('/dashboard', ['as' => 'candidate.dashboard', 'uses' =>'CandidateController@dashboard']);
+        Route::get('/home', ['as' => 'candidate.home', 'uses' =>'CandidateController@home']);
         Route::get('/application', ['as' => 'candidate.application', 'uses' =>'CandidateController@index']);
         Route::post('/application', ['as' => 'candidate.application', 'uses' =>'CandidateController@getStep']);
         Route::get('/application/step2', ['as' => 'candidate.application.step2', 'uses' =>'CandidateController@createStep2']);

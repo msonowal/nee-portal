@@ -25,9 +25,9 @@ class CandidateController extends Controller
         return $this->createStep2();
     }
 
-    public function dashboard()
+    public function home()
     {
-        return view($this->content.'dashboard');
+        return view($this->content.'home');
     }
 
     public function createStep1()

@@ -201,7 +201,6 @@ return [
         'Form'      => Collective\Html\FormFacade::class,
         'Html'      => Collective\Html\HtmlFacade::class,
         'FormBuilder'=> 'Kris\LaravelFormBuilder\Facades\FormBuilder',
-        //'Entrust'   => 'Zizaco\Entrust\EntrustFacade',
         'Excel'     => 'Maatwebsite\Excel\Facades\Excel',
 
     ],

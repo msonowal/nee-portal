@@ -1,6 +1,5 @@
 @extends('student.plane')
 @section('body')
-<div class="container">
 	<div class="card-panel hoverable">
 		<div class="col s6 offset-s3">
 		<h5>Personal Details</h5>
@@ -59,5 +58,4 @@
 		  {!! form_end($form) !!}		
 		</div>
 	</div>
-</div>
 @stop
