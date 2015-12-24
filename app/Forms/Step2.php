@@ -3,104 +3,76 @@
 namespace nee_portal\Forms;
 
 use Kris\LaravelFormBuilder\Form;
-use nee_portal\Models\Quota;
-use nee_portal\Models\Centre;
-use nee_portal\Models\ExamDetail;
-use nee_portal\Models\AlliedBranch;
-use nee_portal\Models\Reservation;
-use nee_portal\Models\Branch;
+use nee_portal\Models\State;
 
 class Step2 extends Form
 {
     public function buildForm()
     {
-           $this->add('quota', 'select', [
-           	  'choices' => Quota::lists('name', 'id')->all(), 	
-	          'attr' => ['required', 'placeholder'=> 'State Quota'],
-	          'label' => 'State Quota',
-	          'wrapper' => ['class' => 'form-group'] 
+          $this->add('name', 'text', [
+	          'attr' => ['required', 'maxlength' => '150'],
 	      ]);
 
-          $this->add('c_pref1', 'select', [
-           	  'choices' => Centre::lists('centre_name', 'id')->all(), 	
-	          'attr' => ['required', 'placeholder'=> 'Centre Preference 1'],
-	          'label' => 'Centre Preference 1',
-	          'wrapper' => ['class' => 'form-group'] 
+          $this->add('father_name', 'text', [
+	          'attr' => ['required', 'maxlength' => '150'],
 	      ]);
 
-	      $this->add('c_pref2', 'select', [
-           	  'choices' => Centre::lists('centre_name', 'id')->all(), 	
-	          'attr' => ['required', 'placeholder'=> 'Centre Preference 2'],
-	          'label' => 'Centre Preference 2',
-	          'wrapper' => ['class' => 'form-group'] 
+          $this->add('guardian_name', 'text', [
+	          'attr' => ['required', 'maxlength' => '150'],
 	      ]);
 
-	      $this->add('dob', 'text', [
-	          'attr' => ['required', 'placeholder'=> 'Date Of Birth'],
-	          'label' => 'Date Of Birth',
-	          'wrapper' => ['class' => 'form-group'] 
+	      $this->add('gender', 'select', [
+	      	  'choices' => ['MALE' => 'MALE', 'FEMALE' => 'FEMALE', 'TRANSGENDER' => 'TRANSGENDER'],
+	          'attr' => ['required'],
 	      ]);
 
-	      $this->add('nerist_stud', 'select', [
-           	  'choices' => ['YES' => 'YES', 'NO' => 'NO'], 	
-	          'attr' => ['required', 'placeholder'=> 'Are you a NERIST Student'],
-	          'label' => 'Are you a NERIST Student',
-	          'wrapper' => ['class' => 'form-group'] 
-	      ]); 
-
-	      $this->add('status', 'select', [
-           	  'choices' => ['1' => 'PASSED', '0' => 'APPEARED'], 	
-	          'attr' => ['required', 'placeholder'=> 'Status'],
-	          'label' => 'Status',
-	          'wrapper' => ['class' => 'form-group'] 
+	      $this->add('nationality', 'select', [
+	      	  'choices' => ['INDIA' => 'INDIA'],
+	          'attr' => ['required'],
 	      ]);
 
-	      $this->add('admission_in', 'select', [
-           	  'choices' => ExamDetail::lists('eligible_for', 'id')->all(), 	
-	          'attr' => ['required', 'placeholder'=> 'For Admission In'],
-	          'label' => 'For Admission In',
-	          'wrapper' => ['class' => 'form-group'] 
+	      $this->add('emp_status', 'choice', [
+	      	  'choices' => ['YES' => 'YES', 'NO' => 'NO'],
+	          'attr' => ['required'],
+	      ]);
+
+	      $this->add('relationship', 'text', [
+	          'attr' => ['required'],
+	      ]);
+
+	      $this->add('state', 'select', [
+	      	  'choices' => State::lists('state_name', 'id')->all(),
+	          'attr' => ['required', 'maxlength' => '100'],
+	      ]);
+
+	      $this->add('district', 'select', [
+	      	  'choices' => ['' => ''],
+	          'attr' => ['required', 'maxlength' => '100'],
+	      ]);
+
+	      $this->add('post_office', 'text', [
+	          'attr' => ['required', 'maxlength' => '100'],
 	      ]);
 
 
-	      $this->add('voc_subject', 'select', [
-           	  'choices' => ['' =>''], 	
-	          'attr' => ['required', 'placeholder'=> 'Vocational Subject'],
-	          'label' => 'Vocational Subject',
-	          'wrapper' => ['class' => 'form-group'] 
+	      $this->add('pin', 'number', [
+	          'attr' => ['required', 'maxlength' => '6'],
 	      ]);
 
-	      $this->add('branch', 'select', [
-           	  'choices' => Branch::lists('branch_name', 'id')->all(), 	
-	          'attr' => ['required', 'placeholder'=> 'Admissable Branch'],
-	          'label' => 'Admissable Branch',
-	          'wrapper' => ['class' => 'form-group'] 
+	      $this->add('village_town', 'text', [
+	          'attr' => ['required', 'maxlength' => '100'],
 	      ]);
 
-	      $this->add('allied_branch', 'select', [
-           	  'choices' => AlliedBranch::lists('allied_branch', 'id')->all(), 	
-	          'attr' => ['required', 'placeholder'=> 'Branch Subject'],
-	          'label' => 'Branch Subject',
-	          'wrapper' => ['class' => 'form-group'] 
-	      ]);
-
-	      $this->add('res_code', 'select', [
-           	  'choices' => Reservation::lists('reservation_code', 'id')->all(), 	
-	          'attr' => ['required', 'placeholder'=> 'Reservation Code'],
-	          'label' => 'Reservation Code',
-	          'wrapper' => ['class' => 'form-group'] 
-	      ]);
+	      $this->add('address_line', 'text', [
+	          'attr' => ['required', 'maxlength' => '100'],
+	      ]);   
 
 	      $this->add('submit', 'submit', [
 	          'attr' => ['class'=>'btn btn-lg btn-success col-md-12'],
-	          'label' => 'Save & Continue'
 	      ]);
 
 	      $this->add('update', 'submit', [
 	          'attr' => ['class'=>'btn btn-md btn-success col-md-12'],
-	          'label' => 'Update'
 	      ]);
-
-	       
     }
 }

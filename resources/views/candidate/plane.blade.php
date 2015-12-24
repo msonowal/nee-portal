@@ -40,11 +40,17 @@
       <!--Import jQuery before materialize.js-->
       <script type="text/javascript" src="{{ asset("frontend/js/jquery-2.1.1.min.js") }}"></script>
       <script type="text/javascript" src="{{ asset("frontend/js/materialize.min.js") }}"></script>
+      <script type="text/javascript" src="{{ asset("frontend/js/picker.date.js") }}"></script>
+      <script type="text/javascript" src="{{ asset("frontend/js/picker.js") }}"></script>
+      <script type="text/javascript" src="{{ asset("frontend/js/picker.time.js") }}"></script>
       <script type="text/javascript">
       $(document).ready(function(){
           $(".button-collapse").sideNav();
           $(".dropdown-button").dropdown();
           $('select').material_select();
+          $('.datepicker').pickadate({
+              selectMonths: true, // Creates a dropdown to control month
+          });
       });
     </script>
     </body>
