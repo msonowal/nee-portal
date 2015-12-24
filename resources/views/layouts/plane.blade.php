@@ -13,7 +13,15 @@
     <body>
     @include('layouts.navbar')
       <div class="container">
-          @if(count($errors)>0)
+
+      @if(Session::has('message'))
+      <div class="card-panel green darken-1" style="padding:5px 10px;">
+       <p class="white-text">
+       {!! Session::get('message') !!}
+       </p>
+      </div>
+      @endif
+      @if(count($errors)>0)
       <div class="card-panel red darken-1" style="padding:1px 15px;">
        <span class="white-text">
         <ul>

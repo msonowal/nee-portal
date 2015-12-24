@@ -15,7 +15,8 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'mail'),
+    'driver' => 'mail',
+    //'driver' => env('MAIL_DRIVER', 'mail'),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +56,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'tucell@onlinefeepayment.in', 'name' => 'DU'],
+    'from' => ['address' => 'neeonline@neeonline.ac.in', 'name' => 'NERIST Online'],
 
     /*
     |--------------------------------------------------------------------------
@@ -121,6 +122,6 @@ return [
     |
     */
 
-    'pretend' => false,
+    'pretend' => true,
 
 ];

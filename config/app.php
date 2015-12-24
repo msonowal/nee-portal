@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -202,6 +202,7 @@ return [
         'Html'      => Collective\Html\HtmlFacade::class,
         'FormBuilder'=> 'Kris\LaravelFormBuilder\Facades\FormBuilder',
         'Excel'     => 'Maatwebsite\Excel\Facades\Excel',
+        'Basehelper'=> nee_portal\Helpers\Basehelper::class,
 
     ],
 

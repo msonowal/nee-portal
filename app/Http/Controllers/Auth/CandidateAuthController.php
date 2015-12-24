@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use nee_portal\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Redirect, Hash;
+use Redirect, Hash, Mail, Basehelper;
 class CandidateAuthController extends Controller
 {
     /*
@@ -22,6 +22,7 @@ class CandidateAuthController extends Controller
     | a simple trait to add these behaviors. Why don't you explore it?
     |
     */
+
     private $content ='candidate.';
     protected $email = 'email';
     //use AuthenticatesAndRegistersUsers, ThrottlesLogins;
@@ -46,28 +47,50 @@ class CandidateAuthController extends Controller
 
     public function postRegister(Request $request){
 
-        $this->validate($request, Candidate::$rules);
+        $validator = Validator::make($request->all(), Candidate::$rules);
+
+        if ($validator->fails()) {
+
+            return Redirect::back()
+                        ->withInput()->withErrors($validator);
+        }
+
+        $confirmation_code = rand(200000 , 900000);
 
         $data=[ 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'password'  => Hash::make($request->password),
                 'mobile_no' => $request->mobile_no,
-                'email' => $request->email];
+                'email' => $request->email,
+                'confirm_code' => $confirmation_code
+        ];
 
-        Candidate::create($data);
+        $candidate = Candidate::create($data);
+
+        $message = 'Hello '.$request->first_name.', you have registered for NEE Online. Your OTP is '.$confirmation_code.' .Your email is '.$request->email.' and password is '.$request->password;
+
+        $data['password'] = $request->password;
+
+        Mail::send('emails.verify', $data, function($message) use ($candidate, $data){
+                $message->from('neeonline@neeonline.ac.in', 'NEE Online Application Portal');
+                $message->to($candidate->email, $candidate->first_name)
+                    ->subject('NEE Online Account Created');
+        });
+
+        $message = 'Hello '.$request->first_name.', you have registered for NEE Online. Your OTP is '.$confirmation_code.' .Your email is '.$request->email.' and password is '.$request->password;
+
+        Basehelper::sendSMS($request->mobile_no, $message);
 
         return Redirect::route($this->content.'register')->with('message', 'Registered Successfully. Please Activate your A/C by OTP Activation link');
     } 
 
     public function getLogin(formBuilder $formBuilder)
     {
-        $form=$formBuilder->create('nee_portal\Forms\CandidateLogin',
-
-            ['method' =>'POST',
-
-             'url'    => route($this->content.'login')
-
-            ]);
+        $form = $formBuilder->create('nee_portal\Forms\CandidateLogin', [
+                'method' =>'POST',
+                'url'    => route($this->content.'login'),
+                'class' =>  'col s12'
+                ]);
 
         return view($this->content.'login', compact('form'));
     }
@@ -80,7 +103,7 @@ class CandidateAuthController extends Controller
         $auth = Auth::candidate()->attempt(['email' => $request->get('email'),'password' => $request->get('password'), 'status' => '0']);
 
         if(!$auth){
-            return Redirect::back()->withErrors(['Either Email or Password is Incorrect!']);
+            return Redirect::back()->withInput()->withErrors(['Either Email or Password is Incorrect!']);
         }
 
         $first_name = Auth::candidate()->get()->first_name;
@@ -88,6 +111,16 @@ class CandidateAuthController extends Controller
         Session::put('first_name', $first_name);
 
         return redirect()->route($this->content.'home');
+    }
+
+    public function showOTP()
+    {
+        
+    }
+
+    public function activateOTP()
+    {
+        //TODO
     }
 
     /**
@@ -105,6 +138,7 @@ class CandidateAuthController extends Controller
      */
 
     public function getLogout(){
+
         Auth::candidate()->logout();
         return Redirect::route('candidate.login');
     }
