@@ -18,11 +18,11 @@ class CandidateController extends Controller
         $this->formBuilder = $formBuilder;
     }
     
-    private $content = 'candidate.';
+    private $content = 'candidate.application.';
 
     public function index()
     {
-        return $this->createStep2();
+        //return $this->createStep1();
     }
 
     public function home()
@@ -30,30 +30,30 @@ class CandidateController extends Controller
         return view($this->content.'home');
     }
 
-    public function createStep1()
+    public function showStep2()
     {
         $form=$this->formBuilder->create('nee_portal\Forms\Step2',
 
             ['method' =>'POST',
 
-             'url'    => route($this->content.'application')
-
-            ])->remove('update');
-
-        return view($this->content.'step1', compact('form'));
-    }
-
-    public function createStep2()
-    {
-        $form=$this->formBuilder->create('nee_portal\Forms\Step1',
-
-            ['method' =>'POST',
-
-             'url'    => route($this->content.'application.step2')
+             'url'    => route($this->content.'step2')
 
             ])->remove('update');
 
         return view($this->content.'step2', compact('form'));
+    }
+
+    public function showStep3()
+    {
+        $form=$this->formBuilder->create('nee_portal\Forms\Step3',
+
+            ['method' =>'POST',
+
+             'url'    => route($this->content.'step3')
+
+            ])->remove('update');
+
+        return view($this->content.'step3', compact('form'));
     }
 
 }

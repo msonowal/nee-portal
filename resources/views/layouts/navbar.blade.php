@@ -1,6 +1,6 @@
 	<nav>
-	    <div class="nav-wrapper">
-	      <a href="#!" class="brand-logo">&nbsp;NEE Portal {!! $year=Date('Y') !!}</a>
+	    <div class="nav-wrapper" style="background-color:blue !important">
+	      <a href="#!" class="brand-logo" style="padding:1px 10px;">NEE Portal {!! $year=Date('Y') !!}</a>
 	      	<a href="#" data-activates="mobile-demo" class="button-collapse">
 	      	<i class="material-icons">menu</i></a>
 	      	<ul class="right hide-on-med-and-down">

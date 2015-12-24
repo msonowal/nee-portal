@@ -80,7 +80,7 @@ class CandidateAuthController extends Controller
         $auth = Auth::candidate()->attempt(['email' => $request->get('email'),'password' => $request->get('password'), 'status' => '0']);
 
         if(!$auth){
-            return redirect($this->loginPath);
+            return Redirect::back()->withErrors(['Either Email or Password is Incorrect!']);
         }
 
         $first_name = Auth::candidate()->get()->first_name;

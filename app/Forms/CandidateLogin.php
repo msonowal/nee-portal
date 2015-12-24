@@ -19,7 +19,7 @@ class CandidateLogin extends Form
 	      ]);
 
 	      $this->add('submit', 'submit', [
-	          'attr' => ['class'=>'btn waves-effect waves-light'],
+	          'attr' => ['class'=>'btn waves-effect waves-light blue'],
 	          'label' => 'Login'
 	      ]);
 

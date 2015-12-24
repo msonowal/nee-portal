@@ -13,6 +13,17 @@
     <body>
     @include('layouts.navbar')
       <div class="container">
+          @if(count($errors)>0)
+      <div class="card-panel red darken-1" style="padding:1px 15px;">
+       <span class="white-text">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{!! $error !!}</li>
+            @endforeach
+        </ul>
+      </span>
+      </div>
+      @endif
             @yield('body')
       </div>
 

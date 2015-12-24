@@ -13,10 +13,10 @@ Route::get('candidate/logout', array('as' => 'candidate.logout', 'uses' => 'Auth
 Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
     Route::group(['middleware'=>['auth.candidate']], function() {
         Route::get('/home', ['as' => 'candidate.home', 'uses' =>'CandidateController@home']);
-        Route::get('/application', ['as' => 'candidate.application', 'uses' =>'CandidateController@index']);
-        Route::post('/application', ['as' => 'candidate.application', 'uses' =>'CandidateController@getStep']);
-        Route::get('/application/step2', ['as' => 'candidate.application.step2', 'uses' =>'CandidateController@createStep2']);
-        Route::post('/application/step2', ['as' => 'candidate.application.step2', 'uses' =>'CandidateController@storeStep2']);
+        Route::get('/application/step2', ['as' => 'candidate.application.step2', 'uses' =>'CandidateController@showStep2']);
+        Route::post('/application/step2', ['as' => 'candidate.application.step2', 'uses' =>'CandidateController@saveStep2']);
+        Route::get('/application/step3', ['as' => 'candidate.application.step3', 'uses' =>'CandidateController@showStep3']);
+        Route::post('/application/step3', ['as' => 'candidate.application.step3', 'uses' =>'CandidateController@showStep3']);
     });
 });
 
