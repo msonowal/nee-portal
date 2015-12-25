@@ -15,9 +15,6 @@ class CreateQualificationsTable extends Migration
         Schema::create('qualifications', function (Blueprint $table) {
             $table->increments('id');
             $table->string('qualification', 55);
-            $table->enum('NEE_I', array('YES', 'NO'))->deault('NO')->comment('ELIGIBLE TO APPEAR NEE I');
-            $table->enum('NEE_II', array('YES', 'NO'))->deault('NO')->comment('ELIGIBLE TO APPEAR NEE II');
-            $table->enum('NEE_III', array('YES', 'NO'))->deault('NO')->comment('ELIGIBLE TO APPEAR NEE III');
             $table->timestamps();
         });
     }

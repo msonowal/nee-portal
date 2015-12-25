@@ -17,10 +17,12 @@ Route::post('/candidate/otp/resend', ['as' => 'candidate.otp.resend', 'uses' => 
 Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
     Route::group(['middleware'=>['auth.candidate']], function() {
         Route::get('/home', ['as' => 'candidate.home', 'uses' =>'CandidateController@home']);
+        Route::post('/home', ['as' => 'candidate.home', 'uses' =>'CandidateController@storehome']);
+        Route::get('exam_list', ['as' =>'exam.by.qualification', 'uses'=> 'RestController@getExamList']);
         Route::get('/application/step1', ['as' => 'candidate.application.step1', 'uses' =>'CandidateController@showStep1']);
         Route::post('/application/step1', ['as' => 'candidate.application.step1', 'uses' =>'CandidateController@saveStep1']);
         Route::get('/application/step2', ['as' => 'candidate.application.step2', 'uses' =>'CandidateController@showStep2']);
-        Route::post('/application/step2', ['as' => 'candidate.application.step2', 'uses' =>'CandidateController@showStep2']);
+        Route::post('/application/step2', ['as' => 'candidate.application.step2', 'uses' =>'CandidateController@saveStep2']);
     });
 });
 

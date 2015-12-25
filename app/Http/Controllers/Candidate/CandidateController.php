@@ -20,14 +20,25 @@ class CandidateController extends Controller
     
     private $content = 'candidate.application.';
 
-    public function index()
-    {
-        //return $this->createStep1();
-    }
-
     public function home()
     {
-        return view($this->content.'home');
+        $form=$this->formBuilder->create('nee_portal\Forms\Home',
+
+            ['method' =>'POST',
+
+             'url'    => route('candidate.home')
+
+            ]);
+
+        return view($this->content.'home', compact('form'));
+    }
+
+
+    public function storehome()
+    {
+            //$id = $request->$q_id;
+
+            //return Qualification::where('id', $id)->get();
     }
 
     public function showStep1()

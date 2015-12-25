@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
        Model::unguard();
 
        factory(Admin::class, 5)->create();     
-       $this->call(ExamSeeder::class);
        $this->call(QualificationSeeder::class);
+       $this->call(ExamSeeder::class);
        $this->call(CentreSeeder::class);  
        $this->call(CentreCapacitySeeder::class);       
        $this->call(StateSeeder::class);       
