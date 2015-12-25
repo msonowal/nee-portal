@@ -17,7 +17,7 @@ class Home extends Form
 
         $this->add('exam_id', 'select', [
            	  'choices' => ['' => 'Select Exam'],           	  
-	            'attr' => ['required', 'id'=>'exam_id'],
+	            'attr' => ['required', 'id'=>'exam_id', 'class'=>'browser-default'],
 	      ]);
 
 

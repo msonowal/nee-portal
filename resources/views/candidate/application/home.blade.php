@@ -4,12 +4,9 @@
 <div class="card-panel hoverable">
     <div class="col s6 offset-s3">
      <div class="row">
-        <div class="input-field col m12">
-        {!! form_start($form) !!}
+        <div class="col m12">
 
-        	{!! form_rest($form) !!}
-
-        {!! form_end($form) !!}
+        {!! form($form) !!}
         </div>
      </div>
     </div>     	
@@ -28,7 +25,7 @@
                 $exam.empty();
                 $("<option>").val('').text('--Choose--').appendTo($exam);
                 $.each(msg, function(key, value) {
-                    $("<option>").val(value.id).text(value.name).appendTo($exam);
+                    $("<option>").val(value.id).text(value.exam_name).appendTo($exam);
                 });
                 return true;
             });
