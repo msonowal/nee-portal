@@ -23,7 +23,7 @@
         if(qualification!=''){
             $.ajax({ url: url, type: 'GET', data: { q_id: qualification } }).done(function( msg ) {
                 $exam.empty();
-                $("<option>").val('').text('--Choose--').appendTo($exam);
+                $("<option>").val('').text('--Select Exam--').appendTo($exam);
                 $.each(msg, function(key, value) {
                     $("<option>").val(value.id).text(value.exam_name).appendTo($exam);
                 });

@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
        $this->call(QuotaSeeder::class);
        $this->call(ReservationSeeder::class);
        $this->call(ExamDetailSeeder::class);
-       $this->call(AlliedBranchSeeder::class); 
+       $this->call(AlliedBranchSeeder::class);
+       $this->call(ExamQualificationSeeder::class); 
 
        Model::reguard();
    }

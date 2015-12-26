@@ -14,7 +14,6 @@ class CreateExamsTable extends Migration
     {
         Schema::create('exams', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('q_id')->unsigned();
             $table->enum('exam_name', array('NEE I', 'NEE II', 'NEE III'));
             $table->text('description')->nullable();
             $table->decimal('n_price', 10, 2)->comment('NORMAL PRICE');
@@ -23,7 +22,6 @@ class CreateExamsTable extends Migration
             $table->string('start_date')->comment('EXAM START DATE');
             $table->enum('active', array('YES', 'NO'))->default('YES');
             $table->timestamps();
-            $table->foreign('q_id')->references('id')->on('qualifications');
         });
     }
 

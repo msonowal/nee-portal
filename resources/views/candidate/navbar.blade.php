@@ -17,10 +17,14 @@
 	      	<a href="#" data-activates="mobile-demo" class="button-collapse">
 	      	<i class="material-icons">menu</i></a>
 	      	<ul class="right hide-on-med-and-down">
+	        	<li><a href="{!! route('candidate.home') !!}"> HOME </a></li>
+	        	<li><a href="{!! route('candidate.application.dashboard') !!}"> DASHBOARD </a></li>
 	        	<li><a href="#">{!! Auth::candidate()->get()->first_name !!} </a></li>
 	        	<li><a class="dropdown-button" href="#!" data-activates="dropdown1">Account<i class="material-icons right">arrow_drop_down</i></a></li>
 	      	</ul>
 	      	<ul class="side-nav" id="mobile-demo">
+	      		<li><a href="{!! route('candidate.home') !!}"> HOME </a></li>
+	      		<li><a href="{!! route('candidate.application.dashboard') !!}"> DASHBOARD </a></li>
 	            <li><a href="#">{!! Auth::candidate()->get()->first_name !!} </a></li>
 	            <li><a class="dropdown-button" href="#!" data-activates="dropdown2">Account<i class="material-icons right">arrow_drop_down</i></a></li>
 	      	</ul>

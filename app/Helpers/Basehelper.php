@@ -6,6 +6,7 @@ use nee_portal\Models\Quota;
 use nee_portal\Models\Exam;
 use nee_portal\Models\Qualification;
 use nee_portal\Models\Branch;
+use nee_portal\MOdels\Candidate;
 
 class Basehelper{
 
@@ -32,6 +33,30 @@ class Basehelper{
     public static function getBranch($id, $return = 'branch_name')
     {
         return $return = Branch::where('id', $id)->pluck($return);
+    }
+
+    public static function getFormNo($id)
+    {
+        $prefix = '';
+
+        if($id <= 9) {
+            $form_no = $prefix.'0000'.$id;
+        } elseif($id <= 99) {
+            $form_no = $prefix.'000'.$id;
+        } elseif($id <= 999) {
+            $form_no = $prefix.'00'.$id;
+        } elseif($id >= 1000){
+            $form_no = $prefix.'0'.$id;
+        } else {
+            $form_no = $prefix.$id;
+        }
+
+        return $form_no;
+    }
+
+    public static function getCandidate($id, $return = 'first_name')
+    {
+        return Candidate::where('id', $id)->pluck($return);
     }
 
     public static function sendSMS($number, $message){

@@ -37,11 +37,36 @@
                   {!! form_row($form->allied_branch) !!}
               </div>
               <div class="input-field col m12">
-                  {!! form_row($form->res_code) !!}
+                  {!! form_row($form->reservation_code) !!}
               </div>        			
 		        </div>		   
 			 </div>
 		  {!! form_end($form) !!}		
 		</div>
 	</div>
+@stop
+@section('script')
+<script type="text/javascript">
+    function getReservationCode(quotaElement, reservationElement){
+        var url = '{!! route('reservation_code.by.quota') !!}';
+        var quota = $(quotaElement).val();
+        $reservation_code = $(reservationElement);
+        reservationElement = typeof reservationElement !== 'undefined' ? reservationElement : '';
+        if(quota!=''){
+            $.ajax({ url: url, type: 'GET', data: { quota: quota } }).done(function( msg ) {
+                $reservation_code.empty();
+                $("<option>").val('').text('--Select Reservation Code--').appendTo($reservation_code);
+                $.each(msg, function(key, value) {
+                    $("<option>").val(value.id).text(value.reservation_code).appendTo($reservation_code);
+                });
+                return true;
+            });
+        }else
+            $reservation_code.empty();
+    }
+</script>
+@stop
+
+@section('page_script')
+    $('#quota').change(function(e){ getReservationCode(this, $('#reservation_code')); });
 @stop

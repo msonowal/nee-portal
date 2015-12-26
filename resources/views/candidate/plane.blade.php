@@ -49,13 +49,19 @@
       
       @yield('script')
       <script type="text/javascript">
-      $(document).ready(function(){
-          $(".button-collapse").sideNav();
-          $(".dropdown-button").dropdown();
-          $('select').material_select();
+        $(document).ready(function(){
+
+          $(".button-collapse").sideNav(); //Navbar
+
+          $(".dropdown-button").dropdown(); //Dropdown
+
+          $('select').material_select(); //Metrial Select
+
           $('.datepicker').pickadate({
-              selectMonths: true, // Creates a dropdown to control month
+              selectMonths: true, // Datepicker
           });
+
+          $('.tooltipped').tooltip({delay: 50}); //Tooltip
 
           @yield('page_script')
       });
