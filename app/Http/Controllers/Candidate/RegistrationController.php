@@ -52,6 +52,9 @@ class RegistrationController extends Controller
             elseif($step3->count()==0){
                 return $this->showStep3();
             }
+            else{
+                return $this->showFinal();
+            }
         }
     }
 
@@ -190,6 +193,55 @@ class RegistrationController extends Controller
     public function showStep3()
     {
         return view($this->content.'step3');
+    }
+
+    public function saveStep3()
+    {
+        $validator = Validator::make($data = Input::all(), Step3::$rules);
+
+        if($validator ->fails())
+            return Redirect::back()->withErrors($validator);
+
+        $candidate_info = CandidateInfo::where('id', $this->info_id)->firstOrFail();
+
+        $formNo= $candidate_info->form_no;
+
+        $destinationPath = public_path('candidates/'.$formNo);
+
+        $data['candidate_info_id'] = $this->info_id;
+
+        if(Input::hasFile('photo'))
+        {
+            if(Input::file('photo')->isValid()){
+                $extention = Input::file('photo')->getClientOriginalExtension();
+                $fileName = 'photo.'.$extention;
+                Input::file('photo')->move($destinationPath, $fileName);                      
+                $data['photo'] = 'candidates/'.$formNo.'/'.$fileName;
+
+
+            }
+        }
+
+        if(Input::hasFile('signature'))
+        {
+            if(Input::file('signature')->isValid()){
+                $extention = Input::file('signature')->getClientOriginalExtension();
+                $fileName = 'signature.'.$extention;
+                Input::file('signature')->move($destinationPath, $fileName);                      
+                $data['signature'] = 'candidates/'.$formNo.'/'.$fileName;
+
+
+            }
+        }
+
+        $insert=Step3::create($data);
+
+        return $this->showForm();
+    }
+
+    public function showFinal()
+    {
+        return view($this->content.'final');
     }
 
 

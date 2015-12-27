@@ -39,8 +39,8 @@
       <!-- Model Content -->
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">CANCEL</a>
       {!! Form::submit('Proceed', array('name'=>'proceed', 'class'=>'btn success')) !!}
+      <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">CANCEL</a>
     </div>
     {!! Form::close() !!}
 </div>

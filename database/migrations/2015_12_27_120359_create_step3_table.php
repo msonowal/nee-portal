@@ -15,8 +15,8 @@ class CreateStep3Table extends Migration
         Schema::create('step3', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('candidate_info_id', false, true);
-            $table->enum('doc_type', array('Photo', 'Signature'))->default(null);
-            $table->string('file', 155);
+            $table->string('photo', 155);
+            $table->string('signature', 155);
             $table->timestamps();
             $table->foreign('candidate_info_id')->references('id')->on('candidate_info');
         });

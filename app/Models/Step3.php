@@ -13,7 +13,7 @@ class Step3 extends Model
     protected $guarded= ['id'];
 
     public static $rules=[
-    					'photo' => 'required',
-    					'signature' => 'required',
+    					'photo' => 'required|mimes:jpeg,jpg|max:20000',
+    					'signature' => 'required|mimes:jpeg,jpg|max:20000',
     					];
 }
