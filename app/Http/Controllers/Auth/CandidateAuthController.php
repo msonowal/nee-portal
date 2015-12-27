@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use nee_portal\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Redirect, Hash, Mail, Basehelper;
+use nee_portal\Models\CandidateInfo;
 class CandidateAuthController extends Controller
 {
     /*
@@ -110,7 +111,15 @@ class CandidateAuthController extends Controller
 
         Session::put('first_name', $first_name);
 
-        return redirect()->route($this->content.'home');
+        $id = Auth::candidate()->get()->id;
+
+        $applied = CandidateInfo::where('candidate_id', $id)->get()->count();
+
+            if($applied==0)
+                return redirect()->route($this->content.'home')->with('message', 'Please Select an Exam to Apply');
+            else
+                return redirect()->route($this->content.'application.dashboard')->with('message', 'Click on the exam to continue Online Application Process');
+
     }
 
     public function showOTP()

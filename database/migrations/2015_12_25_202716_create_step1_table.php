@@ -24,9 +24,15 @@ class CreateStep1Table extends Migration
             $table->integer('voc_subject')->unsigned()->default(0);
             $table->integer('branch')->unsigned()->default(0);
             $table->integer('allied_branch')->unsigned()->default(0);
-            $table->integer('res_code')->unsigned()->comment('Reservation Code');
+            $table->integer('reservation_code')->unsigned()->comment('Reservation Code');
             $table->timestamps();
             $table->foreign('candidate_info_id')->references('id')->on('candidate_info');
+            $table->foreign('quota')->references('id')->on('quotas');
+            $table->foreign('c_pref1')->references('id')->on('centres');
+            $table->foreign('c_pref2')->references('id')->on('centres');
+            $table->foreign('branch')->references('id')->on('branches');
+            $table->foreign('allied_branch')->references('id')->on('allied_branches');
+            $table->foreign('reservation_code')->references('id')->on('reservations');
         });
     }
 

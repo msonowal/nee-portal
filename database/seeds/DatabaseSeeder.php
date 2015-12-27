@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
        $this->call(ExamSeeder::class);
        $this->call(CentreSeeder::class);  
        $this->call(CentreCapacitySeeder::class);       
-       $this->call(StateSeeder::class);       
        $this->call(BranchSeeder::class); 
        $this->call(QuotaSeeder::class);
        $this->call(ReservationSeeder::class);

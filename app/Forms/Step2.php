@@ -23,6 +23,7 @@ class Step2 extends Form
 
 	      $this->add('gender', 'select', [
 	      	  'choices' => ['MALE' => 'MALE', 'FEMALE' => 'FEMALE', 'TRANSGENDER' => 'TRANSGENDER'],
+	          'empty_value' => 'Select Gender', 
 	          'attr' => ['required'],
 	      ]);
 
@@ -33,6 +34,7 @@ class Step2 extends Form
 
 	      $this->add('emp_status', 'choice', [
 	      	  'choices' => ['YES' => 'YES', 'NO' => 'NO'],
+	      	  'empty_value' => 'Are you Employed', 
 	          'attr' => ['required'],
 	      ]);
 
@@ -41,13 +43,14 @@ class Step2 extends Form
 	      ]);
 
 	      $this->add('state', 'select', [
-	      	  'choices' => State::lists('state_name', 'id')->all(),
-	          'attr' => ['required', 'maxlength' => '100'],
+	      	  'choices' => State::lists('name', 'id')->all(),
+	      	  'empty_value' => 'Select State', 
+	          'attr' => ['required', 'class' => 'browser-default'],
 	      ]);
 
 	      $this->add('district', 'select', [
-	      	  'choices' => ['' => ''],
-	          'attr' => ['required', 'maxlength' => '100'],
+	      	  'choices' => ['' => 'Select District'],
+	          'attr' => ['required', 'class' => 'browser-default'],
 	      ]);
 
 	      $this->add('post_office', 'text', [

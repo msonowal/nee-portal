@@ -8,6 +8,7 @@ use nee_portal\Http\Requests;
 use nee_portal\Http\Controllers\Controller;
 use nee_portal\Models\ExamQualification;
 use nee_portal\Models\Reservation;
+use DB;
 class RestController extends Controller
 {
     public function getExamList(Request $request)
@@ -24,5 +25,14 @@ class RestController extends Controller
 
             return Reservation::where('quota_id', $id)->get();
     }
+
+    public function getDistrictList(Request $request)
+    {
+            $id = $request->state_id;
+
+            return DB::table('districts')->where('state_id', $id)->get();
+    }
+
+    
 
 }

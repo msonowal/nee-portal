@@ -6,16 +6,21 @@
         #exams li { margin-bottom: 5px; list-style: upper-roman; font-size: 20px;}
         .modal-body p{ font-size: 20px; }
 </style>
+    <div class="card-panel hoverable white darken-1" style="padding:5px 10px;">
+       <p class="white-text">
+          <h6><strong>List of applications that you have applied</strong></h6>
+       </p>
+    </div>
 <div class="card-panel hoverable">
     <div class="col s6 offset-s3">
      <div class="row">
-        <div class="input-field col m12">
+        <div class="collection col m12">
         @if($exams->count())
 	    	<ul id="exams">
 		    	@foreach($exams as $e)
 		    		<li>   
-                    	<a class="btn tooltipped" data-position="right" data-delay="50" data-tooltip="Click here to Online Application Process" href="{!! route('candidate.application.step1') !!}" data-id="{!! $e->id !!}" data-name="{!! $e->exam_name !!}"  data-target='#processModal' data-toggle='modal' class="process-now" style=" color: #fff;">
-                    		{!! $e->exam_name !!} <i class="material-icons right"> send </i>
+                    	<a class="collection-item active tooltipped modal-trigger proceed" data-position="right" data-delay="50" data-tooltip="Click here to Online Application Process" href="#modal1" data-id="{!! $e->id !!}" data-name="{!! $e->exam_name !!}">
+                    		{!! $e->exam_name !!} --> {!! $e->description !!} 
                     	</a>
                     </li>
 		    	@endforeach
@@ -26,5 +31,29 @@
         </div>        
       </div>
   </div>
-</div>  
+</div> 
+
+<div id="modal1" class="modal">
+    {!! Form::open(array('route'=>'candidate.proceed')) !!}
+    <div class="modal-content">
+      <!-- Model Content -->
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">CANCEL</a>
+      {!! Form::submit('Proceed', array('name'=>'proceed', 'class'=>'btn success')) !!}
+    </div>
+    {!! Form::close() !!}
+</div>
+@stop
+
+@section('script')
+    @parent
+    <script type="text/javascript">
+            $('.proceed').click(function() {
+                var me = $(this);
+                var info_id = me.attr('data-id');
+                var exam_name = me.attr('data-name');
+                $('.modal-content').html('<input type="hidden" name="candidate_info_id" value="'+info_id+'" /> <p>Proceed to Online Application Process for <b style="color: #A81642">'+exam_name+'</b></p>');
+            });
+    </script>
 @stop

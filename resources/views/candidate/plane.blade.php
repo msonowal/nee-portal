@@ -63,6 +63,8 @@
 
           $('.tooltipped').tooltip({delay: 50}); //Tooltip
 
+          $('.modal-trigger').leanModal(); //Trigger Model
+
           @yield('page_script')
       });
     </script>

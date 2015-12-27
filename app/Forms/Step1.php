@@ -56,7 +56,7 @@ class Step1 extends Form
 
 
 	      $this->add('voc_subject', 'select', [
-           	  'choices' => ['' =>''], 
+           	  'choices' => ['AE' =>'AE'], 
            	  'empty_value' => 'Select', 	
 	          'attr' => ['required'],
 	      ]);

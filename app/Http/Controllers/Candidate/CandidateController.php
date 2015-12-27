@@ -11,6 +11,10 @@ use nee_portal\Http\Controllers\Controller;
 use Auth, Redirect;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Validator, Basehelper;
+use nee_portal\Models\Step1;
+use nee_portal\Models\Step2;
+use Session;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CandidateController extends Controller
 {
@@ -59,12 +63,12 @@ class CandidateController extends Controller
             if(!$candidateinfo->save())
                 return Redirect::back()->with('message', 'Unable to Save your Registration data <br> Contact Technical Support!');
 
-            $msg = 'Dear '.Basehelper::getCandidate($id).', you have choosen '.Basehelper::getExam($request->exam_id).'<br> Please continue with the Form Submission Process by clicking on the right side of the listed exams!';
+            $msg = 'Dear '.Basehelper::getCandidate($id).', you have choosen '.Basehelper::getExam($request->exam_id).'<br> Please continue with the Form Submission Process by clicking on the listed exams!';
             return Redirect::route($this->content.'dashboard')->with('message', $msg);
 
         else :
 
-            return Redirect::route('candidate.home')->withErrors(array('message'=>'Dear '.Basehelper::getCandidate($id).', you have already applied for '.Basehelper::getExam($request->exam_id)));
+            return Redirect::route('candidate.home')->withErrors(array('message'=>'Dear '.Basehelper::getCandidate($id).', you have already applied for '.Basehelper::getExam($request->exam_id).'. Click on Dashboard Link to Continue...'));
 
         endif;                        
     }
@@ -73,41 +77,26 @@ class CandidateController extends Controller
     {
         $id = Auth::candidate()->get()->id;
 
-        $exams = CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.id')->where('candidate_id', $id)->get();
+        $exams = CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                ->where('candidate_id', $id)
+                ->select('candidate_info.id', 'exams.exam_name', 'exams.description')->get();
 
         return view($this->content.'dashboard', compact('exams'));
     }
 
-    public function step()
+    public function proceed(Request $request)
     {
-        $id = Auth::candidate()->get()->id;
+        if( $request->has('candidate_info_id') ) :
+    
+            Session::put('candidate_info_id', $request->candidate_info_id);
+
+        endif;
+
+        return Redirect::route($this->content.'step');
+
     }
 
 
-    public function showStep1()
-    {
-        $form=$this->formBuilder->create('nee_portal\Forms\Step1',
-
-            ['method' =>'POST',
-
-             'url'    => route($this->content.'step1')
-
-            ])->remove('update');
-
-        return view($this->content.'step1', compact('form'));
-    }
-
-    public function showStep2()
-    {
-        $form=$this->formBuilder->create('nee_portal\Forms\Step2',
-
-            ['method' =>'POST',
-
-             'url'    => route($this->content.'step2')
-
-            ])->remove('update');
-
-        return view($this->content.'step2', compact('form'));
-    }
+    
 
 }
