@@ -209,17 +209,86 @@ class RegistrationController extends Controller
 
     public function showFinal()
     {
-        $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
-        $step2 = Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
-        $step3 = Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
+        try{
 
+            $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step2 = Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step3 = Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
+        }
+        catch(ModelNotFoundException $e){
+
+            return $this->getStep();
+
+        }
+        
         $step1->quota= Basehelper::getQuota($step1->quota);
         $step1->c_pref1= Basehelper::getCentre($step1->c_pref1);
         $step1->c_pref2= Basehelper::getCentre($step1->c_pref2);
-        $step1->admission_in= Basehelper::getCentre($step1->admission_in);
+        $step1->branch= Basehelper::getBranch($step1->branch);
+        $step1->allied_branch= Basehelper::getAlliedBranch($step1->allied_branch);
+        $step1->reservation_code= Basehelper::getReservationCode($step1->reservation_code);
 
         return view($this->content.'final', compact('step1', 'step2', 'step3'));
     }
 
+    public function editStep1(){
+
+        $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
+
+        if($step1->count()==0)
+        {
+            return $this->getStep();
+        }        
+
+        $form=$this->formBuilder->create('nee_portal\Forms\Step1',
+
+            ['method' =>'POST',
+
+             'url'    => route($this->content.'editstep1'),
+
+             'model' => $step1,
+
+            ])->remove('save');
+
+        return view($this->content.'edit_step1', compact('form', 'step1'));    
+
+    }  
+
+    public function updateStep1(Request $request){
+
+        try {
+
+            $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
+
+        }catch(ModelNotFoundException $e) {
+
+            return back()->with('message', 'Record Not Found!');
+        }
+
+        if($step1->count()!=1) {
+
+            return $this->getStep();               
+
+        } else {
+
+            $validator = Validator::make($data = $request->all(), Step1::$rules);
+
+            if ($validator->fails())
+            {
+                return back()->withErrors($validator)->withInput();
+                
+            }else{
+
+                $step1->fill($data);
+
+                if (!$step1->save())
+                {
+                    return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
+                }
+                
+                return $this->getStep();           
+            }
+        }
+    }   
 
 }

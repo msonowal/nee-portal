@@ -6,7 +6,9 @@ use nee_portal\Models\Quota;
 use nee_portal\Models\Exam;
 use nee_portal\Models\Qualification;
 use nee_portal\Models\Branch;
-use nee_portal\MOdels\Candidate;
+use nee_portal\Models\Candidate;
+use nee_portal\Models\AlliedBranch;
+use nee_portal\Models\Reservation;
 
 class Basehelper{
 
@@ -34,6 +36,17 @@ class Basehelper{
     {
         return $return = Branch::where('id', $id)->pluck($return);
     }
+
+    public static function getAlliedBranch($id, $return = 'allied_branch')
+    {
+        return $return = AlliedBranch::where('id', $id)->pluck($return);
+    }
+
+    public static function getReservationCode($id, $return = 'reservation_code')
+    {
+        return $return = Reservation::where('id', $id)->pluck($return);
+    }
+    
 
     public static function getFormNo($id)
     {
