@@ -10,7 +10,7 @@
 	<div class="col s6 offset-s3">
 	    <div class="row">
 	    <div class="col m12">		
-		  {!! Form::open(array('route' => 'candidate.application.step', 'files' =>true)) !!}
+		  {!! Form::open(array('route' => 'candidate.application.step3', 'files' =>true)) !!}
 		    <div class="file-field input-field">
 		      <div class="btn waves-effect wave-light" id="upload" onclick="$('#photo').click();">
 		        <span>Photo</span>
