@@ -100,7 +100,7 @@ class CandidateAuthController extends Controller
         $auth = Auth::candidate()->attempt(['email' => $request->get('email'),'password' => $request->get('password'), 'status' => '1']);
 
         if(!$auth){
-            return Redirect::back()->withInput()->withErrors(['Password is Incorrect!']);
+            return Redirect::back()->withInput()->withErrors(['Account is not yet activated or Password is Incorrect!']);
         }
 
         $first_name = Auth::candidate()->get()->first_name;
