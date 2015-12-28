@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 use nee_portal\Http\Requests;
 use nee_portal\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Validator, Basehelper, DB, Input;
+use Validator, Basehelper, DB;
 use nee_portal\Models\Step1;
 use nee_portal\Models\Step2;
 use nee_portal\Models\Step3;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Session, Auth, Redirect;
+use Session, Auth;
 use nee_portal\Models\CandidateInfo;
 
 class RegistrationController extends Controller
@@ -57,38 +57,6 @@ class RegistrationController extends Controller
             }
         }
     }
-
-
-    /*public function getStep(){
-
-        try {
-
-            $candidate_info = CandidateInfo::where('id', $this->info_id)->firstOrFail();
-
-        } catch(ModelNotFoundException $e) {
-
-            return Redirect::back()->with('message', 'Record Not Found!');
-        }
-
-        $reg_status = $candidate_info->reg_status;
-        $step1 = Step1::where('candidate_info_id', $this->info_id)->get();
-        $step2 = Step2::where('candidate_info_id', $this->info_id)->get();
-        $step3 = Step3::where('candidate_info_id', $this->info_id)->get();
-
-        if($reg_status=="not_submitted"){
-
-            if($step1->count()==0){
-                return $this->saveStep1();
-            }        
-            elseif($step2->count()==0){
-                return $this->saveStep2();
-            }
-            elseif($step3->count()==0){
-                return $this->saveStep3();
-            }
-        }
-    }
-    */
 
     public function showStep1()
     {
@@ -241,7 +209,16 @@ class RegistrationController extends Controller
 
     public function showFinal()
     {
-        return view($this->content.'final');
+        $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
+        $step2 = Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
+        $step3 = Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
+
+        $step1->quota= Basehelper::getQuota($step1->quota);
+        $step1->c_pref1= Basehelper::getCentre($step1->c_pref1);
+        $step1->c_pref2= Basehelper::getCentre($step1->c_pref2);
+        $step1->admission_in= Basehelper::getCentre($step1->admission_in);
+
+        return view($this->content.'final', compact('step1', 'step2', 'step3'));
     }
 
 

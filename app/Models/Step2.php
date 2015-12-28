@@ -8,7 +8,7 @@ class Step2 extends Model
 {
     protected $table='step2';
 
-    protected $fillable= ['candidate_info_id', 'name'];
+    protected $fillable= ['candidate_info_id', 'name', 'father_name', 'guardian_name', 'gender', 'nationality', 'emp_status', 'relationship', 'state', 'district', 'po', 'pin', 'village', 'address_line'];
 
     protected $guarded= ['id'];
 
@@ -22,9 +22,9 @@ class Step2 extends Model
     					'relationship' => 'required',
     					'state' => 'required|numeric',
     					'district' => 'required',
-    					'post_office' => 'required',
+    					'po' => 'required',
     					'pin' => 'required|digits:6|numeric',
-    					'village_town' => 'required|max:100',
+    					'village' => 'required|max:100',
     					'address_line' => 'required|max:100'
     					];
 }

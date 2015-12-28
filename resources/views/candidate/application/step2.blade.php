@@ -36,13 +36,13 @@
                   {!! form_row($form->district) !!}
               </div>
               <div class="input-field col m6">
-                  {!! form_row($form->post_office) !!}
+                  {!! form_row($form->po) !!}
               </div>
               <div class="input-field col m6">
                   {!! form_row($form->pin) !!}
               </div>
 		        	<div class="input-field col m6">
-          				{!! form_row($form->village_town) !!}
+          				{!! form_row($form->village) !!}
         			</div>
         			<div class="input-field col m6">
           				{!! form_row($form->address_line) !!}

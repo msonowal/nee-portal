@@ -18,8 +18,9 @@ class CreateStep1Table extends Migration
             $table->integer('quota')->unsigned();
             $table->integer('c_pref1')->unsigned();
             $table->integer('c_pref2')->unsigned();
+            $table->date('dob');
             $table->enum('nerist_stud', array('YES' => 'YES', 'NO' => 'NO'))->comment('NERIST STUDENT');
-            $table->tinyInteger('status')->default(0)->comment('1->PASSED, 0->APPEARED');
+            $table->enum('status', array('PASSED', 'APPEARED'));
             $table->integer('admission_in')->unsigned();
             $table->integer('voc_subject')->unsigned()->default(0);
             $table->integer('branch')->unsigned()->default(0);

@@ -58,7 +58,8 @@
           $('select').material_select(); //Metrial Select
 
           $('.datepicker').pickadate({
-              selectMonths: true, // Datepicker
+              selectMonths: true,
+              format: 'dd-mm-yyyy' // Datepicker
           });
 
           $('.tooltipped').tooltip({delay: 50}); //Tooltip

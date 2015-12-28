@@ -92,8 +92,6 @@ class CandidateController extends Controller
 
         endif;
 
-        //return Redirect::route($this->content.'step');
-
         return redirect()->action('Candidate\RegistrationController@getStep');
 
     }

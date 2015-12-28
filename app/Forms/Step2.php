@@ -53,7 +53,7 @@ class Step2 extends Form
 	          'attr' => ['required', 'class' => 'browser-default'],
 	      ]);
 
-	      $this->add('post_office', 'text', [
+	      $this->add('po', 'text', [
 	          'attr' => ['required', 'maxlength' => '100'],
 	      ]);
 
@@ -62,7 +62,7 @@ class Step2 extends Form
 	          'attr' => ['required', 'maxlength' => '6'],
 	      ]);
 
-	      $this->add('village_town', 'text', [
+	      $this->add('village', 'text', [
 	          'attr' => ['required', 'maxlength' => '100'],
 	      ]);
 

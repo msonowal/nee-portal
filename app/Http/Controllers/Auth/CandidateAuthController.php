@@ -97,7 +97,7 @@ class CandidateAuthController extends Controller
 
       $messages = ['email.exists'      =>  'The email does not exists in our system'];
         $this->validate($request, ['email' => 'email|required|exists:candidates', 'password' => 'required'], $messages);
-        $auth = Auth::candidate()->attempt(['email' => $request->get('email'),'password' => $request->get('password'), 'status' => '0']);
+        $auth = Auth::candidate()->attempt(['email' => $request->get('email'),'password' => $request->get('password'), 'status' => '1']);
 
         if(!$auth){
             return Redirect::back()->withInput()->withErrors(['Password is Incorrect!']);
