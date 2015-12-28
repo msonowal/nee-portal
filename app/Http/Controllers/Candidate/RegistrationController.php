@@ -25,7 +25,7 @@ class RegistrationController extends Controller
     
     private $content = 'candidate.application.';
 
-    public function showForm(){
+    public function getStep(){
 
         try {
 
@@ -33,7 +33,7 @@ class RegistrationController extends Controller
 
         } catch(ModelNotFoundException $e) {
 
-            return Redirect::back()->with('message', 'Record Not Found!');
+            return back()->with('message', 'Record Not Found!');
         }
 
         $reg_status = $candidate_info->reg_status;
@@ -44,22 +44,22 @@ class RegistrationController extends Controller
         if($reg_status=="not_submitted"){
 
             if($step1->count()==0){
-                return $this->showStep1();
+                return redirect()->route($this->content.'step1');
             }        
             elseif($step2->count()==0){
-                return $this->showStep2();
+                return redirect()->route($this->content.'step2');
             }
             elseif($step3->count()==0){
-                return $this->showStep3();
+                return redirect()->route($this->content.'step3');
             }
             else{
-                return $this->showFinal();
+                return redirect()->route($this->content.'final');
             }
         }
     }
 
 
-    public function getStep(){
+    /*public function getStep(){
 
         try {
 
@@ -88,7 +88,7 @@ class RegistrationController extends Controller
             }
         }
     }
-
+    */
 
     public function showStep1()
     {
@@ -96,21 +96,21 @@ class RegistrationController extends Controller
 
             ['method' =>'POST',
 
-             'url'    => route($this->content.'step')
+             'url'    => route($this->content.'step1')
 
             ])->remove('update');
 
         return view($this->content.'step1', compact('form'));
     }
 
-    public function saveStep1()
+    public function saveStep1(Request $request)
     {
 
-        $validator = Validator::make($data =Input::all(), Step1::$rules);
+        $validator = Validator::make($data =$request->all(), Step1::$rules);
 
         if ($validator->fails())
         {
-            return Redirect::back()->withErrors($validator)->withInput();
+            return back()->withErrors($validator)->withInput();
 
         } else {
 
@@ -120,20 +120,20 @@ class RegistrationController extends Controller
 
             if($step1->count()!=0){
 
-                return $this->showForm();               
+                return $this->getStep();               
 
             } else {
-                    $data = ['candidate_info_id' => $this->info_id] + Input::all();
+                    $data = ['candidate_info_id' => $this->info_id] + $request->all();
                     $step1_data = new Step1;
                     $step1_data->fill($data);
 
                     if (!$step1_data->save())
                     {
-                        return Redirect::back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
+                        return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
                     }
 
                     DB::commit();
-                    return $this->showForm();
+                    return $this->getStep();
             }
 
         }
@@ -146,7 +146,7 @@ class RegistrationController extends Controller
 
             ['method' =>'POST',
 
-             'url'    => route($this->content.'step')
+             'url'    => route($this->content.'step2')
 
             ])->remove('update');
 
@@ -154,13 +154,13 @@ class RegistrationController extends Controller
     }
 
 
-    public function saveStep2()
+    public function saveStep2(Request $request)
     {
-        $validator = Validator::make($data =Input::all(), Step2::$rules);
+        $validator = Validator::make($data =$request->all(), Step2::$rules);
 
         if ($validator->fails())
         {
-            return Redirect::back()->withErrors($validator)->withInput();
+            return back()->withErrors($validator)->withInput();
 
         } else {
 
@@ -170,20 +170,20 @@ class RegistrationController extends Controller
 
             if($step2->count()!=0){
 
-                return $this->showForm();               
+                return $this->getStep();               
 
             } else {
-                    $data = ['candidate_info_id' => $this->info_id] + Input::all();
+                    $data = ['candidate_info_id' => $this->info_id] + $request->all();
                     $step2_data = new Step2;
                     $step2_data->fill($data);
 
                     if (!$step2_data->save())
                     {
-                        return Redirect::back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
+                        return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
                     }
 
                     DB::commit();
-                    return $this->showForm();
+                    return $this->getStep();
             }
 
         }
@@ -195,39 +195,39 @@ class RegistrationController extends Controller
         return view($this->content.'step3');
     }
 
-    public function saveStep3()
+    public function saveStep3(Request $request)
     {
-        $validator = Validator::make($data = Input::all(), Step3::$rules);
+        $validator = Validator::make($data = $request->all(), Step3::$rules);
 
         if($validator ->fails())
-            return Redirect::back()->withErrors($validator);
+            return back()->withErrors($validator);
 
         $candidate_info = CandidateInfo::where('id', $this->info_id)->firstOrFail();
 
         $formNo= $candidate_info->form_no;
 
-        $destinationPath = public_path('candidates/'.$formNo);
+        $destinationPath = storage_path('candidates/'.$formNo);
 
         $data['candidate_info_id'] = $this->info_id;
 
-        if(Input::hasFile('photo'))
+        if($request->hasFile('photo'))
         {
-            if(Input::file('photo')->isValid()){
-                $extention = Input::file('photo')->getClientOriginalExtension();
+            if($request->file('photo')->isValid()){
+                $extention = $request->file('photo')->getClientOriginalExtension();
                 $fileName = 'photo.'.$extention;
-                Input::file('photo')->move($destinationPath, $fileName);                      
+                $request->file('photo')->move($destinationPath, $fileName);                      
                 $data['photo'] = 'candidates/'.$formNo.'/'.$fileName;
 
 
             }
         }
 
-        if(Input::hasFile('signature'))
+        if($request->hasFile('signature'))
         {
-            if(Input::file('signature')->isValid()){
-                $extention = Input::file('signature')->getClientOriginalExtension();
+            if($request->file('signature')->isValid()){
+                $extention = $request->file('signature')->getClientOriginalExtension();
                 $fileName = 'signature.'.$extention;
-                Input::file('signature')->move($destinationPath, $fileName);                      
+                $request->file('signature')->move($destinationPath, $fileName);                      
                 $data['signature'] = 'candidates/'.$formNo.'/'.$fileName;
 
 
@@ -236,7 +236,7 @@ class RegistrationController extends Controller
 
         $insert=Step3::create($data);
 
-        return $this->showForm();
+        return $this->getStep();
     }
 
     public function showFinal()
