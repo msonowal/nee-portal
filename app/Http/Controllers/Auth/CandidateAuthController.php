@@ -2,14 +2,13 @@
 
 namespace nee_portal\Http\Controllers\Auth;
 
-use Validator;
 use nee_portal\models\Candidate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use nee_portal\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Redirect, Hash, Mail, Basehelper;
+use Validator, Redirect, Hash, Mail, Basehelper;
 use nee_portal\Models\CandidateInfo;
 class CandidateAuthController extends Controller
 {
@@ -67,9 +66,7 @@ class CandidateAuthController extends Controller
         ];
 
         $candidate = Candidate::create($data);
-
         $message = 'Hello '.$request->first_name.', you have registered for NEE Online. Your OTP is '.$confirmation_code.' .Your email is '.$request->email.' and password is '.$request->password;
-
         $data['password'] = $request->password;
 
         Mail::send('emails.verify', $data, function($message) use ($candidate, $data){
@@ -81,9 +78,11 @@ class CandidateAuthController extends Controller
         $message = 'Hello '.$request->first_name.', you have registered for NEE Online. Your OTP is '.$confirmation_code.' .Your email is '.$request->email.' and password is '.$request->password;
 
         Basehelper::sendSMS($request->mobile_no, $message);
-
-        return Redirect::route($this->content.'register')->with('message', 'Registered Successfully. Please Activate your A/C by OTP Activation link');
-    } 
+        //return Redirect::route($this->content.'register')->with('message', 'Registered Successfully. Please Activate your A/C by OTP Activation link');
+        return Redirect::route($this->content.'otp.activate')
+                ->withInput()
+                ->with('message', 'Your account has been Registered Successfully,<br/> however you must activate your A/C by providing the OTP that you have recieved via SMS after that only you can login ');
+    }
 
     public function getLogin(formBuilder $formBuilder)
     {
@@ -115,21 +114,43 @@ class CandidateAuthController extends Controller
 
         $applied = CandidateInfo::where('candidate_id', $id)->get()->count();
 
-            if($applied==0)
-                return redirect()->route($this->content.'home')->with('message', 'Please Select an Exam to Apply');
-            else
-                return redirect()->route($this->content.'application.dashboard')->with('message', 'Click on the exam to continue Online Application Process');
+        if($applied==0)
+            return redirect()->route($this->content.'home')->with('message', 'Please Select an Exam to Apply');
+        else
+            return redirect()->route($this->content.'application.dashboard')->with('message', 'Click on the exam to continue Online Application Process');
 
     }
 
     public function showOTP()
     {
-        
+        return view('candidate.otp_activate');
     }
 
-    public function activateOTP()
+    public function activateOTP(Request $request)
     {
-        //TODO
+        if($request->has('mobile_no') || $request->has('otp')){
+
+          $messages = ['mobile_no.exists' => 'Mobile No Does not exists in our System'];
+          $validator = Validator::make($data = $request->all(), ['mobile_no'=>'exists:candidates,mobile_no'], $messages);
+
+          if ($validator->fails())
+            return redirect::back()->withErrors($validator)->withInput();
+
+          $candidate = Candidate::where('mobile_no', $request->mobile_no)->first();
+
+          if( $candidate->status == 1)
+            return redirect('candidate.login')->with('message', 'Your account is already activated. <br>You can Login with your email and password');
+
+          if($request->otp == $candidate->confirm_code){
+              $candidate->status = 1;
+              $candidate->confirm_code = NULL;
+              $candidate->save();
+              return redirect()->route('candidate.login')->with('message', 'Your account is activated <br>Now Login with your email and password');
+          }else
+            return redirect::back()->withInput()->with('message', 'The OTP Doesnot match!.');
+        }
+
+        return View::make('layouts.student.otp_activate');
     }
 
     /**

@@ -24,7 +24,7 @@ class Candidate extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['first_name', 'last_name', 'mobile_no', 'email', 'password'];
+    protected $fillable = ['first_name', 'last_name', 'mobile_no', 'email', 'password', 'confirm_code', 'status'];
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -42,4 +42,3 @@ class Candidate extends Model implements AuthenticatableContract,
     	'password' => 'confirmed|required|min:6'
      	];
 }
-
