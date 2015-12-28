@@ -49,11 +49,8 @@ class CandidateAuthController extends Controller
 
         $validator = Validator::make($request->all(), Candidate::$rules);
 
-        if ($validator->fails()) {
-
-            return Redirect::back()
-                        ->withInput()->withErrors($validator);
-        }
+        if ($validator->fails())
+            return Redirect::back()->withInput()->withErrors($validator);
 
         $confirmation_code = rand(200000 , 900000);
 
@@ -76,10 +73,10 @@ class CandidateAuthController extends Controller
         });
 
         $message = 'Hello '.$request->first_name.', you have registered for NEE Online. Your OTP is '.$confirmation_code.' .Your email is '.$request->email.' and password is '.$request->password;
-
         Basehelper::sendSMS($request->mobile_no, $message);
         //return Redirect::route($this->content.'register')->with('message', 'Registered Successfully. Please Activate your A/C by OTP Activation link');
-        return Redirect::route($this->content.'otp.activate')
+        // Redirect::route($this->content.'otp.activate')
+        return redirect()->route($this->content.'otp.activate')
                 ->withInput()
                 ->with('message', 'Your account has been Registered Successfully,<br/> however you must activate your A/C by providing the OTP that you have recieved via SMS after that only you can login ');
     }
@@ -98,20 +95,18 @@ class CandidateAuthController extends Controller
     //PostLogin
     public function postLogin(Request $request){
 
-        $this->validate($request, ['email' => 'required', 'password' => 'required']);
-
+      $messages = ['email.exists'      =>  'The email does not exists in our system'];
+        $this->validate($request, ['email' => 'email|required|exists:candidates', 'password' => 'required'], $messages);
         $auth = Auth::candidate()->attempt(['email' => $request->get('email'),'password' => $request->get('password'), 'status' => '0']);
 
         if(!$auth){
-            return Redirect::back()->withInput()->withErrors(['Either Email or Password is Incorrect!']);
+            return Redirect::back()->withInput()->withErrors(['Password is Incorrect!']);
         }
 
         $first_name = Auth::candidate()->get()->first_name;
-
         Session::put('first_name', $first_name);
 
         $id = Auth::candidate()->get()->id;
-
         $applied = CandidateInfo::where('candidate_id', $id)->get()->count();
 
         if($applied==0)
@@ -138,20 +133,53 @@ class CandidateAuthController extends Controller
 
           $candidate = Candidate::where('mobile_no', $request->mobile_no)->first();
 
-          if( $candidate->status == 1)
-            return redirect('candidate.login')->with('message', 'Your account is already activated. <br>You can Login with your email and password');
+          if( $candidate->status == 1){
+            $data = [];
+            $data['email'] = $candidate->email;
+            return redirect()->route($this->content.'login')->withInput($data)->with('message', 'Your account is already activated. <br>You can Login with your email and password');
+          }
 
           if($request->otp == $candidate->confirm_code){
               $candidate->status = 1;
               $candidate->confirm_code = NULL;
               $candidate->save();
-              return redirect()->route('candidate.login')->with('message', 'Your account is activated <br>Now Login with your email and password');
+              return redirect()->route($this->content.'login')->with('message', 'Your account is activated <br>Now Login with your email and password');
           }else
             return redirect::back()->withInput()->with('message', 'The OTP Doesnot match!.');
         }
-
         return View::make('layouts.student.otp_activate');
     }
+
+    public function resendOTP(Request $request){
+
+    		if($request->has('mobile_no')){
+
+    			$messages = ['mobile_no.exists' => 'Mobile No Does not exists in our System'];
+    			$validator = Validator::make($data = $request->all(), ['mobile_no'=>'exists:candidates,mobile_no'], $messages);
+
+    			if ($validator->fails())
+    				return redirect::back()->withErrors($validator)->withInput();
+
+    			$candidate = Candidate::where('mobile_no', $request->mobile_no)->first();
+    			$confirmation_code = rand(200000 , 900000);
+
+    			if($candidate->confirm_code=='' ||$candidate->confirm_code ==null || $candidate->confirm_code=='NULL'){
+    				$candidate->confirm_code = $confirmation_code;
+    				$candidate->save();
+    			}else{
+            $confirmation_code = $candidate->confirm_code;
+          }
+
+          $message = 'Hello '.$candidate->first_name.', you have registered for NEE Online. Your OTP is '.$confirmation_code.' .Your email is '.$candidate->email;
+          Basehelper::sendSMS($candidate->mobile_no, $message);
+
+    			return redirect()->route($this->content.'otp.activate')
+                  ->withInput()
+                  ->with('message', 'Please check your Mobile SMS inbox for OTP code.');
+    		}else
+    			return view($this->content.'otp_resend');
+
+    	}
 
     /**
      * Get a validator for an incoming registration request.
