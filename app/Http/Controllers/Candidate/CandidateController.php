@@ -22,7 +22,7 @@ class CandidateController extends Controller
 
         $this->formBuilder = $formBuilder;
     }
-    
+
     private $content = 'candidate.application.';
 
     public function home()
@@ -41,16 +41,16 @@ class CandidateController extends Controller
 
     public function storeExam(Request $request)
     {
-        $id = Auth::candidate()->get()->id; 
+        $id = Auth::candidate()->get()->id;
 
         $validator = Validator::make($data = $request->all(), CandidateInfo::$rules);
 
         if ($validator->fails())
             return Redirect::back()->withErrors($validator)
-                            ->withInput();       
+                            ->withInput();
 
         $count = CandidateInfo::where('exam_id', $request->exam_id)
-                                ->where('candidate_id', $id)->get(); 
+                                ->where('candidate_id', $id)->get();
         if(!$count->count()) :
 
             $candidateinfo = new CandidateInfo();
@@ -59,7 +59,7 @@ class CandidateController extends Controller
             $candidateinfo->exam_id = $request->exam_id;
             $candidateinfo->form_no = Basehelper::getFormNo(CandidateInfo::max('id')+1);
             $candidateinfo->reg_date = date('Y-m-d');
-            
+
             if(!$candidateinfo->save())
                 return Redirect::back()->with('message', 'Unable to Save your Registration data <br> Contact Technical Support!');
 
@@ -70,7 +70,7 @@ class CandidateController extends Controller
 
             return Redirect::route('candidate.home')->withErrors(array('message'=>'Dear '.Basehelper::getCandidate($id).', you have already applied for '.Basehelper::getExam($request->exam_id).'. Click on Dashboard Link to Continue...'));
 
-        endif;                        
+        endif;
     }
 
     public function dashboard()
@@ -86,17 +86,18 @@ class CandidateController extends Controller
 
     public function proceed(Request $request)
     {
-        if( $request->has('candidate_info_id') ) :
-    
+        $id = Auth::candidate()->get()->id;
+        if( $request->has('candidate_info_id') ){
+
+          $infos = CandidateInfo::where('candidate_id', $id)->lists('id')->toArray();
+
+          if(in_array($request->has('candidate_info_id'), $infos))
+          {
             Session::put('candidate_info_id', $request->candidate_info_id);
-
-        endif;
-
-        return redirect()->action('Candidate\RegistrationController@getStep');
-
+            return redirect()->action('Candidate\RegistrationController@getStep');
+          }else
+            return redirect()->back()->with('message', 'Invalid Application Selection');
+        }else
+          return redirect()->back()->with('message', 'Please select an application form to continue');
     }
-
-
-    
-
 }

@@ -10,19 +10,23 @@ class Home extends Form
     public function buildForm()
     {
         $this->add('q_id', 'select', [
-           	  'choices' => ['' => 'Select Qualification'] + Qualification::lists('qualification', 'id')->all(),
-	          'empty_value' => 'Select Qualification',
+           	'choices' => ['' => 'Select Qualification'] + Qualification::lists('qualification', 'id')->all(),
+	          //'empty_value' => 'Select Qualification',
+            'label'=> false,
 	          'attr' => ['required', 'id' => 'q_id'],
+            'wrapper' => ['class' => 'input-field col l6'],
 	      ]);
 
         $this->add('exam_id', 'select', [
-           	  'choices' => ['' => 'Select Qualification first'],           	  
+           	  'choices' => ['' => 'Select Qualification first'],
+              'label' => false,
 	            'attr' => ['required', 'id'=>'exam_id', 'class'=>'browser-default'],
+              'wrapper' => ['class' => 'input-field col l6'],
 	      ]);
 
 
       	$this->add('submit', 'submit', [
-          'attr' => ['class'=>'btn waves-effect waves-light blue'],
+          'attr' => ['class'=>'btn waves-effect waves-light blue col s12'],
           'label' => 'Apply'
       	]);
     }

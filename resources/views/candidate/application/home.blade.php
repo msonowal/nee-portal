@@ -5,11 +5,12 @@
     <div class="col s6 offset-s3">
      <div class="row">
         <div class="col m12">
-
         {!! form($form) !!}
+
+        
         </div>
      </div>
-    </div>     	
+    </div>
 </div>
 
 @stop
