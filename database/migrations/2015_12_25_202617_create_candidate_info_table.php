@@ -17,6 +17,7 @@ class CreateCandidateInfoTable extends Migration
             $table->integer('candidate_id', false, true);
             $table->integer('q_id', false, true)->comment('QUALIFICATION ID');
             $table->integer('exam_id', false, true);
+            $table->enum('qualification_status', array('PASSED', 'APPEARED'));
             $table->integer('form_no', false, false)->nullable();
             $table->string('rollno', 30)->nullable();
             $table->date('reg_date')->nullable()->comment('registration date');

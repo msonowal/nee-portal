@@ -14,9 +14,7 @@
 
                   {!! form_row($form->dob) !!}
 
-                  {!! form_row($form->nerist_stud) !!}
-
-                  {!! form_row($form->status) !!}
+                  {!! form_row($form->nerist_stud) !!}                
 
                   {!! form_row($form->admission_in) !!}
 

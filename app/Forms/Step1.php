@@ -72,7 +72,8 @@ class Step1 extends Form
            	'choices' => ['AE' =>'AE'],
            	'empty_value' => 'Select',
 	          'attr' => ['required'],
-            'wrapper'=>['class'=>'input-field col m6']
+            'wrapper'=>['class'=>'input-field col m6'],
+            'label' =>  'Vocational Subject'
 	      ]);
 
 	      $this->add('branch', 'select', [
