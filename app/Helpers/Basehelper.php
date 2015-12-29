@@ -20,28 +20,21 @@ class Basehelper{
 	{
 			$id = ExamQualification::where('q_id', $qualification_id)->where('exam_id', $exam_id)->first()->id;
 			Log::info('Case No of ExamQualification '.$id);
-			switch ($id) {
-				case 1 || 2 || 4 || 6 || 8:
+			if($id == 1 || $id == 2 || $id == 4 || $id == 6 || $id == 8){
 					Log::info('on case 1 2 4 6 8');
 					return ExamDetail::where('id', 1)->lists('eligible_for', 'id')->all();
-					break;
-				case 3 || 5 || 9:
+			}elseif ($id == 3 || $id == 5 || $id == 9) {
 					Log::info('on case 3 5 9');
 					return ExamDetail::where('id', 2)->lists('eligible_for', 'id')->all();
-					break;
-				case 7:
+			}elseif ($id == 7) {
 					Log::info('on case 7');
 					return ExamDetail::where('id', 3)->lists('eligible_for', 'id')->all();
-					break;
-				case 10:
-					Log::info('on case 10');
-					return ExamDetail::where('id', 4)->lists('eligible_for', 'id')->all();
-					break;
-				default:
+			}elseif ($id == 10) {
+				Log::info('on case 10');
+				return ExamDetail::where('id', 4)->lists('eligible_for', 'id')->all();
+			}
 					Log::info('Case Not Found on Basehelper:: 36 '.$id);
 					return ['' => 'Not Found'];
-					break;
-			}
 	}
 
 	public static function getCentre($id, $return = 'centre_name')
