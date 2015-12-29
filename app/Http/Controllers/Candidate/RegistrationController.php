@@ -78,7 +78,7 @@ class RegistrationController extends Controller
               'method' =>'POST',
               'url'    => route($this->content.'step1'),
               'data'   => [
-									'eligible_for' => Basehelper::getExamDetails($info->q_id, $info->exam_id),
+			  'eligible_for' => Basehelper::getExamDetails($info->q_id, $info->exam_id),
               ]
             ])->remove('update');
 
@@ -298,6 +298,8 @@ class RegistrationController extends Controller
             return $this->getStep();
         }
 
+        $info = CandidateInfo::find($this->info_id);
+
         $form=$this->formBuilder->create('nee_portal\Forms\Step1',
 
             ['method' =>'POST',
@@ -305,6 +307,8 @@ class RegistrationController extends Controller
              'url'    => route($this->content.'editstep1'),
 
              'model' => $step1,
+
+             'eligible_for' => Basehelper::getExamDetails($info->q_id, $info->exam_id),
 
             ])->remove('save');
 
