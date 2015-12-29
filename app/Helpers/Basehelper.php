@@ -11,8 +11,17 @@ use nee_portal\Models\AlliedBranch;
 use nee_portal\Models\Reservation;
 use nee_portal\Models\State;
 use nee_portal\Models\District;
+use Session;
 
 class Basehelper{
+
+    public static function checkSession()
+    {
+        if(Session::get('candidate_info_id', 'not_set') == 'not_set')
+            return false;
+        else
+            return true;
+    }
 
 	public static function getCentre($id, $return = 'centre_name')
     {

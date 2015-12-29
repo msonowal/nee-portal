@@ -65,6 +65,9 @@ class RegistrationController extends Controller
 
     public function showStep1()
     {
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
         $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
         
         if(count($step1)==0){
@@ -123,6 +126,9 @@ class RegistrationController extends Controller
 
     public function showStep2()
     {
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
         $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
         $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
 
@@ -175,6 +181,9 @@ class RegistrationController extends Controller
 
     public function showStep3()
     {
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
         $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
         $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
         $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
@@ -240,6 +249,9 @@ class RegistrationController extends Controller
 
     public function showFinal()
     {
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
         try{
 
             $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
@@ -270,6 +282,9 @@ class RegistrationController extends Controller
     }
 
     public function editStep1(){
+
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
 
         try {
 
@@ -333,6 +348,9 @@ class RegistrationController extends Controller
 
     public function editStep2(){
 
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
         try {
 
             $step2 = Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
@@ -357,8 +375,6 @@ class RegistrationController extends Controller
     }
 
     public function updateStep2(Request $request){
-
-
 
         try {
 
@@ -397,6 +413,9 @@ class RegistrationController extends Controller
 
     public function editStep3()
     {
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
         try {
 
             $step3 = Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
@@ -453,11 +472,14 @@ class RegistrationController extends Controller
 
     public function finalSubmit(){
 
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
         try{
 
-            $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
-            $step2 = Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
-            $step3 = Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
+            $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
+            $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
         }
         catch(ModelNotFoundException $e){
 
@@ -473,6 +495,39 @@ class RegistrationController extends Controller
 
         return $this->getStep();
 
+    }
+
+
+    public function paymentOptions(){
+
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
+        try{
+            $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
+            $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
+            $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
+            $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+        }catch(ModelNotFoundException $e){
+
+            return redirect()->route('candidate.error')->withErrors('message', 'Record not found!');
+        }
+
+        if($candidate_info->reg_status=="payment_pending"){
+
+            return view($this->content.'payment_options');
+        }
+
+        return $this->getStep();
+
+    }
+
+    public function showError(){
+
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
+        return view($this->content.'error');
     }
 
 }
