@@ -18,7 +18,6 @@ class Step1 extends Model
     				'c_pref2' => 'required|numeric',
                     'dob' => 'required|date_format:d-m-Y',
     				'nerist_stud' => 'required',
-    				'status' => 'required',
     				'admission_in' => 'required|numeric',
     				'reservation_code' => 'required|numeric'
     				];
