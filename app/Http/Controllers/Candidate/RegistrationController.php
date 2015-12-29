@@ -61,15 +61,10 @@ class RegistrationController extends Controller
     public function showStep1()
     {
         $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
-        $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
-        $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+        
+        if(count($step1)==0){
 
-        if(count($step1)!=0 || count($step2)!=0 || count($step3)!=0){
-
-            return $this->getStep();
-        }
-
-        $form=$this->formBuilder->create('nee_portal\Forms\Step1',
+            $form=$this->formBuilder->create('nee_portal\Forms\Step1',
 
             ['method' =>'POST',
 
@@ -77,7 +72,14 @@ class RegistrationController extends Controller
 
             ])->remove('update');
 
-        return view($this->content.'step1', compact('form'));
+            return view($this->content.'step1', compact('form'));
+            
+        }else{
+
+            return $this->getStep();  
+        }
+
+        
     }
 
     public function saveStep1(Request $request)
@@ -118,22 +120,18 @@ class RegistrationController extends Controller
     {
         $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
         $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
-        $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
 
-        if(count($step1)==0 || count($step2)!=0 || count($step3)!=0){
+        if(count($step1)!=0 && count($step2)==0){
 
-            return $this->getStep();
-        }
-
-        $form=$this->formBuilder->create('nee_portal\Forms\Step2',
-
-            ['method' =>'POST',
-
-             'url'    => route($this->content.'step2')
-
+            $form=$this->formBuilder->create('nee_portal\Forms\Step2',[
+                'method' =>'POST',
+                'url'    => route($this->content.'step2')
             ])->remove('update');
 
-        return view($this->content.'step2', compact('form'));
+            return view($this->content.'step2', compact('form'));
+            
+        }else
+            return $this->getStep();
     }
 
 
@@ -176,12 +174,16 @@ class RegistrationController extends Controller
         $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
         $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
 
-        if(count($step1)==0 || count($step2)==0 || count($step3)!=0){
+        if(count($step1)!=0 && count($step2)!=0 && count($step3)==0){
+
+            return view($this->content.'step3');
+
+        }else{
 
             return $this->getStep();
         }
 
-        return view($this->content.'step3');
+        
     }
 
     public function saveStep3(Request $request)
@@ -198,11 +200,7 @@ class RegistrationController extends Controller
         if($validator ->fails())
             return back()->withErrors($validator);
 
-        $candidate_info = CandidateInfo::where('id', $this->info_id)->firstOrFail();
-
-        $formNo= $candidate_info->form_no;
-
-        $destinationPath = storage_path('candidates/'.$formNo);
+        $destinationPath = storage_path('candidates/'.$this->info_id);
 
         $data['candidate_info_id'] = $this->info_id;
 
@@ -212,7 +210,7 @@ class RegistrationController extends Controller
                 $extention = $request->file('photo')->getClientOriginalExtension();
                 $fileName = 'photo.'.$extention;
                 $request->file('photo')->move($destinationPath, $fileName);                      
-                $data['photo'] = 'candidates/'.$formNo.'/'.$fileName;
+                $data['photo'] = 'candidates/'.$this->info_id.'/'.$fileName;
 
 
             }
@@ -224,7 +222,7 @@ class RegistrationController extends Controller
                 $extention = $request->file('signature')->getClientOriginalExtension();
                 $fileName = 'signature.'.$extention;
                 $request->file('signature')->move($destinationPath, $fileName);                      
-                $data['signature'] = 'candidates/'.$formNo.'/'.$fileName;
+                $data['signature'] = 'candidates/'.$this->info_id.'/'.$fileName;
 
 
             }
@@ -389,6 +387,62 @@ class RegistrationController extends Controller
                 return $this->getStep();           
             }
         }
-    }  
+    }
+
+    public function editStep3()
+    {
+        try {
+
+            $step3 = Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
+
+        }catch(ModelNotFoundException $e) {
+
+            return $this->getStep();
+        } 
+
+        return view($this->content.'edit_step3', compact('step3'));
+    } 
+
+    public function updateStep3(Request $request)
+    {
+        try{
+                $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+        }catch(ModelNotFoundException $e){
+
+            return $this->getStep();
+        }
+
+        $destinationPath = storage_path('candidates/'.$this->info_id);
+
+        $data['candidate_info_id'] = $this->info_id;
+
+        if($request->hasFile('photo'))
+        {
+            if($request->file('photo')->isValid()){
+                $extention = $request->file('photo')->getClientOriginalExtension();
+                $fileName = 'photo.'.$extention;
+                $request->file('photo')->move($destinationPath, $fileName);                      
+                $data['photo'] = 'candidates/'.$this->info_id.'/'.$fileName;
+
+
+            }
+        }
+
+        if($request->hasFile('signature'))
+        {
+            if($request->file('signature')->isValid()){
+                $extention = $request->file('signature')->getClientOriginalExtension();
+                $fileName = 'signature.'.$extention;
+                $request->file('signature')->move($destinationPath, $fileName);                      
+                $data['signature'] = 'candidates/'.$this->info_id.'/'.$fileName;
+
+
+            }
+        }
+
+        $update= $step3->fill($data);
+
+        return $this->getStep();
+    } 
 
 }

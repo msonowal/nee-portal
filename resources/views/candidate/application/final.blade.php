@@ -1,5 +1,11 @@
 @extends('candidate.plane')
 @section('body')
+<style type="text/css">
+	p.review{
+		margin: 0px;
+		margin-top: 15px;
+	}
+</style>
 <div class="card-panel hoverable white darken-1" style="padding:5px 10px;">
        <p class="white-text">
           <h6><strong>Final Review your Informations</strong></h6>
@@ -9,19 +15,19 @@
 		<div class="col s6 offset-s3">
 		  <div class="row">
 		  	<div class="col m12 right-align"> <a href="{!! route('candidate.application.editstep1') !!}"> Edit</a></div>
-		  		<h6>Step 1:</h6>
+		  		<span class="card-title"> Step1 :</span>
 		  		<div class="col m12">
-		  			<div class="col m6">State Quota : {!! $step1->quota !!}</div>
-		  			<div class="col m6">Centre Preference 1 : {!! $step1->c_pref1 !!}</div>
-		  			<div class="col m6">Centre Preference 2 : {!! $step1->c_pref2 !!}</div>
-		  			<div class="col m6">Date of Birth : {!! $step1->dob !!}</div>
-		  			<div class="col m6">Are you a Nerist Student : {!! $step1->nerist_stud !!}</div>
-		  			<div class="col m6">Status : {!! $step1->status !!}</div>
-		  			<div class="col m6">For Admission in : {!! $step1->admission_in !!}</div>
-		  			<div class="col m6">Vocational Subject : {!! $step1->voc_subject !!}</div>
-		  			<div class="col m6">Branch : {!! $step1->branch !!}</div>
-		  			<div class="col m6">Branch Subject : {!! $step1->allied_branch !!}</div>
-		  			<div class="col m6">Reservation Code : {!! $step1->reservation_code !!}</div>
+		  			<div class="col m6"><p class="review"> State Quota : {!! $step1->quota !!} </p></div>
+		  			<div class="col m6"><p class="review"> Centre Preference 1 : {!! $step1->c_pref1 !!} </p></div>
+		  			<div class="col m6"><p class="review"> Centre Preference 2 : {!! $step1->c_pref2 !!} </p></div>
+		  			<div class="col m6"><p class="review"> Date of Birth : {!! $step1->dob !!} </p></div>
+		  			<div class="col m6"><p class="review"> Are you a Nerist Student : {!! $step1->nerist_stud !!} </p></div>
+		  			<div class="col m6"><p class="review"> Status : {!! $step1->status !!} </p></div>
+		  			<div class="col m6"><p class="review"> For Admission in : {!! $step1->admission_in !!} </p></div>
+		  			<div class="col m6"><p class="review"> Vocational Subject : {!! $step1->voc_subject !!} </p></div>
+		  			<div class="col m6"><p class="review"> Branch : {!! $step1->branch !!} </p></div>
+		  			<div class="col m6"><p class="review"> Branch Subject : {!! $step1->allied_branch !!} </p></div>
+		  			<div class="col m6"><p class="review"> Reservation Code : {!! $step1->reservation_code !!} </p></div>
 		  		</div>
 		  </div>
 		</div>
@@ -30,25 +36,24 @@
 		<div class="col s6 offset-s3">
 		  <div class="row">
 		  	<div class="col m12 right-align"> <a href="{!! route('candidate.application.editstep2') !!}"> Edit</a></div>	
-		  		<h6>Step 2:</h6>
-		  		<h6>Personal Details: </h6>
+		  		<span class="card-title"> Step2 :</span>
+		  		<h6> Personal Details:: </h6>
 		  		<div class="col m12">
-		  			<div class="col m6">Candidate Name : {!! $step2->name !!}</div>
-		  			<div class="col m6">Father's Name : {!! $step2->father_name !!}</div>
-		  			<div class="col m6">Guardian's Name : {!! $step2->guardian_name !!}</div>
-		  			<div class="col m6">Gender : {!! $step2->gender !!}</div>
-		  			<div class="col m6">Nationality : {!! $step2->nationality !!}</div>
-		  			<div class="col m6">Are you Employed : {!! $step2->emp_status !!}</div>
-		  			<div class="col m6">Relationship with Guardian : {!! $step2->relationship !!}</div>
+		  			<div class="col m6"><p class="review"> Candidate Name : {!! $step2->name !!} </p></div>
+		  			<div class="col m6"><p class="review"> Father's Name : {!! $step2->father_name !!} </p></div>
+		  			<div class="col m6"><p class="review"> Guardian's Name : {!! $step2->guardian_name !!} </p></div>
+		  			<div class="col m6"><p class="review"> Gender : {!! $step2->gender !!} </p></div>
+		  			<div class="col m6"><p class="review"> Nationality : {!! $step2->nationality !!} </p></div>
+		  			<div class="col m6"><p class="review"> Are you Employed : {!! $step2->emp_status !!} </p></div>
+		  			<div class="col m6"><p class="review"> Relationship with Guardian : {!! $step2->relationship !!} </p></div>
 		  		</div>
-		  		<h6>Address Details: </h6>
 		  		<div class="col m12">
-		  			<div class="col m6">State : {!! $step2->state !!}</div>
-		  			<div class="col m6">District : {!! $step2->district !!}</div>
-		  			<div class="col m6">Post Office : {!! $step2->po !!}</div>
-		  			<div class="col m6">PIN : {!! $step2->pin !!}</div>
-		  			<div class="col m6">Village/Town : {!! $step2->village !!}</div>
-		  			<div class="col m6">Address Line : {!! $step2->address_line !!}</div>
+		  			<div class="col m6"><p class="review"> State : {!! $step2->state !!} </p></div>
+		  			<div class="col m6"><p class="review"> District : {!! $step2->district !!} </p></div>
+		  			<div class="col m6"><p class="review"> Post Office : {!! $step2->po !!} </p></div>
+		  			<div class="col m6"><p class="review"> PIN : {!! $step2->pin !!} </p></div>
+		  			<div class="col m6"><p class="review"> Village/Town : {!! $step2->village !!} </p></div>
+		  			<div class="col m6"><p class="review"> Address Line : {!! $step2->address_line !!} </p></div>
 		  		</div>
 		  </div>
 		</div>
@@ -57,10 +62,11 @@
 		<div class="col s6 offset-s3">
 		  <div class="row">
 		  	<div class="col m12 right-align"> <a href="{!! route('candidate.application.editstep3') !!}"> Edit</a></div>
-		  		<h6>Step 1:</h6>
+		  		<span class="card-title">Step3 :</span>
+		  		<h6>Photo and Signature: </h6>
 		  		<div class="col m12">
 		  			<div class="col m6">Photo : {!! Html::image($step3->getPhoto(), '', array('height' => '100px','width' => '90px')) !!}</div>
-		  			<div class="col m6">Signature : {!! $step3->signature !!}</div>
+		  			<div class="col m6">Signature : {!! Html::image($step3->getSignature(), '', array('height' => '100px','width' => '90px')) !!}</div>
 		  		</div>
 		  </div>
 		</div>
