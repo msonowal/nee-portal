@@ -21,6 +21,7 @@
                   {!! form_row($form->voc_subject) !!}
 
                   {!! form_row($form->branch) !!}
+                  
                   {!! form_row($form->allied_branch) !!}
 
                   {!! form_row($form->reservation_code) !!}
