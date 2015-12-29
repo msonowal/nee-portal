@@ -31,16 +31,20 @@ class Basehelper{
 			Log::info('Case No of ExamQualification '.$id);
 			switch ($id) {
 				case 1 || 2 || 4 || 6 || 8:
+					Log::info('on case 1 2 4 6 8');
 					return ExamDetail::where('id', 1)->lists('eligible_for', 'id')->all();
 					break;
 				case 3 || 5 || 9:
+					Log::info('on case 3 5 9');
 					return ExamDetail::where('id', 2)->lists('eligible_for', 'id')->all();
 					break;
 				case 7:
-					return ExamDetail::where('id', 4)->lists('eligible_for', 'id')->all();
+					Log::info('on case 7');
+					return ExamDetail::where('id', 3)->lists('eligible_for', 'id')->all();
 					break;
 				case 10:
-					return ExamDetail::where('id', 3)->lists('eligible_for', 'id')->all();
+					Log::info('on case 10');
+					return ExamDetail::where('id', 4)->lists('eligible_for', 'id')->all();
 					break;
 				default:
 					Log::info('Case Not Found on Basehelper:: 36 '.$id);
