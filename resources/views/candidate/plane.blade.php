@@ -40,30 +40,25 @@
     </div>
 
       <!--Import jQuery before materialize.js-->
-      
+
       <script type="text/javascript" src="{{ asset("frontend/JQuery/jQuery-2.1.4.min.js") }}"></script>
       <script type="text/javascript" src="{{ asset("frontend/js/materialize.min.js") }}"></script>
-      <script type="text/javascript" src="{{ asset("frontend/js/picker.date.js") }}"></script>
-      <script type="text/javascript" src="{{ asset("frontend/js/picker.js") }}"></script>
-      <script type="text/javascript" src="{{ asset("frontend/js/picker.time.js") }}"></script>
-      
+
       @yield('script')
       <script type="text/javascript">
         $(document).ready(function(){
 
           $(".button-collapse").sideNav(); //Navbar
-
           $(".dropdown-button").dropdown(); //Dropdown
-
           $('select').material_select(); //Metrial Select
 
           $('.datepicker').pickadate({
               selectMonths: true,
+              selectYears: 15,
+              max: new Date(2003,1,10),
               format: 'dd-mm-yyyy' // Datepicker
           });
-
           $('.tooltipped').tooltip({delay: 50}); //Tooltip
-
           $('.modal-trigger').leanModal(); //Trigger Model
 
           @yield('page_script')

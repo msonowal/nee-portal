@@ -15,67 +15,84 @@ class Step1 extends Form
     public function buildForm()
     {
            $this->add('quota', 'select', [
-           	  'choices' => Quota::lists('name', 'id')->all(),
-           	  'empty_value' => 'Select Quota', 	
-	          'attr' => ['required', 'class'=>'browser-default'],
+             'choices' => Quota::lists('name', 'id')->all(),
+             'empty_value' => 'Select Quota',
+             'attr' => ['required','id'=>'quota'],
+             'wrapper'=>['class'=>'input-field col m6'],
+             'label' => 'Select Quota'
 	      ]);
 
           $this->add('c_pref1', 'select', [
-           	  'choices' => Centre::lists('centre_name', 'id')->all(),
-           	  'empty_value' => 'Select Centre Preference 1', 	
-	          'attr' => ['required'],
+            'choices' => Centre::lists('centre_name', 'id')->all(),
+            'empty_value' => 'Select Centre Preference 1',
+            'attr' => ['required'],
+            'wrapper'=>['class'=>'input-field col m6'],
+            'label' => 'Centre Preference 1'
 	      ]);
 
 	      $this->add('c_pref2', 'select', [
-           	  'choices' => Centre::lists('centre_name', 'id')->all(),
-           	  'empty_value' => 'Select Centre Preference 2',
+           	'choices' => Centre::lists('centre_name', 'id')->all(),
+           	'empty_value' => 'Select Centre Preference 2',
 	          'attr' => ['required'],
+            'wrapper'=>['class'=>'input-field col m6'],
+            'label' => 'Centre Preference 2'
 	      ]);
 
 	      $this->add('dob', 'date', [
 	          'attr' => ['required', 'class' => 'datepicker'],
+            'wrapper'=>['class'=>'input-field col m6'],
+            'label' => 'Date of Birth (dd-mm-yyyy)'
 	      ]);
 
 	      $this->add('nerist_stud', 'select', [
-           	  'choices' => ['YES' => 'YES', 'NO' => 'NO'],
-           	  'empty_value' => 'Are you a Nerist Student', 	 	
+           	'choices' => ['YES' => 'YES', 'NO' => 'NO'],
+           	//'empty_value' => 'Are you a Nerist Student',
+            'class' => '',
 	          'attr' => ['required'],
-	      ]); 
+            'wrapper'=>['class'=>'input-field col m6'],
+            'label' => 'Are you a Nerist Student?'
+	      ]);
 
 	      $this->add('status', 'select', [
-           	  'choices' => ['1' => 'PASSED', '0' => 'APPEARED'],
-           	  'empty_value' => 'Select Status', 	 	
+           	'choices' => ['1' => 'PASSED', '0' => 'APPEARED'],
+           	'empty_value' => 'Select Status',
 	          'attr' => ['required'],
+            'wrapper'=>['class'=>'input-field col m6']
 	      ]);
 
 	      $this->add('admission_in', 'select', [
            	  'choices' => ExamDetail::lists('eligible_for', 'id')->all(),
-           	  'empty_value' => 'Select', 	 	
-	          'attr' => ['required'],
+           	  'empty_value' => 'Select',
+	            'attr' => ['required'],
+              'wrapper'=>['class'=>'input-field col m6']
 	      ]);
 
 
 	      $this->add('voc_subject', 'select', [
-           	  'choices' => ['AE' =>'AE'], 
-           	  'empty_value' => 'Select', 	
+           	'choices' => ['AE' =>'AE'],
+           	'empty_value' => 'Select',
 	          'attr' => ['required'],
+            'wrapper'=>['class'=>'input-field col m6']
 	      ]);
 
 	      $this->add('branch', 'select', [
-           	  'choices' => Branch::lists('branch_name', 'id')->all(), 
-           	  'empty_value' => 'Select branch', 	
-	          'attr' => ['required'],
+          'choices' => Branch::lists('branch_name', 'id')->all(),
+          'empty_value' => 'Select branch',
+	        'attr' => ['required'],
+          'wrapper'=>['class'=>'input-field col m6']
 	      ]);
 
 	      $this->add('allied_branch', 'select', [
-           	  'choices' => AlliedBranch::lists('allied_branch', 'id')->all(), 
-           	  'empty_value' => 'Select Branch Subject', 	
+           	'choices' => AlliedBranch::lists('allied_branch', 'id')->all(),
+           	'empty_value' => 'Select Branch Subject',
 	          'attr' => ['required'],
+            'wrapper'=>['class'=>'input-field col m6']
 	      ]);
 
 	      $this->add('reservation_code', 'select', [
-           	  'choices' => ['' => 'Select Reservation Code'],
-	          'attr' => ['required', 'class'=>'browser-default'],
+           	'choices' => ['' => 'Select Reservation Code'],
+	          'attr' => ['required', 'id'=>'reservation_code'],
+            'wrapper'=>['class'=>'input-field col m6']
 	      ]);
 
 	      $this->add('save', 'submit', [
@@ -87,6 +104,6 @@ class Step1 extends Form
 	          'attr' => ['class'=>'btn btn-md btn-success col-md-12'],
 	      ]);
 
-	       
+
     }
 }
