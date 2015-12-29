@@ -4,14 +4,16 @@ namespace nee_portal\Helpers;
 use nee_portal\Models\Centre;
 use nee_portal\Models\Quota;
 use nee_portal\Models\Exam;
+use nee_portal\Models\ExamDetail;
 use nee_portal\Models\Qualification;
+use nee_portal\Models\ExamQualification;
 use nee_portal\Models\Branch;
 use nee_portal\Models\Candidate;
 use nee_portal\Models\AlliedBranch;
 use nee_portal\Models\Reservation;
 use nee_portal\Models\State;
 use nee_portal\Models\District;
-use Session;
+use Session, Log;
 
 class Basehelper{
 
@@ -22,6 +24,30 @@ class Basehelper{
         else
             return true;
     }
+
+	public static function getExamDetails($qualification_id, $exam_id)
+	{
+			$id = ExamQualification::where('q_id', $qualification_id)->where('exam_id', $exam_id)->first()->id;
+			Log::info('Case No of ExamQualification '.$id);
+			switch ($id) {
+				case 1 || 2 || 4 || 6 || 8:
+					return ExamDetail::where('id', 1)->lists('eligible_for', 'id')->all();
+					break;
+				case 3 || 5 || 9:
+					return ExamDetail::where('id', 2)->lists('eligible_for', 'id')->all();
+					break;
+				case 7:
+					return ExamDetail::where('id', 4)->lists('eligible_for', 'id')->all();
+					break;
+				case 10:
+					return ExamDetail::where('id', 3)->lists('eligible_for', 'id')->all();
+					break;
+				default:
+					Log::info('Case Not Found on Basehelper:: 36 '.$id);
+					return ['' => 'Not Found'];
+					break;
+			}
+	}
 
 	public static function getCentre($id, $return = 'centre_name')
     {
@@ -67,7 +93,7 @@ class Basehelper{
     {
         return $return = District::where('id', $id)->pluck($return);
     }
-    
+
 
     public static function getFormNo($id)
     {
@@ -94,7 +120,7 @@ class Basehelper{
     }
 
     public static function sendSMS($number, $message){
-        
+
         $mobile = $number;
         $Text = str_replace(' ','+',$message);
 
@@ -111,5 +137,5 @@ class Basehelper{
         curl_close($ch);
     }
 
-    
+
 }

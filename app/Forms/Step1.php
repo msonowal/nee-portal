@@ -53,16 +53,8 @@ class Step1 extends Form
             'label' => 'Are you a Nerist Student?'
 	      ]);
 
-	      $this->add('status', 'select', [
-           	'choices' => ['1' => 'PASSED', '0' => 'APPEARED'],
-           	'empty_value' => 'Select Status',
-	          'attr' => ['required'],
-            'wrapper'=>['class'=>'input-field col m6']
-	      ]);
-
 	      $this->add('admission_in', 'select', [
-           	  'choices' => ExamDetail::lists('eligible_for', 'id')->all(),
-           	  'empty_value' => 'Select',
+           	  'choices' => $this->getData('eligible_for'),
 	            'attr' => ['required'],
               'wrapper'=>['class'=>'input-field col m6']
 	      ]);
