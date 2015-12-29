@@ -8,13 +8,13 @@
 </style>
 <div class="card-panel hoverable white darken-1" style="padding:5px 10px;">
        <p class="white-text">
-          <h6><strong>Final Review your Informations</strong></h6>
+          <h6><strong>Final review of your Informations</strong></h6>
        </p>
 </div>
 	<div class="card-panel hoverable">
 		<div class="col s6 offset-s3">
 		  <div class="row">
-		  	<div class="col m12 right-align"> <a href="{!! route('candidate.application.editstep1') !!}"> Edit</a></div>
+		  	<div class="col m12 right-align"> <a class="waves-effect wave-light btn blue tooltipped" data-position="bottom" data-delay="50" data-tooltip="Click here to Edit Step1" href="{!! route('candidate.application.editstep1') !!}"> Edit</a></div>
 		  		<span class="card-title"> Step1 :</span>
 		  		<div class="col m12">
 		  			<div class="col m6"><p class="review"> State Quota : {!! $step1->quota !!} </p></div>
@@ -22,7 +22,6 @@
 		  			<div class="col m6"><p class="review"> Centre Preference 2 : {!! $step1->c_pref2 !!} </p></div>
 		  			<div class="col m6"><p class="review"> Date of Birth : {!! $step1->dob !!} </p></div>
 		  			<div class="col m6"><p class="review"> Are you a Nerist Student : {!! $step1->nerist_stud !!} </p></div>
-		  			<div class="col m6"><p class="review"> Status : {!! $step1->status !!} </p></div>
 		  			<div class="col m6"><p class="review"> For Admission in : {!! $step1->admission_in !!} </p></div>
 		  			<div class="col m6"><p class="review"> Vocational Subject : {!! $step1->voc_subject !!} </p></div>
 		  			<div class="col m6"><p class="review"> Branch : {!! $step1->branch !!} </p></div>
@@ -35,9 +34,9 @@
 	<div class="card-panel hoverable">
 		<div class="col s6 offset-s3">
 		  <div class="row">
-		  	<div class="col m12 right-align"> <a href="{!! route('candidate.application.editstep2') !!}"> Edit</a></div>	
+		  	<div class="col m12 right-align"> <a class="waves-effect wave-light btn blue tooltipped" data-position="bottom" data-delay="50" data-tooltip="Click here to Edit Step2" href="{!! route('candidate.application.editstep2') !!}"> Edit</a></div>	
 		  		<span class="card-title"> Step2 :</span>
-		  		<h6> Personal Details:: </h6>
+		  		<h6> Personal Details: </h6>
 		  		<div class="col m12">
 		  			<div class="col m6"><p class="review"> Candidate Name : {!! $step2->name !!} </p></div>
 		  			<div class="col m6"><p class="review"> Father's Name : {!! $step2->father_name !!} </p></div>
@@ -61,7 +60,7 @@
 	<div class="card-panel hoverable">
 		<div class="col s6 offset-s3">
 		  <div class="row">
-		  	<div class="col m12 right-align"> <a href="{!! route('candidate.application.editstep3') !!}"> Edit</a></div>
+		  	<div class="col m12 right-align"> <a class="waves-effect wave-light btn blue tooltipped" data-position="bottom" data-delay="50" data-tooltip="Click here to Edit Step3" href="{!! route('candidate.application.editstep3') !!}"> Edit</a></div>
 		  		<span class="card-title">Step3 :</span>
 		  		<h6>Photo and Signature: </h6>
 		  		<div class="col m12">
@@ -88,12 +87,12 @@
     <div class="modal-content">
       	<p class="text-light-blue">Are you sure to submit your Application Form for 
         	<span class="text-green"> {!! $candidate_info->exam_id !!} </span> ? 
-            Please note once you press the Submit button, no changes can be made henceforth.
+            Please note that once you click the Submit button, no changes can be made.
         </p>
     </div>
     <div class="modal-footer">
       {!! Form::submit('Yes, Submit', array('name'=>'final_submit', 'class'=>'btn success')) !!}
-      <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">CANCEL</a>
+      <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat ">CANCEL</a>
     </div>
     {!! Form::close() !!}
 </div>

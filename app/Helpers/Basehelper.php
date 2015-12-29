@@ -91,6 +91,12 @@ class Basehelper{
         return $return = District::where('id', $id)->pluck($return);
     }
 
+    public static function getAdmissionIn($id, $return = 'eligible_for')
+    {
+        return $return = ExamDetail::where('id', $id)->pluck($return);
+    }
+    
+
 
     public static function getFormNo($id)
     {

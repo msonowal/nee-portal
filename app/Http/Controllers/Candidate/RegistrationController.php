@@ -269,6 +269,7 @@ class RegistrationController extends Controller
         $step1->quota= Basehelper::getQuota($step1->quota);
         $step1->c_pref1= Basehelper::getCentre($step1->c_pref1);
         $step1->c_pref2= Basehelper::getCentre($step1->c_pref2);
+        $step1->admission_in= Basehelper::getAdmissionIn($step1->admission_in);
         $step1->branch= Basehelper::getBranch($step1->branch);
         $step1->allied_branch= Basehelper::getAlliedBranch($step1->allied_branch);
         $step1->reservation_code= Basehelper::getReservationCode($step1->reservation_code);
