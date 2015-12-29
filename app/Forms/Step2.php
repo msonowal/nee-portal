@@ -70,7 +70,7 @@ class Step2 extends Form
 	          'attr' => ['required', 'maxlength' => '100'],
 	      ]);   
 
-	      $this->add('submit', 'submit', [
+	      $this->add('save', 'submit', [
 	          'attr' => ['class'=>'btn btn-lg btn-success col-md-12'],
 	      ]);
 

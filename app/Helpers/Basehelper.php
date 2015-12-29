@@ -9,6 +9,8 @@ use nee_portal\Models\Branch;
 use nee_portal\Models\Candidate;
 use nee_portal\Models\AlliedBranch;
 use nee_portal\Models\Reservation;
+use nee_portal\Models\State;
+use nee_portal\Models\District;
 
 class Basehelper{
 
@@ -45,6 +47,16 @@ class Basehelper{
     public static function getReservationCode($id, $return = 'reservation_code')
     {
         return $return = Reservation::where('id', $id)->pluck($return);
+    }
+
+    public static function getState($id, $return = 'name')
+    {
+        return $return = State::where('id', $id)->pluck($return);
+    }
+
+    public static function getDistrict($id, $return = 'name')
+    {
+        return $return = District::where('id', $id)->pluck($return);
     }
     
 

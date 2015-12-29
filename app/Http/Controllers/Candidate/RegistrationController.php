@@ -12,7 +12,7 @@ use nee_portal\Models\Step1;
 use nee_portal\Models\Step2;
 use nee_portal\Models\Step3;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Session, Auth;
+use Session, Auth, Storage;
 use nee_portal\Models\CandidateInfo;
 
 class RegistrationController extends Controller
@@ -37,19 +37,19 @@ class RegistrationController extends Controller
         }
 
         $reg_status = $candidate_info->reg_status;
-        $step1 = Step1::where('candidate_info_id', $this->info_id)->get();
-        $step2 = Step2::where('candidate_info_id', $this->info_id)->get();
-        $step3 = Step3::where('candidate_info_id', $this->info_id)->get();
+        $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
+        $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
+        $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
 
         if($reg_status=="not_submitted"){
 
-            if($step1->count()==0){
+            if(count($step1)==0){
                 return redirect()->route($this->content.'step1');
             }        
-            elseif($step2->count()==0){
+            elseif(count($step2)==0){
                 return redirect()->route($this->content.'step2');
             }
-            elseif($step3->count()==0){
+            elseif(count($step3)==0){
                 return redirect()->route($this->content.'step3');
             }
             else{
@@ -60,6 +60,15 @@ class RegistrationController extends Controller
 
     public function showStep1()
     {
+        $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
+        $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
+        $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+
+        if(count($step1)!=0 || count($step2)!=0 || count($step3)!=0){
+
+            return $this->getStep();
+        }
+
         $form=$this->formBuilder->create('nee_portal\Forms\Step1',
 
             ['method' =>'POST',
@@ -82,11 +91,9 @@ class RegistrationController extends Controller
 
         } else {
 
-        DB::beginTransaction();
+        $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
 
-        $step1 = Step1::where('candidate_info_id', $this->info_id)->get();
-
-            if($step1->count()!=0){
+            if(count($step1)!=0){
 
                 return $this->getStep();               
 
@@ -100,7 +107,6 @@ class RegistrationController extends Controller
                         return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
                     }
 
-                    DB::commit();
                     return $this->getStep();
             }
 
@@ -110,6 +116,15 @@ class RegistrationController extends Controller
 
     public function showStep2()
     {
+        $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
+        $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
+        $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+
+        if(count($step1)==0 || count($step2)!=0 || count($step3)!=0){
+
+            return $this->getStep();
+        }
+
         $form=$this->formBuilder->create('nee_portal\Forms\Step2',
 
             ['method' =>'POST',
@@ -132,11 +147,9 @@ class RegistrationController extends Controller
 
         } else {
 
-        DB::beginTransaction();
+        $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
 
-        $step2 = Step2::where('candidate_info_id', $this->info_id)->get();
-
-            if($step2->count()!=0){
+            if(count($step2)!=0){
 
                 return $this->getStep();               
 
@@ -150,7 +163,6 @@ class RegistrationController extends Controller
                         return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
                     }
 
-                    DB::commit();
                     return $this->getStep();
             }
 
@@ -160,11 +172,27 @@ class RegistrationController extends Controller
 
     public function showStep3()
     {
+        $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
+        $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
+        $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+
+        if(count($step1)==0 || count($step2)==0 || count($step3)!=0){
+
+            return $this->getStep();
+        }
+
         return view($this->content.'step3');
     }
 
     public function saveStep3(Request $request)
     {
+        $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+
+        if(count($step3)!=0){
+
+            return $this->getStep();
+        }
+
         $validator = Validator::make($data = $request->all(), Step3::$rules);
 
         if($validator ->fails())
@@ -228,17 +256,25 @@ class RegistrationController extends Controller
         $step1->allied_branch= Basehelper::getAlliedBranch($step1->allied_branch);
         $step1->reservation_code= Basehelper::getReservationCode($step1->reservation_code);
 
+        $step2->state= Basehelper::getState($step2->state);
+        $step2->district= Basehelper::getDistrict($step2->district);
+
+        //$step3->photo=Storage::get($step3->photo);
+        //$step3->signature=Storage::get($step3->signature);
+
         return view($this->content.'final', compact('step1', 'step2', 'step3'));
     }
 
     public function editStep1(){
 
-        $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
+        try {
 
-        if($step1->count()==0)
-        {
+            $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
+
+        }catch(ModelNotFoundException $e) {
+
             return $this->getStep();
-        }        
+        }       
 
         $form=$this->formBuilder->create('nee_portal\Forms\Step1',
 
@@ -265,7 +301,7 @@ class RegistrationController extends Controller
             return back()->with('message', 'Record Not Found!');
         }
 
-        if($step1->count()!=1) {
+        if(count($step1)!=1) {
 
             return $this->getStep();               
 
@@ -289,6 +325,70 @@ class RegistrationController extends Controller
                 return $this->getStep();           
             }
         }
-    }   
+    } 
+
+    public function editStep2(){
+
+        try {
+
+            $step2 = Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
+
+        }catch(ModelNotFoundException $e) {
+
+            return $this->getStep();
+        }
+
+        $form=$this->formBuilder->create('nee_portal\Forms\Step2',
+
+            ['method' =>'POST',
+
+             'url'    => route($this->content.'editstep2'),
+
+             'model' => $step2,
+
+            ])->remove('save');
+
+        return view($this->content.'edit_step2', compact('form', 'step2'));    
+
+    }
+
+    public function updateStep2(Request $request){
+
+
+
+        try {
+
+            $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
+
+        }catch(ModelNotFoundException $e) {
+
+            return back()->with('message', 'Record Not Found!');
+        }
+
+        if(count($step2)!=1) {
+
+            return $this->getStep();               
+
+        } else {
+
+            $validator = Validator::make($data = $request->all(), Step2::$rules);
+
+            if ($validator->fails())
+            {
+                return back()->withErrors($validator)->withInput();
+                
+            }else{
+
+                $step2->fill($data);
+
+                if (!$step2->save())
+                {
+                    return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
+                }
+                
+                return $this->getStep();           
+            }
+        }
+    }  
 
 }
