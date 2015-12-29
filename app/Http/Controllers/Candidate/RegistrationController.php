@@ -12,7 +12,7 @@ use nee_portal\Models\Step1;
 use nee_portal\Models\Step2;
 use nee_portal\Models\Step3;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Session, Auth, Storage;
+use Session, Auth, Storage, Log;
 use nee_portal\Models\CandidateInfo;
 
 class RegistrationController extends Controller
@@ -22,7 +22,7 @@ class RegistrationController extends Controller
         $this->info_id = Session::get('candidate_info_id');
         $this->formBuilder = $formBuilder;
     }
-    
+
     private $content = 'candidate.application.';
 
     public function getStep(){
@@ -45,7 +45,7 @@ class RegistrationController extends Controller
 
             if(count($step1)==0){
                 return redirect()->route($this->content.'step1');
-            }        
+            }
             elseif(count($step2)==0){
                 return redirect()->route($this->content.'step2');
             }
@@ -59,32 +59,34 @@ class RegistrationController extends Controller
         else if($reg_status=="payment_pending"){
 
                 return redirect()->route($this->content.'payment_options');
-                  
+
         }
     }
 
     public function showStep1()
     {
         $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
-        
+        $info = CandidateInfo::find($this->info_id);
+        Log::info('asdasd');
+
         if(count($step1)==0){
 
-            $form=$this->formBuilder->create('nee_portal\Forms\Step1',
-
-            ['method' =>'POST',
-
-             'url'    => route($this->content.'step1')
-
+            $form=$this->formBuilder->create('nee_portal\Forms\Step1',[
+              'method' =>'POST',
+              'url'    => route($this->content.'step1'),
+              'data'   => [
+									'eligible_for' => Basehelper::getExamDetails($info->q_id, $info->exam_id),
+              ]
             ])->remove('update');
 
             return view($this->content.'step1', compact('form'));
-            
+
         }else{
 
-            return $this->getStep();  
+            return $this->getStep();
         }
 
-        
+
     }
 
     public function saveStep1(Request $request)
@@ -102,7 +104,7 @@ class RegistrationController extends Controller
 
             if(count($step1)!=0){
 
-                return $this->getStep();               
+                return $this->getStep();
 
             } else {
                     $data = ['candidate_info_id' => $this->info_id] + $request->all();
@@ -134,7 +136,7 @@ class RegistrationController extends Controller
             ])->remove('update');
 
             return view($this->content.'step2', compact('form'));
-            
+
         }else
             return $this->getStep();
     }
@@ -154,7 +156,7 @@ class RegistrationController extends Controller
 
             if(count($step2)!=0){
 
-                return $this->getStep();               
+                return $this->getStep();
 
             } else {
                     $data = ['candidate_info_id' => $this->info_id] + $request->all();
@@ -188,7 +190,7 @@ class RegistrationController extends Controller
             return $this->getStep();
         }
 
-        
+
     }
 
     public function saveStep3(Request $request)
@@ -214,7 +216,7 @@ class RegistrationController extends Controller
             if($request->file('photo')->isValid()){
                 $extention = $request->file('photo')->getClientOriginalExtension();
                 $fileName = 'photo.'.$extention;
-                $request->file('photo')->move($destinationPath, $fileName);                      
+                $request->file('photo')->move($destinationPath, $fileName);
                 $data['photo'] = 'candidates/'.$this->info_id.'/'.$fileName;
 
 
@@ -226,7 +228,7 @@ class RegistrationController extends Controller
             if($request->file('signature')->isValid()){
                 $extention = $request->file('signature')->getClientOriginalExtension();
                 $fileName = 'signature.'.$extention;
-                $request->file('signature')->move($destinationPath, $fileName);                      
+                $request->file('signature')->move($destinationPath, $fileName);
                 $data['signature'] = 'candidates/'.$this->info_id.'/'.$fileName;
 
 
@@ -251,7 +253,7 @@ class RegistrationController extends Controller
             return $this->getStep();
 
         }
-        
+
         $step1->quota= Basehelper::getQuota($step1->quota);
         $step1->c_pref1= Basehelper::getCentre($step1->c_pref1);
         $step1->c_pref2= Basehelper::getCentre($step1->c_pref2);
@@ -278,7 +280,7 @@ class RegistrationController extends Controller
         }catch(ModelNotFoundException $e) {
 
             return $this->getStep();
-        }       
+        }
 
         $form=$this->formBuilder->create('nee_portal\Forms\Step1',
 
@@ -290,9 +292,9 @@ class RegistrationController extends Controller
 
             ])->remove('save');
 
-        return view($this->content.'edit_step1', compact('form', 'step1'));    
+        return view($this->content.'edit_step1', compact('form', 'step1'));
 
-    }  
+    }
 
     public function updateStep1(Request $request){
 
@@ -307,7 +309,7 @@ class RegistrationController extends Controller
 
         if(count($step1)!=1) {
 
-            return $this->getStep();               
+            return $this->getStep();
 
         } else {
 
@@ -316,7 +318,7 @@ class RegistrationController extends Controller
             if ($validator->fails())
             {
                 return back()->withErrors($validator)->withInput();
-                
+
             }else{
 
                 $step1->fill($data);
@@ -325,11 +327,11 @@ class RegistrationController extends Controller
                 {
                     return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
                 }
-                
-                return $this->getStep();           
+
+                return $this->getStep();
             }
         }
-    } 
+    }
 
     public function editStep2(){
 
@@ -352,7 +354,7 @@ class RegistrationController extends Controller
 
             ])->remove('save');
 
-        return view($this->content.'edit_step2', compact('form', 'step2'));    
+        return view($this->content.'edit_step2', compact('form', 'step2'));
 
     }
 
@@ -371,7 +373,7 @@ class RegistrationController extends Controller
 
         if(count($step2)!=1) {
 
-            return $this->getStep();               
+            return $this->getStep();
 
         } else {
 
@@ -380,7 +382,7 @@ class RegistrationController extends Controller
             if ($validator->fails())
             {
                 return back()->withErrors($validator)->withInput();
-                
+
             }else{
 
                 $step2->fill($data);
@@ -389,8 +391,8 @@ class RegistrationController extends Controller
                 {
                     return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
                 }
-                
-                return $this->getStep();           
+
+                return $this->getStep();
             }
         }
     }
@@ -404,10 +406,10 @@ class RegistrationController extends Controller
         }catch(ModelNotFoundException $e) {
 
             return $this->getStep();
-        } 
+        }
 
         return view($this->content.'edit_step3', compact('step3'));
-    } 
+    }
 
     public function updateStep3(Request $request)
     {
@@ -427,7 +429,7 @@ class RegistrationController extends Controller
             if($request->file('photo')->isValid()){
                 $extention = $request->file('photo')->getClientOriginalExtension();
                 $fileName = 'photo.'.$extention;
-                $request->file('photo')->move($destinationPath, $fileName);                      
+                $request->file('photo')->move($destinationPath, $fileName);
                 $data['photo'] = 'candidates/'.$this->info_id.'/'.$fileName;
 
 
@@ -439,7 +441,7 @@ class RegistrationController extends Controller
             if($request->file('signature')->isValid()){
                 $extention = $request->file('signature')->getClientOriginalExtension();
                 $fileName = 'signature.'.$extention;
-                $request->file('signature')->move($destinationPath, $fileName);                      
+                $request->file('signature')->move($destinationPath, $fileName);
                 $data['signature'] = 'candidates/'.$this->info_id.'/'.$fileName;
 
 
@@ -449,7 +451,7 @@ class RegistrationController extends Controller
         $update= $step3->fill($data);
 
         return $this->getStep();
-    } 
+    }
 
     public function finalSubmit(){
 
