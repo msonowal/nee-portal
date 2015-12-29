@@ -71,4 +71,30 @@
 		  </div>
 		</div>
 	</div>
+
+	<div class="card-panel hoverable">
+		<div class="col s6 offset-s3">
+		  <div class="row">
+		  	<div class="col s12">
+		  		<a class="waves-effect waves-light btn col s12 btn-large modal-trigger"  href="#modal_final">Final Submit <i class="material-icons right">send</i></a>
+		  	</div>
+		  </div>
+		</div>
+	</div>
+
+	<!--Model Start--> 
+	<div id="modal_final" class="modal">
+    {!! Form::open(array('route'=>'candidate.application.submit')) !!}
+    <div class="modal-content">
+      	<p class="text-light-blue">Are you sure to submit your Application Form for 
+        	<span class="text-green"> {!! $candidate_info->exam_id !!} </span> ? 
+            Please note once you press the Submit button, no changes can be made henceforth.
+        </p>
+    </div>
+    <div class="modal-footer">
+      {!! Form::submit('Yes, Submit', array('name'=>'final_submit', 'class'=>'btn success')) !!}
+      <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">CANCEL</a>
+    </div>
+    {!! Form::close() !!}
+</div>
 @stop

@@ -20,7 +20,7 @@ class CreateCandidateInfoTable extends Migration
             $table->integer('form_no', false, false)->nullable();
             $table->string('rollno', 30)->nullable();
             $table->date('reg_date')->nullable()->comment('registration date');
-            $table->enum('reg_status', array('not_submitted', 'submitted', 'payment_pending', 'completed', ))->default('not_submitted');
+            $table->enum('reg_status', array('not_submitted', 'payment_pending', 'completed', ))->default('not_submitted');
             $table->string('remarks', 50)->nullable();
             $table->timestamps();
             $table->foreign('candidate_id')->references('id')->on('candidates');

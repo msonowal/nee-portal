@@ -56,6 +56,11 @@ class RegistrationController extends Controller
                 return redirect()->route($this->content.'final');
             }
         }
+        else if($reg_status=="payment_pending"){
+
+                return redirect()->route($this->content.'payment_options');
+                  
+        }
     }
 
     public function showStep1()
@@ -257,10 +262,11 @@ class RegistrationController extends Controller
         $step2->state= Basehelper::getState($step2->state);
         $step2->district= Basehelper::getDistrict($step2->district);
 
-        //$step3->photo=Storage::get($step3->photo);
-        //$step3->signature=Storage::get($step3->signature);
+        $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
 
-        return view($this->content.'final', compact('step1', 'step2', 'step3'));
+        $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
+
+        return view($this->content.'final', compact('step1', 'step2', 'step3', 'candidate_info'));
     }
 
     public function editStep1(){
@@ -444,5 +450,29 @@ class RegistrationController extends Controller
 
         return $this->getStep();
     } 
+
+    public function finalSubmit(){
+
+        try{
+
+            $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step2 = Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step3 = Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
+        }
+        catch(ModelNotFoundException $e){
+
+            return $this->getStep();
+
+        }
+
+        $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
+
+        $candidate_info->reg_status='payment_pending';
+
+        $candidate_info->save();
+
+        return $this->getStep();
+
+    }
 
 }
