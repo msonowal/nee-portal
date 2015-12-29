@@ -13,8 +13,17 @@ use nee_portal\Models\AlliedBranch;
 use nee_portal\Models\Reservation;
 use nee_portal\Models\State;
 use nee_portal\Models\District;
-use Log;
+use Session, Log;
+
 class Basehelper{
+
+    public static function checkSession()
+    {
+        if(Session::get('candidate_info_id', 'not_set') == 'not_set')
+            return false;
+        else
+            return true;
+    }
 
 	public static function getExamDetails($qualification_id, $exam_id)
 	{
