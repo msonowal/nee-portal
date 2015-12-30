@@ -6,25 +6,7 @@
 		  {!! form_start($form) !!}
 		    <div class="row">
 		        <div class="col m12">
-          				{!! form_row($form->quota) !!}
-
-          				{!! form_row($form->c_pref1) !!}
-
-                  {!! form_row($form->c_pref2) !!}
-
-                  {!! form_row($form->dob) !!}
-
-                  {!! form_row($form->nerist_stud) !!}                
-
-                  {!! form_row($form->admission_in) !!}
-
-                  {!! form_row($form->voc_subject) !!}
-
-                  {!! form_row($form->branch) !!}
-                  
-                  {!! form_row($form->allied_branch) !!}
-
-                  {!! form_row($form->reservation_code) !!}
+							{!! form_rest($form) !!}
 
 		        </div>
 			 </div>

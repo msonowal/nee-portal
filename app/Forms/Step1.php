@@ -46,7 +46,7 @@ class Step1 extends Form
 
 	      $this->add('nerist_stud', 'select', [
            	'choices' => ['YES' => 'YES', 'NO' => 'NO'],
-           	//'empty_value' => 'Are you a Nerist Student',
+           	'selected' => 'NO',
             'class' => '',
 	          'attr' => ['required'],
             'wrapper'=>['class'=>'input-field col m6'],
@@ -60,13 +60,16 @@ class Step1 extends Form
 	      ]);
 
 
-	      $this->add('voc_subject', 'select', [
-           	'choices' => ['AE' =>'AE'],
-           	'empty_value' => 'Select',
-	          'attr' => ['required'],
-            'wrapper'=>['class'=>'input-field col m6'],
-            'label' =>  'Vocational Subject'
-	      ]);
+        if($this->getData('voc_subject')){
+
+  	      $this->add('voc_subject', 'select', [
+             	'choices' => ['AE' =>'AE'],
+             	'empty_value' => 'Select',
+  	          'attr' => ['required'],
+              'wrapper'=>['class'=>'input-field col m6'],
+              'label' =>  'Vocational Subject'
+  	      ]);
+        }
 
 	      $this->add('branch', 'select', [
           'choices' => Branch::lists('branch_name', 'id')->all(),

@@ -17,8 +17,8 @@ class Home extends Form
             'wrapper' => ['class' => 'input-field col l6'],
 	      ]);
 
-        $this->add('status', 'select', [
-           	'choices' => ['1' => 'PASSED', '0' => 'APPEARED'],
+        $this->add('qualification_status', 'select', [
+           	'choices' => ['PASSED' => 'PASSED', 'APPEARED' => 'APPEARED'],
            	'empty_value' => 'Select Status',
 	          'attr' => ['required'],
             'wrapper'=>['class'=>'input-field col m6']

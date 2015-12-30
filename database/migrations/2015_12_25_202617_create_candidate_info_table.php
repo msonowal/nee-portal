@@ -18,11 +18,12 @@ class CreateCandidateInfoTable extends Migration
             $table->integer('q_id', false, true)->comment('QUALIFICATION ID');
             $table->integer('exam_id', false, true);
             $table->enum('qualification_status', array('PASSED', 'APPEARED'));
-            $table->integer('form_no', false, false)->nullable();
-            $table->string('rollno', 30)->nullable();
+            //$table->integer('form_no', false, false)->nullable();
+            $table->string('form_no', 10)->nullable();
+            $table->string('rollno', 20)->nullable();
             $table->date('reg_date')->nullable()->comment('registration date');
             $table->enum('reg_status', array('not_submitted', 'payment_pending', 'completed'))->default('not_submitted');
-            $table->string('remarks', 50)->nullable();
+            $table->string('remarks', 100)->nullable();
             $table->timestamps();
             $table->foreign('candidate_id')->references('id')->on('candidates');
             $table->foreign('exam_id')->references('id')->on('exams');

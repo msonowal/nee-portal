@@ -27,13 +27,10 @@ class CandidateController extends Controller
 
     public function home()
     {
-        $form=$this->formBuilder->create('nee_portal\Forms\Home',
-
-            ['method' =>'POST',
-
-             'url'    => route('candidate.home')
-
-            ]);
+        $form=$this->formBuilder->create('nee_portal\Forms\Home',[
+          'method' =>'POST',
+          'url'    => route('candidate.home')
+        ]);
 
         return view($this->content.'home', compact('form'));
     }
@@ -42,9 +39,9 @@ class CandidateController extends Controller
     public function storeExam(Request $request)
     {
         $id = Auth::candidate()->get()->id;
-
         $validator = Validator::make($data = $request->all(), CandidateInfo::$rules);
 
+        //return $data;
         if ($validator->fails())
             return Redirect::back()->withErrors($validator)
                             ->withInput();
@@ -57,7 +54,8 @@ class CandidateController extends Controller
             $candidateinfo->candidate_id = $id;
             $candidateinfo->q_id = $request->q_id;
             $candidateinfo->exam_id = $request->exam_id;
-            $candidateinfo->form_no = Basehelper::getFormNo(CandidateInfo::max('id')+1);
+            //$candidateinfo->form_no = Basehelper::getFormNo(CandidateInfo::max('id')+1);
+            $candidateinfo->qualification_status = $request->qualification_status;
             $candidateinfo->reg_date = date('Y-m-d');
 
             if(!$candidateinfo->save())
