@@ -27,7 +27,7 @@ class Home extends Form
         $this->add('exam_id', 'select', [
            	  'choices' => ['' => 'Select Qualification first'],
               'label' => false,
-	            'attr' => ['required', 'id'=>'exam_id', 'class'=>'browser-default'],
+	            'attr' => ['required', 'id'=>'exam_id'],
               'wrapper' => ['class' => 'input-field col l6'],
 	      ]);
 

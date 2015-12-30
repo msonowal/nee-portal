@@ -5,7 +5,7 @@
     <div class="col s6 offset-s3">
      <div class="row">
         <div class="col m12">
-        
+
         {!! form($form) !!}
 
         </div>
@@ -28,6 +28,8 @@
                 $.each(msg, function(key, value) {
                     $("<option>").val(value.id).text(value.exam_name).appendTo($exam);
                 });
+                $exam.material_select('update');
+								$exam.closest('.input-field').children('span.caret').remove();
                 return true;
             });
         }else
