@@ -16,6 +16,7 @@ class CreateReservationsTable extends Migration
             $table->increments('id');
             $table->integer('quota_id')->unsigned();
             $table->integer('reservation_code', false, false)->unique();
+            $table->string('category_name');
             $table->string('description', 255);
             $table->timestamps();
             $table->foreign('quota_id')->references('id')->on('quotas');
