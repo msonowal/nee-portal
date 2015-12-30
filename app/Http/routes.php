@@ -18,7 +18,8 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
     Route::group(['middleware'=>['auth.candidate']], function() {
         Route::get('/home', ['as' => 'candidate.home', 'uses' =>'CandidateController@home']);
         Route::post('/home', ['as' => 'candidate.home', 'uses' =>'CandidateController@storeExam']);
-        Route::get('exam_list', ['as' =>'exam.by.qualification', 'uses'=> 'RestController@getExamList']);
+        Route::get('/exam_list', ['as' =>'exam.by.qualification', 'uses'=> 'RestController@getExamList']);
+        Route::get('/get/allied_branch', ['as' =>'allied_branch.by.branch_id', 'uses'=> 'RestController@getAlliedBranch']);
         Route::get('/dashboard', ['as' => 'candidate.application.dashboard', 'uses' =>'CandidateController@dashboard']);
         Route::post('/proceed', ['as' => 'candidate.proceed', 'uses' =>'CandidateController@proceed']);
         Route::get('/application/step', ['as' => 'candidate.application.step', 'uses' =>'RegistrationController@getStep']);

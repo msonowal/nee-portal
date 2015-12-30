@@ -31,6 +31,6 @@ class CreateVocationalSubjectsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('exam_details');
+        Schema::drop('vocational_subjects');
     }
 }

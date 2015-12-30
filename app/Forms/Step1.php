@@ -71,19 +71,23 @@ class Step1 extends Form
   	      ]);
         }
 
-	      $this->add('branch', 'select', [
-          'choices' => Branch::lists('branch_name', 'id')->all(),
-          'empty_value' => 'Select branch',
-	        'attr' => ['required'],
-          'wrapper'=>['class'=>'input-field col m6']
-	      ]);
+        //dd($this->getData('eligible_for'));
+        if(in_array('Degree Module in Engineering & Technology', $this->getData('eligible_for'))){
 
-	      $this->add('allied_branch', 'select', [
-           	'choices' => AlliedBranch::lists('allied_branch', 'id')->all(),
-           	'empty_value' => 'Select Branch Subject',
-	          'attr' => ['required'],
+  	      $this->add('branch', 'select', [
+            'choices' => Branch::lists('branch_name', 'id')->all(),
+            'empty_value' => 'Select branch',
+  	        'attr' => ['required', 'id'=>'branch_id'],
             'wrapper'=>['class'=>'input-field col m6']
-	      ]);
+  	      ]);
+
+  	      $this->add('allied_branch', 'select', [
+             	'choices' => [''=>'--Select Branch first--'],
+             	'empty_value' => 'Select Branch Subject',
+  	          'attr' => ['required', 'id'=>'allied_branch_id'],
+              'wrapper'=>['class'=>'input-field col m6']
+  	      ]);
+        }
 
 	      $this->add('reservation_code', 'select', [
            	'choices' => ['' => 'Select Reservation Code'],

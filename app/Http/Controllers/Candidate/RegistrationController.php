@@ -301,19 +301,13 @@ class RegistrationController extends Controller
 
         $info = CandidateInfo::find($this->info_id);
 
-        $form=$this->formBuilder->create('nee_portal\Forms\Step1',
+        $form = $this->formBuilder->create('nee_portal\Forms\Step1',[
+          'method' =>'POST','url'    => route($this->content.'editstep1'),
+          'model' => $step1,
+          'eligible_for' => Basehelper::getExamDetails($info->q_id, $info->exam_id),
+        ])->remove('save');
 
-            ['method' =>'POST',
-
-             'url'    => route($this->content.'editstep1'),
-
-             'model' => $step1,
-
-             'eligible_for' => Basehelper::getExamDetails($info->q_id, $info->exam_id),
-
-            ])->remove('save');
-
-        return view($this->content.'edit_step1', compact('form', 'step1'));
+        return view($this->content.'step1_edit', compact('form', 'step1'));
 
     }
 
@@ -378,7 +372,7 @@ class RegistrationController extends Controller
 
             ])->remove('save');
 
-        return view($this->content.'edit_step2', compact('form', 'step2'));
+        return view($this->content.'step2_edit', compact('form', 'step2'));
 
     }
 
@@ -429,11 +423,10 @@ class RegistrationController extends Controller
             $step3 = Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
 
         }catch(ModelNotFoundException $e) {
-
             return $this->getStep();
         }
 
-        return view($this->content.'edit_step3', compact('step3'));
+        return view($this->content.'step3_edit', compact('step3'));
     }
 
     public function updateStep3(Request $request)
@@ -456,8 +449,6 @@ class RegistrationController extends Controller
                 $fileName = 'photo.'.$extention;
                 $request->file('photo')->move($destinationPath, $fileName);
                 $data['photo'] = 'candidates/'.$this->info_id.'/'.$fileName;
-
-
             }
         }
 
@@ -468,8 +459,6 @@ class RegistrationController extends Controller
                 $fileName = 'signature.'.$extention;
                 $request->file('signature')->move($destinationPath, $fileName);
                 $data['signature'] = 'candidates/'.$this->info_id.'/'.$fileName;
-
-
             }
         }
 
@@ -563,7 +552,7 @@ class RegistrationController extends Controller
             }
 
             return $this->getStep();
-                        
+
        }
 
         return $this->getStep();

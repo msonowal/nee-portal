@@ -22,6 +22,8 @@
 @section('script')
 <script type="text/javascript">
 
+var reservation_status = true;
+
     function getReservationCode(quotaElement, reservationElement){
         var url = '{!! route('reservation_code.by.quota') !!}';
         var quota = $(quotaElement).val();
@@ -35,6 +37,10 @@
                 $.each(msg, function(key, value) {
                     $("<option>").val(value.id).text(value.reservation_code).appendTo($reservation_code);
                 });
+								if(reservation_status){
+								  $reservation_code.val('{!! $step1->reservation_code !!}');
+								  reservation_status =false;
+								}
 								//$reservation_code.material_select();
 								$reservation_code.material_select('update');
 								$reservation_code.closest('.input-field').children('span.caret').remove();
@@ -71,4 +77,6 @@
 @section('page_script')
     $('#quota').change(function(e){ getReservationCode(this, $('#reservation_code')); });
 		$('#branch_id').change(function(e){ getAlliedBranch(this, $('#allied_branch_id')); });
+
+		$('#quota').trigger('change');
 @stop
