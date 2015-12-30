@@ -38,7 +38,8 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
         Route::get('/application/edit/step3', ['as' => 'candidate.application.editstep3', 'uses' =>'RegistrationController@editStep3']);
         Route::post('/application/edit/step3', ['as' => 'candidate.application.editstep3', 'uses' =>'RegistrationController@updateStep3']);
         Route::post('/submit', ['as' => 'candidate.application.submit', 'uses' =>'RegistrationController@finalSubmit']);
-        Route::get('/payment', ['as' => 'candidate.application.payment_options', 'uses' =>'RegistrationController@paymentOptions']);
+        Route::get('/application/payment', ['as' => 'candidate.application.payment_options', 'uses' =>'RegistrationController@paymentOptions']);
+        Route::post('/application/payment', ['as' => 'candidate.application.payment_options', 'uses' =>'RegistrationController@paymentProceed']);
         Route::get('/error', ['as' => 'candidate.error', 'uses' =>'RegistrationController@showError']);
     });
 });

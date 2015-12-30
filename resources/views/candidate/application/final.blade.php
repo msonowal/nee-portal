@@ -14,7 +14,7 @@
 	<div class="card-panel hoverable">
 		<div class="col s6 offset-s3">
 		  <div class="row">
-		  	<div class="col m12 right-align"> <a class="waves-effect wave-light btn blue tooltipped" data-position="bottom" data-delay="50" data-tooltip="Click here to Edit Step1" href="{!! route('candidate.application.editstep1') !!}"> Edit</a></div>
+		  	<div class="col m12 right-align"> <a class="waves-effect wave-light btn blue tooltipped" data-position="bottom" data-delay="50" data-tooltip="Click here to Edit Step1" href="{!! route('candidate.application.editstep1') !!}"><i class="material-icons prefix">mode_edit</i> Edit</a></div>
 		  		<span class="card-title"> Step1 :</span>
 		  		<div class="col m12">
 		  			<div class="col m6"><p class="review"> State Quota : {!! $step1->quota !!} </p></div>
@@ -34,7 +34,7 @@
 	<div class="card-panel hoverable">
 		<div class="col s6 offset-s3">
 		  <div class="row">
-		  	<div class="col m12 right-align"> <a class="waves-effect wave-light btn blue tooltipped" data-position="bottom" data-delay="50" data-tooltip="Click here to Edit Step2" href="{!! route('candidate.application.editstep2') !!}"> Edit</a></div>	
+		  	<div class="col m12 right-align"> <a class="waves-effect wave-light btn blue tooltipped" data-position="bottom" data-delay="50" data-tooltip="Click here to Edit Step2" href="{!! route('candidate.application.editstep2') !!}"><i class="material-icons prefix">mode_edit</i> Edit</a></div>	
 		  		<span class="card-title"> Step2 :</span>
 		  		<h6> Personal Details: </h6>
 		  		<div class="col m12">
@@ -60,7 +60,7 @@
 	<div class="card-panel hoverable">
 		<div class="col s6 offset-s3">
 		  <div class="row">
-		  	<div class="col m12 right-align"> <a class="waves-effect wave-light btn blue tooltipped" data-position="bottom" data-delay="50" data-tooltip="Click here to Edit Step3" href="{!! route('candidate.application.editstep3') !!}"> Edit</a></div>
+		  	<div class="col m12 right-align"> <a class="waves-effect wave-light btn blue tooltipped" data-position="bottom" data-delay="50" data-tooltip="Click here to Edit Step3" href="{!! route('candidate.application.editstep3') !!}"><i class="material-icons prefix">mode_edit</i> Edit</a></div>
 		  		<span class="card-title">Step3 :</span>
 		  		<h6>Photo and Signature: </h6>
 		  		<div class="col m12">

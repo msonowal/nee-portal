@@ -529,6 +529,30 @@ class RegistrationController extends Controller
 
     }
 
+    public function paymentProceed(){
+
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
+        try{
+            $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
+            $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
+            $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
+            $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+        }catch(ModelNotFoundException $e){
+
+            return redirect()->route('candidate.error')->withErrors('message', 'Record not found!');
+        }
+
+        if($candidate_info->reg_status=="payment_pending"){
+
+            return 'dhsdsdjsjdjfd';
+        }
+
+        return $this->getStep();
+
+    }
+
     public function showError(){
 
         if(!Basehelper::checkSession())
