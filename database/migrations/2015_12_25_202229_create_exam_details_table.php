@@ -14,12 +14,12 @@ class CreateExamDetailsTable extends Migration
     {
         Schema::create('exam_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('exam_id', false, true);
+            //$table->integer('exam_id', false, true);
             //$table->integer('qualification_id', false, true);
             $table->string('eligible_for', 100)->comment('ELIGIBLE FOR ADMISSION TO');
             //$table->integer('paper_code', false, true);
             $table->timestamps();
-            $table->foreign('exam_id')->references('id')->on('exams');
+            //$table->foreign('exam_id')->references('id')->on('exams');
             //$table->foreign('qualification_id')->references('id')->on('qualifications');
         });
     }

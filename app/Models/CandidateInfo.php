@@ -12,5 +12,5 @@ class CandidateInfo extends Model
 
     //protected $fillable = [''];
 
-    public static $rules = ['q_id' =>'required', 'exam_id' => 'required', 'form_no', 'status' => 'required'];
+    public static $rules = ['q_id' =>'required', 'exam_id' => 'required', 'qualification_status' => 'required'];
 }

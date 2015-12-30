@@ -25,6 +25,17 @@ class Basehelper{
             return true;
     }
 
+    public static function getVocationalSubject($qualification_id, $exam_id)
+    {
+      $id = ExamQualification::where('q_id', $qualification_id)->where('exam_id', $exam_id)->first()->id;
+
+      if($id == 5 ){
+        return true;
+      }else {
+        return false;
+      }
+    }
+
 	public static function getExamDetails($qualification_id, $exam_id)
 	{
 			$id = ExamQualification::where('q_id', $qualification_id)->where('exam_id', $exam_id)->first()->id;
@@ -95,7 +106,7 @@ class Basehelper{
     {
         return $return = ExamDetail::where('id', $id)->pluck($return);
     }
-    
+
 
 
     public static function getFormNo($id)
