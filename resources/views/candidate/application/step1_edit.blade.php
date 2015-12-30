@@ -35,7 +35,7 @@ var reservation_status = true;
 								$reservation_code.empty().html('');
                 $("<option>").val('').text('--Select Reservation Code--').appendTo($reservation_code);
                 $.each(msg, function(key, value) {
-                    $("<option>").val(value.id).text(value.reservation_code).appendTo($reservation_code);
+                    $("<option>").val(value.reservation_code).text(value.reservation_code).appendTo($reservation_code);
                 });
 								if(reservation_status){
 								  $reservation_code.val('{!! $step1->reservation_code !!}');

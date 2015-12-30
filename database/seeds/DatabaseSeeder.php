@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
        $this->call(ExamQualificationSeeder::class);
        $this->call(VocationSubjectSeeder::class);
        $this->call(ReservationStatusSeeder::class);
-
+       Artisan::call('import:data');
        Model::reguard();
    }
 }
