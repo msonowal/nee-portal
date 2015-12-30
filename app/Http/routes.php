@@ -40,6 +40,7 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
         Route::post('/submit', ['as' => 'candidate.application.submit', 'uses' =>'RegistrationController@finalSubmit']);
         Route::get('/application/payment', ['as' => 'candidate.application.payment_options', 'uses' =>'RegistrationController@paymentOptions']);
         Route::post('/application/payment', ['as' => 'candidate.application.payment_options', 'uses' =>'RegistrationController@paymentProceed']);
+        Route::get('/application/challan_format', ['as' => 'candidate.application.challan_format', 'uses' =>'RegistrationController@challanFormat']);
         Route::get('/error', ['as' => 'candidate.error', 'uses' =>'RegistrationController@showError']);
     });
 });

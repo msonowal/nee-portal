@@ -529,7 +529,7 @@ class RegistrationController extends Controller
 
     }
 
-    public function paymentProceed(){
+    public function paymentProceed(Request $request){
 
         if(!Basehelper::checkSession())
             return redirect()->route($this->content.'dashboard');
@@ -546,10 +546,52 @@ class RegistrationController extends Controller
 
         if($candidate_info->reg_status=="payment_pending"){
 
-            return 'dhsdsdjsjdjfd';
+            $rules= ['payment_option' => 'required'];
+
+            $validator= Validator::make($data= $request->all(), $rules);
+
+            if($validator->fails()){
+
+                return back()->withErrors(array('message' => 'Please select a Payment Option'));
+            }
+
+            if($request->payment_option == "challan"){
+
+                return view($this->content.'challan');
+
+            }
+
+            return $this->getStep();
+                        
+       }
+
+        return $this->getStep();
+
+    }
+
+    public function challanFormat(){
+
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
+        try{
+            $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
+            $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
+            $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
+            $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+        }catch(ModelNotFoundException $e){
+
+            return redirect()->route('candidate.error')->withErrors('message', 'Record not found!');
+        }
+
+        if($candidate_info->reg_status=="payment_pending"){
+
+            return view($this->content.'challan_format');
+
         }
 
         return $this->getStep();
+
 
     }
 
