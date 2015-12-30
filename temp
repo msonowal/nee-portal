@@ -1,6 +1,0 @@
-if(reservation_status){
-  $reservation_code.val('{!! $step1->reservation_code !!}');
-  reservation_status =false;
-}
-
-$('#quota').trigger('change');

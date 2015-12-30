@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \nee_portal\Console\Commands\Inspire::class,
+        \nee_portal\Console\Commands\ImportStatesAndDistricts::class,
     ];
 
     /**

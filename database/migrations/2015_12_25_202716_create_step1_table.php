@@ -21,9 +21,9 @@ class CreateStep1Table extends Migration
             $table->date('dob');
             $table->enum('nerist_stud', array('YES' => 'YES', 'NO' => 'NO'))->comment('NERIST STUDENT');
             $table->integer('admission_in')->unsigned();
-            $table->integer('voc_subject')->unsigned()->default(0);
-            $table->integer('branch')->unsigned()->default(0);
-            $table->integer('allied_branch')->unsigned()->default(0);
+            $table->integer('voc_subject')->nullable()->unsigned();
+            $table->integer('branch')->nullable()->unsigned();
+            $table->integer('allied_branch')->nullable()->unsigned();
             $table->integer('reservation_code')->unsigned()->comment('Reservation Code');
             $table->timestamps();
             $table->foreign('candidate_info_id')->references('id')->on('candidate_info');
@@ -32,7 +32,7 @@ class CreateStep1Table extends Migration
             $table->foreign('c_pref2')->references('id')->on('centres');
             $table->foreign('branch')->references('id')->on('branches');
             $table->foreign('allied_branch')->references('id')->on('allied_branches');
-            $table->foreign('reservation_code')->references('id')->on('reservations');
+            $table->foreign('reservation_code')->references('reservation_code')->on('reservations');
         });
     }
 

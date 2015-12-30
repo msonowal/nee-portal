@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
        $this->call(AlliedBranchSeeder::class);
        $this->call(ExamQualificationSeeder::class);
        $this->call(VocationSubjectSeeder::class);
+       Artisan::call('import:data');
 
        Model::reguard();
    }

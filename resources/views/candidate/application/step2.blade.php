@@ -1,44 +1,25 @@
 @extends('candidate.plane')
 @section('body')
 	<div class="card-panel hoverable">
-		<div class="col s6 offset-s3">
-		<h5>Personal Details</h5>
 		  {!! form_start($form) !!}
 		    <div class="row">
-		        <div class="col m12">
+					<div class="section">
+						<h5>Personal Details</h5>
 
-            {!! form_row($form->name) !!}
+						{!! form_until($form, 'relationship') !!}
+					</div>
+					<div class="clearfix divider"></div>
+						<div class="section">
+							<h5>Address Details</h5>
 
-          	{!! form_row($form->father_name) !!}
-
-          	{!! form_row($form->guardian_name) !!}
-
-            {!! form_row($form->gender) !!}
-
-          	{!! form_row($form->nationality) !!}
-
-          	{!! form_row($form->emp_status) !!}
-
-          	{!! form_row($form->relationship) !!}
-
-			      <h5>Address Details</h5>
-
-            {!! form_row($form->state) !!}
-
-            {!! form_row($form->district) !!}
-
-            {!! form_row($form->po) !!}
-
-            {!! form_row($form->pin) !!}
-
-          	{!! form_row($form->village) !!}
-
-          	{!! form_row($form->address_line) !!}
-
-        		</div>
+						{!! form_until($form, 'address_line') !!}
 			   </div>
-		   {!! form_end($form) !!}		
-		</div>
+				 <div class="clearfix divider"></div>
+				 <div class="col s12 m12 l12" style="margin-top:20px;">
+				 {!! form_row($form->save) !!}
+				 </div>
+			 </div>
+		   {!! form_end($form) !!}
 	</div>
 @stop
 @section('script')
