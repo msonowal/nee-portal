@@ -15,17 +15,18 @@ class DatabaseSeeder extends Seeder
    {
        Model::unguard();
 
-       factory(Admin::class, 5)->create();     
+       factory(Admin::class, 5)->create();
        $this->call(QualificationSeeder::class);
        $this->call(ExamSeeder::class);
-       $this->call(CentreSeeder::class);  
-       $this->call(CentreCapacitySeeder::class);       
-       $this->call(BranchSeeder::class); 
+       $this->call(CentreSeeder::class);
+       $this->call(CentreCapacitySeeder::class);
+       $this->call(BranchSeeder::class);
        $this->call(QuotaSeeder::class);
        $this->call(ReservationSeeder::class);
        $this->call(ExamDetailSeeder::class);
        $this->call(AlliedBranchSeeder::class);
-       $this->call(ExamQualificationSeeder::class); 
+       $this->call(ExamQualificationSeeder::class);
+       $this->call(VocationSubjectSeeder::class);
 
        Model::reguard();
    }
