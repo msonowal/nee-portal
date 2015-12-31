@@ -21,4 +21,6 @@ class Step1 extends Model
     				'admission_in' => 'required|numeric',
     				'reservation_code' => 'required|numeric'
     ];
+
+    
 }

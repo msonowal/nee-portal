@@ -1,0 +1,10 @@
+.dropdown-content li>a, .dropdown-content li>span{
+  color: #FFF;
+}
+
+nav ul a:hover{background-color: #0089EC}
+.dropdown-content li:hover{
+  color: #000 !important;
+  background-color: #0089ec;
+}
+nav ul li.active{ background-color: #30454E;}

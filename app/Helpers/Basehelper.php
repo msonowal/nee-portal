@@ -13,9 +13,14 @@ use nee_portal\Models\AlliedBranch;
 use nee_portal\Models\Reservation;
 use nee_portal\Models\State;
 use nee_portal\Models\District;
-use Session, Log;
+use Session, Log, Route;
 
 class Basehelper{
+
+  public static function isActiveRoute($route, $output = "active")
+  {
+    if (Route::currentRouteName() == $route) return $output;
+  }
 
     public static function checkSession()
     {
