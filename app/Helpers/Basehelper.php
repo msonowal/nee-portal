@@ -89,7 +89,8 @@ class Basehelper{
 
     public static function getReservationCode($id, $return = 'reservation_code')
     {
-        return $return = Reservation::where('id', $id)->pluck($return);
+        //return $return = Reservation::where('id', $id)->pluck($return);
+        return $id;
     }
 
     public static function getState($id, $return = 'name')

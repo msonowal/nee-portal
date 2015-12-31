@@ -28,8 +28,8 @@ class CreateStep1Table extends Migration
             $table->timestamps();
             $table->foreign('candidate_info_id')->references('id')->on('candidate_info');
             $table->foreign('quota')->references('id')->on('quotas');
-            $table->foreign('c_pref1')->references('id')->on('centres');
-            $table->foreign('c_pref2')->references('id')->on('centres');
+            $table->foreign('c_pref1')->references('centre_code')->on('centres');
+            $table->foreign('c_pref2')->references('centre_code')->on('centres');
             $table->foreign('branch')->references('id')->on('branches');
             $table->foreign('allied_branch')->references('id')->on('allied_branches');
             $table->foreign('reservation_code')->references('reservation_code')->on('reservations');

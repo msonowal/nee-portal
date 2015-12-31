@@ -22,8 +22,9 @@ class Step1 extends Form
              'label' => 'Select Quota'
 	      ]);
 
+        $centre_choices = Centre::lists('centre_name', 'centre_code')->all();
           $this->add('c_pref1', 'select', [
-            'choices' => Centre::lists('centre_name', 'id')->all(),
+            'choices' => $centre_choices,
             'empty_value' => 'Select Centre Preference 1',
             'attr' => ['required'],
             'wrapper'=>['class'=>'input-field col m6'],
@@ -31,7 +32,7 @@ class Step1 extends Form
 	      ]);
 
 	      $this->add('c_pref2', 'select', [
-           	'choices' => Centre::lists('centre_name', 'id')->all(),
+           	'choices' => $centre_choices,
            	'empty_value' => 'Select Centre Preference 2',
 	          'attr' => ['required'],
             'wrapper'=>['class'=>'input-field col m6'],

@@ -13,8 +13,8 @@ class CreateCentresTable extends Migration
     public function up()
     {
         Schema::create('centres', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('centre_code')->unsigned();
+            $table->increments('centre_code');
+            //$table->integer('centre_code')->unsigned();
             $table->string('centre_name', 55);
             $table->string('centre_state', 55);
             $table->integer('NEE I', false, false)->defualt(0);

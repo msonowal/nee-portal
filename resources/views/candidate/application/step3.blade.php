@@ -7,12 +7,12 @@
 </div>
 
 <div class="card-panel hoverable">
-	<div class="col s6 offset-s3">
-	    <div class="row">
-	    <div class="col m12">		
+<div class="row">
+	  <div class="col m12">
 		  {!! Form::open(array('route' => 'candidate.application.step3', 'files' =>true)) !!}
+
 		    <div class="file-field input-field">
-		      <div class="btn waves-effect wave-light" id="upload" onclick="$('#photo').click();">
+		      <div class="btn waves-effect wave-light" id="upload">
 		        <span>Photo</span>
 		        <input type="file" id="photo" name="photo">
 		      </div>
@@ -21,7 +21,7 @@
 		      </div>
 		    </div>
 		    <div class="file-field input-field">
-		      <div class="btn waves-effect wave-light" id="upload" onclick="$('#signature').click();">
+		      <div class="btn waves-effect wave-light" id="upload">
 		        <span>Signature</span>
 		        <input type="file" id="signature"  name="signature">
 		      </div>
@@ -29,14 +29,14 @@
 		        <input class="file-path validate" type="text">
 		      </div>
 		    </div>
-		    <button class="btn waves-effect waves-light blue" style="float: right;" type="submit" id="save">Save
+		    <button class="btn waves-effect waves-light blue" style="float: right;" type="submit" id="save">
+          Save &amp; Continue
             	<i class="material-icons right"></i>
         	</button>
 		  {!! Form::close() !!}
 		 </div>
 		</div>
 	</div>
-</div>
 @stop
 @section('script')
 <script type="text/javascript">

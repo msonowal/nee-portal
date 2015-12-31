@@ -14,11 +14,11 @@ class Step1 extends Model
 
     public static $rules=[
     				'quota' => 'required|numeric',
-    				'c_pref1' => 'required|numeric',
-    				'c_pref2' => 'required|numeric',
-                    'dob' => 'required|date_format:d-m-Y',
+    				'c_pref1' => 'required|exists:centres,centre_code',
+    				'c_pref2' => 'required|exists:centres,centre_code',
+            'dob' => 'required|date_format:d-m-Y',
     				'nerist_stud' => 'required',
     				'admission_in' => 'required|numeric',
     				'reservation_code' => 'required|numeric'
-    				];
+    ];
 }
