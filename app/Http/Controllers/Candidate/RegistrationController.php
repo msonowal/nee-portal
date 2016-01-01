@@ -96,6 +96,7 @@ class RegistrationController extends Controller
     public function saveStep1(Request $request)
     {
 
+
         $validator = Validator::make($data =$request->all(), Step1::$rules);
 
         if ($validator->fails())

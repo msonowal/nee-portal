@@ -14,11 +14,11 @@ class CreateCentreCapacitiesTable extends Migration
     {
         Schema::create('centre_capacities', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('centre_id')->unsigned();
+            $table->integer('centre_code')->unsigned();
             $table->string('centre_location', 55);
             $table->integer('centre_capacity', false, false)->default(0);
             $table->timestamps();
-            $table->foreign('centre_id')->references('id')->on('centres');
+            $table->foreign('centre_code')->references('centre_code')->on('centres');
         });
     }
 

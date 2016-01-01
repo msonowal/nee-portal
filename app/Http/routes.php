@@ -23,8 +23,8 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
         Route::get('/dashboard', ['as' => 'candidate.application.dashboard', 'uses' =>'CandidateController@dashboard']);
         Route::post('/proceed', ['as' => 'candidate.proceed', 'uses' =>'CandidateController@proceed']);
         Route::get('/application/step', ['as' => 'candidate.application.step', 'uses' =>'RegistrationController@getStep']);
-        Route::get('reservation_code', ['as' =>'reservation_code.by.quota', 'uses'=> 'RestController@getReservationCode']);
-        Route::get('distrist_list', ['as' =>'district.by.state', 'uses'=> 'RestController@getDistrictList']);
+        Route::get('/reservation_code', ['as' =>'reservation_code.by.quota', 'uses'=> 'RestController@getReservationCode']);
+        Route::get('/distrist_list', ['as' =>'district.by.state', 'uses'=> 'RestController@getDistrictList']);
         Route::get('/application/step1', ['as' => 'candidate.application.step1', 'uses' =>'RegistrationController@showStep1']);
         Route::post('/application/step1', ['as' => 'candidate.application.step1', 'uses' =>'RegistrationController@saveStep1']);
         Route::get('/application/step2', ['as' => 'candidate.application.step2', 'uses' =>'RegistrationController@showStep2']);

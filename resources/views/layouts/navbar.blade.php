@@ -1,6 +1,6 @@
 	<nav>
-	    <div class="nav-wrapper blue darken-1">
-	      <a href="#!" class="brand-logo" style="padding-left:10px;">NEE Portal {!! $year=Date('Y') !!}</a>
+	    <div class="nav-wrapper  blue-grey darken-1">
+	      <a href="javascript:void(0)" class="brand-logo" style="padding-left:10px;">NEE Portal {!! $year=Date('Y') !!}</a>
 	      	<a href="#" data-activates="mobile-demo" class="button-collapse">
 	      	<i class="material-icons">menu</i></a>
 	      	<ul class="right hide-on-med-and-down">
@@ -17,5 +17,3 @@
 	      	</ul>
 	    </div>
   	</nav>
-
-    
