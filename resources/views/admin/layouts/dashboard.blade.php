@@ -179,10 +179,10 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li >
-                            <a href="#"><i class="fa fa-dollar fa-fw"></i> CHALLAN PAYMENT <span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-dollar fa-fw"></i> CHALLAN<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('panels') }}"> CHALLAN LIST </a>
+                                    <a href="{{ route('admin.challan.index') }}"> IMPORT CHALLAN </a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

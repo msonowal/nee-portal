@@ -76,4 +76,9 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::resource('/alliedbranch', 'AlliedBranchController', ['except' => ['show']]);
 
      });
+
+     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
+        Route::get('/challan', ['as' => 'admin.challan.index', 'uses' =>'AdminController@challan']);
+        Route::post('/challan/import', ['as' => 'admin.challan.import', 'uses' =>'AdminController@importChallan']);
+     });
 });
