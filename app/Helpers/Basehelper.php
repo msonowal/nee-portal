@@ -113,6 +113,21 @@ class Basehelper{
         return $return = ExamDetail::where('id', $id)->pluck($return);
     }
 
+    public static function getCategory($id, $return = 'category_name')
+    {
+        return $return = Reservation::where('reservation_code', $id)->pluck($return);
+    }
+
+    public static function getNormalPrice($id, $return = 'n_price')
+    {
+        return $return = Exam::where('id', $id)->pluck($return);
+    }
+
+     public static function getOtherPrice($id, $return = 'scst_price')
+    {
+        return $return = Exam::where('id', $id)->pluck($return);
+    }
+
 
 
     public static function getFormNo($id)
