@@ -252,7 +252,7 @@
        		<div class="border-3" align="center"><h2>NERIST</h2></div>
          		<div class="border-3" align="center"><h3>Nirjuli, Arunachal Pradesh</h3></div>
           		<div align="right">Date: {{ $date=Date('d-m-Y') }}</div>
-          		<div align="left">Transaction Reference No.NEE-006058</div>
+          		<div align="left">Transaction Reference No.NEE-{{ $candidate_info->form_no }}</div>
              	<div>(To be filled by Bank Officials)</div>
           	  <div class="box"><img src="{{ asset('images/challan_2ndcopy.jpg') }}" class="image">
           		<div class="box-1">

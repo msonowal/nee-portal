@@ -45,6 +45,8 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
         Route::post('/application/challan', ['as' => 'candidate.application.challan', 'uses' =>'RegistrationController@challanDetail']);
         Route::get('/application/challan_format', ['as' => 'candidate.application.challan_format', 'uses' =>'RegistrationController@challanCopy']);
         Route::get('/error', ['as' => 'candidate.error', 'uses' =>'RegistrationController@showError']);
+        Route::get('/application/completed', ['as' => 'candidate.application.completed', 'uses' =>'RegistrationController@completed']);
+        Route::get('/application/e_application', ['as' => 'candidate.application.e_application', 'uses' =>'RegistrationController@e_application']);
     });
 });
 
@@ -79,6 +81,6 @@ Route::group(['middleware'=>['auth.admin']], function() {
 
      Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
         Route::get('/challan', ['as' => 'admin.challan.index', 'uses' =>'AdminController@challan']);
-        Route::post('/challan/import', ['as' => 'admin.challan.import', 'uses' =>'AdminController@importChallan']);
+        Route::post('/challan/import', ['as' => 'admin.challan.import', 'uses' =>'ExcelController@challanImport']);
      });
 });

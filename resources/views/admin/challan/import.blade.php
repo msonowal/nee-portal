@@ -20,29 +20,18 @@
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
-					<th>SL No</th>	
+					<th with="10%">SL No</th>	
 					<th>Transaction ID</th>
 					<th>Transaction Date</th>
-					<th width="10%">ACTIONS</th>
 				</tr>
 			</thead>
 			<tbody>
 			<?php $i=($paginator-1)*($result->perPage())+1; ?>
 			@foreach($result as $res)
 				<tr>
-					<td>{{ $i }}</td>
-					<td>{{ $res->transaction_id }}</td>
-					<td>{{ $res->transaction_date }}</td>
-					<td>
-						<a href="{!! URL::Route('admin.masterentry.exam.edit', array($res->id)) !!}", class="btn btn-info btn-md pull-left">
-							<i class="fa fa-edit"></i>
-						</a>
-                        {!! Form::open(array('method'=>'DELETE', 'route'=>array('admin.masterentry.exam.destroy', $res->id))) !!}
-                            <button type="submit" class="btn btn-danger btn-md pull-right">
-                      				<i class="fa fa-trash"></i>
-                  			</button>
-                        {!! Form::close() !!}
-					</td>
+					<td align="center">{{ $i }}</td>
+					<td align="center">{{ $res->transaction_id }}</td>
+					<td align="center">{{ $res->transaction_date }}</td>
 				</tr>
 				<?php $i=$i+1; ?>
 			@endforeach	

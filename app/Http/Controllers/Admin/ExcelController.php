@@ -7,45 +7,25 @@ use Illuminate\Http\Request;
 use nee_portal\Http\Requests;
 use nee_portal\Http\Controllers\Controller;
 use nee_portal\Models\ChallanInfo;
-use Session, URL, Validator;
+use Session, URL, Validator, Carbon\Carbon, File;
+use Maatwebsite\Excel\Facades\Excel;
 
-class AdminController extends Controller
+
+class ExcelController extends Controller
 {
-    private $content='admin.';
-
-    public function challan()
-    {
-        $result=ChallanInfo::paginate();
-
-        $paginator=0;
-
-        $paginator=$result->currentPage();
-
-        Session::put('url', URL::full());
-
-        return view($this->content.'challan.import', compact('result', 'paginator'));
-    }
-
-    public function importChallan(Request $request){
+    public function challanImport(Request $request){
 
 
-    	if(!$request->hasFile('challan')){
-    		return back()->with('message', 'Please upload a file');
-    	}
-
-        $filename=$request->challan->getClientOriginalName();
-
-        $destination_path= storage_path().'/challan/'; 
-
-        $path=$destination_path.$filename;
-
-        if(File::exists($request->challan)){
-            echo 'file exist';
+        if(!$request->hasFile('challan')){
+            return back()->with('message', 'Please upload a file');
         }
 
-    	$request->challan->move($destination_path, $filename);
+        $filename=$request->challan->getClientOriginalName();
+        $destination_path= storage_path().'/challan/';
+        $path=$destination_path.$filename;
+        $request->challan->move($destination_path, $filename);
 
-    	Excel::selectSheets('RECO')->load($path, function($reader){
+        Excel::selectSheets('RECO')->load($path, function($reader){
 
             $results= $reader->toArray();
 
@@ -58,7 +38,6 @@ class AdminController extends Controller
                 if($challan_info->transaction_id !=null && $date!=null){
                     
                     $challan_info->transaction_date = Carbon::createFromFormat('d-m-Y', $date)->toDateTimeString();
-                    
                     $data=ChallanInfo::where('transaction_id', $challan_info->transaction_id)->first();
 
                     $challan_info->save();   
@@ -66,10 +45,9 @@ class AdminController extends Controller
                 
             }
 
-		});
+        });
 
         return back()->with('message', 'File upload successfully!');
 
     }
-
 }

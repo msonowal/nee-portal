@@ -25,8 +25,6 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#">{{ Auth::admin()->get()->fullname }}</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> PROFILE</a>
-                        </li>
                         <li class="divider"></li>
                         <li><a href="{{ url ('admin/logout') }}"><i class="fa fa-sign-out fa-fw"></i> LOGOUT</a>
                         </li>
@@ -182,7 +180,7 @@
                             <a href="#"><i class="fa fa-dollar fa-fw"></i> CHALLAN<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.challan.index') }}"> IMPORT CHALLAN </a>
+                                    <a href="{{ route('admin.challan.index') }}"> CHALLAN LIST </a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

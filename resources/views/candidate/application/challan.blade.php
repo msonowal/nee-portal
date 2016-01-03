@@ -26,7 +26,7 @@
           <label for="transaction_date">Date of Transaction</label>
         </div>        
         <div class="input-field col m12">
-        <button class="btn waves-effect waves-light blue" style="float: right;" type="submit" name="action">Submit
+        <button class="btn waves-effect waves-light blue" style="float: right;" type="submit">Submit
             <i class="material-icons right"> send </i>
         </button>
         

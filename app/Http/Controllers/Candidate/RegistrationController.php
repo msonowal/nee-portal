@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use nee_portal\Http\Requests;
 use nee_portal\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Validator, Basehelper, DB;
+use Validator, Basehelper, DB, Carbon\Carbon;
 use nee_portal\Models\Step1;
 use nee_portal\Models\Step2;
 use nee_portal\Models\Step3;
@@ -61,6 +61,11 @@ class RegistrationController extends Controller
         else if($reg_status=="payment_pending"){
 
                 return redirect()->route($this->content.'payment_options');
+
+        }
+        else if($reg_status=="completed"){
+
+                return redirect()->route($this->content.'completed');
 
         }
     }
@@ -510,7 +515,7 @@ class RegistrationController extends Controller
             $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
         }catch(ModelNotFoundException $e){
 
-            return redirect()->route('candidate.error')->withErrors('message', 'Record not found!');
+            return redirect()->route('candidate.error')->withErrors('Record not found!');
         }
 
         if($candidate_info->reg_status=="payment_pending"){
@@ -534,7 +539,7 @@ class RegistrationController extends Controller
             $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
         }catch(ModelNotFoundException $e){
 
-            return redirect()->route('candidate.error')->withErrors('message', 'Record not found!');
+            return redirect()->route('candidate.error')->withErrors('Record not found!');
         }
 
         if($candidate_info->reg_status=="payment_pending"){
@@ -575,7 +580,7 @@ class RegistrationController extends Controller
             $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
         }catch(ModelNotFoundException $e){
 
-            return redirect()->route('candidate.error')->withErrors('message', 'Record not found!');
+            return redirect()->route('candidate.error')->withErrors('Record not found!');
         }
 
         if($candidate_info->reg_status=="payment_pending"){
@@ -601,7 +606,7 @@ class RegistrationController extends Controller
             $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
         }catch(ModelNotFoundException $e){
 
-            return redirect()->route('candidate.error')->withErrors('message', 'Record not found!');
+            return redirect()->route('candidate.error')->withErrors('Record not found!');
         }
 
         if($candidate_info->reg_status=="payment_pending"){
@@ -638,8 +643,24 @@ class RegistrationController extends Controller
                 return back()->withErrors($validator)->withInput();
             }  
 
-            dd($data);     
+            $transaction_id=$data['transaction_id'];
+            $date=$data['transaction_date'];
+            $date=Carbon::createFromFormat('d-m-Y', $date);
+            $transaction_date=$date->format('Y-m-d');
 
+            $challan_info=ChallanInfo::where('transaction_id', $transaction_id)->where('transaction_date', $transaction_date)->first();
+
+            if(count($challan_info)){
+
+                $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
+                $candidate_info->reg_status='completed';
+
+                $candidate_info->save();
+
+                return $this->getStep();
+            }
+
+            return redirect()->route($this->content.'challan')->withErrors('Dear Candidate the Transaction ID and Transaction Date provided by you does not match!');
     }
 
     public function showError(){
@@ -648,6 +669,34 @@ class RegistrationController extends Controller
             return redirect()->route($this->content.'dashboard');
 
         return view($this->content.'error');
+    }
+
+    public function completed(){
+
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
+        $step2=Step2::where('candidate_info_id', $this->info_id)->first();
+        $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
+        $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
+
+        return view($this->content.'completed', compact('step2', 'candidate_info'));
+
+    }
+
+    public function e_application(){
+
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
+        $step1=Step1::where('candidate_info_id', $this->info_id)->first();
+        $step2=Step2::where('candidate_info_id', $this->info_id)->first();
+        $step3=Step3::where('candidate_info_id', $this->info_id)->first();
+        $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
+        
+        $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
+
+        return view($this->content.'e_application');
     }
 
 }

@@ -14,11 +14,11 @@ class CreateChallanInfoTable extends Migration
     {
         Schema::create('challan_info', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('candidate_info_id', false)->unsigned()->unique()->default(Null);
+            //$table->integer('candidate_info_id', false)->unsigned()->unique()->default(Null);
             $table->string('transaction_id');
             $table->date('transaction_date');
             $table->timestamps();
-            $table->foreign('candidate_info_id')->references('id')->on('candidate_info');
+            //$table->foreign('candidate_info_id')->references('id')->on('candidate_info');
         });
     }
 
