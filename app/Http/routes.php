@@ -43,7 +43,7 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
         Route::post('/application/payment', ['as' => 'candidate.application.payment_options', 'uses' =>'RegistrationController@paymentProceed']);
         Route::get('/application/challan', ['as' => 'candidate.application.challan', 'uses' =>'RegistrationController@challan']);
         Route::post('/application/challan', ['as' => 'candidate.application.challan', 'uses' =>'RegistrationController@challanDetail']);
-        Route::get('/application/challan_format', ['as' => 'candidate.application.challan_format', 'uses' =>'RegistrationController@challanCopy']);
+        Route::get('/application/challan_copy', ['as' => 'candidate.application.challan_copy', 'uses' =>'RegistrationController@challanCopy']);
         Route::get('/error', ['as' => 'candidate.error', 'uses' =>'RegistrationController@showError']);
         Route::get('/application/completed', ['as' => 'candidate.application.completed', 'uses' =>'RegistrationController@completed']);
         Route::get('/application/e_application', ['as' => 'candidate.application.e_application', 'uses' =>'RegistrationController@e_application']);

@@ -6,7 +6,7 @@
       <div class="row">
         <div class="col s12">
           <div class="input-field col m12">
-            <a target="_blank" href="{!! route('candidate.application.challan_format') !!}"><h5><u>Click here to view/print challan copy</u></a>
+            <a target="_blank" href="{!! route('candidate.application.challan_copy') !!}"><h5><u>Click here to view/print challan copy</u></a>
           </div>
         </div>
       </div>
