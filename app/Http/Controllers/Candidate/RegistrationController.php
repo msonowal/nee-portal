@@ -692,11 +692,22 @@ class RegistrationController extends Controller
         $step1=Step1::where('candidate_info_id', $this->info_id)->first();
         $step2=Step2::where('candidate_info_id', $this->info_id)->first();
         $step3=Step3::where('candidate_info_id', $this->info_id)->first();
+        $candidate=Candidate::where('id', Auth::candidate()->get()->id)->first();
         $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
-        
-        $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
 
-        return view($this->content.'e_application');
+        $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
+        $step1->category= Basehelper::getCategory($step1->reservation_code);
+        $step1->quota= Basehelper::getQuota($step1->quota);
+        $candidate_info->q_id=Basehelper::getQualification($candidate_info->q_id);
+        $step1->admission_in= Basehelper::getAdmissionIn($step1->admission_in);
+        $step2->state= Basehelper::getState($step2->state);
+        $step2->district= Basehelper::getDistrict($step2->district);
+        $step1->branch= Basehelper::getBranch($step1->branch);
+        $step1->allied_branch= Basehelper::getAlliedBranch($step1->allied_branch);
+        $step1->c_pref1= Basehelper::getCentre($step1->c_pref1);
+        $step1->c_pref2= Basehelper::getCentre($step1->c_pref2);
+
+        return view($this->content.'e_application', compact('step1', 'step2', 'step3', 'candidate', 'candidate_info'));
     }
 
 }

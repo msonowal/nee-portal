@@ -128,8 +128,6 @@ class Basehelper{
         return $return = Exam::where('id', $id)->pluck($return);
     }
 
-
-
     public static function getFormNo($id)
     {
         $prefix = '';
