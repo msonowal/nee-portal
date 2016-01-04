@@ -44,13 +44,13 @@
 				if($('#photo').val()==''){
 					e.preventDefault();
 					var $msg = $('<span>You must upload your photo.</span>');
-  					Materialize.toast($msg, 5000, 'rounded');
+  					Materialize.toast($msg, 5000);
 				}
 
 				if($('#signature').val()==''){
 					e.preventDefault();
 					var $msg = $('<span>You must upload your signature.</span>');
-  					Materialize.toast($msg, 5000, 'rounded');
+  					Materialize.toast($msg, 5000);
 				}
 			});
 </script>
