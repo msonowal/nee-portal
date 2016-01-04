@@ -203,6 +203,7 @@ return [
         'FormBuilder'=> 'Kris\LaravelFormBuilder\Facades\FormBuilder',
         'Excel'     => 'Maatwebsite\Excel\Facades\Excel',
         'Basehelper'=> nee_portal\Helpers\Basehelper::class,
+        'ValidationRules'=> nee_portal\Helpers\ValidationRules::class,
 
     ],
 

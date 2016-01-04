@@ -12,19 +12,25 @@ class Step2 extends Model
 
     protected $guarded= ['id'];
 
-    public static $rules=[
-    					'name' => 'required',
-    					'father_name' => 'required',
-    					'guardian_name' => 'required',
-    					'gender' =>'required',
-    					'nationality' => 'required',
-    					'emp_status' => 'required',
-    					'relationship' => 'required',
-    					'state' => 'required|numeric',
-    					'district' => 'required',
-    					'po' => 'required',
-    					'pin' => 'required|digits:6|numeric',
-    					'village' => 'required|max:100',
-    					'address_line' => 'required|max:100'
-    					];
+    protected function setNameAttribute($value){
+        $this->attributes['name'] = Str::upper($value);
+    }
+
+    protected function setFatherNameAttribute($value){
+        $this->attributes['father_name'] = Str::upper($value);
+    }
+
+    protected function setGuardianNameAttribute($value){
+        $this->attributes['guardian_name'] = Str::upper($value);
+    }
+
+    protected function setPoAttribute($value){
+        $this->attributes['po'] = Str::upper($value);
+    }
+    protected function setVillageAttribute($value){
+        $this->attributes['village'] = Str::upper($value);
+    }
+
+
+
 }

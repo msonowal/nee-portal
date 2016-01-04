@@ -13,8 +13,8 @@ class Step3 extends Model
     protected $guarded= ['id'];
 
     public static $rules=[
-    					'photo' => 'required|mimes:jpeg,jpg,png|min:1|max:400',
-    					'signature' => 'required|mimes:jpeg,jpg,png|min:1|max:200',
+    					'photo' => 'required|mimes:jpeg,jpg,png|min:1|max:40',
+    					'signature' => 'required|mimes:jpeg,jpg,png|min:1|max:20',
     					];
 
 
@@ -42,5 +42,5 @@ class Step3 extends Model
 	    }
 
 	    return 'images/missing.jpg';
-	}					
+	}
 }

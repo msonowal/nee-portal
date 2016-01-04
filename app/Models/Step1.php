@@ -12,15 +12,13 @@ class Step1 extends Model
 
     protected $guarded= ['id'];
 
-    public static $rules=[
-    				'quota' => 'required|numeric',
-    				'c_pref1' => 'required|exists:centres,centre_code',
-    				'c_pref2' => 'required|exists:centres,centre_code',
-                    'dob' => 'required|date_format:d-m-Y',
-    				'nerist_stud' => 'required',
-    				'admission_in' => 'required|numeric',
-    				'reservation_code' => 'required|numeric'
-    ];
+    protected function setDobAttribute($value) {
+        $this->attributes['dob'] = date('Y-m-d', strtotime($value));
+    }
 
-    
+    protected function getDobAttribute($value) {
+      return $this->attributes['dob'] = date('d-m-Y', strtotime($value) );
+    }
+
+
 }

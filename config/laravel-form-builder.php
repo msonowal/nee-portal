@@ -4,13 +4,14 @@ return [
     'defaults'      => [
         //'wrapper_class'       => 'form-group',
         'wrapper_class'       => 'input-field',
-        'wrapper_error_class' => 'has-error',
+        'wrapper_error_class' => 'invalid',
         //'label_class'         => 'control-label',
         'label_class'         => '',
         //'field_class'         => 'form-control',
         'field_class'         => 'validate',
         'help_block_class'    => 'help-block',
-        'error_class'         => 'text-danger',
+        'error_class'         => 'field-error',
+        //'error_class'         => 'text-danger',
         'required_class'      => 'required'
     ],
     // Templates
@@ -29,7 +30,7 @@ return [
 
     // Remove the laravel-form-builder:: prefix above when using template_prefix
     'template_prefix'   => '',
-    
+
     'default_namespace' => '',
 
     'custom_fields' => [

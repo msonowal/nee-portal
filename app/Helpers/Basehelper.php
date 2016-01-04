@@ -41,6 +41,15 @@ class Basehelper{
       }
     }
 
+    public static function getBranchFieldStatus($qualification_id, $exam_id)
+    {
+      if ($exam_id == 3) {
+        return true;
+      }else {
+        return false;
+      }
+    }
+
 	public static function getExamDetails($qualification_id, $exam_id)
 	{
 			$id = ExamQualification::where('q_id', $qualification_id)->where('exam_id', $exam_id)->first()->id;
@@ -64,7 +73,7 @@ class Basehelper{
 
 	public static function getCentre($id, $return = 'centre_name')
     {
-        return $return = Centre::where('id', $id)->pluck($return);
+        return $return = Centre::where('centre_code', $id)->pluck($return);
     }
 
     public static function getQuota($id, $return = 'name')

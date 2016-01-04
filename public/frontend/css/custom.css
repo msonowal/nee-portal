@@ -17,3 +17,5 @@ nav .dropdown-content li:hover{
   background-color: #0089ec;
 }
 nav ul li.active{ background-color: #30454E;}
+
+.field-error{ color: #F44336; margin-top: -10px}

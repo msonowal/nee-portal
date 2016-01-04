@@ -10,7 +10,7 @@
 							{!! form_until($form, 'reservation_code') !!}
 
 							<div class="col m12">
-							{!! form_row($form->save) !!}
+							{!! form_row($form->update) !!}
 							</div>
 
 		        </div>

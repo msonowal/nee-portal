@@ -72,19 +72,22 @@ class Step1 extends Form
   	      ]);
         }
 
-	      $this->add('branch', 'select', [
-          'choices' => Branch::lists('branch_name', 'id')->all(),
-          'empty_value' => 'Select branch',
-	        'attr' => ['required'],
-          'wrapper'=>['class'=>'input-field col m6']
-	      ]);
+        if($this->getData('branch_status')){
 
-	      $this->add('allied_branch', 'select', [
-           	'choices' => AlliedBranch::lists('allied_branch', 'id')->all(),
-           	'empty_value' => 'Select Branch Subject',
-	          'attr' => ['required'],
-            'wrapper'=>['class'=>'input-field col m6']
-	      ]);
+    	      $this->add('branch', 'select', [
+              'choices' => Branch::lists('branch_name', 'id')->all(),
+              'empty_value' => 'Select branch',
+    	        'attr' => ['required'],
+              'wrapper'=>['class'=>'input-field col m6']
+    	      ]);
+
+    	      $this->add('allied_branch', 'select', [
+               	'choices' => AlliedBranch::lists('allied_branch', 'id')->all(),
+               	'empty_value' => 'Select Branch Subject',
+    	          'attr' => ['required'],
+                'wrapper'=>['class'=>'input-field col m6']
+    	      ]);
+        }
 
 	      $this->add('reservation_code', 'select', [
            	'choices' => ['' => 'Select Reservation Code'],
@@ -100,7 +103,6 @@ class Step1 extends Form
 	      $this->add('update', 'submit', [
 	          'attr' => ['class'=>'btn btn-md btn-success col-md-12'],
 	      ]);
-
 
     }
 }

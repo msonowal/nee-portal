@@ -7,12 +7,11 @@ use Illuminate\Http\Request;
 use nee_portal\Http\Requests;
 use nee_portal\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Validator, Basehelper, DB, Carbon\Carbon;
+use Validator, Basehelper, DB, ValidationRules, Session, Auth, Storage, Log, Carbon\Carbon;
 use nee_portal\Models\Step1;
 use nee_portal\Models\Step2;
 use nee_portal\Models\Step3;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Session, Auth, Storage, Log;
 use nee_portal\Models\CandidateInfo;
 use nee_portal\Models\Candidate;
 use nee_portal\Models\ChallanInfo;
@@ -77,7 +76,7 @@ class RegistrationController extends Controller
 
         $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
         $info = CandidateInfo::find($this->info_id);
-        Log::info('asdasd');
+        //Log::info('showstep1');
 
         if(count($step1)==0){
 
@@ -87,6 +86,7 @@ class RegistrationController extends Controller
               'data'   => [
 			            'eligible_for' => Basehelper::getExamDetails($info->q_id, $info->exam_id),
                   'voc_subject'  => Basehelper::getVocationalSubject($info->q_id, $info->exam_id),
+                  'branch_status'  => Basehelper::getBranchFieldStatus($info->q_id, $info->exam_id),
               ]
             ])->remove('update');
 
@@ -97,6 +97,35 @@ class RegistrationController extends Controller
             return $this->getStep();
         }
 
+
+    }
+
+    public function editStep1(){
+
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
+        try {
+
+            $info = CandidateInfo::find($this->info_id);
+            $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
+
+        }catch(ModelNotFoundException $e) {
+            return $this->getStep();
+        }
+
+        $form = $this->formBuilder->create('nee_portal\Forms\Step1',[
+          'method' =>'POST',
+          'url'    => route($this->content.'editstep1'),
+          'data'   => [
+              'eligible_for' => Basehelper::getExamDetails($info->q_id, $info->exam_id),
+              'voc_subject'  => Basehelper::getVocationalSubject($info->q_id, $info->exam_id),
+              'branch_status'  => Basehelper::getBranchFieldStatus($info->q_id, $info->exam_id),
+          ],
+          'model' => $step1,
+        ])->remove('save');
+
+        return view($this->content.'step1_edit', compact('form', 'step1'));
 
     }
 
@@ -159,7 +188,7 @@ class RegistrationController extends Controller
 
     public function saveStep2(Request $request)
     {
-        $validator = Validator::make($data =$request->all(), Step2::$rules);
+        $validator = Validator::make($data =$request->all(), ValidationRules::step2_save());
 
         if ($validator->fails())
         {
@@ -291,32 +320,6 @@ class RegistrationController extends Controller
         $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
 
         return view($this->content.'final', compact('step1', 'step2', 'step3', 'candidate_info'));
-    }
-
-    public function editStep1(){
-
-        if(!Basehelper::checkSession())
-            return redirect()->route($this->content.'dashboard');
-
-        try {
-
-            $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
-
-        }catch(ModelNotFoundException $e) {
-
-            return $this->getStep();
-        }
-
-        $info = CandidateInfo::find($this->info_id);
-
-        $form = $this->formBuilder->create('nee_portal\Forms\Step1',[
-          'method' =>'POST','url'    => route($this->content.'editstep1'),
-          'model' => $step1,
-          'eligible_for' => Basehelper::getExamDetails($info->q_id, $info->exam_id),
-        ])->remove('save');
-
-        return view($this->content.'step1_edit', compact('form', 'step1'));
-
     }
 
     public function updateStep1(Request $request){
@@ -624,7 +627,7 @@ class RegistrationController extends Controller
                 $candidate_info->exam_id= Basehelper::getOtherPrice($candidate_info->exam_id);
                 $candidate_info->exam_id=($candidate_info->exam_id + 35.00);
             }
-            
+
 
             return view($this->content.'challan_format', compact('step1', 'step2', 'candidate', 'candidate_info', ''));
 
@@ -641,7 +644,7 @@ class RegistrationController extends Controller
 
             if($validator->fails()){
                 return back()->withErrors($validator)->withInput();
-            }  
+            }
 
             $transaction_id=$data['transaction_id'];
             $date=$data['transaction_date'];
@@ -682,7 +685,7 @@ class RegistrationController extends Controller
             $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
             $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
         }catch(ModelNotFoundException $e){
-            
+
             return redirect()->route('candidate.error')->withErrors('Record not found!');
         }
 
@@ -710,7 +713,7 @@ class RegistrationController extends Controller
         }catch(ModelNotFoundException $e){
             return redirect()->route('candidate.error')->withErrors('Record not found!');
         }
-        
+
         if($candidate_info->reg_status == "completed"){
 
             $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
@@ -728,7 +731,7 @@ class RegistrationController extends Controller
             return view($this->content.'e_application', compact('step1', 'step2', 'step3', 'candidate', 'candidate_info'));
 
         }
-        
+
         return $this->getStep();
     }
 
