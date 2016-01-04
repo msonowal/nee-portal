@@ -29,6 +29,6 @@ class CreateStep3Table extends Migration
      */
     public function down()
     {
-        Schema::drop('step3');
+        Schema::dropIfExists('step3');
     }
 }

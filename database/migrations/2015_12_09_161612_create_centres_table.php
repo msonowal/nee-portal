@@ -31,6 +31,6 @@ class CreateCentresTable extends Migration
      */
     public function down()
     {
-        Schema::drop('centres');
+        Schema::dropIfExists('centres');
     }
 }

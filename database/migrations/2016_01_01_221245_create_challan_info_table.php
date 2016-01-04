@@ -29,6 +29,6 @@ class CreateChallanInfoTable extends Migration
      */
     public function down()
     {
-        Schema::drop('challan_info');
+        Schema::dropIfExists('challan_info');
     }
 }

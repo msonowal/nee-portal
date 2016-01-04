@@ -16,15 +16,18 @@ Route::post('/candidate/otp/resend', ['as' => 'candidate.otp.resend', 'uses' => 
 
 Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
     Route::group(['middleware'=>['auth.candidate']], function() {
+
+      Route::get('/get/exam_list', ['as' =>'exam.by.qualification', 'uses'=> 'RestController@getExamList']);
+      Route::get('/get/allied_branch', ['as' =>'allied_branch.by.branch_id', 'uses'=> 'RestController@getAlliedBranch']);
+      Route::get('/get/distrist_list', ['as' =>'district.by.state', 'uses'=> 'RestController@getDistrictList']);
+      Route::get('/get/reservation_code/quota', ['as' =>'reservation_code.by.quota', 'uses'=> 'RestController@getReservationCode']);
+      Route::get('/get/reservation_code/status', ['as' =>'reservation_code.get.status', 'uses'=> 'RestController@getReservationStatus']);
+
         Route::get('/home', ['as' => 'candidate.home', 'uses' =>'CandidateController@home']);
         Route::post('/home', ['as' => 'candidate.home', 'uses' =>'CandidateController@storeExam']);
-        Route::get('/exam_list', ['as' =>'exam.by.qualification', 'uses'=> 'RestController@getExamList']);
-        Route::get('/get/allied_branch', ['as' =>'allied_branch.by.branch_id', 'uses'=> 'RestController@getAlliedBranch']);
         Route::get('/dashboard', ['as' => 'candidate.application.dashboard', 'uses' =>'CandidateController@dashboard']);
         Route::post('/proceed', ['as' => 'candidate.proceed', 'uses' =>'CandidateController@proceed']);
         Route::get('/application/step', ['as' => 'candidate.application.step', 'uses' =>'RegistrationController@getStep']);
-        Route::get('/reservation_code', ['as' =>'reservation_code.by.quota', 'uses'=> 'RestController@getReservationCode']);
-        Route::get('/distrist_list', ['as' =>'district.by.state', 'uses'=> 'RestController@getDistrictList']);
         Route::get('/application/step1', ['as' => 'candidate.application.step1', 'uses' =>'RegistrationController@showStep1']);
         Route::post('/application/step1', ['as' => 'candidate.application.step1', 'uses' =>'RegistrationController@saveStep1']);
         Route::get('/application/step2', ['as' => 'candidate.application.step2', 'uses' =>'RegistrationController@showStep2']);

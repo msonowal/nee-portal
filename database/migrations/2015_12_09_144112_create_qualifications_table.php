@@ -26,6 +26,6 @@ class CreateQualificationsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('qualifications');
+        Schema::dropIfExists('qualifications');
     }
 }

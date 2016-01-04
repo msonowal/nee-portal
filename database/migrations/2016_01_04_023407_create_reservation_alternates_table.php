@@ -28,6 +28,6 @@ class CreateReservationAlternatesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('reservation_alternates');
+        Schema::dropIfExists('reservation_alternates');
     }
 }

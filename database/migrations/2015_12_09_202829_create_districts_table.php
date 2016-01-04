@@ -27,6 +27,6 @@ class CreateDistrictsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('districts');
+        Schema::dropIfExists('districts');
     }
 }

@@ -13,12 +13,14 @@ class CreateVocationalSubjectsTable extends Migration
     public function up()
     {
         Schema::create('vocational_subjects', function (Blueprint $table) {
-            $table->increments('id');
+            //$table->increments('id');
+            $table->integer('paper_code', false, true);
             $table->string('name');
             //$table->integer('exam_id', false, true);
             //$table->integer('qualification_id', false, true);
-            $table->integer('paper_code', false, true);
+            //$table->integer('paper_code', false, true);
             $table->timestamps();
+            $table->primary('reservation_code');
             //$table->foreign('exam_id')->references('id')->on('exams');
             //$table->foreign('qualification_id')->references('id')->on('qualifications');
         });

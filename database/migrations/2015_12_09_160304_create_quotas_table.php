@@ -26,6 +26,6 @@ class CreateQuotasTable extends Migration
      */
     public function down()
     {
-        Schema::drop('quotas');
+        Schema::dropIfExists('quotas');
     }
 }

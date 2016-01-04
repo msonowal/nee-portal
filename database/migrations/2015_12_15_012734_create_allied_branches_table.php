@@ -28,6 +28,6 @@ class CreateAlliedBranchesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('allied_branches');
+        Schema::dropIfExists('allied_branches');
     }
 }

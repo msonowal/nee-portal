@@ -15,13 +15,13 @@ class CreateReservationStatusTable extends Migration
         Schema::create('reservation_status', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('reservation_code')->unsigned();
-            $table->integer('qualification_id')->unsigned();
+            //$table->integer('qualification_id')->unsigned();
             $table->integer('exam_id')->unsigned();
             $table->integer('examdetail_id')->unsigned();
-            $table->enum('status', ['active','inactive']);
+            //$table->enum('status', ['active','inactive']);
             $table->timestamps();
             $table->foreign('reservation_code')->references('reservation_code')->on('reservations');
-            $table->foreign('qualification_id')->references('id')->on('qualifications');
+            //$table->foreign('qualification_id')->references('id')->on('qualifications');
             $table->foreign('exam_id')->references('id')->on('exams');
             $table->foreign('examdetail_id')->references('id')->on('exam_details');
         });
@@ -34,6 +34,6 @@ class CreateReservationStatusTable extends Migration
      */
     public function down()
     {
-        Schema::drop('reservation_status');
+        Schema::dropIfExists('reservation_status');
     }
 }

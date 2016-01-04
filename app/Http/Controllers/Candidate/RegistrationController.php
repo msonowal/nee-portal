@@ -132,14 +132,10 @@ class RegistrationController extends Controller
     public function saveStep1(Request $request)
     {
 
-
-        $validator = Validator::make($data =$request->all(), Step1::$rules);
+        $validator = Validator::make($data =$request->all(), ValidationRules::step1_save());
 
         if ($validator->fails())
-        {
             return back()->withErrors($validator)->withInput();
-
-        } else {
 
         $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
 
@@ -159,9 +155,6 @@ class RegistrationController extends Controller
 
                     return $this->getStep();
             }
-
-        }
-
     }
 
     public function showStep2()

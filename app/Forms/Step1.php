@@ -9,6 +9,7 @@ use nee_portal\Models\ExamDetail;
 use nee_portal\Models\AlliedBranch;
 use nee_portal\Models\Reservation;
 use nee_portal\Models\Branch;
+use nee_portal\Models\VocationalSubject;
 
 class Step1 extends Form
 {
@@ -64,8 +65,8 @@ class Step1 extends Form
         if($this->getData('voc_subject')){
 
   	      $this->add('voc_subject', 'select', [
-             	'choices' => ['AE' =>'AE'],
-             	'empty_value' => 'Select',
+             	'choices' => VocationalSubject::lists('name', 'paper_code')->all(),
+             	'empty_value' => ' -- Choose -- ',
   	          'attr' => ['required'],
               'wrapper'=>['class'=>'input-field col m6'],
               'label' =>  'Vocational Subject'
@@ -76,13 +77,14 @@ class Step1 extends Form
 
     	      $this->add('branch', 'select', [
               'choices' => Branch::lists('branch_name', 'id')->all(),
-              'empty_value' => 'Select branch',
+              'empty_value' => ' -- Choose -- ',
     	        'attr' => ['required'],
               'wrapper'=>['class'=>'input-field col m6']
     	      ]);
 
+            //AlliedBranch::lists('allied_branch', 'id')->all()
     	      $this->add('allied_branch', 'select', [
-               	'choices' => AlliedBranch::lists('allied_branch', 'id')->all(),
+               	'choices' => [''=>' -- Select Branch first'],
                	'empty_value' => 'Select Branch Subject',
     	          'attr' => ['required'],
                 'wrapper'=>['class'=>'input-field col m6']

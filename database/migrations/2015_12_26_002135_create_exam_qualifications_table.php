@@ -29,6 +29,6 @@ class CreateExamQualificationsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('exam_qualifications');
+        Schema::dropIfExists('exam_qualifications');
     }
 }

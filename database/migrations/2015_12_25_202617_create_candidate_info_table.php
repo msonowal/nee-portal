@@ -38,6 +38,6 @@ class CreateCandidateInfoTable extends Migration
      */
     public function down()
     {
-        Schema::drop('candidate_info');
+        Schema::dropIfExists('candidate_info');
     }
 }

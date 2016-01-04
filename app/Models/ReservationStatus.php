@@ -8,16 +8,16 @@ class ReservationStatus extends Model
 {
     protected $table= 'reservation_status';
 
-    protected $fillable= ['reservation_id', 'qualification_id', 'exam_id', 'examdetail_id', 'status'];
+    protected $fillable= ['reservation_code', 'exam_id', 'examdetail_id'];
 
     protected $guarded= ['id'];
 
     public static $rules=[
-    					  'reservation_id' => 'required|numeric',
-                          'exam_id' => 'required|numeric',
-                          'qualification_id' => 'required|numeric',
-                          'examdetail_id' => 'required|numeric',
-                          'status' => 'required'
+    					  'reservation_code' => 'required|numeric',
+                'exam_id' => 'required|numeric',
+                //'qualification_id' => 'required|numeric',
+                'examdetail_id' => 'required|numeric',
+                //'status' => 'required'
     					 ];
-    					 
+
 }

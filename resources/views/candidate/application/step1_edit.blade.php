@@ -62,6 +62,33 @@ var reservation_status = true;
             $reservation_code.empty();
     }
 
+		function getReservationStatus(code) {
+			//reservation_code
+			var url = '{!! route('reservation_code.get.status') !!}';
+
+			if(code!=''){
+					$.ajax({ url: url, type: 'GET', data: { reservation_code: code } }).done(function( msg ) {
+
+						if(msg.status == 'inactive'){
+							Materialize.toast('No seats available for code: '+code+ ' <br/>Please select alternative codes', 10000)
+							$reservation_code.empty();
+							$reservation_code.empty().html('');
+								var list = '<table class="bordered"><tr><th style="width:145px;">Quota</th><th style="width:137px;">Reservation Code</th><th>Description</th></tr>';
+								$("<option>").val('').text(' -- Select Alternate Reservation Code -- ').appendTo($reservation_code);
+								$.each(msg.alt_codes, function(key, value) {
+										$("<option>").val(value.reservation_code).text(value.reservation_code).appendTo($reservation_code);
+										list += "<tr><td>" + value.quota.name + '</td><td>' + value.reservation_code +'</td><td>' + value.description + '</td></tr>';
+								});
+
+								$('#reservation_list').html(list);
+								$reservation_code.material_select('update');
+								$reservation_code.closest('.input-field').children('span.caret').remove();
+								return true;
+						}
+					});
+			}
+		}
+
 		function getAlliedBranch(branchElement, alliedBranchElement){
         var url = '{!! route('allied_branch.by.branch_id') !!}';
         var branch_id = $(branchElement).val();
@@ -89,6 +116,6 @@ var reservation_status = true;
 @section('page_script')
     $('#quota').change(function(e){ getReservationCode(this, $('#reservation_code')); });
 		$('#branch_id').change(function(e){ getAlliedBranch(this, $('#allied_branch_id')); });
-
+		$('#reservation_code').change(function(e) { getReservationStatus($('#reservation_code').val()); });
 		$('#quota').trigger('change');
 @stop

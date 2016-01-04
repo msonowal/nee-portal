@@ -29,6 +29,6 @@ class CreateCentreCapacitiesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('centre_capacities');
+        Schema::dropIfExists('centre_capacities');
     }
 }
