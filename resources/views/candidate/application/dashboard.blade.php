@@ -19,14 +19,14 @@
 	    	<ul id="exams">
 		    	@foreach($exams as $e)
 		    		<li>
-            	<a class="collection-item active tooltipped modal-trigger proceed" data-position="bottom" data-delay="50" data-tooltip="Click here to continue Online Application Process" href="#modal1" data-id="{!! $e->id !!}" data-name="{!! $e->exam_name !!}">
-            		{!! $e->exam_name !!} --> {!! $e->description !!}
+            	<a class="collection-item active tooltipped modal-trigger proceed" data-position="bottom" data-delay="50" data-tooltip="Click here to continue Online Application Process" href="#modal1" data-id="{{ $e->id }}" data-name="{{ $e->exam_name }}">
+            		{{ $e->exam_name }} --> {{ $e->description }}
             	</a>
             </li>
 		    	@endforeach
 	    	</ul>
 	    @else
-	    	Not Applied yet. <a href="{!! route('candidate.home') !!}">Apply Now</a>
+	    	Not Applied yet. <a href="{{ route('candidate.home') }}">Apply Now</a>
 	    @endif
         </div>
       </div>

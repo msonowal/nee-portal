@@ -7,7 +7,9 @@
 		    <div class="row">
 		        <div class="col m12">
 							{!! form_until($form, 'reservation_code') !!}
+
 							<div class="col m12">
+                             <a class="modal-trigger" href="#modal1" data-id="">Click here to view reservation codes</a><br/><br/>
 							{!! form_row($form->save) !!}
 							</div>
 
@@ -16,6 +18,12 @@
 		  {!! form_end($form) !!}
 		</div>
 	</div>
+
+    <div id="modal1" class="modal">
+    <div class="modal-content">
+    Reservation List
+    </div>
+</div>
 @stop
 @section('script')
 <script type="text/javascript">
