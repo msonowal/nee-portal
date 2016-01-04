@@ -43,5 +43,8 @@ class ImportStatesAndDistricts extends Command
 
         $this->info(" \nImporting Districts on districts.sql \n");
         DB::unprepared(File::get(storage_path().'/districts.sql'));
+
+        $this->info(" \nImporting Reservation alternative codes! \n");
+        DB::unprepared(File::get(storage_path().'/reservation_alternates.sql'));
     }
 }
