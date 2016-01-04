@@ -3,6 +3,7 @@
 namespace nee_portal\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Str;
 
 class Step2 extends Model
 {
