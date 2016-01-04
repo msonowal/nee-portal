@@ -20,7 +20,7 @@ class CreateVocationalSubjectsTable extends Migration
             //$table->integer('qualification_id', false, true);
             //$table->integer('paper_code', false, true);
             $table->timestamps();
-            $table->primary('reservation_code');
+            $table->primary('paper_code');
             //$table->foreign('exam_id')->references('id')->on('exams');
             //$table->foreign('qualification_id')->references('id')->on('qualifications');
         });
