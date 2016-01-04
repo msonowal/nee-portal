@@ -10,6 +10,7 @@
 							{!! form_until($form, 'reservation_code') !!}
 
 							<div class="col m12">
+								<a class="modal-trigger" href="#modal1" data-id="">Click here to view reservation list</a><br/><br/>
 							{!! form_row($form->update) !!}
 							</div>
 
@@ -18,6 +19,14 @@
 		  {!! form_end($form) !!}
 		</div>
 	</div>
+	<div id="modal1" class="modal">
+	    <div class="modal-content">
+	    Reservation List
+				<div id="reservation_list">
+				</div>
+	    </div>
+	</div>
+
 @stop
 @section('script')
 <script type="text/javascript">
@@ -33,15 +42,18 @@ var reservation_status = true;
             $.ajax({ url: url, type: 'GET', data: { quota: quota } }).done(function( msg ) {
                 $reservation_code.empty();
 								$reservation_code.empty().html('');
+								var list = '<table class="bordered"><tr><th style="width:145px;">Quota</th><th style="width:137px;">Reservation Code</th><th>Description</th></tr>';
                 $("<option>").val('').text('--Select Reservation Code--').appendTo($reservation_code);
                 $.each(msg, function(key, value) {
                     $("<option>").val(value.reservation_code).text(value.reservation_code).appendTo($reservation_code);
+										list += "<tr><td>" + value.quota.name + '</td><td>' + value.reservation_code +'</td><td>' + value.description + '</td></tr>';
                 });
 								if(reservation_status){
 								  $reservation_code.val('{!! $step1->reservation_code !!}');
 								  reservation_status =false;
 								}
-								//$reservation_code.material_select();
+								list+='</table>'
+								$('#reservation_list').html(list);
 								$reservation_code.material_select('update');
 								$reservation_code.closest('.input-field').children('span.caret').remove();
                 return true;
