@@ -242,7 +242,7 @@ class RegistrationController extends Controller
             return $this->getStep();
         }
 
-        $validator = Validator::make($data = $request->all(), Step3::$rules);
+        $validator = Validator::make($data = $request->all(), ValidationRules::step3_save());
 
         if($validator ->fails())
             return back()->withErrors($validator);
@@ -307,10 +307,17 @@ class RegistrationController extends Controller
 
         $step2->state= Basehelper::getState($step2->state);
         $step2->district= Basehelper::getDistrict($step2->district);
-
         $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
-
         $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
+
+        if($step1->branch == NULL)
+            $step1->branch = 'NA';
+
+        if($step1->allied_branch == NULL)
+            $step1->allied_branch = 'NA';
+
+        if($step1->voc_subject == NULL)
+            $step1->voc_subject = 'NA';
 
         return view($this->content.'final', compact('step1', 'step2', 'step3', 'candidate_info'));
     }
@@ -332,7 +339,7 @@ class RegistrationController extends Controller
 
         } else {
 
-            $validator = Validator::make($data = $request->all(), Step1::$rules);
+            $validator = Validator::make($data = $request->all(), ValidationRules::step1_save());
 
             if ($validator->fails())
             {
@@ -397,7 +404,7 @@ class RegistrationController extends Controller
 
         } else {
 
-            $validator = Validator::make($data = $request->all(), Step2::$rules);
+            $validator = Validator::make($data = $request->all(), ValidationRules::step2_save());
 
             if ($validator->fails())
             {

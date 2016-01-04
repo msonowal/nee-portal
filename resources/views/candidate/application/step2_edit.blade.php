@@ -16,7 +16,7 @@
 			   </div>
 				 <div class="clearfix divider"></div>
 				 <div class="col s12 m12 l12" style="margin-top:20px;">
-				 {!! form_row($form->save) !!}
+				 {!! form_row($form->update) !!}
 				 </div>
 			 </div>
 		   {!! form_end($form) !!}

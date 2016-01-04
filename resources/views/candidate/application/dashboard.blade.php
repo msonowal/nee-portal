@@ -54,7 +54,7 @@
                 var me = $(this);
                 var info_id = me.attr('data-id');
                 var exam_name = me.attr('data-name');
-                $('.modal-content').html('<input type="hidden" name="candidate_info_id" value="'+info_id+'" /> <p>Proceed to Online Application Process for <b style="color: #A81642">'+exam_name+'</b></p>');
+                $('.modal-content').html('<input type="hidden" name="candidate_info_id" value="'+info_id+'" /> <p>Proceed to Online Application Process for <strong>'+exam_name+'</strong></p>');
             });
     </script>
 @stop

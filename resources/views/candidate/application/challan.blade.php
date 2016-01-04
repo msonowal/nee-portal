@@ -22,7 +22,7 @@
           <label for="transaction_id">Transaction Id</label>
         </div>
         <div class="input-field col m6">
-          {!! Form::date('transaction_date', '', ['class'=>'datepicker', 'required']) !!}
+          {!! Form::date('transaction_date', '', ['class'=>'transaction_date', 'required']) !!}
           <label for="transaction_date">Date of Transaction</label>
         </div>        
         <div class="input-field col m12">
@@ -35,4 +35,11 @@
       </div>
     </div>
 </div>
+@stop
+@section('page_script')
+  
+          $('.transaction_date').pickadate({
+              format: 'dd-mm-yyyy' // Datepicker
+          });
+
 @stop
