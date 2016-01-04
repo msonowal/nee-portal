@@ -36,10 +36,8 @@
     </div>
 </div>
 @stop
-@section('page_script')
-  
-          $('.transaction_date').pickadate({
-              format: 'dd-mm-yyyy' // Datepicker
-          });
-
+@section('page_script')  
+  $('.transaction_date').pickadate({
+    format: 'dd-mm-yyyy' // Datepicker
+  });
 @stop
