@@ -89,7 +89,7 @@
 <div class="block-1">
 	<div class="block-2">
 	<div class="block-3" style="float:left;">
-		<img src="{{ asset('images/logo.gif') }}" class="image">
+		<img src="{{ asset('images/logo.png') }}" class="image">
 	</div>
 	<div class="block-4" style="float:left;">
 		<br/>

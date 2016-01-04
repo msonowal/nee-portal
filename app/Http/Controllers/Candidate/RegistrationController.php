@@ -676,11 +676,23 @@ class RegistrationController extends Controller
         if(!Basehelper::checkSession())
             return redirect()->route($this->content.'dashboard');
 
-        $step2=Step2::where('candidate_info_id', $this->info_id)->first();
-        $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
-        $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
+        try{
 
-        return view($this->content.'completed', compact('step2', 'candidate_info'));
+            $step2=Step2::where('candidate_info_id', $this->info_id)->first();
+            $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
+            $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
+        }catch(ModelNotFoundException $e){
+            
+            return redirect()->route('candidate.error')->withErrors('Record not found!');
+        }
+
+        if($candidate_info->reg_status == "completed"){
+
+            return view($this->content.'completed', compact('step2', 'candidate_info'));
+
+        }
+
+        return $this->getStep();
 
     }
 
@@ -688,6 +700,7 @@ class RegistrationController extends Controller
 
         if(!Basehelper::checkSession())
             return redirect()->route($this->content.'dashboard');
+
         try{
             $step1=Step1::where('candidate_info_id', $this->info_id)->first();
             $step2=Step2::where('candidate_info_id', $this->info_id)->first();
