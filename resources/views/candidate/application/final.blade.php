@@ -86,7 +86,7 @@
     {!! Form::open(array('route'=>'candidate.application.submit')) !!}
     <div class="modal-content">
       	<p class="text-light-blue">Are you sure to submit your Application Form for 
-        	<span class="text-green"> {!! $candidate_info->exam_id !!} </span> ? 
+        	<span class="text-green"><strong>{{ $candidate_info->exam_id }}</strong></span> ? 
             Please note that once you click the Submit button, no changes can be made.
         </p>
     </div>
