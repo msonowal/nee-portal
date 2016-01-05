@@ -58,7 +58,7 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
 });
 
 //Debit_Credit payment gateway Response
-Route::get('http://www.neeonline.ac.in/nee/candidate/vpc_php_serverhost_dr.php', array('as' => 'payment.debit_credit.vpc_php_serverhost_dr','uses' =>'PaymentController@drServerhost'));
+Route::get('/nee/candidate/vpc_php_serverhost_dr.php', array('as' => 'payment.debit_credit.vpc_php_serverhost_dr','uses' =>'Candidate\PaymentController@drServerhost'));
 
 //Admin
 Route::get('/admin/login', array('as' => 'admin.login', 'uses' => 'Auth\AdminAuthController@getLogin'));

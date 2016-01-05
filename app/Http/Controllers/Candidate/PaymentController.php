@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use nee_portal\Http\Requests;
 use nee_portal\Http\Controllers\Controller;
-use Validator, Basehelper, Session, Carbon, Redirect, Auth, Basehelper;
+use Validator, Basehelper, Session, Carbon, Redirect, Auth;
 use nee_portal\Models\ChallanInfo;
 use nee_portal\Models\Step1;
 use nee_portal\Models\Step2;
@@ -139,7 +139,7 @@ class PaymentController extends Controller
         $order->fill($data);
 
         if(!$order->save())
-            return back()->withErrors('message', 'Unable to proceed!');
+            return back()->withErrors('Unable to proceed!');
 
         //payment gateway dibit_credit
         require('pgconfig.php');
@@ -188,17 +188,37 @@ class PaymentController extends Controller
 
   public function drServerhost(Request $request){
 
+        $info_id = Session::get('candidate_info_id');
+
         require('pgconfig.php');
+
+        $amount          = $request->vpc_Amount;
+        $locale          = $request->vpc_Locale;
+        $batchNo         = $request->vpc_BatchNo;
+        $command         = $request->vpc_Command;
+        $message         = $request->vpc_Message;
+        $version         = $request->vpc_Version;
+        $cardType        = $request->vpc_Card;
+        $orderInfo       = $request->vpc_OrderInfo;
+        $receiptNo       = $request->vpc_ReceiptNo;
+        $merchantID      = $request->vpc_Merchant;
+        $authorizeID     = $request->vpc_AuthorizeId;
+        $merchTxnRef     = $request->vpc_MerchTxnRef;
+        $transactionNo   = $request->vpc_TransactionNo;
+        $acqResponseCode = $request->vpc_AcqResponseCode;
+        $txnResponseCode = $request->vpc_TxnResponseCode;
 
         $vpc_Txn_Secure_Hash = $request->vpc_SecureHash;
 
-        $data=$request->except('vpc_SecureHash');
+        $input=$request->except('vpc_SecureHash');
 
-        if (strlen($SECURE_SECRET) > 0 && $_GET["vpc_TxnResponseCode"] != "7" && $_GET["vpc_TxnResponseCode"] != "No Value Returned") 
+        //$errorExists = false;
+
+        if (strlen($SECURE_SECRET) > 0 && $txnResponseCode != "7" && $txnResponseCode != "No Value Returned") 
         {
             $md5HashData = $SECURE_SECRET;
 
-            foreach($_GET as $key => $value) 
+            foreach($input as $key => $value) 
             {
                 if ($key != "vpc_SecureHash" or strlen($value) > 0) {
                     $md5HashData .= $value;
@@ -207,13 +227,13 @@ class PaymentController extends Controller
 
         if (strtoupper($vpc_Txn_Secure_Hash) == strtoupper(md5($md5HashData))) {
 
-            $hashValidated = "<FONT color='#00AA00'><strong>CORRECT</strong></FONT>";
+            $hashValidated = "<strong>CORRECT</strong>";
         }
 
         else
         {
             $hashValidated = "<strong>INVALID HASH</strong>";
-            $errorExists = true;
+            //$errorExists = true;
         }
 
         }
@@ -222,23 +242,10 @@ class PaymentController extends Controller
             $hashValidated = "<strong>Not Calculated - No 'SECURE_SECRET' present.</strong>";
         }
 
+        $order=Order::where('order_info', $orderInfo)->first();
+        //$order= new Order;
 
-        $amount          = $_GET["vpc_Amount"];
-        $locale          = $_GET["vpc_Locale"];
-        $batchNo         = $_GET["vpc_BatchNo"];
-        $command         = $_GET["vpc_Command"];
-        $message         = $_GET["vpc_Message"];
-        $version         = $_GET["vpc_Version"];
-        $cardType        = $_GET["vpc_Card"];
-        $orderInfo       = $_GET["vpc_OrderInfo"];
-        $receiptNo       = $_GET["vpc_ReceiptNo"];
-        $merchantID      = $_GET["vpc_Merchant"];
-        $authorizeID     = $_GET["vpc_AuthorizeId"];
-        $merchTxnRef     = $_GET["vpc_MerchTxnRef"];
-        $transactionNo   = $_GET["vpc_TransactionNo"];
-        $acqResponseCode = $_GET["vpc_AcqResponseCode"];
-        $txnResponseCode = $_GET["vpc_TxnResponseCode"];
-
+        //$txnResponseCode="0";
         if($txnResponseCode=="0")
        {
 
@@ -246,13 +253,45 @@ class PaymentController extends Controller
         $data['response_code']=$txnResponseCode;
         $data['message']=$message;
         $data['receipt_no']=$receiptNo;
-        $data['tansaction_id']=$tansaction_id;
+        $data['tansaction_id']=$transactionNo;
         $data['bank_id']=$authorizeID;
+        $data['card_type']=$cardType;
+        $data['status']='SUCCESS';
 
+        $order->fill($data);
 
+        $candidate_info=CandidateInfo::where('id', $info_id)->first();
+        $update['reg_status']='completed';
+        $candidate_info->fill($update);
 
+        if(!$candidate_info->save())
+            return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
+
+        if(!$order->save())
+            return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
+
+        return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed! Your payment order id is'.$orderInfo); 
                         
-       }     
+       } 
+       else
+       {
+
+        $data['description']=Basehelper::getResponseDescription($txnResponseCode);
+        $data['response_code']=$txnResponseCode;
+        $data['message']=$message;
+        $data['receipt_no']=$receiptNo;
+        $data['tansaction_id']=$transactionNo;
+        $data['bank_id']=$authorizeID;
+        $data['card_type']=$cardType;
+        $data['status']='FAILURE';
+
+        $order->fill($data);
+
+        $order->save();
+
+        return redirect()->route($this->content.'payment_options')->withErrors('Transaction is failed. Please try again.');
+       
+       }    
 
 
   }
