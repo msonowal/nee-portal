@@ -1,6 +1,6 @@
 @extends('candidate.plane')
 @section('body')
-<h5>Payment Options</h5>
+<h5>Challan Payment</h5>
 <div class="card-panel hoverable">
     <div class="col s6 offset-s3">
       <div class="row">

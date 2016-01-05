@@ -560,9 +560,9 @@ class RegistrationController extends Controller
 
                 return redirect()->route($this->content.'challan');
 
-            }else if($request->payment_option == "netbanking"){
+            }else if($request->payment_option == "debit_credit"){
 
-                return redirect()->route($this->content.'netbanking');
+                return redirect()->route('candidate.payment.debit_credit');
 
             }
 
