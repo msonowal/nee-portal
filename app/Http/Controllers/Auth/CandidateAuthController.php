@@ -2,14 +2,14 @@
 
 namespace nee_portal\Http\Controllers\Auth;
 
-use nee_portal\models\Candidate;
+use nee_portal\Models\Candidate;
+use nee_portal\Models\CandidateInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use nee_portal\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Validator, Redirect, Hash, Mail, Basehelper;
-use nee_portal\Models\CandidateInfo;
 class CandidateAuthController extends Controller
 {
     /*
