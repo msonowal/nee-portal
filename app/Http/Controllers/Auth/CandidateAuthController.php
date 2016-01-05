@@ -67,7 +67,7 @@ class CandidateAuthController extends Controller
         $data['password'] = $request->password;
 
         Mail::send('emails.verify', $data, function($message) use ($candidate, $data){
-                $message->from('neeonline@neeonline.ac.in', 'NEE Online Application Portal');
+                $message->from('neeonline@neeonline.ac.in', 'NEE Online Portal');
                 $message->to($candidate->email, $candidate->first_name)
                     ->subject('NEE Online Account Created');
         });
