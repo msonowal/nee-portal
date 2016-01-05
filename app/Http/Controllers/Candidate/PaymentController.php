@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 
 use nee_portal\Http\Requests;
 use nee_portal\Http\Controllers\Controller;
-use Validator, Basehelper, Session, Carbon, Redirect;
+use Validator, Basehelper, Session, Carbon, Redirect, Auth, Basehelper;
 use nee_portal\Models\ChallanInfo;
 use nee_portal\Models\Step1;
 use nee_portal\Models\Step2;
 use nee_portal\Models\Step3;
 use nee_portal\Models\CandidateInfo;
 use nee_portal\Models\Candidate;
+use nee_portal\Models\Order;
 
 class PaymentController extends Controller
 {
@@ -72,7 +73,8 @@ class PaymentController extends Controller
             $vpc_AccessCode='DCD4312A';
             $vpc_MerchTxnRef=$info_id;
             $vpc_Merchant='NERIST';
-            $vpc_OrderInfo='NEE CreditDebit Pay';
+            //$vpc_OrderInfo='NEE CreditDebit Pay';
+            $vpc_OrderInfo=strtoupper($info_id.'_'.uniqid());
             $vpc_Amount='200';
             $vpc_Locale='en';
             $vpc_ReturnURL='http://www.neeonline.ac.in/nee/candidate/vpc_php_serverhost_dr.php';
@@ -116,24 +118,43 @@ class PaymentController extends Controller
         if($candidate_info->reg_status=="payment_pending"){
 
 
-        $data['candidate_info']=$info_id;
-        $data['mobile_no']=$candidate->mobile_no;    
+        $data['candidate_info_id']=$info_id;
+
+        $data['mobile_no']=$candidate->mobile_no; 
+
         $data['email']=$candidate->email;  
+
         $data['trans_type']='debit_credit';
 
+        $data['order_id'] =$request->vpc_MerchTxnRef;
+
+        $data['order_info']=$request->vpc_OrderInfo;
+
+        $data['amount'] =$request->vpc_Amount;
+
+        $data['status'] ='PENDING';
+
+        $order= new Order;
+
+        $order->fill($data);
+
+        if(!$order->save())
+            return back()->withErrors('message', 'Unable to proceed!');
+
+        //payment gateway dibit_credit
         require('pgconfig.php');
 
         $md5HashData = $SECURE_SECRET;
 
         $vpcURL=$request->virtualPaymentClientURL.'?';
 
-        $data=$request->except('virtualPaymentClientURL', '_token');
+        $input=$request->except('virtualPaymentClientURL', '_token');
 
-        ksort($data);
+        ksort($input);
 
         $appendAmp = 0;
 
-        foreach($data as $key => $value)
+        foreach($input as $key => $value)
         {
 
            if (strlen($value) > 0)
@@ -162,6 +183,77 @@ class PaymentController extends Controller
     }
 
     return redirect()->action('Candidate\RegistrationController@getStep');
+
+  }
+
+  public function drServerhost(Request $request){
+
+        require('pgconfig.php');
+
+        $vpc_Txn_Secure_Hash = $request->vpc_SecureHash;
+
+        $data=$request->except('vpc_SecureHash');
+
+        if (strlen($SECURE_SECRET) > 0 && $_GET["vpc_TxnResponseCode"] != "7" && $_GET["vpc_TxnResponseCode"] != "No Value Returned") 
+        {
+            $md5HashData = $SECURE_SECRET;
+
+            foreach($_GET as $key => $value) 
+            {
+                if ($key != "vpc_SecureHash" or strlen($value) > 0) {
+                    $md5HashData .= $value;
+                }
+            }
+
+        if (strtoupper($vpc_Txn_Secure_Hash) == strtoupper(md5($md5HashData))) {
+
+            $hashValidated = "<FONT color='#00AA00'><strong>CORRECT</strong></FONT>";
+        }
+
+        else
+        {
+            $hashValidated = "<strong>INVALID HASH</strong>";
+            $errorExists = true;
+        }
+
+        }
+        else
+        {
+            $hashValidated = "<strong>Not Calculated - No 'SECURE_SECRET' present.</strong>";
+        }
+
+
+        $amount          = $_GET["vpc_Amount"];
+        $locale          = $_GET["vpc_Locale"];
+        $batchNo         = $_GET["vpc_BatchNo"];
+        $command         = $_GET["vpc_Command"];
+        $message         = $_GET["vpc_Message"];
+        $version         = $_GET["vpc_Version"];
+        $cardType        = $_GET["vpc_Card"];
+        $orderInfo       = $_GET["vpc_OrderInfo"];
+        $receiptNo       = $_GET["vpc_ReceiptNo"];
+        $merchantID      = $_GET["vpc_Merchant"];
+        $authorizeID     = $_GET["vpc_AuthorizeId"];
+        $merchTxnRef     = $_GET["vpc_MerchTxnRef"];
+        $transactionNo   = $_GET["vpc_TransactionNo"];
+        $acqResponseCode = $_GET["vpc_AcqResponseCode"];
+        $txnResponseCode = $_GET["vpc_TxnResponseCode"];
+
+        if($txnResponseCode=="0")
+       {
+
+        $data['description']=Basehelper::getResponseDescription($txnResponseCode);
+        $data['response_code']=$txnResponseCode;
+        $data['message']=$message;
+        $data['receipt_no']=$receiptNo;
+        $data['tansaction_id']=$tansaction_id;
+        $data['bank_id']=$authorizeID;
+
+
+
+                        
+       }     
+
 
   }
 
