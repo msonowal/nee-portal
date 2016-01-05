@@ -12,6 +12,7 @@ use nee_portal\Models\Step1;
 use nee_portal\Models\Step2;
 use nee_portal\Models\Step3;
 use nee_portal\Models\CandidateInfo;
+use nee_portal\Models\Candidate;
 
 class PaymentController extends Controller
 {
@@ -96,6 +97,30 @@ class PaymentController extends Controller
 
     public function doServerhost(Request $request){
 
+        $info_id = Session::get('candidate_info_id');
+
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
+        try{
+            $candidate=Candidate::where('id', Auth::candidate()->get()->id)->first();
+            $candidate_info=CandidateInfo::where('id', $info_id)->first();
+            $step1 = Step1::where('candidate_info_id', $info_id)->first();
+            $step2 = Step2::where('candidate_info_id', $info_id)->first();
+            $step3 = Step3::where('candidate_info_id', $info_id)->first();
+        }catch(ModelNotFoundException $e){
+
+            return redirect()->route('candidate.error')->withErrors('Record not found!');
+        }
+
+        if($candidate_info->reg_status=="payment_pending"){
+
+
+        $data['candidate_info']=$info_id;
+        $data['mobile_no']=$candidate->mobile_no;    
+        $data['email']=$candidate->email;  
+        $data['trans_type']='debit_credit';
+
         require('pgconfig.php');
 
         $md5HashData = $SECURE_SECRET;
@@ -131,8 +156,13 @@ class PaymentController extends Controller
        {
             $vpcURL .= "&vpc_SecureHash=" . strtoupper(md5($md5HashData));
        }  
-       return $vpcURL;
+
        return Redirect::to($vpcURL);
 
     }
+
+    return redirect()->action('Candidate\RegistrationController@getStep');
+
+  }
+
 }
