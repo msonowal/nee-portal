@@ -20,7 +20,8 @@
 		    	@foreach($exams as $e)
 		    		<li>
             	<a class="collection-item active tooltipped modal-trigger proceed" data-position="bottom" data-delay="50" data-tooltip="Click here to continue Online Application Process" href="#modal1" data-id="{{ $e->id }}" data-name="{{ $e->exam_name }}">
-            		{{ $e->exam_name }} --> {{ $e->description }}
+            		{{ $e->exam_name }} --> {{ $e->description }} 
+                <span style="float:right;"> Form No: {{ $e->form_no }}</span>
             	</a>
             </li>
 		    	@endforeach

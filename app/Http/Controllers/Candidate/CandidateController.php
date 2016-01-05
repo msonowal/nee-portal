@@ -61,7 +61,7 @@ class CandidateController extends Controller
             if(!$candidateinfo->save())
                 return Redirect::back()->with('message', 'Unable to Save your Registration data <br> Contact Technical Support!');
 
-            $msg = 'Dear '.Basehelper::getCandidate($id).', you have choosen '.Basehelper::getExam($request->exam_id).'<br> Please continue with the Form Submission Process by clicking on the listed exams!';
+            $msg = 'Dear '.Basehelper::getCandidate($id).', you have choosen '.Basehelper::getExam($request->exam_id).'<br> Please continue with the Form Submission Process by clicking on the listed applications!';
             return Redirect::route($this->content.'dashboard')->with('message', $msg);
 
         else :
@@ -77,7 +77,7 @@ class CandidateController extends Controller
 
         $exams = CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
                 ->where('candidate_id', $id)
-                ->select('candidate_info.id', 'exams.exam_name', 'exams.description')->get();
+                ->select('candidate_info.id', 'candidate_info.form_no', 'exams.exam_name', 'exams.description')->get();
 
         return view($this->content.'dashboard', compact('exams'));
     }

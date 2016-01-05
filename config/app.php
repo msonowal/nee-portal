@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'url' => 'http://localhost:90/nee_portal/',
+    'url' => 'http://localhost/',
 
     /*
     |--------------------------------------------------------------------------
@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY', 'SomeRandomString'),
+    'key' => env('APP_KEY', 'vSlYrWUp4NRqs5qAtXUHCKM2XIEGNxF1'),
 
     'cipher' => 'AES-256-CBC',
 
@@ -95,7 +95,7 @@ return [
     |
     */
 
-    'log' => 'single',
+    'log' => 'daily',
 
     /*
     |--------------------------------------------------------------------------
@@ -204,7 +204,6 @@ return [
         'Excel'     => 'Maatwebsite\Excel\Facades\Excel',
         'Basehelper'=> nee_portal\Helpers\Basehelper::class,
         'ValidationRules'=> nee_portal\Helpers\ValidationRules::class,
-        'Carbon' =>'Carbon\Carbon',
 
     ],
 

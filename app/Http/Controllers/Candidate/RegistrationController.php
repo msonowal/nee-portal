@@ -84,9 +84,9 @@ class RegistrationController extends Controller
               'method' =>'POST',
               'url'    => route($this->content.'step1'),
               'data'   => [
-			            'eligible_for' => Basehelper::getExamDetails($info->q_id, $info->exam_id),
-                  'voc_subject'  => Basehelper::getVocationalSubject($info->q_id, $info->exam_id),
-                  'branch_status'  => Basehelper::getBranchFieldStatus($info->q_id, $info->exam_id),
+                    'eligible_for' => Basehelper::getExamDetails($info->q_id, $info->exam_id),
+                    'voc_subject'  => Basehelper::getVocationalSubject($info->q_id, $info->exam_id),
+                    'branch_status'  => Basehelper::getBranchFieldStatus($info->q_id, $info->exam_id),
               ]
             ])->remove('update');
 

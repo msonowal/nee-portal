@@ -2,14 +2,14 @@
 
 namespace nee_portal\Http\Controllers\Auth;
 
-use nee_portal\models\Candidate;
+use nee_portal\Models\Candidate;
+use nee_portal\Models\CandidateInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use nee_portal\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Validator, Redirect, Hash, Mail, Basehelper;
-use nee_portal\Models\CandidateInfo;
 class CandidateAuthController extends Controller
 {
     /*
@@ -67,7 +67,7 @@ class CandidateAuthController extends Controller
         $data['password'] = $request->password;
 
         Mail::send('emails.verify', $data, function($message) use ($candidate, $data){
-                $message->from('neeonline@neeonline.ac.in', 'NEE Online Application Portal');
+                $message->from('neeonline@neeonline.ac.in', 'NEE Online Portal');
                 $message->to($candidate->email, $candidate->first_name)
                     ->subject('NEE Online Account Created');
         });
