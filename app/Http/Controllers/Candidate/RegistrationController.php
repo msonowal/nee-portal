@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use nee_portal\Http\Requests;
 use nee_portal\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Validator, Basehelper, DB, ValidationRules, Session, Auth, Storage, Log, Carbon\Carbon;
+use Validator, Basehelper, DB, ValidationRules, Session, Auth, Storage, Log;
 use nee_portal\Models\Step1;
 use nee_portal\Models\Step2;
 use nee_portal\Models\Step3;
@@ -560,6 +560,10 @@ class RegistrationController extends Controller
 
                 return redirect()->route($this->content.'challan');
 
+            }else if($request->payment_option == "netbanking"){
+
+                return redirect()->route($this->content.'netbanking');
+
             }
 
             return $this->getStep();
@@ -638,33 +642,6 @@ class RegistrationController extends Controller
 
     }
 
-    public function challanDetail(Request $request){
-
-            $validator =Validator::make($data = $request->all(), ChallanInfo::$rules);
-
-            if($validator->fails()){
-                return back()->withErrors($validator)->withInput();
-            }
-
-            $transaction_id=$data['transaction_id'];
-            $date=$data['transaction_date'];
-            $date=Carbon::createFromFormat('d-m-Y', $date);
-            $transaction_date=$date->format('Y-m-d');
-
-            $challan_info=ChallanInfo::where('transaction_id', $transaction_id)->where('transaction_date', $transaction_date)->first();
-
-            if(count($challan_info)){
-
-                $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
-                $candidate_info->reg_status='completed';
-
-                $candidate_info->save();
-
-                return $this->getStep();
-            }
-
-            return redirect()->route($this->content.'challan')->withErrors('Dear Candidate the Transaction ID and Transaction Date provided by you does not match!');
-    }
 
     public function showError(){
 
