@@ -45,6 +45,9 @@
 
       <script type="text/javascript" src="{{ asset("frontend/JQuery/jQuery-2.1.4.min.js") }}"></script>
       <script type="text/javascript" src="{{ asset("frontend/js/materialize.min.js") }}"></script>
+      <script src="{{ asset('frontend/js/jquery.validate.min.js') }}"></script>
+      <script src="{{ asset('frontend/js/additional-methods.min.js') }}"></script>
+      <script type="text/javascript" src="{{ asset("frontend/js/custom.js") }}"></script>
 
       @yield('script')
       <script type="text/javascript">

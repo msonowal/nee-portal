@@ -10,7 +10,7 @@ class Home extends Form
     public function buildForm()
     {
         $this->add('q_id', 'select', [
-           	'choices' => ['' => 'Select Qualification'] + Qualification::lists('qualification', 'id')->all(),
+           	'choices' => ['' => ' -- Choose Qualification -- '] + Qualification::lists('qualification', 'id')->all(),
 	          //'empty_value' => 'Select Qualification',
             'label'=> false,
 	          'attr' => ['required', 'id' => 'q_id'],
@@ -19,13 +19,13 @@ class Home extends Form
 
         $this->add('qualification_status', 'select', [
            	'choices' => ['PASSED' => 'PASSED', 'APPEARED' => 'APPEARED'],
-           	'empty_value' => 'Select Status',
-	          'attr' => ['required'],
+           	'empty_value' => ' -- Choose Qualification Status -- ',
+	          'attr' => ['required', 'id'=>'qualification_status'],
             'wrapper'=>['class'=>'input-field col m6']
 	      ]);
 
         $this->add('exam_id', 'select', [
-           	  'choices' => ['' => 'Select Qualification first'],
+           	  'choices' => ['' => ' -- Select Qualification first -- '],
               'label' => false,
 	            'attr' => ['required', 'id'=>'exam_id'],
               'wrapper' => ['class' => 'input-field col l6'],

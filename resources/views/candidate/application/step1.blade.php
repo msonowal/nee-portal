@@ -3,15 +3,15 @@
 	<div class="card-panel hoverable">
 		<div class="col s6 offset-s3">
 		<h5>Examination Details</h5>
-		  {!! form_start($form) !!}
+		  {!! form_start($form, ['id'=>'step1_form']) !!}
 		    <div class="row">
 		        <div class="col m12">
-							{!! form_until($form, 'reservation_code') !!}
+				{!! form_until($form, 'reservation_code') !!}
 
-							<div class="col m12">
-              <a class="modal-trigger" href="#modal1" data-id="">Click here to view reservation list</a><br/><br/>
-							{!! form_row($form->save) !!}
-							</div>
+				<div class="col m12">
+				<a class="modal-trigger" href="#modal1" data-id="">Click here to view reservation list</a><br/><br/>
+				{!! form_row($form->save) !!}
+				</div>
 
 		        </div>
 			 </div>
@@ -110,6 +110,48 @@
 
 @section('page_script')
     $('#quota').change(function(e){ getReservationCode(this, $('#reservation_code')); });
-		$('#branch_id').change(function(e){ getAlliedBranch(this, $('#allied_branch_id')); });
-		$('#reservation_code').change(function(e) { getReservationStatus($('#reservation_code').val()); });
+	$('#branch_id').change(function(e){ getAlliedBranch(this, $('#allied_branch_id')); });
+	$('#reservation_code').change(function(e) { getReservationStatus($('#reservation_code').val()); });
+
+	//Validaton logic
+
+    $("#step1_form").validate({
+      rules: {
+        quota: {
+          required: true,
+        }
+      }
+    });
+
+	$('#step1_form').submit(function(e) {
+
+        var errors = '';
+        var stop = 0;
+
+        if($("#quota").val() == ''){
+            stop++;
+            errors = 'Quota field is required';
+        }
+
+        if($("#qualification_status").val() == ''){
+            if(stop!=0)
+                errors += '<br/>';
+            stop++;
+            errors += 'Please select an Qualification Status ';
+        }
+
+        if($("#exam_id").val() == ''){
+            if(stop!=0)
+                errors += '<br/>';
+            stop++;
+            errors += 'Please select an Exam to appear for';
+        }
+
+        if(stop!=0){
+            showError(errors);
+            return false;
+        }else
+            return true;
+    });
+
 @stop

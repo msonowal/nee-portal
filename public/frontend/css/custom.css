@@ -19,3 +19,12 @@ nav .dropdown-content li:hover{
 nav ul li.active{ background-color: #30454E;}
 
 .field-error{ color: #F44336; margin-top: -10px}
+
+select.invalid ~ .select-dropdown {
+      border-bottom: 1px solid #F44336;
+}
+
+.toast.error {
+  background-color: #b71c1c;
+  color: #fff;
+}
