@@ -13,10 +13,18 @@
     </div>
 </div>
 <div class="card-panel hoverable">
+<div class="col s6 offset-s3">
+    <div class="row">
+        <div class="col m12">
+            <blockquote>After Print out of your challan copy, don't forget to logout. After payment made in the bank, please wait for 48 hours and then login again, come to this step/page and enter your Challan Transaction ID and Date of Transaction in the following panel. You will get your registration confirmation page after challan verification.</blockquote>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="card-panel hoverable">
     <div class="col s6 offset-s3">
       <div class="row">
       {!! Form::open(array('route' => 'candidate.application.challan', 'class'=>'col s12')) !!}
-
         <div class="input-field col m6">
           {!! Form::text('transaction_id', '', ['class'=>'validate', 'required']) !!}
           <label for="transaction_id">Transaction Id</label>
