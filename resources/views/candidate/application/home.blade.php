@@ -41,16 +41,18 @@
 @section('page_script')
     $('#q_id').change(function(e){ getExamList(this, $('#exam_id')); });
 
-    $("#home_form").validate({
-      rules: {
-        q_id: {
-          required: true,
-        }
-      }
-    });
+    $("#home_form").validate({ });
 
     $('#home_form').submit(function(e) {
 
+      if($("#home_form").valid()){
+        //alert('VALID');
+        //return true;
+      }else{
+        //alert('INVALID');
+        //return false;
+      }
+      /*
         var errors = '';
         var stop = 0;
 
@@ -75,9 +77,11 @@
 
         if(stop!=0){
             showError(errors);
+            e.preventDefault();
             return false;
         }else
             return true;
+    */
     });
 
 @stop

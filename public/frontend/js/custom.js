@@ -22,20 +22,30 @@ $.validator.setDefaults({
 */
 
 $.validator.setDefaults({
-  onkeyup: false,
+  //onkeyup: false,
+  ignore: [],
   errorClass: 'invalid',
   validClass: 'valid',
+  errorElement: 'span',
+  //errorClass: 'help-block',
   submitHandler: function(form) {
-    $(form).find("input[type='submit']").prop('disabled', true);
-    $(form).find("button[type='submit']").addClass("disabled");
-    $(form).find("button[type='submit']").prop('disabled', true);
-    form.submit();
+     $(form).find("input[type='submit']").prop('disabled', true);
+     $(form).find("button[type='submit']").addClass("disabled");
+     $(form).find("button[type='submit']").prop('disabled', true);
+     form.submit();
   },
   errorPlacement: function(error, element) {
-    error.insertAfter($(element).siblings('label'));
+
+    if($(element).is('select')){
+    	error.insertAfter($(element));
+    }else
+    	error.insertAfter($(element).siblings('label'));
+    //console.log(element);
   }
 });
 
+/*
 $("form[class~='validate']").each(function(){
 	$(this).validate();
 });
+*/
