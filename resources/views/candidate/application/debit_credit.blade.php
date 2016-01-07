@@ -6,7 +6,7 @@
       <div class="row">
       {!! Form::open(array('route' => 'payment.debit_credit.vpc_php_serverhost_do', 'class'=>'col s12')) !!}
         <div class="col m6">
-          <h6>Total amount to be paid : /-</h6>
+          <h6>Total amount to be paid : {!! ($vpc_Amount/100)  !!}/-</h6>
         </div>
       </div>
 
