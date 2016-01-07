@@ -78,7 +78,7 @@ class Step1 extends Form
     	      $this->add('branch', 'select', [
               'choices' => Branch::lists('branch_name', 'id')->all(),
               'empty_value' => ' -- Choose -- ',
-    	        'attr' => ['required'],
+    	        'attr' => ['required', 'id'=>'branch_id'],
               'wrapper'=>['class'=>'input-field col m6']
     	      ]);
 
@@ -86,7 +86,7 @@ class Step1 extends Form
     	      $this->add('allied_branch', 'select', [
                	'choices' => [''=>' -- Select Branch first'],
                	'empty_value' => 'Select Branch Subject',
-    	          'attr' => ['required'],
+    	          'attr' => ['required', 'id'=>'allied_branch_id'],
                 'wrapper'=>['class'=>'input-field col m6']
     	      ]);
         }

@@ -270,7 +270,7 @@ class PaymentController extends Controller
         if(!$order->save())
             return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
 
-        return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed! Your payment order id is'.$orderInfo); 
+        return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed! Your payment order id is '.$orderInfo); 
                         
        } 
        else
