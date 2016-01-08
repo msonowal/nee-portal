@@ -129,16 +129,6 @@ class Basehelper{
         return $return = Reservation::where('reservation_code', $id)->pluck($return);
     }
 
-    public static function getNormalPrice($id, $return = 'n_price')
-    {
-        return $return = Exam::where('id', $id)->pluck($return);
-    }
-
-     public static function getOtherPrice($id, $return = 'scst_price')
-    {
-        return $return = Exam::where('id', $id)->pluck($return);
-    }
-
     public static function getFormNo($id)
     {
         $prefix = '';
@@ -225,7 +215,7 @@ class Basehelper{
         if($category=="GENERAL" || $category=="OBC"){
             return $exam->n_price;
         }
-        if($category=="ST" || $category=="SC" || $category=='PD'){
+        else if($category=="ST" || $category=="SC" || $category=='PD'){
             return $exam->scst_price;
         }
     }
