@@ -63,10 +63,16 @@ class ValidationRules{
   }
 
   public static function step3_save(){
-
       return $rules=[
-              'photo' => 'required|mimes:jpeg,jpg,png|min:1|max:40',
-              'signature' => 'required|mimes:jpeg,jpg,png|min:1|max:20',
+              'photo' => 'required|mimes:jpeg,jpg,png|min:1|max:60',
+              'signature' => 'required|mimes:jpeg,jpg,png|min:1|max:30',
+              ];
+  }
+
+  public static function step3_update(){
+      return $rules=[
+              'photo' => 'mimes:jpeg,jpg,png|min:1|max:60',
+              'signature' => 'mimes:jpeg,jpg,png|min:1|max:30',
               ];
   }
 

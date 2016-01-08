@@ -147,7 +147,6 @@ class RegistrationController extends Controller
                     $data = ['candidate_info_id' => $this->info_id] + $request->all();
                     $step1_data = new Step1;
                     $step1_data->fill($data);
-
                     if (!$step1_data->save())
                     {
                         return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
@@ -238,17 +237,14 @@ class RegistrationController extends Controller
         $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
 
         if(count($step3)!=0){
-
             return $this->getStep();
         }
 
         $validator = Validator::make($data = $request->all(), ValidationRules::step3_save());
-
         if($validator ->fails())
             return back()->withErrors($validator);
 
         $destinationPath = storage_path('candidates/'.$this->info_id);
-
         $data['candidate_info_id'] = $this->info_id;
 
         if($request->hasFile('photo'))
@@ -258,9 +254,8 @@ class RegistrationController extends Controller
                 $fileName = 'photo.'.$extention;
                 $request->file('photo')->move($destinationPath, $fileName);
                 $data['photo'] = 'candidates/'.$this->info_id.'/'.$fileName;
-
-
-            }
+            }else
+              return back()->withErrors('message', ['Photo is invalid']);
         }
 
         if($request->hasFile('signature'))
@@ -270,13 +265,11 @@ class RegistrationController extends Controller
                 $fileName = 'signature.'.$extention;
                 $request->file('signature')->move($destinationPath, $fileName);
                 $data['signature'] = 'candidates/'.$this->info_id.'/'.$fileName;
-
-
-            }
+            }else
+              return back()->withErrors('message', ['Signature is invalid']);
         }
 
         $insert=Step3::create($data);
-
         return $this->getStep();
     }
 
@@ -443,16 +436,19 @@ class RegistrationController extends Controller
     public function updateStep3(Request $request)
     {
         try{
-                $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+            $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
         }catch(ModelNotFoundException $e){
 
             return $this->getStep();
         }
 
+        $validator = Validator::make($data = $request->all(), ValidationRules::step3_update());
+        if($validator ->fails())
+            return back()->withErrors($validator);
+
         $destinationPath = storage_path('candidates/'.$this->info_id);
-
-        $data['candidate_info_id'] = $this->info_id;
-
+        //$data['candidate_info_id'] = $this->info_id;
+        $message = '';
         if($request->hasFile('photo'))
         {
             if($request->file('photo')->isValid()){
@@ -460,7 +456,9 @@ class RegistrationController extends Controller
                 $fileName = 'photo.'.$extention;
                 $request->file('photo')->move($destinationPath, $fileName);
                 $data['photo'] = 'candidates/'.$this->info_id.'/'.$fileName;
-            }
+                $message.= 'Photo has been updated<br/>';
+            }else
+              return back()->withErrors('message', ['Photo is invalid']);
         }
 
         if($request->hasFile('signature'))
@@ -470,11 +468,15 @@ class RegistrationController extends Controller
                 $fileName = 'signature.'.$extention;
                 $request->file('signature')->move($destinationPath, $fileName);
                 $data['signature'] = 'candidates/'.$this->info_id.'/'.$fileName;
-            }
+                $message.= 'Signature has been updated';
+            }else
+                return back()->withErrors('message', ['Signature is invalid']);
         }
-
-        $update= $step3->fill($data);
-
+        if($message!='')
+          Session::flash('message', $message);
+        $step3->fill($data);
+        if(!$step3->save())
+          return back()->with('message', 'Error while uploading! contact support');
         return $this->getStep();
     }
 

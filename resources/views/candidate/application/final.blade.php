@@ -34,7 +34,7 @@
 	<div class="card-panel hoverable">
 		<div class="col s6 offset-s3">
 		  <div class="row">
-		  	<div class="col m12 right-align"> <a class="waves-effect wave-light btn blue tooltipped" data-position="bottom" data-delay="50" data-tooltip="Click here to Edit Step2" href="{!! route('candidate.application.editstep2') !!}"><i class="material-icons prefix">mode_edit</i> Edit</a></div>	
+		  	<div class="col m12 right-align"> <a class="waves-effect wave-light btn blue tooltipped" data-position="bottom" data-delay="50" data-tooltip="Click here to Edit Step2" href="{!! route('candidate.application.editstep2') !!}"><i class="material-icons prefix">mode_edit</i> Edit</a></div>
 		  		<span class="card-title"> Step2 :</span>
 		  		<h6> Personal Details: </h6>
 		  		<div class="col m12">
@@ -64,8 +64,8 @@
 		  		<span class="card-title">Step3 :</span>
 		  		<h6>Photo and Signature: </h6>
 		  		<div class="col m12">
-		  			<div class="col m6">Photo : {!! Html::image($step3->getPhoto(), '', array('height' => '100px','width' => '90px')) !!}</div>
-		  			<div class="col m6">Signature : {!! Html::image($step3->getSignature(), '', array('height' => '100px','width' => '90px')) !!}</div>
+		  			<div class="col m6">Photo : {!! Html::image($step3->getPhoto(), '', array('height' => '120px','width' => '100px')) !!}</div>
+		  			<div class="col m6">Signature : {!! Html::image($step3->getSignature(), '', array('height' => '50px','width' => '150px')) !!}</div>
 		  		</div>
 		  </div>
 		</div>
@@ -81,12 +81,12 @@
 		</div>
 	</div>
 
-	<!--Model Start--> 
+	<!--Model Start-->
 	<div id="modal_final" class="modal">
     {!! Form::open(array('route'=>'candidate.application.submit')) !!}
     <div class="modal-content">
-      	<p class="text-light-blue">Are you sure to submit your Application Form for 
-        	<span class="text-green"><strong>{{ $candidate_info->exam_id }}</strong></span> ? 
+      	<p class="text-light-blue">Are you sure to submit your Application Form for
+        	<span class="text-green"><strong>{{ $candidate_info->exam_id }}</strong></span> ?
             Please note that once you click the Submit button, no changes can be made.
         </p>
     </div>

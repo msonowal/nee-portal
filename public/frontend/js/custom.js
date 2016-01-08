@@ -1,9 +1,16 @@
-
 function showError (message) {
-
 	Materialize.toast(message, 10000, 'error');
 }
 
+function readURL(input, preview_element_id) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#'+preview_element_id).attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 /*
 $.validator.setDefaults({
 	ignore: [],
@@ -20,7 +27,6 @@ $.validator.setDefaults({
     }
  });
 */
-
 $.validator.setDefaults({
   //onkeyup: false,
   ignore: [],
@@ -35,15 +41,12 @@ $.validator.setDefaults({
      form.submit();
   },
   errorPlacement: function(error, element) {
-
     if($(element).is('select') || $(element).is('textarea')){
     	error.insertAfter($(element));
     }else
     	error.insertAfter($(element).siblings('label'));
-    //console.log(element);
   }
 });
-
 /*
 $("form[class~='validate']").each(function(){
 	$(this).validate();
