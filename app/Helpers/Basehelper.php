@@ -14,6 +14,8 @@ use nee_portal\Models\Reservation;
 use nee_portal\Models\State;
 use nee_portal\Models\District;
 use Session, Log, Route;
+use nee_portal\Models\CandidateInfo;
+use nee_portal\Models\Step1;
 
 class Basehelper{
 
@@ -209,6 +211,23 @@ class Basehelper{
         default  : $result = "Unable to be determined"; 
         }
     return $result;
+    }
+
+    public static function getPayableAmount($info_id)
+    {
+        $candidate_info=CandidateInfo::where('id', $info_id)->first();
+        $exam_id=$candidate_info->exam_id;
+        $exam=Exam::where('id', $exam_id)->first();
+        $step1=Step1::where('candidate_info_id', $info_id)->first();
+        $reservation=Reservation::where('reservation_code', $step1->reservation_code)->first();
+        $category= $reservation->category_name;
+
+        if($category=="GENERAL" || $category=="OBC"){
+            return $exam->n_price;
+        }
+        if($category=="ST" || $category=="SC" || $category=='PD'){
+            return $exam->scst_price;
+        }
     }
 
 
