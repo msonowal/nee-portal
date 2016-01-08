@@ -8,12 +8,6 @@ class ExamForm extends Form
 {
     public function buildForm()
     {
-	      $this->add('exam_code', 'text', [
-	          'attr' => ['required', 'maxlength' => '10', 'placeholder'=> 'Examination Code'],
-	          'label' => 'Exam Code',
-	          'wrapper' => ['class' => 'form-group'] 
-	      ]);
-
 	      $this->add('exam_name', 'select', [
 	      	  'choices' => ['NEE I' => 'NEE I', 'NEE II' => 'NEE II', 'NEE III' => 'NEE III'],
 	          'attr' => ['required', 'placeholder'=> 'Select Exam'],
