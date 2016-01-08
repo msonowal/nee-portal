@@ -12,6 +12,8 @@ use nee_portal\Models\Exam;
 
 use Kris\LaravelFormBuilder\FormBuilder;
 
+use Illuminate\Database\QueryException;
+
 use Redirect;
 
 class ExamController extends Controller
@@ -131,7 +133,14 @@ class ExamController extends Controller
      */
     public function destroy($id)
     {
-           Exam::destroy($id);
+
+        try{
+                 Exam::destroy($id);
+
+                }catch(QueryException $e){
+
+                return Redirect::back()->with('message', 'Can not delete!');
+            }
 
         return Redirect::route($this->content.'index')->with('message', 'Data has been Deleted Successfully!');
 

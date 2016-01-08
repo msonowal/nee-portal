@@ -8,7 +8,6 @@
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
-					<th>EXAM CODE</th>
 					<th>EXAM NAME</th>
 					<th>DESCRIPTION</th>
 					<th>NORMAL PRICE</th>
@@ -21,7 +20,6 @@
 			<tbody>
 			@foreach($result as $res)
 				<tr>
-					<td>{!! $res->exam_code   !!}</td>
 					<td>{!! $res->exam_name   !!}</td>
 					<td>{!! $res->description !!}</td>
 					<td>{!! $res->n_price     !!}</td>

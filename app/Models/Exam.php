@@ -10,10 +10,10 @@ class Exam extends Model
 
     protected $guarded = ['id', '_token', '_method'];
 
-    protected $fillable = ['exam_code', 'exam_name', 'description', 'n_price', 'scst_price', 'start_date', 'active'];
+    protected $fillable = ['exam_name', 'description', 'n_price', 'scst_price', 'start_date', 'active'];
 
     public static $rules= [
-  		'exam_code'   => 'required|unique:exams,exam_code, :id',  
+  		//'exam_code'   => 'required|unique:exams,exam_code, :id',  
     	'exam_name'   => 'required|max:55',
     	'description' => 'required|max:255',
         'n_price'     => 'required|numeric',
