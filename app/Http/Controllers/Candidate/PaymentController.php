@@ -190,6 +190,7 @@ class PaymentController extends Controller
 
         $info_id = Session::get('candidate_info_id');
         Log::info('INFO ID: '.$info_id);
+        Log::info('merchTxnRef := '.$request->vpc_MerchTxnRef);
 
         require('pgconfig.php');
 
@@ -212,7 +213,6 @@ class PaymentController extends Controller
         $vpc_Txn_Secure_Hash = $request->vpc_SecureHash;
 
         $input=$request->except('vpc_SecureHash');
-
         //$errorExists = false;
 
         if (strlen($SECURE_SECRET) > 0 && $txnResponseCode != "7" && $txnResponseCode != "No Value Returned")
@@ -225,76 +225,48 @@ class PaymentController extends Controller
                     $md5HashData .= $value;
                 }
             }
-
-        if (strtoupper($vpc_Txn_Secure_Hash) == strtoupper(md5($md5HashData))) {
-
-            $hashValidated = "<strong>CORRECT</strong>";
-        }
-
-        else
-        {
-            $hashValidated = "<strong>INVALID HASH</strong>";
-            //$errorExists = true;
-        }
-
-        }
-        else
-        {
+            if (strtoupper($vpc_Txn_Secure_Hash) == strtoupper(md5($md5HashData))) {
+              $hashValidated = "<strong>CORRECT</strong>";
+            }else{
+              $hashValidated = "<strong>INVALID HASH</strong>";
+            }
+        }else{
             $hashValidated = "<strong>Not Calculated - No 'SECURE_SECRET' present.</strong>";
         }
-
-        $order=Order::where('order_info', $orderInfo)->first();
-        //$order= new Order;
-
+        Log::info('on Line 236');
+        $order = Order::where('order_info', $orderInfo)->orderBy('id', 'desc')->first();
+        $data['description']=Basehelper::getResponseDescription($txnResponseCode);
+        $data['response_code']=$txnResponseCode;
+        $data['message']=$message;
+        $data['receipt_no']=$receiptNo;
+        $data['tansaction_id']=$transactionNo;
+        $data['bank_id']=$authorizeID;
+        $data['card_type']=$cardType;
         //$txnResponseCode="0";
-        if($txnResponseCode=="0")
-       {
+        Log::info('on Line 246 : response_code ='. $txnResponseCode);
+        if($txnResponseCode=="0"){
 
-        $data['description']=Basehelper::getResponseDescription($txnResponseCode);
-        $data['response_code']=$txnResponseCode;
-        $data['message']=$message;
-        $data['receipt_no']=$receiptNo;
-        $data['tansaction_id']=$transactionNo;
-        $data['bank_id']=$authorizeID;
-        $data['card_type']=$cardType;
-        $data['status']='SUCCESS';
+          $data['status']='SUCCESS';
+          $order->fill($data);
+          if(!$order->save())
+              return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
 
-        $order->fill($data);
+          Log::info('On line 245');
+          $candidate_info=CandidateInfo::where('id', $info_id)->first();
+          $candidate_info->reg_status = 'completed';
+          if(!$candidate_info->save())
+              return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
 
-        $candidate_info=CandidateInfo::where('id', $info_id)->first();
-        $update['reg_status']='completed';
-        $candidate_info->fill($update);
+          return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed! Your payment order id is '.$orderInfo);
 
-        if(!$candidate_info->save())
-            return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
+       }else{
+          Log::info('Transaction Failed: '.$transactionNo);
+          $data['status']='FAILURE';
+          $order->fill($data);
+          $order->save();
 
-        if(!$order->save())
-            return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
-
-        return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed! Your payment order id is '.$orderInfo);
-
+          return redirect()->route($this->content.'payment_options')->withErrors('Transaction is failed. Please try again.');
        }
-       else
-       {
-
-        $data['description']=Basehelper::getResponseDescription($txnResponseCode);
-        $data['response_code']=$txnResponseCode;
-        $data['message']=$message;
-        $data['receipt_no']=$receiptNo;
-        $data['tansaction_id']=$transactionNo;
-        $data['bank_id']=$authorizeID;
-        $data['card_type']=$cardType;
-        $data['status']='FAILURE';
-
-        $order->fill($data);
-
-        $order->save();
-
-        return redirect()->route($this->content.'payment_options')->withErrors('Transaction is failed. Please try again.');
-
-       }
-
-
   }
 
 }
