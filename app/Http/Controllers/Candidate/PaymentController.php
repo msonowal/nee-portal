@@ -294,38 +294,41 @@ class PaymentController extends Controller
         $amount = 2; //CAll method to get amount payable
         require('payu_config.php');
         $txnid = Str::upper(substr(hash('sha256', mt_rand() . microtime()), 0, 20));
-        //$productinfo = [];
-        $payment_parts['paymentParts']['name'] = $step2->name;
-        $payment_parts['paymentParts']['description'] = Basehelper::getExamName($info_id);
-        $payment_parts['paymentParts']['value'] = $amount;
-        $payment_parts['paymentParts']['isRequired'] = true;
-        $payment_parts['paymentParts']['settlementEvent'] = 'EmailConfirmation';
-        $payment_parts['paymentParts']['info_id'] = $info_id;
-        $payment_parts['paymentParts']['transaction_date'] = date('d/m/Y');
-        $productinfo = json_encode($payment_parts);
-        // $productinfo, $payment_parts;
-        // $productinfo['paymentIdentifiers']['field'] = 'TransactionDate';
-        // $productinfo['paymentIdentifiers']['value'] = date('d/m/Y');
-        // $productinfo['paymentIdentifiers']['info_id'] = 'info_id';
-        // $productinfo['paymentIdentifiers']['value'] = $info_id;
-        $string = $MERCHANT_KEY;
-        $string .='|'.$txnid;
-        $string .='|'.$amount;
-        $string .='|'.$productinfo;
-        $string .='|'.Auth::candidate()->get()->first_name;
-        $string .='|'.Auth::candidate()->get()->email;
-        $string .='|'.$info_id;
-        $string .='|'.'sd';
-        //$hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
-        $vpc_Amount='200';
-        $vpc_Locale='en';
 
-        //$vpc_ReturnURL='https://www.neeonline.ac.in/nee/candidate/vpc_php_serverhost_dr.php';
-        $vpc_ReturnURL = route('payment.response.pay_u');
+        $data['key'] = $MERCHANT_KEY;
+        $data['txnid'] = $txnid;
+        $data['amount'] = $amount;
+        $data['firstname']  = Auth::candidate()->get()->first_name;
+        $data['email']  = Auth::candidate()->get()->email;
+        $data['phone']  = Auth::candidate()->get()->mobile_no;
+        $data['productinfo']  = json_encode(json_decode('[{"name":"'.$step2->name.'","description":"'.Basehelper::getExamName($info_id).'","value":"'.$amount.'","isRequired":"true"}]'));
+        $data['lastname']  = Auth::candidate()->get()->last_name;
+        $data['surl']  = route('payment.response.pay_u.sucess');
+        $data['furl']  = route('payment.response.pay_u.fail');
+        $data['service_provider'] = $SERVICE_PROVIDER;
+        $data['curl']  = route('payment.response.pay_u.cancel');
+        $data['address1'] = Str::limit($step2->address_line, 100);
+        $data['state'] = Basehelper::getState($step2->state);
+        $data['zipcode'] = $step2->pin;
+        $data['udf1'] = $info_id; //saving info id on udf1
+        $data['udf2'] = $step2->name; //saving applicant name id on udf2
+        $data['udf3'] = $step1->reservation_code; //saving reservation code on udf3
+        $data['udf4'] = $_SERVER['HTTP_USER_AGENT']; //saving user agent/browser on udf4
+        $data['udf5'] = $_SERVER["REMOTE_ADDR"]; //saving remote address/ client address on udf5
 
-        return view($this->content.'pay_u_form')->with([
+        $hashSequence = "key|txnid|amount|firstname|email|phone|productinfo|surl|furl|service_provider|lastname|curl|address1|state|zipcode|udf1|udf2|udf3|udf4|udf5";
+        $hashVarsSeq = explode('|', $hashSequence);
+        $hash_string = '';
+      	foreach($hashVarsSeq as $hash_var) {
+            $hash_string .= $data[$hash_var];
+            $hash_string .= '|';
+        }
+        $hash_string .= $SALT;
+        $hash = strtolower(hash('sha512', $hash_string));
+        //$hash = hash("sha512", $hash_string);
+        $action = $PAYU_BASE_URL . '/_payment';
 
-        ]);
+        return view($this->content.'pay_u_form', compact('data', 'action', 'hash'));
    }
 
     //return redirect()->action('Candidate\RegistrationController@getStep');

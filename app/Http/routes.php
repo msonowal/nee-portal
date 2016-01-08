@@ -64,7 +64,9 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
 Route::get('/payment/response/debit_card', ['as' => 'payment.response.debit_card','uses' =>'Candidate\PaymentController@debitResponse']);
 
 //PayYMoney
-Route::get('/payment/response/pay_u', ['as' => 'payment.response.pay_u','uses' =>'Candidate\PaymentController@payUResponse']);
+Route::get('/payment/response/pay_u/sucess', ['as' => 'payment.response.pay_u.sucess','uses' =>'Candidate\PaymentController@payUResponseSuccess']);
+Route::get('/payment/response/pay_u/fail', ['as' => 'payment.response.pay_u.fail','uses' =>'Candidate\PaymentController@payUResponseFail']);
+Route::get('/payment/response/pay_u/cancel', ['as' => 'payment.response.pay_u.cancel','uses' =>'Candidate\PaymentController@payUResponseCancel']);
 
 //Admin
 Route::get('/admin/login', array('as' => 'admin.login', 'uses' => 'Auth\AdminAuthController@getLogin'));
