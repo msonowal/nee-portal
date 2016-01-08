@@ -50,9 +50,12 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
         Route::get('/error', ['as' => 'candidate.error', 'uses' =>'RegistrationController@showError']);
         Route::get('/application/completed', ['as' => 'candidate.application.completed', 'uses' =>'RegistrationController@completed']);
         Route::get('/application/e_application', ['as' => 'candidate.application.e_application', 'uses' =>'RegistrationController@e_application']);
-        //Debit_credit payment
+        //Debit Card payment of Axis Bank
         Route::get('/payment/debit_card', ['as' => 'payment.debit_card', 'uses' =>'PaymentController@showDebit_card']);
         Route::post('/payment/debit_card', ['as' => 'payment.debit_card', 'uses' =>'PaymentController@doDebit_card']);
+        //Credit Card payment of Axis Bank
+        Route::get('/payment/credit_card', ['as' => 'payment.credit_card', 'uses' =>'PaymentController@showCredit_card']);
+        Route::post('/payment/debit_card', ['as' => 'payment.credit_card', 'uses' =>'PaymentController@doCredit_card']);
         //Pay U money
         Route::get('/payment/pay_u', ['as' => 'payment.pay_u', 'uses' =>'PaymentController@showPayU']);
         Route::post('/payment/pay_u', ['as' => 'payment.pay_u', 'uses' =>'PaymentController@doPayU']);
@@ -60,8 +63,10 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
     });
 });
 
-//Debit_Credit payment gateway Response
+//Debit payment gateway Response
 Route::get('/payment/response/debit_card', ['as' => 'payment.response.debit_card','uses' =>'Candidate\PaymentController@debitResponse']);
+//Debit payment gateway Response
+Route::get('/payment/response/credit_card', ['as' => 'payment.response.credit_card','uses' =>'Candidate\PaymentController@creditResponse']);
 
 //PayYMoney
 Route::get('/payment/response/pay_u/sucess', ['as' => 'payment.response.pay_u.sucess','uses' =>'Candidate\PaymentController@payUResponseSuccess']);
