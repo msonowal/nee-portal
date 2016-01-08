@@ -15,7 +15,6 @@ use nee_portal\Models\Reservation;
 use nee_portal\Models\State;
 use nee_portal\Models\District;
 use Session, Log, Route;
-use nee_portal\Models\CandidateInfo;
 use nee_portal\Models\Step1;
 
 class Basehelper{

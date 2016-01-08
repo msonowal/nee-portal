@@ -631,18 +631,9 @@ class RegistrationController extends Controller
             $step2->state= Basehelper::getState($step2->state);
             $step2->district= Basehelper::getDistrict($step2->district);
 
-            if($step1->reservation_code == "GENERAL" || $step1->reservation_code == "OBC"){
-                $candidate_info->exam_id= Basehelper::getNormalPrice($candidate_info->exam_id);
-                $candidate_info->exam_id=($candidate_info->exam_id + 35.00);
-            }
+            $amount =Basehelper::getPayableAmount($this->info_id);
 
-            if($step1->reservation_code == "ST" || $step1->reservation_code == "SC" || $step1->reservation_code == "PD"){
-                $candidate_info->exam_id= Basehelper::getOtherPrice($candidate_info->exam_id);
-                $candidate_info->exam_id=($candidate_info->exam_id + 35.00);
-            }
-
-
-            return view($this->content.'challan_format', compact('step1', 'step2', 'candidate', 'candidate_info', ''));
+            return view($this->content.'challan_format', compact('step1', 'step2', 'candidate', 'candidate_info', 'amount'));
 
         }
 
