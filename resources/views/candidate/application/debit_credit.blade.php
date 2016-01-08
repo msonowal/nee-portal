@@ -4,15 +4,16 @@
 <div class="card-panel hoverable">
     <div class="col s6 offset-s3">
       <div class="row">
-      {!! Form::open(array('route' => 'payment.debit_credit.vpc_php_serverhost_do', 'class'=>'col s12')) !!}
+      {!! Form::open(array('route' => 'payment.debit_card', 'class'=>'col s12')) !!}
         <div class="col m6">
           <h6>Total amount to be paid : {!! ($vpc_Amount/100)  !!}/-</h6>
         </div>
       </div>
 
-      <div class="row">  
+      <div class="row">
         <div class="input-field col m12">
-          <button class="btn waves-effect waves-light blue col m12" style="float: right;" type="submit">Proceed to Payment Gateway
+          <button class="btn waves-effect waves-light blue col m12" style="float: right;" type="submit">
+            Proceed to Payment Gateway
             </button>
         </div>
           {!! Form::hidden('Title', $Title) !!}

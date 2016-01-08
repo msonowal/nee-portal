@@ -564,8 +564,7 @@ class RegistrationController extends Controller
 
             }else if($request->payment_option == "debit_credit"){
 
-                return redirect()->route('candidate.payment.debit_credit');
-
+                return redirect()->route('payment.debit_card');
             }
 
             return $this->getStep();

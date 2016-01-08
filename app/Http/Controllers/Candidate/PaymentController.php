@@ -47,7 +47,7 @@ class PaymentController extends Controller
             return redirect()->route($this->content.'challan')->withErrors('Dear Candidate the Transaction ID and Transaction Date provided by you does not match!');
     }
 
-    public function debit_credit(){
+    public function showDebit_card(){
 
         $info_id = Session::get('candidate_info_id');
 
@@ -77,7 +77,9 @@ class PaymentController extends Controller
             $vpc_OrderInfo=strtoupper($info_id.'_'.uniqid());
             $vpc_Amount='200';
             $vpc_Locale='en';
-            $vpc_ReturnURL='http://www.neeonline.ac.in/nee/candidate/vpc_php_serverhost_dr.php';
+
+            //$vpc_ReturnURL='https://www.neeonline.ac.in/nee/candidate/vpc_php_serverhost_dr.php';
+            $vpc_ReturnURL = route('payment.response.debit_card');
 
             return view($this->content.'debit_credit')->with([
                     'Title' =>$Title,
@@ -97,7 +99,7 @@ class PaymentController extends Controller
         return redirect()->action('Candidate\RegistrationController@getStep');
     }
 
-    public function doServerhost(Request $request){
+    public function doDebit_card(Request $request){
 
         $info_id = Session::get('candidate_info_id');
 
@@ -186,7 +188,7 @@ class PaymentController extends Controller
 
   }
 
-  public function drServerhost(Request $request){
+  public function debitResponse(Request $request){
 
         $info_id = Session::get('candidate_info_id');
         Log::info('INFO ID: '.$info_id);
@@ -251,7 +253,7 @@ class PaymentController extends Controller
           if(!$order->save())
               return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
 
-          Log::info('On line 245');
+          Log::info('On line 254');
           $candidate_info=CandidateInfo::where('id', $info_id)->first();
           $candidate_info->reg_status = 'completed';
           if(!$candidate_info->save())

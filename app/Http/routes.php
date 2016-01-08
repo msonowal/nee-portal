@@ -51,14 +51,14 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
         Route::get('/application/completed', ['as' => 'candidate.application.completed', 'uses' =>'RegistrationController@completed']);
         Route::get('/application/e_application', ['as' => 'candidate.application.e_application', 'uses' =>'RegistrationController@e_application']);
         //Debit_credit payment
-        Route::get('/payment/debit_credit', ['as' => 'candidate.payment.debit_credit', 'uses' =>'PaymentController@debit_credit']);
-        Route::post('/payment/debit_credit', ['as' => 'payment.debit_credit.vpc_php_serverhost_do', 'uses' =>'PaymentController@doServerhost']);
-    
+        Route::get('/payment/debit_card', ['as' => 'payment.debit_card', 'uses' =>'PaymentController@showDebit_card']);
+        Route::post('/payment/debit_card', ['as' => 'payment.debit_card', 'uses' =>'PaymentController@doDebit_card']);
+
     });
 });
 
 //Debit_Credit payment gateway Response
-Route::get('/nee/candidate/vpc_php_serverhost_dr.php', array('as' => 'payment.debit_credit.vpc_php_serverhost_dr','uses' =>'Candidate\PaymentController@drServerhost'));
+Route::get('/payment/response/debit_card', ['as' => 'payment.response.debit_card','uses' =>'Candidate\PaymentController@debitResponse']);
 
 //Admin
 Route::get('/admin/login', array('as' => 'admin.login', 'uses' => 'Auth\AdminAuthController@getLogin'));
