@@ -19,8 +19,8 @@ class ExamQualificationSeeder extends Seeder
         ExamQualification::create(array('q_id' => '3', 'exam_id' => '2'));
         ExamQualification::create(array('q_id' => '4', 'exam_id' => '1'));
         ExamQualification::create(array('q_id' => '4', 'exam_id' => '2'));
-        ExamQualification::create(array('q_id' => '5', 'exam_id' => '1'));
-        ExamQualification::create(array('q_id' => '5', 'exam_id' => '2'));
+        //ExamQualification::create(array('q_id' => '5', 'exam_id' => '1'));
+        //ExamQualification::create(array('q_id' => '5', 'exam_id' => '2'));
         ExamQualification::create(array('q_id' => '5', 'exam_id' => '3'));
     }
 }

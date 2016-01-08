@@ -12,19 +12,6 @@ class ExamDetailForm extends Form
 {
     public function buildForm()
     {
-	      $this->add('exam_id', 'select', [
-        	  'choices' => Exam::lists('exam_name', 'id')->all(),		
-	          'attr' => ['required'],
-	          'label' => 'Exam Name',
-	          'wrapper' => ['class' => 'form-group'] 
-	      ]);
-
-	      $this->add('qualification_id', 'select', [
-        	  'choices' => Qualification::lists('qualification', 'id')->all(),		
-	          'attr' => ['required'],
-	          'label' => 'Academic Qualification',
-	          'wrapper' => ['class' => 'form-group'] 
-	      ]);
 
 	      $this->add('eligible_for', 'text', [
 	          'attr' => ['required', 'maxlength' => '10', 'placeholder'=> 'Eligible for Admission to'],

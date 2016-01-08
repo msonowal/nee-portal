@@ -54,17 +54,17 @@ class Basehelper{
 	{
 			$id = ExamQualification::where('q_id', $qualification_id)->where('exam_id', $exam_id)->first()->id;
 			//Log::info('Case No of ExamQualification '.$id);
-			if($id == 1 || $id == 2 || $id == 4 || $id == 6 || $id == 8){
-					//Log::info('on case 1 2 4 6 8');
+			if($id == 1 || $id == 2 || $id == 4 || $id == 6 ){
+					//Log::info('on case 1 2 4 6');
 					return ExamDetail::where('id', 1)->lists('eligible_for', 'id')->all();
-			}elseif ($id == 3 || $id == 5 || $id == 9) {
-					//Log::info('on case 3 5 9');
+			}elseif ($id == 3 || $id == 5 ) {
+					//Log::info('on case 3 5');
 					return ExamDetail::where('id', 2)->lists('eligible_for', 'id')->all();
 			}elseif ($id == 7) {
 					//Log::info('on case 7');
 					return ExamDetail::where('id', 3)->lists('eligible_for', 'id')->all();
-			}elseif ($id == 10) {
-				//Log::info('on case 10');
+			}elseif ($id == 8) {
+				//Log::info('on case 8');
 				return ExamDetail::where('id', 4)->lists('eligible_for', 'id')->all();
 			}
 			//Log::info('Case Not Found on Basehelper:: 36 '.$id);
