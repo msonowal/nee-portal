@@ -45,6 +45,7 @@
     <script type="text/javascript" src="{{ asset("frontend/js/materialize.min.js") }}"></script>
     <script src="{{ asset('frontend/js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('frontend/js/additional-methods.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset("frontend/js/jquery.blockUI.min.js") }}"></script>
     <script type="text/javascript" src="{{ asset("frontend/js/custom.js") }}"></script>
 
     @yield('script')
@@ -63,8 +64,11 @@
         });
         $('.tooltipped').tooltip({delay: 50}); //Tooltip
         $('.modal-trigger').leanModal(); //Trigger Model
-
-
+        //$.blockUI({ message: '<h1><img src="busy.gif" /> Just a moment...</h1>' });
+        //$.blockUI({ message: '<div class="preloader-wrapper big active"><div class="spinner-layer spinner-blue"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div>'});
+        //$.blockUI({ message: '<div class="progress"><div class="indeterminate"></div></div>'});
+        $(document).ajaxStart(function () {$.blockUI({ message: '<div class="preloader-wrapper active"><div class="spinner-layer spinner-red-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>'});});
+        $(document).ajaxStop($.unblockUI);
         @yield('page_script')
         //$('textarea').characterCounter();
         //$('input#input_text, textarea#textarea1').characterCounter();
