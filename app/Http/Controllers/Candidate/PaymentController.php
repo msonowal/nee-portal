@@ -65,6 +65,8 @@ class PaymentController extends Controller
             return redirect()->route('candidate.error')->withErrors('Record not found!');
         }
 
+        //   return Basehelper::getPayableAmount($info_id);
+
         if($candidate_info->reg_status=="payment_pending"){
 
             $Title='NEE Online Payment';
@@ -77,6 +79,7 @@ class PaymentController extends Controller
             //$vpc_OrderInfo='NEE CreditDebit Pay';
             $vpc_OrderInfo=strtoupper($info_id.'_'.uniqid());
             $vpc_Amount='200';
+            //$vpc_Amount=(Basehelper::getPayableAmount($info_id))*100+35;
             $vpc_Locale='en';
 
             //$vpc_ReturnURL='https://www.neeonline.ac.in/nee/candidate/vpc_php_serverhost_dr.php';
