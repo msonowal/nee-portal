@@ -35,7 +35,6 @@
             @yield('body')
       </div>
 
-      <!--Import jQuery before materialize.js-->
       <script type="text/javascript" src="{{ asset("frontend/js/jquery-2.1.1.min.js") }}"></script>
       <script type="text/javascript" src="{{ asset("frontend/js/materialize.min.js") }}"></script>
       <script type="text/javascript">
@@ -44,6 +43,6 @@
           $(".dropdown-button").dropdown();
           $('select').material_select();
       });
-    </script>
+      </script>
     </body>
   </html>
