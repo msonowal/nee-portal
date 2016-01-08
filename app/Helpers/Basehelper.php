@@ -1,6 +1,7 @@
 <?php
 namespace nee_portal\Helpers;
 
+use nee_portal\Models\CandidateInfo;
 use nee_portal\Models\Centre;
 use nee_portal\Models\Quota;
 use nee_portal\Models\Exam;
@@ -18,6 +19,12 @@ use nee_portal\Models\CandidateInfo;
 use nee_portal\Models\Step1;
 
 class Basehelper{
+
+  public static function getExamName($info_id)
+  {
+        $info_exam_id = CandidateInfo::find($info_id)->pluck('exam_id');
+        return Exam::find($info_exam_id)->pluck('exam_name');
+  }
 
   public static function isActiveRoute($route, $output = "active")
   {
@@ -198,7 +205,7 @@ class Basehelper{
         case "T" : $result = "Address Verification Failed"; break;
         case "U" : $result = "Card Security Code Failed"; break;
         case "V" : $result = "Address Verification and Card Security Code Failed"; break;
-        default  : $result = "Unable to be determined"; 
+        default  : $result = "Unable to be determined";
         }
     return $result;
     }
