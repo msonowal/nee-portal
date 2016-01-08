@@ -525,11 +525,17 @@ class RegistrationController extends Controller
 
         if($candidate_info->reg_status=="payment_pending"){
 
-            return view($this->content.'payment_options');
+            $options = [''=>' -- Choose your option -- ',
+                'debit_card'=>'Debit Card',
+                'credit_card'=>'Credit Card',
+                'pay_u'   =>  'PayUMoney (E-Wallet)',
+                'challan'=> 'Challan',
+                'net_banking'=>'Net Banking',
+            ];
+            return view($this->content.'payment_options', compact('options'));
         }
 
         return $this->getStep();
-
     }
 
     public function paymentProceed(Request $request){
@@ -557,18 +563,20 @@ class RegistrationController extends Controller
 
                 return back()->withErrors(array('message' => 'Please select a Payment Option'));
             }
+            $option = $request->payment_option;
 
-            if($request->payment_option == "challan"){
-
+            if($option == "challan"){
                 return redirect()->route($this->content.'challan');
 
-            }else if($request->payment_option == "debit_credit"){
+            }else if($option == "debit_card" || $option == "credit_card"){
 
                 return redirect()->route('payment.debit_card');
+            }elseif ($option == 'pay_u') {
+
+                return redirect()->route('payment.pay_u');
             }
 
             return $this->getStep();
-
        }
 
        return $this->getStep();

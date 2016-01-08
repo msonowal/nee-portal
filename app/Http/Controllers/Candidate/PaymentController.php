@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use nee_portal\Http\Requests;
 use nee_portal\Http\Controllers\Controller;
 use Validator, Basehelper, Session, Carbon, Redirect, Auth, Log;
+use Illuminate\Support\Str;
 use nee_portal\Models\ChallanInfo;
 use nee_portal\Models\Step1;
 use nee_portal\Models\Step2;
@@ -270,4 +271,43 @@ class PaymentController extends Controller
        }
   }
 
+  public function showPayU()
+  {
+      $info_id = Session::get('candidate_info_id');
+      if(!Basehelper::checkSession())
+          return redirect()->route($this->content.'dashboard');
+
+    try{
+        $candidate_info=CandidateInfo::where('id', $info_id)->first();
+        $step1 = Step1::where('candidate_info_id', $info_id)->first();
+        $step2 = Step2::where('candidate_info_id', $info_id)->first();
+        $step3 = Step3::where('candidate_info_id', $info_id)->first();
+    }catch(ModelNotFoundException $e){
+        return redirect()->route('candidate.error')->withErrors('Record not found!');
+    }
+
+    if($candidate_info->reg_status=="payment_pending"){
+
+        $amount = 2; //CAll method to get amount payable
+        require('payu_config.php');
+        $txnid = Str::upper(substr(hash('sha256', mt_rand() . microtime()), 0, 20));
+
+        $string = $MERCHANT_KEY;
+        $string .='|'.$txnid;
+        $string .='|'.$amount;
+        //$hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
+        $vpc_Amount='200';
+        $vpc_Locale='en';
+
+        //$vpc_ReturnURL='https://www.neeonline.ac.in/nee/candidate/vpc_php_serverhost_dr.php';
+        $vpc_ReturnURL = route('payment.response.pay_u');
+
+        return view($this->content.'pay_u_form')->with([
+
+        ]);
+   }
+
+    //return redirect()->action('Candidate\RegistrationController@getStep');
+
+  }
 }

@@ -53,12 +53,18 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
         //Debit_credit payment
         Route::get('/payment/debit_card', ['as' => 'payment.debit_card', 'uses' =>'PaymentController@showDebit_card']);
         Route::post('/payment/debit_card', ['as' => 'payment.debit_card', 'uses' =>'PaymentController@doDebit_card']);
+        //Pay U money
+        Route::get('/payment/pay_u', ['as' => 'payment.pay_u', 'uses' =>'PaymentController@showPayU']);
+        Route::post('/payment/pay_u', ['as' => 'payment.pay_u', 'uses' =>'PaymentController@doPayU']);
 
     });
 });
 
 //Debit_Credit payment gateway Response
 Route::get('/payment/response/debit_card', ['as' => 'payment.response.debit_card','uses' =>'Candidate\PaymentController@debitResponse']);
+
+//PayYMoney
+Route::get('/payment/response/pay_u', ['as' => 'payment.response.pay_u','uses' =>'Candidate\PaymentController@payUResponse']);
 
 //Admin
 Route::get('/admin/login', array('as' => 'admin.login', 'uses' => 'Auth\AdminAuthController@getLogin'));

@@ -7,12 +7,7 @@
       {!! Form::open(array('route' => 'candidate.application.payment_options', 'class'=>'col s12')) !!}
         <div class="col s12">
           <div class="input-field col m12">
-            <select name="payment_option">
-              <option value="#" disabled selected>Choose your option</option>
-              <option value="challan">Challan</option>
-              <option value="net_banking">Net Banking</option>
-              <option value="debit_credit">Debit/Credit Card</option>
-            </select>
+            {!! Form::select('payment_option', $options) !!}
             <label>Options</label>
           </div>
           <div class="col m12">
