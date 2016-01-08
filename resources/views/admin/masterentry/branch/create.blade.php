@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('admin.layouts.dashboard')
 @section('page_heading','ADD BRANCH')
 @section('section')
 

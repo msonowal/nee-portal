@@ -9,8 +9,6 @@
 			<thead>
 				<tr>
 					<th width="4%">SL NO</th>
-					<th>EXAM NAME</th>
-					<th>ACADEMIC QUALIFICATION</th>
 					<th>ELIGIBLE FOR ADMISSION TO</th>
 					<th>PAPER CODE</th>
 					<th width="10%">ACTIONS</th>
@@ -20,11 +18,9 @@
 			<?php $i=($paginator-1)*($result->perPage())+1; ?>
 			@foreach($result as $res)
 				<tr>
-					<td align="center">{!! $i  !!}</td>
-					<td>{!! $res->exam_id   !!}</td>
-					<td>{!! $res->qualification_id !!}</td>
-					<td>{!! $res->eligible_for    !!}</td>
-					<td align="center">{!! $res->paper_code  !!}</td>
+					<td align="center">{{ $i  }}</td>
+					<td>{{ $res->eligible_for    }}</td>
+					<td align="center">{{ $res->paper_code }}</td>
 					<td>
 						<a href="{!! URL::Route('admin.masterentry.examdetail.edit', array($res->id)) !!}", class="btn btn-info btn-md pull-left">
 							<i class="fa fa-edit"></i>

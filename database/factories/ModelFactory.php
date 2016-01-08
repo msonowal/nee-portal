@@ -13,11 +13,11 @@
 
 $factory->define(nee_portal\Models\Admin::class, function ($faker) {
    return [
-       'username' => $faker->unique()->word,
+       'username' => 'admin',
        'fullname' => $faker->name,
        'mobile_no' => $faker->unique()->PhoneNumber,
        'email' => $faker->unique()->email,
-       'password' =>bcrypt('secret'),
+       'password' =>bcrypt('secret@nee#2016'),
        'remember_token'=>str_random(10),
        'reset_key'=>str_random(10),
 

@@ -39,13 +39,13 @@ class RestController extends Controller
 
           $id = ExamQualification::where('q_id', $info->q_id)->where('exam_id', $info->exam_id)->first()->id;
       
-          if($id == 1 || $id == 2 || $id == 4 || $id == 6 || $id == 8){
+          if($id == 1 || $id == 2 || $id == 4 || $id == 6){
               $exam_detail = ExamDetail::where('id', 1)->first()->id;
-          }elseif ($id == 3 || $id == 5 || $id == 9) {
+          }elseif ($id == 3 || $id == 5) {
               $exam_detail = ExamDetail::where('id', 2)->first()->id;
           }elseif ($id == 7) {
               $exam_detail = ExamDetail::where('id', 3)->first()->id;
-          }elseif ($id == 10) {
+          }elseif ($id == 8) {
               $exam_detail = ExamDetail::where('id', 4)->first()->id;
           }          
           

@@ -20,12 +20,12 @@
 			<tbody>
 			@foreach($result as $res)
 				<tr>
-					<td>{!! $res->exam_name   !!}</td>
-					<td>{!! $res->description !!}</td>
-					<td>{!! $res->n_price     !!}</td>
-					<td>{!! $res->scst_price  !!}</td>
-					<td>{!! $res->start_date  !!}</td>
-					<td>{!! $res->active      !!}</td>
+					<td>{{ $res->exam_name   }}</td>
+					<td>{{ $res->description }}</td>
+					<td>{{ $res->n_price     }}</td>
+					<td>{{ $res->scst_price  }}</td>
+					<td>{{ $res->start_date  }}</td>
+					<td>{{ $res->active      }}</td>
 					<td>
 						<a href="{!! URL::Route('admin.masterentry.exam.edit', array($res->id)) !!}", class="btn btn-info btn-md pull-left">
 							<i class="fa fa-edit"></i>

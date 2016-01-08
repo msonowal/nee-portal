@@ -24,10 +24,10 @@
 					<td>{!! $res->centre_name   !!}</td>
 					<td>{!! $res->centre_state   !!}</td>
 					<td>
-						<a href="{!! URL::Route('admin.masterentry.centre.edit', array($res->id)) !!}", class="btn btn-info btn-md pull-left">
+						<a href="{!! URL::Route('admin.masterentry.centre.edit', array($res->centre_code)) !!}", class="btn btn-info btn-md pull-left">
 							<i class="fa fa-edit"></i>
 						</a>
-                        {!! Form::open(array('method'=>'DELETE', 'route'=>array('admin.masterentry.centre.destroy', $res->id))) !!}
+                        {!! Form::open(array('method'=>'DELETE', 'route'=>array('admin.masterentry.centre.destroy', $res->centre_code))) !!}
                             <button type="submit" class="btn btn-danger btn-md pull-right">
                       				<i class="fa fa-trash"></i>
                   			</button>

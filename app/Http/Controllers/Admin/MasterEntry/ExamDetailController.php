@@ -113,7 +113,7 @@ class ExamDetailController extends Controller
 
             $exam_detail  = ExamDetail::findOrFail($id);
 
-                $form    = $formBuilder->create('nee_portal\Forms\ExamForm',
+                $form    = $formBuilder->create('nee_portal\Forms\ExamDetailForm',
                 [
                  'method' => 'PUT',
 
