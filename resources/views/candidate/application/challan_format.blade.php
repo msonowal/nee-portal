@@ -216,7 +216,7 @@
         			</td>
         			<td>		
 			         	<div class="box-5"> 
-			        		{{ $candidate_info->exam_id }}/-
+			        		{{ $amount }}/-
 			         	</div>
         			</td>
         		</tr>
@@ -321,7 +321,7 @@
         			</td>
         			<td>		
 			         	<div class="box-5"> 
-			        		{{ $candidate_info->exam_id }}/-
+			        		{{ $amount }}/-
 			         	</div>
         			</td>
         		</tr>
