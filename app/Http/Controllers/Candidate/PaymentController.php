@@ -97,10 +97,10 @@ class PaymentController extends Controller
                     'vpc_Amount' =>$vpc_Amount,
                     'vpc_Locale' =>$vpc_Locale,
                     'vpc_ReturnURL' =>$vpc_ReturnURL
-                    ]);
+            ]);
        }
 
-        return redirect()->action('Candidate\RegistrationController@getStep');
+        return redirect()->route('candidate.application.step');
     }
 
     public function doDebit_card(Request $request){
@@ -123,42 +123,28 @@ class PaymentController extends Controller
 
         if($candidate_info->reg_status=="payment_pending"){
 
+          $data['candidate_info_id']=$info_id;
+          $data['mobile_no']=$candidate->mobile_no;
+          $data['email']=$candidate->email;
+          $data['trans_type']='debit_credit';
+          $data['order_id'] =$request->vpc_MerchTxnRef;
+          $data['order_info']=$request->vpc_OrderInfo;
+          $data['amount'] =$request->vpc_Amount;
+          $data['status'] ='PENDING';
 
-        $data['candidate_info_id']=$info_id;
+          $order= new Order;
+          $order->fill($data);
 
-        $data['mobile_no']=$candidate->mobile_no;
+          if(!$order->save())
+              return back()->withErrors('Unable to proceed!');
 
-        $data['email']=$candidate->email;
-
-        $data['trans_type']='debit_credit';
-
-        $data['order_id'] =$request->vpc_MerchTxnRef;
-
-        $data['order_info']=$request->vpc_OrderInfo;
-
-        $data['amount'] =$request->vpc_Amount;
-
-        $data['status'] ='PENDING';
-
-        $order= new Order;
-
-        $order->fill($data);
-
-        if(!$order->save())
-            return back()->withErrors('Unable to proceed!');
-
-        //payment gateway dibit_credit
-        require('pgconfig.php');
-
-        $md5HashData = $SECURE_SECRET;
-
-        $vpcURL=$request->virtualPaymentClientURL.'?';
-
-        $input=$request->except('virtualPaymentClientURL', '_token');
-
-        ksort($input);
-
-        $appendAmp = 0;
+          //payment gateway dibit_credit
+          require('pgconfig.php');
+          $md5HashData = $SECURE_SECRET;
+          $vpcURL=$request->virtualPaymentClientURL.'?';
+          $input=$request->except('virtualPaymentClientURL', '_token');
+          ksort($input);
+          $appendAmp = 0;
 
         foreach($input as $key => $value)
         {
@@ -169,26 +155,20 @@ class PaymentController extends Controller
                 {
                     $vpcURL .= urlencode($key) . '=' . urlencode($value);
                     $appendAmp = 1;
-                }
-                else
-                {
+                }else
                     $vpcURL .= '&' . urlencode($key) . "=" . urlencode($value);
-                }
 
                 $md5HashData .= $value;
            }
         }
 
        if (strlen($SECURE_SECRET) > 0)
-       {
             $vpcURL .= "&vpc_SecureHash=" . strtoupper(md5($md5HashData));
-       }
 
        return Redirect::to($vpcURL);
-
     }
 
-    return redirect()->action('Candidate\RegistrationController@getStep');
+    return redirect()->route('candidate.application.step');
 
   }
 
@@ -323,7 +303,7 @@ class PaymentController extends Controller
                     'vpc_Amount' =>$vpc_Amount,
                     'vpc_Locale' =>$vpc_Locale,
                     'vpc_ReturnURL' =>$vpc_ReturnURL
-                    ]);
+            ]);
        }
 
         return redirect()->action('Candidate\RegistrationController@getStep');
@@ -351,71 +331,48 @@ class PaymentController extends Controller
 
 
         $data['candidate_info_id']=$info_id;
-
         $data['mobile_no']=$candidate->mobile_no;
-
         $data['email']=$candidate->email;
-
         $data['trans_type']='debit_credit';
-
         $data['order_id'] =$request->vpc_MerchTxnRef;
-
         $data['order_info']=$request->vpc_OrderInfo;
-
         $data['amount'] =$request->vpc_Amount;
-
         $data['status'] ='PENDING';
-
         $order= new Order;
-
         $order->fill($data);
-
         if(!$order->save())
             return back()->withErrors('Unable to proceed!');
 
         //payment gateway dibit_credit
         require('pgconfig.php');
-
         $md5HashData = $SECURE_SECRET;
-
         $vpcURL=$request->virtualPaymentClientURL.'?';
-
         $input=$request->except('virtualPaymentClientURL', '_token');
-
         ksort($input);
-
         $appendAmp = 0;
-
         foreach($input as $key => $value)
         {
 
-           if (strlen($value) > 0)
-           {
-                if ($appendAmp == 0)
-                {
+           if (strlen($value) > 0){
+
+                if ($appendAmp == 0){
+
                     $vpcURL .= urlencode($key) . '=' . urlencode($value);
                     $appendAmp = 1;
-                }
-                else
-                {
+                }else
                     $vpcURL .= '&' . urlencode($key) . "=" . urlencode($value);
-                }
 
                 $md5HashData .= $value;
            }
         }
 
        if (strlen($SECURE_SECRET) > 0)
-       {
             $vpcURL .= "&vpc_SecureHash=" . strtoupper(md5($md5HashData));
-       }
 
        return Redirect::to($vpcURL);
-
     }
 
-    return redirect()->action('Candidate\RegistrationController@getStep');
-
+    return redirect()->route('candidate.application.step');
   }
 
   public function creditResponse(Request $request){
@@ -554,11 +511,27 @@ class PaymentController extends Controller
         $hash = strtolower(hash('sha512', $hash_string));
         //$hash = hash("sha512", $hash_string);
         $action = $PAYU_BASE_URL . '/_payment';
-
+        //TODO to insert in the db for the order details or not to discuss
         return view($this->content.'pay_u_form', compact('data', 'action', 'hash'));
    }
+    return redirect()->route('candidate.application.step');
+  }
 
-    //return redirect()->action('Candidate\RegistrationController@getStep');
+  public function payUResponseSuccess(Request $request)
+  {
+    Log::info('PayUMoney Sucess');
+    return $request;
+  }
 
+  public function payUResponseFail(Request $request)
+  {
+    Log::info('PayUMoney Fail');
+    return $request;
+  }
+
+  public function payUResponseCancel(Request $request)
+  {
+    Log::info('PayUMoney Cancelled');
+    return $request;
   }
 }

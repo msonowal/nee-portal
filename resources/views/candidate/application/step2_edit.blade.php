@@ -1,7 +1,7 @@
 @extends('candidate.plane')
 @section('body')
 	<div class="card-panel hoverable">
-		  {!! form_start($form) !!}
+		  {!! form_start($form, ['id'=>'step2_form']) !!}
 		    <div class="row">
 					<div class="section">
 						<h5>Personal Details</h5>
@@ -55,6 +55,11 @@
 
 @section('page_script')
     $('#state').change(function(e){ getDistrictList(this, $('#district')); });
-
+		$("#step2_form").validate({
+      rules: {
+        name: { required: true },
+        pin: { required: true, digits: true, minlength: 6 }
+      }
+    });
     $('#state').trigger('change');
 @stop

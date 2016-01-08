@@ -124,10 +124,11 @@ class CandidateAuthController extends Controller
 
     public function activateOTP(Request $request)
     {
-        if($request->has('mobile_no') || $request->has('otp')){
+        if($request->has('mobile_no')){
 
+          $otp = trim($request->otp);
           $messages = ['mobile_no.exists' => 'Mobile No Does not exists in our System'];
-          $validator = Validator::make($data = $request->all(), ['mobile_no'=>'exists:candidates,mobile_no'], $messages);
+          $validator = Validator::make($data = $request->all(), ['mobile_no'=>'exists:candidates,mobile_no', 'otp'=>'required'], $messages);
 
           if ($validator->fails())
             return redirect::back()->withErrors($validator)->withInput();
@@ -140,7 +141,7 @@ class CandidateAuthController extends Controller
             return redirect()->route($this->content.'login')->withInput($data)->with('message', 'Your account is already activated. <br>You can Login with your email and password');
           }
 
-          if($request->otp == $candidate->confirm_code){
+          if($otp == $candidate->confirm_code){
               $candidate->status = 1;
               $candidate->confirm_code = NULL;
               $candidate->save();

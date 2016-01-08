@@ -43,7 +43,7 @@
                 $("<option>").val('').text(' -- Choose Reservation Code -- ').appendTo($reservation_code);
 								$.each(msg, function(key, value) {
                     $("<option>").val(value.reservation_code).attr("data-status", "active").text(value.reservation_code).appendTo($reservation_code);
-										list += "<tr><td>" + value.quota.name + '</td><td>' + value.reservation_code +'</td><td>' + value.description + '</td></tr>';
+										list += "<tr><td>" + value.quota.name + '</td><td><a href="#" class="reservation_list_code" data-code="'+ value.reservation_code +'">' + value.reservation_code +'</a></td><td>' + value.description + '</td></tr>';
                 });
 								list+='</table>'
 								$('#reservation_list').html(list);
@@ -71,7 +71,7 @@
 								$("<option>").val('').text(' -- Select Alternate Reservation Code -- ').appendTo($reservation_code);
 								$.each(msg.alt_codes, function(key, value) {
 										$("<option>").val(value.reservation_code).text(value.reservation_code).appendTo($reservation_code);
-										list += "<tr><td>" + value.quota.name + '</td><td>' + value.reservation_code +'</td><td>' + value.description + '</td></tr>';
+										list += "<tr><td>" + value.quota.name + '</td><td><a href="#" class="reservation_list_code" data-code="'+ value.reservation_code +'">' + value.reservation_code +'</a></td><td>' + value.description + '</td></tr>';
 								});
 
 								$('#reservation_list').html(list);
@@ -108,11 +108,10 @@
 @stop
 
 @section('page_script')
-    $('#quota').change(function(e){ getReservationCode(this, $('#reservation_code')); });
+  $('#quota').change(function(e){ getReservationCode(this, $('#reservation_code')); });
 	$('#branch_id').change(function(e){ getAlliedBranch(this, $('#allied_branch_id')); });
 	$('#reservation_code').change(function(e) { getReservationStatus($('#reservation_code').val()); });
-
-	//Validaton logic
+	$('body').on('click', 'a.reservation_list_code', function(e){ e.preventDefault(); $('#reservation_code').val($(this).attr('data-code')); $('#modal1').closeModal(); $('#reservation_code').material_select('update'); $('#reservation_code').trigger('change'); });
 
     $("#step1_form").validate({
       rules: {
@@ -122,35 +121,6 @@
       }
     });
 
-	$('#step1_form').submit(function(e) {
-
-        var errors = '';
-        var stop = 0;
-
-        if($("#quota").val() == ''){
-            stop++;
-            errors = 'Quota field is required';
-        }
-
-        if($("#qualification_status").val() == ''){
-            if(stop!=0)
-                errors += '<br/>';
-            stop++;
-            errors += 'Please select an Qualification Status ';
-        }
-
-        if($("#exam_id").val() == ''){
-            if(stop!=0)
-                errors += '<br/>';
-            stop++;
-            errors += 'Please select an Exam to appear for';
-        }
-
-        if(stop!=0){
-            showError(errors);
-            return false;
-        }else
-            return true;
-    });
+	$('#step1_form').submit(function(e) {  });
 
 @stop
