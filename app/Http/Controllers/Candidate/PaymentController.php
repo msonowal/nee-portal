@@ -291,10 +291,28 @@ class PaymentController extends Controller
         $amount = 2; //CAll method to get amount payable
         require('payu_config.php');
         $txnid = Str::upper(substr(hash('sha256', mt_rand() . microtime()), 0, 20));
-
+        //$productinfo = [];
+        $payment_parts['paymentParts']['name'] = $step2->name;
+        $payment_parts['paymentParts']['description'] = Basehelper::getExamName($info_id);
+        $payment_parts['paymentParts']['value'] = $amount;
+        $payment_parts['paymentParts']['isRequired'] = true;
+        $payment_parts['paymentParts']['settlementEvent'] = 'EmailConfirmation';
+        $payment_parts['paymentParts']['info_id'] = $info_id;
+        $payment_parts['paymentParts']['transaction_date'] = date('d/m/Y');
+        $productinfo = json_encode($payment_parts);
+        // $productinfo, $payment_parts;
+        // $productinfo['paymentIdentifiers']['field'] = 'TransactionDate';
+        // $productinfo['paymentIdentifiers']['value'] = date('d/m/Y');
+        // $productinfo['paymentIdentifiers']['info_id'] = 'info_id';
+        // $productinfo['paymentIdentifiers']['value'] = $info_id;
         $string = $MERCHANT_KEY;
         $string .='|'.$txnid;
         $string .='|'.$amount;
+        $string .='|'.$productinfo;
+        $string .='|'.Auth::candidate()->get()->first_name;
+        $string .='|'.Auth::candidate()->get()->email;
+        $string .='|'.$info_id;
+        $string .='|'.'sd';
         //$hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
         $vpc_Amount='200';
         $vpc_Locale='en';
