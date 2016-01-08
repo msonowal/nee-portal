@@ -21,7 +21,7 @@
 
 <div id="modal1" class="modal">
     <div class="modal-content">
-    Reservation List
+    Reservation Information List
 			<div id="reservation_list">
 			</div>
     </div>
@@ -40,9 +40,8 @@
                 $reservation_code.empty();
 								$reservation_code.empty().html('');
 								var list = '<table class="bordered"><tr><th style="width:145px;">Quota</th><th style="width:137px;">Reservation Code</th><th>Description</th></tr>';
-                $("<option>").val('').text('--Select Reservation Code--').appendTo($reservation_code);
+                $("<option>").val('').text(' -- Choose Reservation Code -- ').appendTo($reservation_code);
 								$.each(msg, function(key, value) {
-
                     $("<option>").val(value.reservation_code).attr("data-status", "active").text(value.reservation_code).appendTo($reservation_code);
 										list += "<tr><td>" + value.quota.name + '</td><td>' + value.reservation_code +'</td><td>' + value.description + '</td></tr>';
                 });
@@ -65,7 +64,7 @@
 					$.ajax({ url: url, type: 'GET', data: { reservation_code: code } }).done(function( msg ) {
 
 						if(msg.status == 'inactive'){
-							Materialize.toast('No seats available for code: '+code+ ' <br/>Please select alternative codes', 10000)
+							Materialize.toast('No seats available for code: '+code+ ' <br/>Please choose an alternative code from the list', 10000);
 							$reservation_code.empty();
 							$reservation_code.empty().html('');
 								var list = '<table class="bordered"><tr><th style="width:145px;">Quota</th><th style="width:137px;">Reservation Code</th><th>Description</th></tr>';

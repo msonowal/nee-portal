@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use nee_portal\Http\Requests;
 use nee_portal\Http\Controllers\Controller;
-use Validator, Basehelper, Session, Carbon, Redirect, Auth;
+use Validator, Basehelper, Session, Carbon, Redirect, Auth, Log;
 use nee_portal\Models\ChallanInfo;
 use nee_portal\Models\Step1;
 use nee_portal\Models\Step2;
@@ -120,9 +120,9 @@ class PaymentController extends Controller
 
         $data['candidate_info_id']=$info_id;
 
-        $data['mobile_no']=$candidate->mobile_no; 
+        $data['mobile_no']=$candidate->mobile_no;
 
-        $data['email']=$candidate->email;  
+        $data['email']=$candidate->email;
 
         $data['trans_type']='debit_credit';
 
@@ -173,10 +173,10 @@ class PaymentController extends Controller
            }
         }
 
-       if (strlen($SECURE_SECRET) > 0) 
+       if (strlen($SECURE_SECRET) > 0)
        {
             $vpcURL .= "&vpc_SecureHash=" . strtoupper(md5($md5HashData));
-       }  
+       }
 
        return Redirect::to($vpcURL);
 
@@ -189,6 +189,7 @@ class PaymentController extends Controller
   public function drServerhost(Request $request){
 
         $info_id = Session::get('candidate_info_id');
+        Log::info('INFO ID: '.$info_id);
 
         require('pgconfig.php');
 
@@ -214,11 +215,11 @@ class PaymentController extends Controller
 
         //$errorExists = false;
 
-        if (strlen($SECURE_SECRET) > 0 && $txnResponseCode != "7" && $txnResponseCode != "No Value Returned") 
+        if (strlen($SECURE_SECRET) > 0 && $txnResponseCode != "7" && $txnResponseCode != "No Value Returned")
         {
             $md5HashData = $SECURE_SECRET;
 
-            foreach($input as $key => $value) 
+            foreach($input as $key => $value)
             {
                 if ($key != "vpc_SecureHash" or strlen($value) > 0) {
                     $md5HashData .= $value;
@@ -270,9 +271,9 @@ class PaymentController extends Controller
         if(!$order->save())
             return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
 
-        return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed! Your payment order id is '.$orderInfo); 
-                        
-       } 
+        return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed! Your payment order id is '.$orderInfo);
+
+       }
        else
        {
 
@@ -290,8 +291,8 @@ class PaymentController extends Controller
         $order->save();
 
         return redirect()->route($this->content.'payment_options')->withErrors('Transaction is failed. Please try again.');
-       
-       }    
+
+       }
 
 
   }

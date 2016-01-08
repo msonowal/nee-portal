@@ -29,7 +29,7 @@ class Step1 extends Form
             'empty_value' => 'Select Centre Preference 1',
             'attr' => ['required', 'data-msg'=>"Please select a Exam Centre Preference 1"],
             'wrapper'=>['class'=>'input-field col m6'],
-            'label' => 'Centre Preference 1'
+            'label' => 'Exam Centre Preference 1'
 	      ]);
 
 	      $this->add('c_pref2', 'select', [
@@ -37,7 +37,7 @@ class Step1 extends Form
            	'empty_value' => 'Select Centre Preference 2',
 	          'attr' => ['required', 'data-msg'=>"Please select a Exam Centre Preference 2"],
             'wrapper'=>['class'=>'input-field col m6'],
-            'label' => 'Centre Preference 2'
+            'label' => 'Exam Centre Preference 2'
 	      ]);
 
 	      $this->add('dob', 'date', [
@@ -84,7 +84,7 @@ class Step1 extends Form
 
             //AlliedBranch::lists('allied_branch', 'id')->all()
     	      $this->add('allied_branch', 'select', [
-               	'choices' => [''=>' -- Select Branch first'],
+               	'choices' => [''=>' -- Select Branch first -- '],
                	'empty_value' => 'Select Branch Subject',
     	          'attr' => ['required', 'id'=>'allied_branch_id', 'data-msg'=>"Please choose your branch subject"],
                 'wrapper'=>['class'=>'input-field col m6']
@@ -92,7 +92,7 @@ class Step1 extends Form
         }
 
 	      $this->add('reservation_code', 'select', [
-           	'choices' => ['' => 'Select Reservation Code'],
+           	'choices' => ['' => ' -- Select Quota First -- '],
 	          'attr' => ['required', 'id'=>'reservation_code', 'data-msg'=>"Please select a reservation code from the list"],
             'wrapper'=>['class'=>'input-field col m6']
 	      ]);
