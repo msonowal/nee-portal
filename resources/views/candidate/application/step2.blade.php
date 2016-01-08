@@ -24,6 +24,7 @@
 @stop
 @section('script')
 <script type="text/javascript">
+var district_set = @if(old('district')=='') false @else true @endif;
     function getDistrictList(stateElement, districtElement){
         var url = '{!! route('district.by.state') !!}';
         var state = $(stateElement).val();
@@ -31,14 +32,20 @@
         districtElement = typeof districtElement !== 'undefined' ? districtElement : '';
         if(state!=''){
             $.ajax({ url: url, type: 'GET', data: { state_id: state } }).done(function( msg ) {
+
+								$('#district-error').remove();
                 $district.empty();
                 $district.empty().html('');
-                $("<option>").val('').text('--Select District--').appendTo($district);
+                $("<option>").val('').text(' -- Choose District -- ').appendTo($district);
                 $.each(msg, function(key, value) {
                     $("<option>").val(value.id).text(value.name).appendTo($district);
                 });
+								if(district_set){
+								  $district.val('{{ old('district') }}');
+								  district_set = false;
+								}
                 $district.material_select('update');
-                $district.closest('.input-field').children('span.caret').remove();
+                //$district.closest('.input-field').children('span.caret').remove();
                 return true;
             });
         }else
@@ -49,7 +56,7 @@
 
 @section('page_script')
     $('#state').change(function(e){ getDistrictList(this, $('#district')); });
-    
+
     $('#state').trigger('change');
 
     $("#step2_form").validate({

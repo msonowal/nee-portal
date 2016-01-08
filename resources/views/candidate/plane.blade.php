@@ -66,7 +66,10 @@
           $('.tooltipped').tooltip({delay: 50}); //Tooltip
           $('.modal-trigger').leanModal(); //Trigger Model
 
+
           @yield('page_script')
+          //$('textarea').characterCounter();
+          //$('input#input_text, textarea#textarea1').characterCounter();
       });
     </script>
     </body>

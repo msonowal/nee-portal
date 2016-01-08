@@ -36,7 +36,7 @@ $.validator.setDefaults({
   },
   errorPlacement: function(error, element) {
 
-    if($(element).is('select')){
+    if($(element).is('select') || $(element).is('textarea')){
     	error.insertAfter($(element));
     }else
     	error.insertAfter($(element).siblings('label'));

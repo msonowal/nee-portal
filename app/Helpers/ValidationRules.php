@@ -46,19 +46,19 @@ class ValidationRules{
   public static function step2_save(){
 
       return $rules=[
-      					'name' => 'required',
-      					'father_name' => 'required',
-      					'guardian_name' => 'required',
-      					'gender' =>'required',
-      					'nationality' => 'required',
-      					'emp_status' => 'required',
-      					'relationship' => 'required',
-      					'state' => 'required|numeric',
-      					'district' => 'required',
-      					'po' => 'required',
-      					'pin' => 'required|digits:6|numeric',
-      					'village' => 'required|max:100',
-      					'address_line' => 'required|max:100'
+      					'name' => 'required|max:40',
+      					'father_name' => 'required|max:40',
+      					'guardian_name' => 'required|max:40',
+      					'gender' => 'required|in:MALE,FEMALE,TRANSGENDER',
+      					'nationality' => 'required|in:INDIAN',
+      					'emp_status' => 'required|in:YES,NO',
+      					'relationship' => 'required|max:20',
+      					'state' => 'required|exists:states,id',
+      					'district' => 'required|exists:districts,id',
+      					'po' => 'required|max:20',
+      					'pin' => 'required|digits:6',
+      					'village' => 'required|max:20',
+      					'address_line' => 'required|max:300'
       ];
   }
 
