@@ -105,6 +105,7 @@ class CandidateAuthController extends Controller
 
         $first_name = Auth::candidate()->get()->first_name;
         Session::put('first_name', $first_name);
+        Session::put('candidate_email', Auth::candidate()->get()->email);
 
         $id = Auth::candidate()->get()->id;
         $applied = CandidateInfo::where('candidate_id', $id)->get()->count();
