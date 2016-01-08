@@ -28,3 +28,20 @@ select.invalid ~ .select-dropdown {
   background-color: #b71c1c;
   color: #fff;
 }
+
+label.invalid {
+    color: red;
+    font-size: 0.8rem;
+    left: 0;
+    position: relative;
+    top: -15px;
+    transform: none !important;
+}
+span.invalid {
+    color: red;
+    font-size: 0.8rem;
+    left: 0;
+    position: relative;
+    top: -15px;
+    transform: none !important;
+}

@@ -39,7 +39,7 @@ class CandidateController extends Controller
     public function storeExam(Request $request)
     {
         $id = Auth::candidate()->get()->id;
-        $validator = Validator::make($data = $request->all(), CandidateInfo::$rules);
+        $validator = Validator::make($data = $request->all(), CandidateInfo::$rules, CandidateInfo::$messages);
 
         //return $data;
         if ($validator->fails())

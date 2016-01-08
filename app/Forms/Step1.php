@@ -18,7 +18,7 @@ class Step1 extends Form
            $this->add('quota', 'select', [
              'choices' => Quota::lists('name', 'id')->all(),
              'empty_value' => 'Select Quota',
-             'attr' => ['required','id'=>'quota'],
+             'attr' => ['required','id'=>'quota', 'data-msg'=>"Please select a Quota"],
              'wrapper'=>['class'=>'input-field col m6'],
              'label' => 'Select Quota'
 	      ]);
@@ -27,7 +27,7 @@ class Step1 extends Form
           $this->add('c_pref1', 'select', [
             'choices' => $centre_choices,
             'empty_value' => 'Select Centre Preference 1',
-            'attr' => ['required'],
+            'attr' => ['required', 'data-msg'=>"Please select a Exam Centre Preference 1"],
             'wrapper'=>['class'=>'input-field col m6'],
             'label' => 'Centre Preference 1'
 	      ]);
@@ -35,13 +35,13 @@ class Step1 extends Form
 	      $this->add('c_pref2', 'select', [
            	'choices' => $centre_choices,
            	'empty_value' => 'Select Centre Preference 2',
-	          'attr' => ['required'],
+	          'attr' => ['required', 'data-msg'=>"Please select a Exam Centre Preference 2"],
             'wrapper'=>['class'=>'input-field col m6'],
             'label' => 'Centre Preference 2'
 	      ]);
 
 	      $this->add('dob', 'date', [
-	          'attr' => ['required', 'class' => 'datepicker'],
+	          'attr' => ['required', 'class' => 'datepicker', 'data-msg'=>"Please select a Date of birth"],
             'wrapper'=>['class'=>'input-field col m6'],
             'label' => 'Date of Birth (dd-mm-yyyy)'
 	      ]);
@@ -50,7 +50,7 @@ class Step1 extends Form
            	'choices' => ['YES' => 'YES', 'NO' => 'NO'],
            	'selected' => 'NO',
             'class' => '',
-	          'attr' => ['required'],
+	          'attr' => ['required', 'data-msg'=>"Please specify if you are a NERIST student"],
             'wrapper'=>['class'=>'input-field col m6'],
             'label' => 'Are you a Nerist Student?'
 	      ]);
@@ -67,7 +67,7 @@ class Step1 extends Form
   	      $this->add('voc_subject', 'select', [
              	'choices' => VocationalSubject::lists('name', 'paper_code')->all(),
              	'empty_value' => ' -- Choose -- ',
-  	          'attr' => ['required'],
+  	          'attr' => ['required', 'data-msg'=>"Please choose your vocational subject"],
               'wrapper'=>['class'=>'input-field col m6'],
               'label' =>  'Vocational Subject'
   	      ]);
@@ -78,7 +78,7 @@ class Step1 extends Form
     	      $this->add('branch', 'select', [
               'choices' => Branch::lists('branch_name', 'id')->all(),
               'empty_value' => ' -- Choose -- ',
-    	        'attr' => ['required', 'id'=>'branch_id'],
+    	        'attr' => ['required', 'id'=>'branch_id', 'data-msg'=>"Please choose your branch"],
               'wrapper'=>['class'=>'input-field col m6']
     	      ]);
 
@@ -86,14 +86,14 @@ class Step1 extends Form
     	      $this->add('allied_branch', 'select', [
                	'choices' => [''=>' -- Select Branch first'],
                	'empty_value' => 'Select Branch Subject',
-    	          'attr' => ['required', 'id'=>'allied_branch_id'],
+    	          'attr' => ['required', 'id'=>'allied_branch_id', 'data-msg'=>"Please choose your branch subject"],
                 'wrapper'=>['class'=>'input-field col m6']
     	      ]);
         }
 
 	      $this->add('reservation_code', 'select', [
            	'choices' => ['' => 'Select Reservation Code'],
-	          'attr' => ['required', 'id'=>'reservation_code'],
+	          'attr' => ['required', 'id'=>'reservation_code', 'data-msg'=>"Please select a reservation code from the list"],
             'wrapper'=>['class'=>'input-field col m6']
 	      ]);
 

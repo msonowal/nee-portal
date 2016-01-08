@@ -10,13 +10,14 @@ class Step2 extends Form
     public function buildForm()
     {
           $this->add('name', 'text', [
-	          'attr' => ['required', 'maxlength' => '150'],
+	          'attr' => ['required', 'maxlength' => '150', 'data-msg'=>"Full name of the candidate is required"],
 	          'wrapper'=>['class'=>'input-field col s12 m6 l4'],
-            'label' =>  'Full Name'
+	          'label' =>  'Full Name'
+              //'label_attr' => ['data-error'=>"reqruied", 'data-success'=>"right"],
 	      ]);
 
           $this->add('father_name', 'text', [
-	          'attr' => ['required', 'maxlength' => '150'],
+	          'attr' => ['required', 'maxlength' => '150', 'data-msg'=>"please specify Father's name"],
 	          'wrapper'=>['class'=>'input-field col s12 m6 l4'],
             'label' =>  'Father\'s name'
 	      ]);
