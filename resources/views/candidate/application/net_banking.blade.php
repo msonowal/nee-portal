@@ -16,6 +16,13 @@
             Proceed to Payment Gateway
             </button>
         </div>
+          {!! Form::hidden('BillerId', $BillerId) !!}
+          {!! Form::hidden('ResponseUrl', $ResponseUrl) !!}
+          {!! Form::hidden('CRN', $CRN) !!}
+          {!! Form::hidden('CheckSumKey', $CheckSumKey) !!}
+          {!! Form::hidden('CheckSumGenUrl', $CheckSumGenUrl) !!}
+          {!! Form::hidden('TPSLUrl', $TPSLUrl) !!}
+          {!! Form::hidden('txtAcctNo', $txtAcctNo) !!}          
           {!! Form::hidden('txtTranID', $txtTranID) !!}
           {!! Form::hidden('txtMarketCode', $txtMarketCode) !!}
           {!! Form::hidden('txtBankCode', $txtBankCode) !!}

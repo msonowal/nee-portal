@@ -508,13 +508,21 @@ class PaymentController extends Controller
         }
 
         if($candidate_info->reg_status=="payment_pending"){
+            require('MerchantDetails.php');
             $txtTranID=$info_id;
             $txtMarketCode='L2748';
-            //$txtAcctNo = '';
+            $txtAcctNo = '9085538844';
             $txtBankCode='NA';
             $amount=(Basehelper::getPayableAmount($info_id))*100+600;
 
             return view($this->content.'net_banking')->with([
+                        'BillerId' => $BillerId,
+                        'ResponseUrl' => $ResponseUrl,
+                        'CRN' => $CRN,
+                        'CheckSumKey' => $CheckSumKey,
+                        'CheckSumGenUrl' => $CheckSumGenUrl,
+                        'TPSLUrl' => $TPSLUrl,
+                        'txtAcctNo' => $txtAcctNo,
                         'txtTranID' => $txtTranID,
                         'txtMarketCode' => $txtMarketCode,
                         'txtBankCode' => $txtBankCode,
@@ -545,43 +553,97 @@ class PaymentController extends Controller
 
         if($candidate_info->reg_status=="payment_pending"){
 
+            $data['candidate_info_id']=$info_id;
+            $data['mobile_no']=$candidate->mobile_no;
+            $data['email']=$candidate->email;
+            $data['trans_type']='net banking';
+            $data['order_id'] =$request->txtTranID;
+            $data['amount'] =$request->amount;
+            $data['status'] ='PENDING';
 
-        $data['candidate_info_id']=$info_id;
+            $order= new Order;
+            $order->fill($data);
 
-        $data['mobile_no']=$candidate->mobile_no;
+            if(!$order->save())
+                return back()->withErrors('Unable to proceed!');    
 
-        $data['email']=$candidate->email;
+        $TPSLUrl =$request->TPSLUrl;
+        $CheckSumGenUrl = $request->CheckSumGenUrl;          
+        $txtBillerIdStr = "txtBillerid=".$request->BillerId."&";
+        $txtResponseUrl = "txtResponseUrl=".$request->ResponseUrl."&";
+        $txtCRN ="txtCRN= ".$request->CRN."&";
+        $txtCheckSumKey = "txtCheckSumKey=".$request->CheckSumKey;
+        $transaction = $request->txtTranID;
+        $market = $request->txtMarketCode;
+        $account = $request->txtAcctNo;
+        $transaction_amount = $request->txtTxnAmount;
+        $bankcode = $request->txtBankCode;
+                
+        $string=$txtBillerIdStr.$txtResponseUrl.$txtCRN.$txtCheckSumKey;
 
-        $data['trans_type']='net banking';
+        $txtVals = $transaction.$market.$account.$transaction_amount.$bankcode;
+        $txt_encrypt = base64_encode($txtVals);
+        $txt_encrypt = md5(base64_encode($txtVals));
 
-        $data['order_id'] =$request->txtTranID;
+        //$txtKey = $txtCheckSumKey;
+        $txtForEncode = $txt_encrypt.$txtCheckSumKey;
+        $txtPostid = md5($txtForEncode);
+        $txtPostid="txtPostid=".$txtPostid;
+        $input=$request->except('_token');
+       
+        foreach($input as $key => $value){
 
-        $data['amount'] =$request->amount;
+            if($value == '')
+                return back()->withErrors('Invalid data provided'); 
 
-        $data['status'] ='PENDING';
-
-        $order= new Order;
-
-        $order->fill($data);
-
-        if(!$order->save())
-            return back()->withErrors('Unable to proceed!');
-
-        //set_time_limit(900);
-        $property_path="MerchantDetails.properties";
-
-        $property_array=Basehelper::net_bankingProperty($property_path);
-
-        $property_array;
-
-        if(count($property_array)<5){
-            ShowError("Invald Property File");
-            die();
+            $v="$key=".$value;
+            array_push($input,$v);
         }
+        $UserDataString =implode("&",$input);
+        $PostData =$UserDataString.'&'.$string.'&'.$txtPostid;
 
+        define('POST', $CheckSumGenUrl);
+        define('POSTVARS', $PostData);   
+
+        if($_SERVER['REQUEST_METHOD']==='POST'){ 
+         $ch = curl_init(POST);
+         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
+         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, False);
+         curl_setopt($ch, CURLOPT_CAINFO, getcwd() . '/keystoretechp.pem');
+         curl_setopt ($ch, CURLOPT_SSLCERTPASSWD, 'changeit');
+         curl_setopt($ch, CURLOPT_POST      ,1);
+         curl_setopt($ch, CURLOPT_REFERER  , route('payment.net_banking')); //Setting header URL: 
+         curl_setopt($ch, CURLOPT_POSTFIELDS    ,POSTVARS);
+         curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1); 
+         curl_setopt($ch, CURLOPT_HEADER      ,0);  // DO NOT RETURN HTTP HEADERS 
+         curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1); // RETURN THE CONTENTS OF THE CALL
+         
+        $Received_CheckSum_Data = curl_exec($ch);
+        echo curl_error($ch);
+        curl_close($ch);
+
+
+        $txtBillerIdStr =$request->BillerId;
+        $txtResponseUrl =$request->ResponseUrl;
+        $txtCRN =$request->CRN;
+        $txtCheckSumKey=$request->CheckSumKey;
+
+        if(strlen($Received_CheckSum_Data)>0){
+            $txtTranID=$request->txtTranID;
+            $txtMarketCode=$request->txtMarketCode;
+            $txtAcctNo=$request->txtAcctNo;
+            $txtTxnAmount=$request->txtTxnAmount;
+            $txtBankCode=$request->txtBankCode;
+
+            $msg=$txtBillerIdStr."|".$txtTranID."|NA|NA|".$txtTxnAmount."|".$txtBankCode."|NA|NA|".$txtCRN."|NA|NA|NA|NA|NA|NA|NA|".$txtMarketCode."|".$txtAcctNo."|NA|NA|NA|NA|NA|".$txtResponseUrl;
+            $msg=$msg."|".$Received_CheckSum_Data;
+
+            return Redirect::to($TPSLUrl)->with('msg', $msg);
+            
+        }
       } 
-  }
-
+    }
+}
 
   public function showPayU()
   {

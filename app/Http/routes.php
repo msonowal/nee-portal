@@ -70,6 +70,8 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
 Route::get('/payment/response/debit_card', ['as' => 'payment.response.debit_card','uses' =>'Candidate\PaymentController@debitResponse']);
 //Debit payment gateway Response
 Route::get('/payment/response/credit_card', ['as' => 'payment.response.credit_card','uses' =>'Candidate\PaymentController@creditResponse']);
+//NetBanking Payment Gatway Response
+Route::get('/payment/response/net_banking', ['as' => 'payment.response.net_banking','uses' =>'Candidate\PaymentController@netBankingResponse']);
 
 //PayYMoney
 Route::get('/payment/response/pay_u/sucess', ['as' => 'payment.response.pay_u.sucess','uses' =>'Candidate\PaymentController@payUResponseSuccess']);
