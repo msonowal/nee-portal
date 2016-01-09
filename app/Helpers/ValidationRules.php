@@ -30,6 +30,7 @@ class ValidationRules{
               'branch'            =>  'sometimes|exists:branches,id',
               'allied_branch'     =>  'sometimes|exists:allied_branches,id',
               'dob'               =>  'required|date_format:d-m-Y',
+              'gender'            =>  'required|in:MALE,FEMALE,TRANSGENDER',
               //'dob'               =>  'required|date_format:d-m-Y|before:"now -15 year"',
       ];
   }
@@ -47,6 +48,7 @@ class ValidationRules{
               'branch'            =>  'sometimes|exists:branches,id',
               'allied_branch'     =>  'sometimes|exists:allied_branches,id',
               'dob'               =>  'required|date_format:d-m-Y',
+              'gender'            =>  'required|in:MALE,FEMALE,TRANSGENDER',
               //'dob'               =>  'required|date_format:d-m-Y|before:"now -15 year"',
       ];
   }
@@ -57,7 +59,6 @@ class ValidationRules{
       					'name' => 'required|max:40',
       					'father_name' => 'required|max:40',
       					'guardian_name' => 'required|max:40',
-      					'gender' => 'required|in:MALE,FEMALE,TRANSGENDER',
       					'nationality' => 'required|in:INDIAN',
       					'emp_status' => 'required|in:YES,NO',
       					'relationship' => 'required|max:20',
