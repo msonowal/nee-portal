@@ -40,6 +40,7 @@ var reservation_status = true;
         reservationElement = typeof reservationElement !== 'undefined' ? reservationElement : '';
         if(quota!=''){
             $.ajax({ url: url, type: 'GET', data: { quota: quota } }).done(function( msg ) {
+            	$('#reservation_code-error').remove();
                 $reservation_code.empty();
 								$reservation_code.empty().html('');
 								var list = '<table class="bordered"><tr><th style="width:145px;">Quota</th><th style="width:137px;">Reservation Code</th><th>Description</th></tr>';
@@ -74,7 +75,7 @@ var reservation_status = true;
 							$reservation_code.empty();
 							$reservation_code.empty().html('');
 								var list = '<table class="bordered"><tr><th style="width:145px;">Quota</th><th style="width:137px;">Reservation Code</th><th>Description</th></tr>';
-								$("<option>").val('').text(' -- Select Alternate Reservation Code -- ').appendTo($reservation_code);
+								$("<option>").val('').text(' -- Choose an Alternate Reservation Code -- ').appendTo($reservation_code);
 								$.each(msg.alt_codes, function(key, value) {
 										$("<option>").val(value.reservation_code).text(value.reservation_code).appendTo($reservation_code);
 										list += "<tr><td>" + value.quota.name + '</td><td><a href="#" class="reservation_list_code" data-code="'+ value.reservation_code +'">' + value.reservation_code +'</a></td><td>' + value.description + '</td></tr>';
@@ -96,6 +97,7 @@ var reservation_status = true;
         alliedBranchElement = typeof alliedBranchElement !== 'undefined' ? alliedBranchElement : '';
         if(branch_id!=''){
             $.ajax({ url: url, type: 'GET', data: { branch_id: branch_id } }).done(function( msg ) {
+                $('#allied_branch_id-error').remove();
                 $alliedBranch.empty();
 								$alliedBranch.empty().html('');
                 $("<option>").val('').text('-- Select Allied Branch --').appendTo($alliedBranch);

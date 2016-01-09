@@ -33,7 +33,7 @@ var district_set = @if(old('district')=='') false @else true @endif;
         if(state!=''){
             $.ajax({ url: url, type: 'GET', data: { state_id: state } }).done(function( msg ) {
 
-								$('#district-error').remove();
+				$('#district-error').remove();
                 $district.empty();
                 $district.empty().html('');
                 $("<option>").val('').text(' -- Choose District -- ').appendTo($district);
