@@ -332,7 +332,7 @@
 					Payment Method:
 				</td>
 				<td>
-					Debit Card
+					{{ $order->trans_type }}
 				</td>
 			</tr>
 
