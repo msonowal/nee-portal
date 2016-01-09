@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use nee_portal\Models\CandidateInfo;
 use nee_portal\Models\Candidate;
 use nee_portal\Models\ChallanInfo;
+use nee_portal\Models\AlliedBranch;
 
 class RegistrationController extends Controller
 {
@@ -115,14 +116,15 @@ class RegistrationController extends Controller
         }
 
         $form = $this->formBuilder->create('nee_portal\Forms\Step1',[
-          'method' =>'POST',
-          'url'    => route($this->content.'editstep1'),
-          'data'   => [
-              'eligible_for' => Basehelper::getExamDetails($info->q_id, $info->exam_id),
-              'voc_subject'  => Basehelper::getVocationalSubject($info->q_id, $info->exam_id),
-              'branch_status'  => Basehelper::getBranchFieldStatus($info->q_id, $info->exam_id),
-          ],
-          'model' => $step1,
+                  'method' =>'POST',
+                  'url'    => route($this->content.'editstep1'),
+                  'data'   => [
+                      'eligible_for' => Basehelper::getExamDetails($info->q_id, $info->exam_id),
+                      'voc_subject'  => Basehelper::getVocationalSubject($info->q_id, $info->exam_id),
+                      'branch_status'  => Basehelper::getBranchFieldStatus($info->q_id, $info->exam_id),
+                      'allied_branches'  => $step1->branch,
+                  ],
+                  'model' => $step1,
         ])->remove('save');
 
         return view($this->content.'step1_edit', compact('form', 'step1'));
@@ -200,9 +202,7 @@ class RegistrationController extends Controller
                     $step2_data->fill($data);
 
                     if (!$step2_data->save())
-                    {
                         return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
-                    }
 
                     return $this->getStep();
             }
@@ -366,15 +366,11 @@ class RegistrationController extends Controller
             return $this->getStep();
         }
 
-        $form=$this->formBuilder->create('nee_portal\Forms\Step2',
-
-            ['method' =>'POST',
-
-             'url'    => route($this->content.'editstep2'),
-
-             'model' => $step2,
-
-            ])->remove('save');
+        $form = $this->formBuilder->create('nee_portal\Forms\Step2',[
+                    'method' =>'POST',
+                    'url'    => route($this->content.'editstep2'),
+                    'model' => $step2,
+                ])->remove('save');
 
         return view($this->content.'step2_edit', compact('form', 'step2'));
 
@@ -406,11 +402,8 @@ class RegistrationController extends Controller
             }else{
 
                 $step2->fill($data);
-
                 if (!$step2->save())
-                {
                     return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
-                }
 
                 return $this->getStep();
             }

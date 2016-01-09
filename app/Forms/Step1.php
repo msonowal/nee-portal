@@ -81,9 +81,12 @@ class Step1 extends Form
               'wrapper'=>['class'=>'input-field col m6']
     	      ]);
 
-            //AlliedBranch::lists('allied_branch', 'id')->all()
+            $choices = [''=>' -- Select Branch Subject first -- '];
+            if($this->getData('allied_branches') > 0){
+              $choices = $choices + AlliedBranch::where('branch_id', $this->getData('allied_branches'))->lists('allied_branch', 'id')->all();
+            }
     	      $this->add('allied_branch', 'select', [
-               	'choices' => [''=>' -- Select Branch Subject first -- '],
+               	'choices' => $choices ,
     	          'attr' => ['required', 'id'=>'allied_branch_id', 'data-msg'=>"Please choose your branch subject"],
                 'wrapper'=>['class'=>'input-field col m6']
     	      ]);
