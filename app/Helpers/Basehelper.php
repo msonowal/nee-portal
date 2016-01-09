@@ -189,9 +189,9 @@ class Basehelper{
         $mobile = $number;
         $Text = str_replace(' ','+',$message);
 
-        $ID="";
-        $Password="";
-        $Sid="";
+        $ID="nerist";
+        $Password="nerist";
+        $Sid="NERIST";
         $url = "http://t.onetouchsms.in/sendsms.jsp?user=".$ID."&password=".$Password."&mobiles=".$mobile."&sms=".$Text."&senderid=".$Sid;
         $ch=curl_init();
         //curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
