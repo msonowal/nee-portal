@@ -17,16 +17,22 @@ class Step1 extends Form
     {
            $this->add('quota', 'select', [
              'choices' => Quota::lists('name', 'id')->all(),
-             'empty_value' => 'Select Quota',
+             'empty_value' => ' -- Select Quota -- ',
              'attr' => ['required','id'=>'quota', 'data-msg'=>"Please select a Quota"],
              'wrapper'=>['class'=>'input-field col m6'],
              'label' => 'Select Quota'
 	      ]);
 
+        $this->add('dob', 'date', [
+	          'attr' => ['required', 'class' => 'datepicker', 'data-msg'=>"Please select a Date of birth"],
+            'wrapper'=>['class'=>'input-field col m6'],
+            'label' => 'Date of Birth (dd-mm-yyyy)'
+	      ]);
+
         $centre_choices = Centre::lists('centre_name', 'centre_code')->all();
           $this->add('c_pref1', 'select', [
             'choices' => $centre_choices,
-            'empty_value' => 'Select Centre Preference 1',
+            'empty_value' => ' -- Select Exam Centre Preference 1 -- ',
             'attr' => ['required', 'data-msg'=>"Please select a Exam Centre Preference 1"],
             'wrapper'=>['class'=>'input-field col m6'],
             'label' => 'Exam Centre Preference 1'
@@ -34,16 +40,10 @@ class Step1 extends Form
 
 	      $this->add('c_pref2', 'select', [
            	'choices' => $centre_choices,
-           	'empty_value' => 'Select Centre Preference 2',
+           	'empty_value' => ' -- Select Exam Centre Preference 2 -- ',
 	          'attr' => ['required', 'data-msg'=>"Please select a Exam Centre Preference 2"],
             'wrapper'=>['class'=>'input-field col m6'],
             'label' => 'Exam Centre Preference 2'
-	      ]);
-
-	      $this->add('dob', 'date', [
-	          'attr' => ['required', 'class' => 'datepicker', 'data-msg'=>"Please select a Date of birth"],
-            'wrapper'=>['class'=>'input-field col m6'],
-            'label' => 'Date of Birth (dd-mm-yyyy)'
 	      ]);
 
 	      $this->add('nerist_stud', 'select', [

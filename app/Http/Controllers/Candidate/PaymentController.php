@@ -97,10 +97,10 @@ class PaymentController extends Controller
                     'vpc_Amount' =>$vpc_Amount,
                     'vpc_Locale' =>$vpc_Locale,
                     'vpc_ReturnURL' =>$vpc_ReturnURL
-                    ]);
+            ]);
        }
 
-        return redirect()->action('Candidate\RegistrationController@getStep');
+        return redirect()->route('candidate.application.step');
     }
 
     public function doDebit_card(Request $request){
@@ -123,6 +123,14 @@ class PaymentController extends Controller
 
         if($candidate_info->reg_status=="payment_pending"){
 
+          $data['candidate_info_id']=$info_id;
+          $data['mobile_no']=$candidate->mobile_no;
+          $data['email']=$candidate->email;
+          $data['trans_type']='debit_credit';
+          $data['order_id'] =$request->vpc_MerchTxnRef;
+          $data['order_info']=$request->vpc_OrderInfo;
+          $data['amount'] =$request->vpc_Amount;
+          $data['status'] ='PENDING';
 
         $data['candidate_info_id']=$info_id;
 
@@ -153,12 +161,19 @@ class PaymentController extends Controller
         $md5HashData = $SECURE_SECRET;
 
         $vpcURL=$request->virtualPaymentClientURL.'?';
+        $order= new Order;
+          $order->fill($data);
 
-        $input=$request->except('virtualPaymentClientURL', '_token');
+          if(!$order->save())
+              return back()->withErrors('Unable to proceed!');
 
-        ksort($input);
-
-        $appendAmp = 0;
+          //payment gateway dibit_credit
+          require('pgconfig.php');
+          $md5HashData = $SECURE_SECRET;
+          $vpcURL=$request->virtualPaymentClientURL.'?';
+          $input=$request->except('virtualPaymentClientURL', '_token');
+          ksort($input);
+          $appendAmp = 0;
 
         foreach($input as $key => $value)
         {
@@ -169,26 +184,20 @@ class PaymentController extends Controller
                 {
                     $vpcURL .= urlencode($key) . '=' . urlencode($value);
                     $appendAmp = 1;
-                }
-                else
-                {
+                }else
                     $vpcURL .= '&' . urlencode($key) . "=" . urlencode($value);
-                }
 
                 $md5HashData .= $value;
            }
         }
 
        if (strlen($SECURE_SECRET) > 0)
-       {
             $vpcURL .= "&vpc_SecureHash=" . strtoupper(md5($md5HashData));
-       }
 
        return Redirect::to($vpcURL);
-
     }
 
-    return redirect()->action('Candidate\RegistrationController@getStep');
+    return redirect()->route('candidate.application.step');
 
   }
 
@@ -323,7 +332,7 @@ class PaymentController extends Controller
                     'vpc_Amount' =>$vpc_Amount,
                     'vpc_Locale' =>$vpc_Locale,
                     'vpc_ReturnURL' =>$vpc_ReturnURL
-                    ]);
+            ]);
        }
 
         return redirect()->action('Candidate\RegistrationController@getStep');
@@ -351,71 +360,52 @@ class PaymentController extends Controller
 
 
         $data['candidate_info_id']=$info_id;
-
         $data['mobile_no']=$candidate->mobile_no;
-
         $data['email']=$candidate->email;
 
         $data['trans_type']='credit';
 
+
+        $data['trans_type']='debit_credit';
         $data['order_id'] =$request->vpc_MerchTxnRef;
-
         $data['order_info']=$request->vpc_OrderInfo;
-
         $data['amount'] =$request->vpc_Amount;
-
         $data['status'] ='PENDING';
-
         $order= new Order;
-
         $order->fill($data);
-
         if(!$order->save())
             return back()->withErrors('Unable to proceed!');
 
         //payment gateway dibit_credit
         require('pgconfig.php');
-
         $md5HashData = $SECURE_SECRET;
-
         $vpcURL=$request->virtualPaymentClientURL.'?';
-
         $input=$request->except('virtualPaymentClientURL', '_token');
-
         ksort($input);
-
         $appendAmp = 0;
-
         foreach($input as $key => $value)
         {
 
-           if (strlen($value) > 0)
-           {
-                if ($appendAmp == 0)
-                {
+           if (strlen($value) > 0){
+
+                if ($appendAmp == 0){
+
                     $vpcURL .= urlencode($key) . '=' . urlencode($value);
                     $appendAmp = 1;
-                }
-                else
-                {
+                }else
                     $vpcURL .= '&' . urlencode($key) . "=" . urlencode($value);
-                }
 
                 $md5HashData .= $value;
            }
         }
 
        if (strlen($SECURE_SECRET) > 0)
-       {
             $vpcURL .= "&vpc_SecureHash=" . strtoupper(md5($md5HashData));
-       }
 
        return Redirect::to($vpcURL);
-
     }
 
-    return redirect()->action('Candidate\RegistrationController@getStep');
-
+    return redirect()->route('candidate.application.step');
   }
 
   public function creditResponse(Request $request){
@@ -613,41 +603,60 @@ class PaymentController extends Controller
         $amount = 2; //CAll method to get amount payable
         require('payu_config.php');
         $txnid = Str::upper(substr(hash('sha256', mt_rand() . microtime()), 0, 20));
-        //$productinfo = [];
-        $payment_parts['paymentParts']['name'] = $step2->name;
-        $payment_parts['paymentParts']['description'] = Basehelper::getExamName($info_id);
-        $payment_parts['paymentParts']['value'] = $amount;
-        $payment_parts['paymentParts']['isRequired'] = true;
-        $payment_parts['paymentParts']['settlementEvent'] = 'EmailConfirmation';
-        $payment_parts['paymentParts']['info_id'] = $info_id;
-        $payment_parts['paymentParts']['transaction_date'] = date('d/m/Y');
-        $productinfo = json_encode($payment_parts);
-        // $productinfo, $payment_parts;
-        // $productinfo['paymentIdentifiers']['field'] = 'TransactionDate';
-        // $productinfo['paymentIdentifiers']['value'] = date('d/m/Y');
-        // $productinfo['paymentIdentifiers']['info_id'] = 'info_id';
-        // $productinfo['paymentIdentifiers']['value'] = $info_id;
-        $string = $MERCHANT_KEY;
-        $string .='|'.$txnid;
-        $string .='|'.$amount;
-        $string .='|'.$productinfo;
-        $string .='|'.Auth::candidate()->get()->first_name;
-        $string .='|'.Auth::candidate()->get()->email;
-        $string .='|'.$info_id;
-        $string .='|'.'sd';
-        //$hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
-        $vpc_Amount='200';
-        $vpc_Locale='en';
 
-        //$vpc_ReturnURL='https://www.neeonline.ac.in/nee/candidate/vpc_php_serverhost_dr.php';
-        $vpc_ReturnURL = route('payment.response.pay_u');
+        $data['key'] = $MERCHANT_KEY;
+        $data['txnid'] = $txnid;
+        $data['amount'] = $amount;
+        $data['firstname']  = Auth::candidate()->get()->first_name;
+        $data['email']  = Auth::candidate()->get()->email;
+        $data['phone']  = Auth::candidate()->get()->mobile_no;
+        $data['productinfo']  = json_encode(json_decode('[{"name":"'.$step2->name.'","description":"'.Basehelper::getExamName($info_id).'","value":"'.$amount.'","isRequired":"true"}]'));
+        $data['lastname']  = Auth::candidate()->get()->last_name;
+        $data['surl']  = route('payment.response.pay_u.sucess');
+        $data['furl']  = route('payment.response.pay_u.fail');
+        $data['service_provider'] = $SERVICE_PROVIDER;
+        $data['curl']  = route('payment.response.pay_u.cancel');
+        $data['address1'] = Str::limit($step2->address_line, 100);
+        $data['state'] = Basehelper::getState($step2->state);
+        $data['zipcode'] = $step2->pin;
+        $data['udf1'] = $info_id; //saving info id on udf1
+        $data['udf2'] = $step2->name; //saving applicant name id on udf2
+        $data['udf3'] = $step1->reservation_code; //saving reservation code on udf3
+        $data['udf4'] = $_SERVER['HTTP_USER_AGENT']; //saving user agent/browser on udf4
+        $data['udf5'] = $_SERVER["REMOTE_ADDR"]; //saving remote address/ client address on udf5
 
-        return view($this->content.'pay_u_form')->with([
-
-        ]);
+        $hashSequence = "key|txnid|amount|firstname|email|phone|productinfo|surl|furl|service_provider|lastname|curl|address1|state|zipcode|udf1|udf2|udf3|udf4|udf5";
+        $hashVarsSeq = explode('|', $hashSequence);
+        $hash_string = '';
+      	foreach($hashVarsSeq as $hash_var) {
+            $hash_string .= $data[$hash_var];
+            $hash_string .= '|';
+        }
+        $hash_string .= $SALT;
+        $hash = strtolower(hash('sha512', $hash_string));
+        //$hash = hash("sha512", $hash_string);
+        $action = $PAYU_BASE_URL . '/_payment';
+        //TODO to insert in the db for the order details or not to discuss
+        return view($this->content.'pay_u_form', compact('data', 'action', 'hash'));
    }
+    return redirect()->route('candidate.application.step');
+  }
 
-    //return redirect()->action('Candidate\RegistrationController@getStep');
+  public function payUResponseSuccess(Request $request)
+  {
+    Log::info('PayUMoney Sucess');
+    return $request;
+  }
 
+  public function payUResponseFail(Request $request)
+  {
+    Log::info('PayUMoney Fail');
+    return $request;
+  }
+
+  public function payUResponseCancel(Request $request)
+  {
+    Log::info('PayUMoney Cancelled');
+    return $request;
   }
 }

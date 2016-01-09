@@ -3,7 +3,7 @@
 	<div class="card-panel hoverable">
 		<div class="col s6 offset-s3">
 		<h5>Examination Details</h5>
-		  {!! form_start($form) !!}
+			{!! form_start($form, ['id'=>'step1_form']) !!}
 		    <div class="row">
 		        <div class="col m12">
 
@@ -46,7 +46,7 @@ var reservation_status = true;
                 $("<option>").val('').text('--Select Reservation Code--').appendTo($reservation_code);
                 $.each(msg, function(key, value) {
                     $("<option>").val(value.reservation_code).text(value.reservation_code).appendTo($reservation_code);
-										list += "<tr><td>" + value.quota.name + '</td><td>' + value.reservation_code +'</td><td>' + value.description + '</td></tr>';
+										list += "<tr><td>" + value.quota.name + '</td><td><a href="#" class="reservation_list_code" data-code="'+ value.reservation_code +'">' + value.reservation_code +'</a></td><td>' + value.description + '</td></tr>';
                 });
 								if(reservation_status){
 								  $reservation_code.val('{!! $step1->reservation_code !!}');
@@ -77,7 +77,7 @@ var reservation_status = true;
 								$("<option>").val('').text(' -- Select Alternate Reservation Code -- ').appendTo($reservation_code);
 								$.each(msg.alt_codes, function(key, value) {
 										$("<option>").val(value.reservation_code).text(value.reservation_code).appendTo($reservation_code);
-										list += "<tr><td>" + value.quota.name + '</td><td>' + value.reservation_code +'</td><td>' + value.description + '</td></tr>';
+										list += "<tr><td>" + value.quota.name + '</td><td><a href="#" class="reservation_list_code" data-code="'+ value.reservation_code +'">' + value.reservation_code +'</a></td><td>' + value.description + '</td></tr>';
 								});
 
 								$('#reservation_list').html(list);
@@ -117,5 +117,14 @@ var reservation_status = true;
     $('#quota').change(function(e){ getReservationCode(this, $('#reservation_code')); });
 		$('#branch_id').change(function(e){ getAlliedBranch(this, $('#allied_branch_id')); });
 		$('#reservation_code').change(function(e) { getReservationStatus($('#reservation_code').val()); });
+		$('body').on('click', 'a.reservation_list_code', function(e){ e.preventDefault(); $('#reservation_code').val($(this).attr('data-code')); $('#modal1').closeModal(); $('#reservation_code').material_select('update'); $('#reservation_code').trigger('change'); });
 		$('#quota').trigger('change');
+
+		$("#step1_form").validate({
+      rules: {
+        quota: {
+          required: true,
+        }
+      }
+    });
 @stop

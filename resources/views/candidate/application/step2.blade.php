@@ -56,9 +56,7 @@ var district_set = @if(old('district')=='') false @else true @endif;
 
 @section('page_script')
     $('#state').change(function(e){ getDistrictList(this, $('#district')); });
-
     $('#state').trigger('change');
-
     $("#step2_form").validate({
       rules: {
         name: { required: true },
