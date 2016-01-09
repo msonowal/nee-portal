@@ -509,6 +509,8 @@ class PaymentController extends Controller
 
         if($candidate_info->reg_status=="payment_pending"){
             require('MerchantDetails.php');
+            $action='process';
+            $proceed='Pay Now !';
             $txtTranID=$info_id;
             $txtMarketCode='L2748';
             $txtAcctNo = '9085538844';
@@ -516,6 +518,8 @@ class PaymentController extends Controller
             $amount=(Basehelper::getPayableAmount($info_id))*100+600;
 
             return view($this->content.'net_banking')->with([
+                        'action' =>$action,
+                        'proceed' =>$proceed,
                         'BillerId' => $BillerId,
                         'ResponseUrl' => $ResponseUrl,
                         'CRN' => $CRN,
@@ -562,10 +566,10 @@ class PaymentController extends Controller
             $data['status'] ='PENDING';
 
             $order= new Order;
-            $order->fill($data);
+            //$order->fill($data);
 
-            if(!$order->save())
-                return back()->withErrors('Unable to proceed!');    
+            //if(!$order->save())
+                //return back()->withErrors('Unable to proceed!');    
 
         $TPSLUrl =$request->TPSLUrl;
         $CheckSumGenUrl = $request->CheckSumGenUrl;          
@@ -573,7 +577,7 @@ class PaymentController extends Controller
         $txtResponseUrl = "txtResponseUrl=".$request->ResponseUrl."&";
         $txtCRN ="txtCRN= ".$request->CRN."&";
         $txtCheckSumKey = "txtCheckSumKey=".$request->CheckSumKey;
-        $transaction = $request->txtTranID;
+        $txtTranID = $request->txtTranID;
         $market = $request->txtMarketCode;
         $account = $request->txtAcctNo;
         $transaction_amount = $request->txtTxnAmount;
@@ -581,26 +585,23 @@ class PaymentController extends Controller
                 
         $string=$txtBillerIdStr.$txtResponseUrl.$txtCRN.$txtCheckSumKey;
 
-        $txtVals = $transaction.$market.$account.$transaction_amount.$bankcode;
+        $txtVals = $txtTranID.$market.$account.$transaction_amount.$bankcode;
         $txt_encrypt = base64_encode($txtVals);
         $txt_encrypt = md5(base64_encode($txtVals));
 
-        //$txtKey = $txtCheckSumKey;
         $txtForEncode = $txt_encrypt.$txtCheckSumKey;
         $txtPostid = md5($txtForEncode);
         $txtPostid="txtPostid=".$txtPostid;
-        $input=$request->except('_token');
+        $action ='action='.$request->action;
+        $proceed ='proceed='.$request->proceed;
+        $txtTranID ='txtTranID='.$request->txtTranID;
+        $txtMarketCode ='txtMarketCode='.$request->txtMarketCode;
+        $txtAcctNo= 'txtAcctNo='.$request->txtAcctNo;
+        $txtTxnAmount ='txtTxnAmount='.$request->amount;
+        $txtBankCode ='txtBankCode='.$request->txtBankCode;
+
        
-        foreach($input as $key => $value){
-
-            if($value == '')
-                return back()->withErrors('Invalid data provided'); 
-
-            $v="$key=".$value;
-            array_push($input,$v);
-        }
-        $UserDataString =implode("&",$input);
-        $PostData =$UserDataString.'&'.$string.'&'.$txtPostid;
+        $PostData =$action.'&'.$txtTranID.'&'.$txtMarketCode.'&'.$txtAcctNo.'&'.$txtTxnAmount.'&'.$txtBankCode.'&'.$proceed.'&'.$string.'&'.$txtPostid;
 
         define('POST', $CheckSumGenUrl);
         define('POSTVARS', $PostData);   
@@ -612,13 +613,13 @@ class PaymentController extends Controller
          curl_setopt($ch, CURLOPT_CAINFO, getcwd() . '/keystoretechp.pem');
          curl_setopt ($ch, CURLOPT_SSLCERTPASSWD, 'changeit');
          curl_setopt($ch, CURLOPT_POST      ,1);
-         curl_setopt($ch, CURLOPT_REFERER  , route('payment.net_banking')); //Setting header URL: 
+         curl_setopt($ch, CURLOPT_REFERER  , route('payment.net_banking.getcheck')); //Setting header URL: 
          curl_setopt($ch, CURLOPT_POSTFIELDS    ,POSTVARS);
          curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1); 
          curl_setopt($ch, CURLOPT_HEADER      ,0);  // DO NOT RETURN HTTP HEADERS 
          curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1); // RETURN THE CONTENTS OF THE CALL
          
-        $Received_CheckSum_Data = curl_exec($ch);
+        $Received_CheckSum_Data = curl_exec($ch);    
         echo curl_error($ch);
         curl_close($ch);
 

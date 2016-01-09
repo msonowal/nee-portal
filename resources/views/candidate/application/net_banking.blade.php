@@ -4,7 +4,7 @@
 <div class="card-panel hoverable">
     <div class="col s6 offset-s3">
       <div class="row">
-      {!! Form::open(array('route' => 'payment.net_banking', 'class'=>'col s12')) !!}
+      {!! Form::open(array('route' => 'payment.net_banking.getcheck', 'class'=>'col s12')) !!}
         <div class="col m6">
           <h6>Total amount to be paid : {!! ($amount/100)  !!}/-</h6>
         </div>
@@ -16,6 +16,8 @@
             Proceed to Payment Gateway
             </button>
         </div>
+          {!! Form::hidden('action', $action) !!}
+          {!! Form::hidden('proceed', $proceed) !!}
           {!! Form::hidden('BillerId', $BillerId) !!}
           {!! Form::hidden('ResponseUrl', $ResponseUrl) !!}
           {!! Form::hidden('CRN', $CRN) !!}

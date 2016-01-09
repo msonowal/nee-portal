@@ -58,7 +58,7 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
         Route::post('/payment/debit_card', ['as' => 'payment.credit_card', 'uses' =>'PaymentController@doCredit_card']);
         //Net Banking payment of Axis Bank
         Route::get('/payment/net_banking', ['as' => 'payment.net_banking', 'uses' =>'PaymentController@showNet_banking']);
-        Route::post('/payment/net_banking', ['as' => 'payment.net_banking', 'uses' =>'PaymentController@doNet_banking']);
+        
         //Pay U money
         Route::get('/payment/pay_u', ['as' => 'payment.pay_u', 'uses' =>'PaymentController@showPayU']);
         Route::post('/payment/pay_u', ['as' => 'payment.pay_u', 'uses' =>'PaymentController@doPayU']);
@@ -71,7 +71,9 @@ Route::get('/payment/response/debit_card', ['as' => 'payment.response.debit_card
 //Debit payment gateway Response
 Route::get('/payment/response/credit_card', ['as' => 'payment.response.credit_card','uses' =>'Candidate\PaymentController@creditResponse']);
 //NetBanking Payment Gatway Response
-Route::get('/payment/response/net_banking', ['as' => 'payment.response.net_banking','uses' =>'Candidate\PaymentController@netBankingResponse']);
+Route::get('/nee/candidate/getcheck.php', ['as' => 'payment.net_banking.getcheck', 'uses' =>'Candidate\PaymentController@doNet_banking']);
+Route::post('/nee/candidate/getcheck.php', ['as' => 'payment.net_banking.getcheck', 'uses' =>'Candidate\PaymentController@doNet_banking']);
+Route::post('/nee/candidate/Response.php', ['as' => 'payment.response.net_banking','uses' =>'Candidate\PaymentController@netBankingResponse']);
 
 //PayYMoney
 Route::get('/payment/response/pay_u/sucess', ['as' => 'payment.response.pay_u.sucess','uses' =>'Candidate\PaymentController@payUResponseSuccess']);
