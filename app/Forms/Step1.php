@@ -23,8 +23,15 @@ class Step1 extends Form
             'label' => 'Select Quota'
 	      ]);
 
+        $codes = ['' => ' -- Select Quota First -- '];
+        if($this->getData('quota_selected') > 0){
+          $codes = $codes + Reservation::with('quota')->where('quota_id', $this->getData('quota_selected'))->lists('reservation_code', 'reservation_code')->all();
+          $reservation_code_selected = $this->getData('reservation_code_selected');
+          $codes = $codes + [ $reservation_code_selected=> $reservation_code_selected];
+        }
+        
         $this->add('reservation_code', 'select', [
-            'choices' => ['' => ' -- Select Quota First -- '],
+            'choices' => $codes,
             'attr' => ['required', 'id'=>'reservation_code', 'data-msg'=>"Please select a reservation code from the list"],
             'wrapper'=>['class'=>'input-field col m6']
         ]);

@@ -145,10 +145,8 @@ var reservation_status = true;
 	        });
 	    }
     });
-	
-	$('#quota').trigger('change');
 
-		$("#step1_form").validate({
+	$("#step1_form").validate({
       rules: {
         quota: {
           required: true,

@@ -123,6 +123,8 @@ class RegistrationController extends Controller
                       'voc_subject'  => Basehelper::getVocationalSubject($info->q_id, $info->exam_id),
                       'branch_status'  => Basehelper::getBranchFieldStatus($info->q_id, $info->exam_id),
                       'allied_branches'  => $step1->branch,
+                      'quota_selected'   =>  $step1->quota,
+                      'reservation_code_selected'   =>  $step1->reservation_code,
                   ],
                   'model' => $step1,
         ])->remove('save');

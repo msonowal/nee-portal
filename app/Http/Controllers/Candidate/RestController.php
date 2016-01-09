@@ -36,7 +36,6 @@ class RestController extends Controller
           $data = [];
           $code = $request->reservation_code;
           $info = CandidateInfo::find(Session::get('candidate_info_id'));
-
           $id = ExamQualification::where('q_id', $info->q_id)->where('exam_id', $info->exam_id)->first()->id;
       
           if($id == 1 || $id == 2 || $id == 4 || $id == 6){
