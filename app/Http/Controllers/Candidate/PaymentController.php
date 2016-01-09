@@ -607,7 +607,7 @@ class PaymentController extends Controller
 
         if($_SERVER['REQUEST_METHOD']==='POST'){ 
          $ch = curl_init(POST);
-         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
+         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
          curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, False);
          curl_setopt($ch, CURLOPT_CAINFO, getcwd() . '/keystoretechp.pem');
          curl_setopt ($ch, CURLOPT_SSLCERTPASSWD, 'changeit');
