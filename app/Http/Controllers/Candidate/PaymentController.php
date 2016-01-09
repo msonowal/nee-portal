@@ -567,32 +567,32 @@ class PaymentController extends Controller
             $data['status'] ='PENDING';
 
             $order= new Order;
-            //$order->fill($data);
+            $order->fill($data);
 
-            //if(!$order->save())
-                //return back()->withErrors('Unable to proceed!');    
+            if(!$order->save())
+                return back()->withErrors('Unable to proceed!');
+
+            $data = '';
 
         $TPSLUrl =$request->TPSLUrl;
         $CheckSumGenUrl = $request->CheckSumGenUrl;          
         $txtBillerIdStr = "txtBillerid=".$request->BillerId."&";
         $txtResponseUrl = "txtResponseUrl=".$request->ResponseUrl."&";
-        $txtCRN ="txtCRN= ".$request->CRN."&";
+        $txtCRN =   "txtCRN=".$request->CRN."&";
         $txtCheckSumKey = "txtCheckSumKey=".$request->CheckSumKey;
         $txtTranID = $request->txtTranID;
         $market = $request->txtMarketCode;
         $account = $request->txtAcctNo;
-        $transaction_amount = $request->txtTxnAmount;
+        $transaction_amount = $request->amount;
         $bankcode = $request->txtBankCode;
                 
         $string=$txtBillerIdStr.$txtResponseUrl.$txtCRN.$txtCheckSumKey;
-
         $txtVals = $txtTranID.$market.$account.$transaction_amount.$bankcode;
-        $txt_encrypt = base64_encode($txtVals);
         $txt_encrypt = md5(base64_encode($txtVals));
 
-        $txtForEncode = $txt_encrypt.$txtCheckSumKey;
+        $txtForEncode = $txt_encrypt.$request->CheckSumKey;
         $txtPostid = md5($txtForEncode);
-        $txtPostid="txtPostid=".$txtPostid;
+        $txtPostid ="txtPostid=".$txtPostid;
         $action ='action='.$request->action;
         $proceed ='proceed='.$request->proceed;
         $txtTranID ='txtTranID='.$request->txtTranID;
@@ -602,10 +602,11 @@ class PaymentController extends Controller
         $txtBankCode ='txtBankCode='.$request->txtBankCode;
 
        
-        $PostData =$action.'&'.$txtTranID.'&'.$txtMarketCode.'&'.$txtAcctNo.'&'.$txtTxnAmount.'&'.$txtBankCode.'&'.$proceed.'&'.$string.'&'.$txtPostid;
+        $PostData =$action.'&'.$txtTranID.'&'.$txtMarketCode.'&'.$txtAcctNo.'&'.$txtTxnAmount.'&'.$txtBankCode.'&'.$proceed.'&'.trim($string).'&'.$txtPostid;
 
         define('POST', $CheckSumGenUrl);
-        define('POSTVARS', $PostData);   
+        define('POSTVARS', $PostData); 
+        
 
         if($_SERVER['REQUEST_METHOD']==='POST'){ 
          $ch = curl_init(POST);
@@ -613,35 +614,40 @@ class PaymentController extends Controller
          curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, False);
          curl_setopt($ch, CURLOPT_CAINFO, getcwd() . '/keystoretechp.pem');
          curl_setopt ($ch, CURLOPT_SSLCERTPASSWD, 'changeit');
-         curl_setopt($ch, CURLOPT_POST      ,1);
-         curl_setopt($ch, CURLOPT_REFERER  , route('payment.net_banking.getcheck')); //Setting header URL: 
+         curl_setopt($ch, CURLOPT_POST, 1);
+         //$refere = 'http://www.neeonline.ac.in/nee/candidate/getcheck.php';
+         $refere = route('payment.net_banking.getcheck');
+         curl_setopt($ch, CURLOPT_REFERER  , $refere); //Setting header URL: 
          curl_setopt($ch, CURLOPT_POSTFIELDS    ,POSTVARS);
          curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1); 
          curl_setopt($ch, CURLOPT_HEADER      ,0);  // DO NOT RETURN HTTP HEADERS 
          curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1); // RETURN THE CONTENTS OF THE CALL
          
         $Received_CheckSum_Data = curl_exec($ch);    
-        echo curl_error($ch);
+        //echo curl_error($ch); TODO
         curl_close($ch);
 
-
         $txtBillerIdStr =$request->BillerId;
-        $txtResponseUrl =$request->ResponseUrl;
+        //$response_url = 'http://www.neeonline.ac.in/nee/candidate/Response.php';
+        $response_url = route('payment.response.net_banking');
+        $txtResponseUrl = $response_url;
         $txtCRN =$request->CRN;
-        $txtCheckSumKey=$request->CheckSumKey;
+        $txtCheckSumKey=$request->CheckSumKey; //original
 
         if(strlen($Received_CheckSum_Data)>0){
+
             $txtTranID=$request->txtTranID;
             $txtMarketCode=$request->txtMarketCode;
             $txtAcctNo=$request->txtAcctNo;
-            $txtTxnAmount=$request->txtTxnAmount;
+            $txtTxnAmount=$transaction_amount;
             $txtBankCode=$request->txtBankCode;
 
             $msg=$txtBillerIdStr."|".$txtTranID."|NA|NA|".$txtTxnAmount."|".$txtBankCode."|NA|NA|".$txtCRN."|NA|NA|NA|NA|NA|NA|NA|".$txtMarketCode."|".$txtAcctNo."|NA|NA|NA|NA|NA|".$txtResponseUrl;
             $msg=$msg."|".$Received_CheckSum_Data;
 
-            return Redirect::to($TPSLUrl)->with('msg', $msg);
-            
+            //return Redirect::to($TPSLUrl)->with('msg', $msg);
+            $url = $TPSLUrl;
+            return view($this->content.'net_banking_client_form', compact('msg', 'url'));
         }
       } 
     }
