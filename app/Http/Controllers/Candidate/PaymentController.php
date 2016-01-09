@@ -40,8 +40,9 @@ class PaymentController extends Controller
 
                 $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
                 $candidate_info->reg_status='completed';
-
                 $candidate_info->save();
+                $message = 'Hello, your NEE Online form submission has been successfully completed. Your Form NO is '.$candidate_info->form_no;
+                Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
 
                 return redirect()->action('Candidate\RegistrationController@getStep');
             }
@@ -257,10 +258,14 @@ class PaymentController extends Controller
           if(!$candidate_info->save())
               return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
 
+          $message = 'Hello, your NEE Online form submission has been successfully completed. Your Form NO is '.$candidate_info->form_no;
+          Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
           return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed!<br/> Your payment order id is <strong>'.$orderInfo.'</strong>');
 
        }else{
           Log::info('Transaction Failed: '.$transactionNo);
+          $message = 'Hello, your NEE Online Transaction has been failed. Your Form NO is '.$candidate_info->form_no;
+          Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
           $data['status']='FAILURE';
           $order->fill($data);
           $order->save();
@@ -460,10 +465,14 @@ class PaymentController extends Controller
           if(!$candidate_info->save())
               return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
 
+          $message = 'Hello, your NEE Online form submission has been successfully completed. Your Form NO is '.$candidate_info->form_no;
+          Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
           return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed!<br/> Your payment order id is <strong>'.$orderInfo.'</strong>');
 
        }else{
           Log::info('Transaction Failed: '.$transactionNo);
+          $message = 'Hello, your NEE Online Transaction has been failed. Your Form NO is '.$candidate_info->form_no;
+          Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
           $data['status']='FAILURE';
           $order->fill($data);
           $order->save();
