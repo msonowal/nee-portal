@@ -616,7 +616,7 @@ class PaymentController extends Controller
          curl_setopt ($ch, CURLOPT_SSLCERTPASSWD, 'changeit');
          curl_setopt($ch, CURLOPT_POST, 1);
          //$refere = 'http://www.neeonline.ac.in/nee/candidate/getcheck.php';
-         $refere = route('payment.net_banking.getcheck');
+         return $refere = route('payment.net_banking.getcheck');
          curl_setopt($ch, CURLOPT_REFERER  , $refere); //Setting header URL: 
          curl_setopt($ch, CURLOPT_POSTFIELDS    ,POSTVARS);
          curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1); 
