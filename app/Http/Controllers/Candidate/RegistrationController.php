@@ -141,28 +141,31 @@ class RegistrationController extends Controller
     public function saveStep1(Request $request)
     {
 
-        $validator = Validator::make($data =$request->all(), ValidationRules::step1_save() );
-
+        $validator = Validator::make($data =$request->all(), ValidationRules::step1_save());
         if ($validator->fails())
             return back()->withErrors($validator)->withInput();
 
+        //$dtToronto = Carbon::createFromDate(2012, 1, 1, 'America/Toronto');
+        //$dtVancouver = Carbon::createFromDate(2012, 1, 1, 'America/Vancouver');
+        //$date()
+        //Carbon::createFromDate(1991, 7, 19)->diff(Carbon::now())->format('%y years, %m months and %d days');
+
         $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
 
-            if(count($step1)!=0){
+        if(count($step1)!=0){
 
-                return $this->getStep();
+            return $this->getStep()->with('message', 'Data exists on Step1');
 
-            } else {
-                    $data = ['candidate_info_id' => $this->info_id] + $request->all();
-                    $step1_data = new Step1;
-                    $step1_data->fill($data);
-                    if (!$step1_data->save())
-                    {
-                        return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
-                    }
+        }else{
 
-                    return $this->getStep();
-            }
+            $data = ['candidate_info_id' => $this->info_id] + $request->all();
+            $step1_data = new Step1;
+            $step1_data->fill($data);
+            if (!$step1_data->save())
+                return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
+
+            return $this->getStep();
+        }
     }
 
     public function showStep2()
