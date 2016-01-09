@@ -28,12 +28,12 @@ class Step2 extends Form
             'label' =>  'Guardian\'s name'
 	      ]);
 
-	      $this->add('gender', 'select', [
-	      	  'choices' => ['MALE' => 'MALE', 'FEMALE' => 'FEMALE', 'TRANSGENDER' => 'TRANSGENDER'],
-	          'empty_value' => ' -- Select Gender -- ',
-	          'attr' => ['required', 'data-msg'=>"please choose your gender from the list", 'id'=>'gender'],
-	          'wrapper'=>['class'=>'input-field col s12 m6 l4'],
-	      ]);
+	      // $this->add('gender', 'select', [
+	      // 	  'choices' => ['MALE' => 'MALE', 'FEMALE' => 'FEMALE', 'TRANSGENDER' => 'TRANSGENDER'],
+	      //     'empty_value' => ' -- Select Gender -- ',
+	      //     'attr' => ['required', 'data-msg'=>"please choose your gender from the list", 'id'=>'gender'],
+	      //     'wrapper'=>['class'=>'input-field col s12 m6 l4'],
+	      // ]);
 
 	      $this->add('nationality', 'select', [
 	      	  'choices' => ['INDIAN' => 'INDIAN'],

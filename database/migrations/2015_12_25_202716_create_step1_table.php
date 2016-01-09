@@ -25,6 +25,7 @@ class CreateStep1Table extends Migration
             $table->integer('branch')->nullable()->unsigned();
             $table->integer('allied_branch')->nullable()->unsigned();
             $table->date('dob');
+            $table->enum('gender', ['MALE', 'FEMALE', 'TRANSGENDER']);
             $table->timestamps();
             $table->foreign('candidate_info_id')->references('id')->on('candidate_info');
             $table->foreign('quota')->references('id')->on('quotas');

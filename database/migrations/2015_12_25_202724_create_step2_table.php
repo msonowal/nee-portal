@@ -18,7 +18,7 @@ class CreateStep2Table extends Migration
             $table->string('name', 40)->comment('Candidate full name');
             $table->string('father_name', 40);
             $table->string('guardian_name', 40);
-            $table->enum('gender', ['MALE', 'FEMALE', 'TRANSGENDER']);
+            //$table->enum('gender', ['MALE', 'FEMALE', 'TRANSGENDER']);
             $table->enum('nationality', ['INDIAN']);
             $table->enum('emp_status', ['YES', 'NO'])->default('NO')->comment('EMPLOYMENT STATUS');
             $table->string('relationship', 20)->comment('Relationship with Guardian');

@@ -13,7 +13,7 @@
 		        <a class="modal-trigger" href="#modal1" data-id="">Click here to view reservation list</a><br/><br/>
 		        </div>
 		        
-				{!! form_until($form, 'dob') !!}
+				{!! form_until($form, 'gender') !!}
 
 				<div class="col m12">
 				{!! form_row($form->update) !!}
@@ -34,8 +34,8 @@
 @stop
 @section('script')
 <script type="text/javascript">
-
-var reservation_status = true;
+var reservation_code_list = @if(old('reservation_code')=='') false @else true @endif;
+//var reservation_status = true;
 
     function getReservationCode(quotaElement, reservationElement){
         var url = '{!! route('reservation_code.by.quota') !!}';
@@ -46,21 +46,21 @@ var reservation_status = true;
             $.ajax({ url: url, type: 'GET', data: { quota: quota } }).done(function( msg ) {
             	$('#reservation_code-error').remove();
                 $reservation_code.empty();
-								$reservation_code.empty().html('');
-								var list = '<table class="bordered"><tr><th style="width:145px;">Quota</th><th style="width:137px;">Reservation Code</th><th>Description</th></tr>';
+				$reservation_code.empty().html('');
+				var list = '<table class="bordered"><tr><th style="width:145px;">Quota</th><th style="width:137px;">Reservation Code</th><th>Description</th></tr>';
                 $("<option>").val('').text(' -- Choose Reservation Code -- ').appendTo($reservation_code);
                 $.each(msg, function(key, value) {
                     $("<option>").val(value.reservation_code).text(value.reservation_code).appendTo($reservation_code);
-										list += "<tr><td>" + value.quota.name + '</td><td><a href="#" class="reservation_list_code" data-code="'+ value.reservation_code +'">' + value.reservation_code +'</a></td><td>' + value.description + '</td></tr>';
+					list += "<tr><td>" + value.quota.name + '</td><td><a href="#" class="reservation_list_code" data-code="'+ value.reservation_code +'">' + value.reservation_code +'</a></td><td>' + value.description + '</td></tr>';
                 });
-								if(reservation_status){
-								  $reservation_code.val('{!! $step1->reservation_code !!}');
-								  reservation_status =false;
-								}
-								list+='</table>'
-								$('#reservation_list').html(list);
-								$reservation_code.material_select('update');
-								$reservation_code.closest('.input-field').children('span.caret').remove();
+				if(reservation_code_list){
+				  $reservation_code.val('{{ old('reservation_code') }}');
+				  reservation_code_list = false;
+				}
+				list+='</table>';
+				$('#reservation_list').html(list);
+				$reservation_code.material_select('update');
+				$reservation_code.closest('.input-field').children('span.caret').remove();
                 return true;
             });
         }else
@@ -68,7 +68,6 @@ var reservation_status = true;
     }
 
 		function getReservationStatus(code) {
-			//reservation_code
 			var url = '{!! route('reservation_code.get.status') !!}';
 
 			if(code!=''){
@@ -108,9 +107,8 @@ var reservation_status = true;
                 $.each(msg, function(key, value) {
                     $("<option>").val(value.id).text(value.allied_branch).appendTo($alliedBranch);
                 });
-								//$reservation_code.material_select();
-								$alliedBranch.material_select('update');
-								//$alliedBranch.closest('.input-field').children('span.caret').remove();
+								
+				$alliedBranch.material_select('update');
                 return true;
             });
         }else
@@ -124,7 +122,7 @@ var reservation_status = true;
 	$('#branch_id').change(function(e){ getAlliedBranch(this, $('#allied_branch_id')); });
 	$('#reservation_code').change(function(e) { getReservationStatus($('#reservation_code').val()); });
 	$('body').on('click', 'a.reservation_list_code', function(e){ e.preventDefault(); $('#reservation_code').val($(this).attr('data-code')); $('#modal1').closeModal(); $('#reservation_code').material_select('update'); $('#reservation_code').trigger('change'); });
-
+	$('#quota').trigger('change');
 	$('.pref').on('change', function() {
 
         var me = $(this);

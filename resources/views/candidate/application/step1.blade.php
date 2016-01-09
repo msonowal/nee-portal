@@ -14,7 +14,7 @@
 		        <a class="modal-trigger" href="#modal1" data-id="">Click here to view reservation list</a><br/><br/>
 		        </div>
 		        
-				{!! form_until($form, 'dob') !!}
+				{!! form_until($form, 'gender') !!}
 
 				<div class="col m12">
 				{!! form_row($form->save) !!}
@@ -36,7 +36,7 @@
 @stop
 @section('script')
 <script type="text/javascript">
-
+var reservation_code_list = @if(old('reservation_code')=='') false @else true @endif;
     function getReservationCode(quotaElement, reservationElement){
         var url = '{!! route('reservation_code.by.quota') !!}';
         var quota = $(quotaElement).val();
@@ -46,18 +46,21 @@
             $.ajax({ url: url, type: 'GET', data: { quota: quota } }).done(function( msg ) {
             	$('#reservation_code-error').remove();
                 $reservation_code.empty();
-								$reservation_code.empty().html('');
-								var list = '<table class="bordered"><tr><th style="width:145px;">Quota</th><th style="width:137px;">Reservation Code</th><th>Description</th></tr>';
+				$reservation_code.empty().html('');
+				var list = '<table class="bordered"><tr><th style="width:145px;">Quota</th><th style="width:137px;">Reservation Code</th><th>Description</th></tr>';
                 $("<option>").val('').text(' -- Choose Reservation Code -- ').appendTo($reservation_code);
-								$.each(msg, function(key, value) {
-                    $("<option>").val(value.reservation_code).attr("data-status", "active").text(value.reservation_code).appendTo($reservation_code);
-										list += "<tr><td>" + value.quota.name + '</td><td><a href="#" class="reservation_list_code" data-code="'+ value.reservation_code +'">' + value.reservation_code +'</a></td><td>' + value.description + '</td></tr>';
+				$.each(msg, function(key, value) {
+                	$("<option>").val(value.reservation_code).attr("data-status", "active").text(value.reservation_code).appendTo($reservation_code);
+					list += "<tr><td>" + value.quota.name + '</td><td><a href="#" class="reservation_list_code" data-code="'+ value.reservation_code +'">' + value.reservation_code +'</a></td><td>' + value.description + '</td></tr>';
                 });
-								list+='</table>'
-								$('#reservation_list').html(list);
-								//$reservation_code.material_select();
-								$reservation_code.material_select('update');
-								$reservation_code.closest('.input-field').children('span.caret').remove();
+				list+='</table>';
+				$('#reservation_list').html(list);
+				if(reservation_code_list){
+				  $reservation_code.val('{{ old('reservation_code') }}');
+				  reservation_code_list = false;
+				}
+				$reservation_code.material_select('update');
+				$reservation_code.closest('.input-field').children('span.caret').remove();
                 return true;
             });
         }else
@@ -117,7 +120,7 @@
 @stop
 
 @section('page_script')
-  $('#quota').change(function(e){ getReservationCode(this, $('#reservation_code')); });
+  	$('#quota').change(function(e){ getReservationCode(this, $('#reservation_code')); });
 	$('#branch_id').change(function(e){ getAlliedBranch(this, $('#allied_branch_id')); });
 	$('#reservation_code').change(function(e) { getReservationStatus($('#reservation_code').val()); });
 	$('body').on('click', 'a.reservation_list_code', function(e){ e.preventDefault(); $('#reservation_code').val($(this).attr('data-code')); $('#modal1').closeModal(); $('#reservation_code').material_select('update'); $('#reservation_code').trigger('change'); });
@@ -130,6 +133,7 @@
       }
     });
 	$('#step1_form').submit(function(e) {  });
+	$('#quota').trigger('change');
 
 	$('.pref').on('change', function() {
 

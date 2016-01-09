@@ -105,6 +105,13 @@ class Step1 extends Form
             'label' => 'Date of Birth (dd-mm-yyyy)'
         ]);
 
+        $this->add('gender', 'select', [
+            'choices' => ['MALE' => 'MALE', 'FEMALE' => 'FEMALE', 'TRANSGENDER' => 'TRANSGENDER'],
+            'empty_value' => ' -- Select Gender -- ',
+            'attr' => ['required', 'data-msg'=>"please choose your gender from the list", 'id'=>'gender'],
+            'wrapper'=>['class'=>'input-field col s12 m6 l4'],
+        ]);
+
 	      $this->add('save', 'submit', [
 	          'attr' => ['class'=>'btn btn-lg btn-success col-md-12'],
 	          'label' => 'Save & Continue'

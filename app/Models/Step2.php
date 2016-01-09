@@ -9,7 +9,7 @@ class Step2 extends Model
 {
     protected $table='step2';
 
-    protected $fillable= ['candidate_info_id', 'name', 'father_name', 'guardian_name', 'gender', 'nationality', 'emp_status', 'relationship', 'state', 'district', 'po', 'pin', 'village', 'address_line'];
+    protected $fillable= ['candidate_info_id', 'name', 'father_name', 'guardian_name', 'nationality', 'emp_status', 'relationship', 'state', 'district', 'po', 'pin', 'village', 'address_line'];
 
     protected $guarded= ['id'];
 

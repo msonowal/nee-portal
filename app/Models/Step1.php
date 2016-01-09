@@ -8,7 +8,7 @@ class Step1 extends Model
 {
    	protected $table='step1';
 
-    protected $fillable= ['candidate_info_id', 'quota', 'c_pref1', 'c_pref2', 'dob', 'nerist_stud', 'status', 'admission_in', 'voc_subject', 'branch', 'allied_branch', 'reservation_code'];
+    protected $fillable= ['candidate_info_id', 'quota', 'c_pref1', 'c_pref2', 'dob', 'nerist_stud', 'status', 'admission_in', 'voc_subject', 'branch', 'allied_branch', 'reservation_code', 'gender'];
 
     protected $guarded= ['id'];
 
