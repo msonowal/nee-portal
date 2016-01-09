@@ -489,17 +489,14 @@ class RegistrationController extends Controller
         catch(ModelNotFoundException $e){
 
             return $this->getStep();
-
         }
 
-        $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
-
-        $candidate_info->reg_status='payment_pending';
-
+        $candidate_info = CandidateInfo::where('id', $this->info_id)->first();
+        $candidate_info->reg_status =   'payment_pending';
+        $candidate_info->paper_code = Basehelper::getPaperCodeByInfoID($this->info_id);
         $candidate_info->save();
 
         return $this->getStep();
-
     }
 
 

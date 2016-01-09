@@ -41,7 +41,6 @@ class CandidateController extends Controller
         $id = Auth::candidate()->get()->id;
         $validator = Validator::make($data = $request->all(), CandidateInfo::$rules, CandidateInfo::$messages);
 
-        //return $data;
         if ($validator->fails())
             return Redirect::back()->withErrors($validator)
                             ->withInput();
@@ -54,9 +53,8 @@ class CandidateController extends Controller
             $candidateinfo->candidate_id = $id;
             $candidateinfo->q_id = $request->q_id;
             $candidateinfo->exam_id = $request->exam_id;
-            //$candidateinfo->form_no = Basehelper::getFormNo(CandidateInfo::max('id')+1);
+            //$candidateinfo->form_no = Basehelper::getFormNo(CandidateInfo::max('id')+1); added as a trigger for faster and accurate rw level locking manash
             $candidateinfo->qualification_status = $request->qualification_status;
-            $candidateinfo->reg_date = date('Y-m-d');
 
             if(!$candidateinfo->save())
                 return Redirect::back()->with('message', 'Unable to Save your Registration data <br> Contact Technical Support!');

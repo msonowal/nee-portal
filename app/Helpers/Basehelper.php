@@ -19,6 +19,31 @@ use nee_portal\Models\Step1;
 
 class Basehelper{
 
+    public static function getPaperCodeByInfoID($info_id)
+    {
+        $paper_code = '';
+        $candidateinfo = CandidateInfo::find($info_id);
+
+        if($candidateinfo->exam_id == 1)
+            $paper_code = 10;
+        elseif ($candidateinfo->exam_id == 2) {
+
+            if($candidateinfo->q_id == 2)
+                $paper_code = 20;
+            elseif ($candidateinfo->q_id == 3) {
+                $step1 = Step1::where('candidate_info_id', $info_id)->first();
+                $paper_code = $step1->voc_subject; //21-28
+            }elseif ($candidateinfo->q_id == 4) {
+                $paper_code = 29;
+            }
+        }elseif ($candidateinfo->exam_id == 3) {
+            $step1 = Step1::where('candidate_info_id', $info_id)->first();
+            $paper_code = Branch::find($step1->branch)->pluck('paper_code');
+        }
+
+        return $paper_code;
+    }
+
   public static function getExamName($info_id)
   {
         $info_exam_id = CandidateInfo::find($info_id)->pluck('exam_id');
