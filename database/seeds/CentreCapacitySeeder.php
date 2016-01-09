@@ -28,10 +28,11 @@ class CentreCapacitySeeder extends Seeder
         CentreCapacity::create(array('centre_code' =>'7', 'centre_location' => 'Kendriya Vidyalaya, Naharlagun, AP', 'centre_capacity' => '600'));
         CentreCapacity::create(array('centre_code' =>'7', 'centre_location' => 'Kendriya Vidyalaya, Itanagar, AP', 'centre_capacity' => '550'));
         CentreCapacity::create(array('centre_code' =>'7', 'centre_location' => 'D.N. Govt. College, Itanagar, AP', 'centre_capacity' => '1000'));
-        CentreCapacity::create(array('centre_code' =>'8', 'centre_location' => 'Ruzhukhrie Govt. HS School, Kohima, Nagaland', 'centre_capacity' => '500'));
-        CentreCapacity::create(array('centre_code' =>'9', 'centre_location' => 'Lakhimpur Girls College, North Lakhimpur', 'centre_capacity' => '450'));
-        CentreCapacity::create(array('centre_code' =>'10', 'centre_location' => 'Saint Marys College, Shillong, Meghalaya', 'centre_capacity' => '1000'));
-        CentreCapacity::create(array('centre_code' =>'11', 'centre_location' => 'NIT, Silchar, Assam', 'centre_capacity' => '1000'));
-        CentreCapacity::create(array('centre_code' =>'12', 'centre_location' => 'Darrang College, Tezpur, Assam', 'centre_capacity' => '1000'));
+        CentreCapacity::create(array('centre_code' =>'8', 'centre_location' => 'Pasighat', 'centre_capacity' => '500'));
+        CentreCapacity::create(array('centre_code' =>'9', 'centre_location' => 'Ruzhukhrie Govt. HS School, Kohima, Nagaland', 'centre_capacity' => '500'));
+        CentreCapacity::create(array('centre_code' =>'10', 'centre_location' => 'Lakhimpur Girls College, North Lakhimpur', 'centre_capacity' => '450'));
+        CentreCapacity::create(array('centre_code' =>'11', 'centre_location' => 'Saint Marys College, Shillong, Meghalaya', 'centre_capacity' => '1000'));
+        CentreCapacity::create(array('centre_code' =>'12', 'centre_location' => 'NIT, Silchar, Assam', 'centre_capacity' => '1000'));
+        CentreCapacity::create(array('centre_code' =>'13', 'centre_location' => 'Darrang College, Tezpur, Assam', 'centre_capacity' => '1000'));
     }
 }

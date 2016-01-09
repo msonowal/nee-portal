@@ -16,6 +16,7 @@ use nee_portal\Models\CandidateInfo;
 use nee_portal\Models\Candidate;
 use nee_portal\Models\ChallanInfo;
 use nee_portal\Models\AlliedBranch;
+use nee_portal\Models\Order;
 
 class RegistrationController extends Controller
 {
@@ -694,7 +695,7 @@ class RegistrationController extends Controller
         }
 
         if($candidate_info->reg_status == "completed"){
-
+            $order = Order::where('candidate_info_id', $this->info_id)->where('status', 'SUCCESS')->orderBy('id', 'desc')->first();
             $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
             $step1->category= Basehelper::getCategory($step1->reservation_code);
             $step1->quota= Basehelper::getQuota($step1->quota);
@@ -706,8 +707,18 @@ class RegistrationController extends Controller
             $step1->allied_branch= Basehelper::getAlliedBranch($step1->allied_branch);
             $step1->c_pref1= Basehelper::getCentre($step1->c_pref1);
             $step1->c_pref2= Basehelper::getCentre($step1->c_pref2);
+            $amount=Basehelper::getPayableAmount($this->info_id);
 
-            return view($this->content.'e_application', compact('step1', 'step2', 'step3', 'candidate', 'candidate_info'));
+            if($step1->branch == NULL)
+                $step1->branch = 'NA';
+
+            if($step1->allied_branch == NULL)
+                $step1->allied_branch = 'NA';
+
+            if($step1->voc_subject == NULL)
+                $step1->voc_subject = 'NA';
+
+            return view($this->content.'e_application', compact('step1', 'step2', 'step3', 'candidate', 'candidate_info', 'order', 'amount'));
 
         }
 

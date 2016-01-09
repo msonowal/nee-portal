@@ -127,27 +127,11 @@ class PaymentController extends Controller
           $data['candidate_info_id']=$info_id;
           $data['mobile_no']=$candidate->mobile_no;
           $data['email']=$candidate->email;
-          $data['trans_type']='debit_credit';
+          $data['trans_type']='Debit Card';
           $data['order_id'] =$request->vpc_MerchTxnRef;
           $data['order_info']=$request->vpc_OrderInfo;
           $data['amount'] =$request->vpc_Amount;
           $data['status'] ='PENDING';
-
-        $data['candidate_info_id']=$info_id;
-
-        $data['mobile_no']=$candidate->mobile_no;
-
-        $data['email']=$candidate->email;
-
-        $data['trans_type']='debit';
-
-        $data['order_id'] =$request->vpc_MerchTxnRef;
-
-        $data['order_info']=$request->vpc_OrderInfo;
-
-        $data['amount'] =$request->vpc_Amount;
-
-        $data['status'] ='PENDING';
 
         $order= new Order;
 
@@ -363,11 +347,7 @@ class PaymentController extends Controller
         $data['candidate_info_id']=$info_id;
         $data['mobile_no']=$candidate->mobile_no;
         $data['email']=$candidate->email;
-
-        $data['trans_type']='credit';
-
-
-        $data['trans_type']='debit_credit';
+        $data['trans_type']='Credit Card';
         $data['order_id'] =$request->vpc_MerchTxnRef;
         $data['order_info']=$request->vpc_OrderInfo;
         $data['amount'] =$request->vpc_Amount;

@@ -95,7 +95,7 @@
 		<br/>
 		<h3><P>NERIST ENTRANCE EXAMINATION {{ $year=Date('Y') }}</p></h3>
 		<h3><p>Registration Confirmation Page</p></h3>
-		<h4><p>Registration No : 110064429</p></h4>
+		<h4><p>Form No: {{ $candidate_info->form_no }}</p></h4>
 	</div>
 	<div class="block-5" style="float:right;">{!! Html::image($step3->getPhoto(), '', array('height' => '150px','width' => '140px')) !!}<br/>
 		 {!! Html::image($step3->getSignature(), '', array('height' => '40px','width' => '140px')) !!}
@@ -317,7 +317,7 @@
 					Paper Code:
 				</td>
 				<td>
-					Challan
+					{{ $candidate_info->paper_code }}
 				</td>
 			</tr>
 
@@ -332,7 +332,7 @@
 					Payment Method:
 				</td>
 				<td>
-					Net Banking
+					{{ $order->trans_type }}
 				</td>
 			</tr>
 
@@ -347,7 +347,7 @@
 					Amount Paid:
 				</td>
 				<td>
-					435/-
+					{{ $amount }}
 				</td>
 			</tr>
 
@@ -359,10 +359,10 @@
 					&nbsp;
 				</td>
 				<td>
-					Transaction ID:
+					&nbsp;
 				</td>
 				<td>
-					123456
+					&nbsp;
 				</td>
 			</tr>
 

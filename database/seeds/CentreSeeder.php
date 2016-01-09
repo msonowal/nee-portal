@@ -20,10 +20,11 @@ class CentreSeeder extends Seeder
         Centre::create(array('centre_code' => '05', 'centre_name' => 'Guwahati', 'centre_state' =>'Assam', 'NEE I' =>'0', 'NEE II' =>'0', 'NEE III' =>'0'));
         Centre::create(array('centre_code' => '06', 'centre_name' => 'Imphal', 'centre_state' =>'Manipur', 'NEE I' =>'0', 'NEE II' =>'0', 'NEE III' =>'0'));
         Centre::create(array('centre_code' => '07', 'centre_name' => 'Itanagar', 'centre_state' =>'Arunachal Pradesh', 'NEE I' =>'0', 'NEE II' =>'0', 'NEE III' =>'0'));
-        Centre::create(array('centre_code' => '08', 'centre_name' => 'Kohima', 'centre_state' =>'Nagaland', 'NEE I' =>'0', 'NEE II' =>'0', 'NEE III' =>'0'));
-        Centre::create(array('centre_code' => '09', 'centre_name' => 'North Lakhimpur', 'centre_state' =>'Assam', 'NEE I' =>'0', 'NEE II' =>'0', 'NEE III' =>'0'));
-        Centre::create(array('centre_code' => '10', 'centre_name' => 'Shillong', 'centre_state' =>'Meghalaya', 'NEE I' =>'0', 'NEE II' =>'0', 'NEE III' =>'0'));
-        Centre::create(array('centre_code' => '11', 'centre_name' => 'Silchar', 'centre_state' =>'Assam', 'NEE I' =>'0', 'NEE II' =>'0', 'NEE III' =>'0'));
-        Centre::create(array('centre_code' => '12', 'centre_name' => 'Tezpur', 'centre_state' =>'Assam', 'NEE I' =>'0', 'NEE II' =>'0', 'NEE III' =>'0'));
+        Centre::create(array('centre_code' => '08', 'centre_name' => 'Pasighat', 'centre_state' =>'Arunachal Pradesh', 'NEE I' =>'0', 'NEE II' =>'0', 'NEE III' =>'0'));
+        Centre::create(array('centre_code' => '09', 'centre_name' => 'Kohima', 'centre_state' =>'Nagaland', 'NEE I' =>'0', 'NEE II' =>'0', 'NEE III' =>'0'));
+        Centre::create(array('centre_code' => '10', 'centre_name' => 'North Lakhimpur', 'centre_state' =>'Assam', 'NEE I' =>'0', 'NEE II' =>'0', 'NEE III' =>'0'));
+        Centre::create(array('centre_code' => '11', 'centre_name' => 'Shillong', 'centre_state' =>'Meghalaya', 'NEE I' =>'0', 'NEE II' =>'0', 'NEE III' =>'0'));
+        Centre::create(array('centre_code' => '12', 'centre_name' => 'Silchar', 'centre_state' =>'Assam', 'NEE I' =>'0', 'NEE II' =>'0', 'NEE III' =>'0'));
+        Centre::create(array('centre_code' => '13', 'centre_name' => 'Tezpur', 'centre_state' =>'Assam', 'NEE I' =>'0', 'NEE II' =>'0', 'NEE III' =>'0'));
     }
 }
