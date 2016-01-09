@@ -146,27 +146,23 @@ class RegistrationController extends Controller
         if ($validator->fails())
             return back()->withErrors($validator)->withInput();
 
-        //$dtToronto = Carbon::createFromDate(2012, 1, 1, 'America/Toronto');
-        //$dtVancouver = Carbon::createFromDate(2012, 1, 1, 'America/Vancouver');
-        //$date()
-        //Carbon::createFromDate(1991, 7, 19)->diff(Carbon::now())->format('%y years, %m months and %d days');
+        //Age Validation as per restriction specified
+        $age_allowed = Basehelper::checkAgeLimit($this->info_id, $data);
+        if(!$age_allowed['status'])
+            return back()->withErrors($age_allowed['error'])->withInput();
 
         $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
 
-        if(count($step1)!=0){
+        if(count($step1)!=0)
+            return $this->getStep()->with('message', 'Data exists on Step1 ');
 
-            return $this->getStep()->with('message', 'Data exists on Step1');
+        $data = ['candidate_info_id' => $this->info_id] + $request->all();
+        $step1_data = new Step1;
+        $step1_data->fill($data);
+        if (!$step1_data->save())
+            return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
 
-        }else{
-
-            $data = ['candidate_info_id' => $this->info_id] + $request->all();
-            $step1_data = new Step1;
-            $step1_data->fill($data);
-            if (!$step1_data->save())
-                return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
-
-            return $this->getStep();
-        }
+        return $this->getStep();
     }
 
     public function showStep2()
@@ -329,37 +325,29 @@ class RegistrationController extends Controller
     public function updateStep1(Request $request){
 
         try {
-
             $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
-
         }catch(ModelNotFoundException $e) {
-
             return back()->with('message', 'Record Not Found!');
         }
 
         if(count($step1)!=1) {
-
             return $this->getStep();
-
-        } else {
+        }else{
 
             $validator = Validator::make($data = $request->all(), ValidationRules::step1_save());
-
             if ($validator->fails())
-            {
                 return back()->withErrors($validator)->withInput();
 
-            }else{
+            //Age Validation as per restriction specified
+            $age_allowed = Basehelper::checkAgeLimit($this->info_id, $data);
+            if(!$age_allowed['status'])
+                return back()->withErrors($age_allowed['error'])->withInput();
 
-                $step1->fill($data);
+            $step1->fill($data);
+            if (!$step1->save())
+                return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
 
-                if (!$step1->save())
-                {
-                    return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
-                }
-
-                return $this->getStep();
-            }
+            return $this->getStep();
         }
     }
 

@@ -16,8 +16,92 @@ use nee_portal\Models\State;
 use nee_portal\Models\District;
 use Session, Log, Route;
 use nee_portal\Models\Step1;
+use Carbon\Carbon;
 
 class Basehelper{
+
+    public static function checkAgeLimit($info_id, $data)
+    {
+        $candidateinfo = CandidateInfo::find($info_id);
+        $format = 'd-m-Y';
+        $dob = Carbon::createFromFormat($format, $data['dob']);
+        $limit_date = '';
+        $msg = 'Maximum Age limit Restriction ';
+        //$category = Basehelper::getCategory($data['reservation_code']);
+
+        if($candidateinfo->exam_id == 1){
+
+            $msg.='<strong>NEE-I</strong><br/>';
+
+            if($data['gender'] == 'FEMALE'){
+                $limit_date = '01-08-1994';
+                $msg .= 'For FEMALE candidates date of birth must be 1st August 1994 or more';
+            }else{
+
+                $category = Basehelper::getCategory($data['reservation_code']);
+                if($category == 'GENERAL'){
+                    $limit_date = '01-08-1997';
+                    $msg .= 'For GENERAL category candidates date of birth must be 1st August <strong>1997</strong> or more';
+                }elseif ($category == 'OBC'){
+                    $limit_date = '01-08-1994';
+                    $msg .= 'For OBC category candidates date of birth must be 1st August 1994 or more';
+                }elseif ($category == 'ST' || $category == 'SC' || $category == 'PD'){
+                    $limit_date = '01-08-1992';
+                    $msg .= 'For ST/SC/PD category candidates date of birth must be 1st August 1992 or more';
+                }else
+                    Log::info('UNABLE to determine AGE LIMIT');
+            }
+            
+        }elseif ($candidateinfo->exam_id == 2) {
+            // NEE - II
+            $msg.='<strong>NEE-II</strong><br/>';
+            if($data['gender'] == 'FEMALE'){
+                $limit_date = '01-08-1989';
+                $msg .= 'For FEMALE candidates date of birth must be 1st August 1989 or more';
+            }else{
+
+                $category = Basehelper::getCategory($data['reservation_code']);
+                if($category == 'GENERAL'){
+                    $limit_date = '01-08-1993';
+                    $msg .= 'For GENERAL category candidates date of birth must be 1st August <strong>1993</strong> or more';
+                }elseif ($category == 'OBC'){
+                    $limit_date = '01-08-1989';
+                    $msg .= 'For OBC category candidates date of birth must be 1st August 1989 or more';
+                }elseif ($category == 'ST' || $category == 'SC' || $category == 'PD'){
+                    $limit_date = '01-08-1988';
+                    $msg .= 'For ST/SC/PD category candidates date of birth must be 1st August 1988 or more';
+                }else
+                    Log::info('UNABLE to determine AGE LIMIT');
+            }
+
+        }elseif ($candidateinfo->exam_id == 3) {
+            // NEE - III
+            $msg.='<strong>NEE-III</strong><br/>';
+            if($data['gender'] == 'FEMALE'){
+                $limit_date = '01-08-1973';
+                $msg .= 'For FEMALE candidates date of birth must be 1st August 1973 or more';
+            }else{
+
+                $category = Basehelper::getCategory($data['reservation_code']);
+                if($category == 'GENERAL'){
+                    $limit_date = '01-08-1976';
+                    $msg .= 'For GENERAL category candidates date of birth must be 1st August <strong>1976</strong> or more';
+                }elseif ($category == 'OBC'){
+                    $limit_date = '01-08-1973';
+                    $msg .= 'For OBC category candidates date of birth must be 1st August 1973 or more';
+                }elseif ($category == 'ST' || $category == 'SC' || $category == 'PD'){
+                    $limit_date = '01-08-1971';
+                    $msg .= 'For ST/SC/PD category candidates date of birth must be 1st August 1971 or more';
+                }else
+                    Log::info('UNABLE to determine AGE LIMIT');
+            }
+
+        }
+
+        $limit_date = Carbon::createFromFormat($format, $limit_date);
+        
+        return ['status' => $dob->gte($limit_date), 'error' => $msg];
+    }
 
     public static function getPaperCodeByInfoID($info_id)
     {
