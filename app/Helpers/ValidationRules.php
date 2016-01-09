@@ -20,26 +20,34 @@ class ValidationRules{
   public static function step1_save()
   {
       return $rules=[
-      				'quota' => 'required|numeric',
-      				'c_pref1' => 'required|exists:centres,centre_code',
-      				'c_pref2' => 'required|exists:centres,centre_code',
-              'dob' => 'required|date_format:d-m-Y',
-      				'nerist_stud' => 'required',
-      				'admission_in' => 'required|numeric',
-      				'reservation_code' => 'required|numeric'
+      				'quota'             =>  'required|exists:quotas,id',
+              'reservation_code'  =>  'required|exists:reservations,reservation_code',
+      				'c_pref1'           =>  'required|different:c_pref2|exists:centres,centre_code',
+      				'c_pref2'           =>  'required|different:c_pref1|exists:centres,centre_code',
+      				'nerist_stud'       =>  'required|in:YES,NO',
+      				'admission_in'      =>  'required|exists:exam_details,id',
+              'voc_subject'       =>  'sometimes|exists:vocational_subjects,paper_code',
+              'branch'            =>  'sometimes|exists:branches,id',
+              'allied_branch'     =>  'sometimes|exists:allied_branches,id',
+              'dob'               =>  'required|date_format:d-m-Y',
+              //'dob'               =>  'required|date_format:d-m-Y|before:"now -15 year"',
       ];
   }
 
   public static function step1_edit()
   {
       return $rules=[
-      				'quota' => 'required|numeric',
-      				'c_pref1' => 'required|exists:centres,centre_code',
-      				'c_pref2' => 'required|exists:centres,centre_code',
-              'dob' => 'required|date_format:d-m-Y',
-      				'nerist_stud' => 'required',
-      				'admission_in' => 'required|numeric',
-      				'reservation_code' => 'required|numeric'
+              'quota'             =>  'required|exists:quotas,id',
+              'reservation_code'  =>  'required|exists:reservations,reservation_code',
+              'c_pref1'           =>  'required|different:c_pref2|exists:centres,centre_code',
+              'c_pref2'           =>  'required|different:c_pref1|exists:centres,centre_code',
+              'nerist_stud'       =>  'required|in:YES,NO',
+              'admission_in'      =>  'required|exists:exam_details,id',
+              'voc_subject'       =>  'sometimes|exists:vocational_subjects,paper_code',
+              'branch'            =>  'sometimes|exists:branches,id',
+              'allied_branch'     =>  'sometimes|exists:allied_branches,id',
+              'dob'               =>  'required|date_format:d-m-Y',
+              //'dob'               =>  'required|date_format:d-m-Y|before:"now -15 year"',
       ];
   }
 

@@ -6,14 +6,18 @@
 			{!! form_start($form, ['id'=>'step1_form']) !!}
 		    <div class="row">
 		        <div class="col m12">
+		        {!! form_row($form->quota) !!}
 
-							{!! form_until($form, 'reservation_code') !!}
+		        <div class="input-field col m6">
+		        {!! form_widget($form->reservation_code) !!}
+		        <a class="modal-trigger" href="#modal1" data-id="">Click here to view reservation list</a><br/><br/>
+		        </div>
+		        
+				{!! form_until($form, 'dob') !!}
 
-							<div class="col m12">
-								<a class="modal-trigger" href="#modal1" data-id="">Click here to view reservation list</a><br/><br/>
-							{!! form_row($form->update) !!}
-							</div>
-
+				<div class="col m12">
+				{!! form_row($form->save) !!}
+				</div>
 		        </div>
 			 </div>
 		  {!! form_end($form) !!}
@@ -44,7 +48,7 @@ var reservation_status = true;
                 $reservation_code.empty();
 								$reservation_code.empty().html('');
 								var list = '<table class="bordered"><tr><th style="width:145px;">Quota</th><th style="width:137px;">Reservation Code</th><th>Description</th></tr>';
-                $("<option>").val('').text('--Select Reservation Code--').appendTo($reservation_code);
+                $("<option>").val('').text(' -- Choose Reservation Code -- ').appendTo($reservation_code);
                 $.each(msg, function(key, value) {
                     $("<option>").val(value.reservation_code).text(value.reservation_code).appendTo($reservation_code);
 										list += "<tr><td>" + value.quota.name + '</td><td><a href="#" class="reservation_list_code" data-code="'+ value.reservation_code +'">' + value.reservation_code +'</a></td><td>' + value.description + '</td></tr>';
@@ -100,7 +104,7 @@ var reservation_status = true;
                 $('#allied_branch_id-error').remove();
                 $alliedBranch.empty();
 								$alliedBranch.empty().html('');
-                $("<option>").val('').text('-- Select Allied Branch --').appendTo($alliedBranch);
+                $("<option>").val('').text('-- Choose Allied Branch --').appendTo($alliedBranch);
                 $.each(msg, function(key, value) {
                     $("<option>").val(value.id).text(value.allied_branch).appendTo($alliedBranch);
                 });
@@ -117,9 +121,30 @@ var reservation_status = true;
 
 @section('page_script')
     $('#quota').change(function(e){ getReservationCode(this, $('#reservation_code')); });
-		$('#branch_id').change(function(e){ getAlliedBranch(this, $('#allied_branch_id')); });
-		$('#reservation_code').change(function(e) { getReservationStatus($('#reservation_code').val()); });
-		$('body').on('click', 'a.reservation_list_code', function(e){ e.preventDefault(); $('#reservation_code').val($(this).attr('data-code')); $('#modal1').closeModal(); $('#reservation_code').material_select('update'); $('#reservation_code').trigger('change'); });
+	$('#branch_id').change(function(e){ getAlliedBranch(this, $('#allied_branch_id')); });
+	$('#reservation_code').change(function(e) { getReservationStatus($('#reservation_code').val()); });
+	$('body').on('click', 'a.reservation_list_code', function(e){ e.preventDefault(); $('#reservation_code').val($(this).attr('data-code')); $('#modal1').closeModal(); $('#reservation_code').material_select('update'); $('#reservation_code').trigger('change'); });
+
+	$('.pref').on('change', function() {
+
+        var me = $(this);
+        if(me.val()!=''){
+        	var except = me.attr('id');
+	        $('.pref').each(function(key, element ) {
+	            var choose = $(this);
+	            var current = $(this).attr('id');
+	            if( current != except) {
+
+	                if(choose.val() == me.val()) {
+	                    $(me).val('');
+	                    $(me).material_select('update');
+	                    showError('Exam centre preference already selected<br/>Please choose a different option');
+	                    return false;
+	                }
+	            }
+	        });
+	    }
+    });
 		$('#quota').trigger('change');
 
 		$("#step1_form").validate({

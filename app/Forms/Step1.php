@@ -48,7 +48,7 @@ class Step1 extends Form
           $this->add('c_pref1', 'select', [
             'choices' => $centre_choices,
             'empty_value' => ' -- Select Exam Centre Preference 1 -- ',
-            'attr' => ['required', 'data-msg'=>"Please select a Exam Centre Preference 1", 'id'=>'c_pref1'],
+            'attr' => ['required', 'data-msg'=>"Please select a Exam Centre Preference 1", 'id'=>'c_pref1', 'class'=>'pref'],
             'wrapper'=>['class'=>'input-field col m6'],
             'label' => 'Exam Centre Preference 1'
 	      ]);
@@ -56,7 +56,7 @@ class Step1 extends Form
 	      $this->add('c_pref2', 'select', [
            	'choices' => $centre_choices,
            	'empty_value' => ' -- Select Exam Centre Preference 2 -- ',
-	          'attr' => ['required', 'data-msg'=>"Please select a Exam Centre Preference 2", 'id'=>'c_pref2'],
+	          'attr' => ['required', 'data-msg'=>"Please select a Exam Centre Preference 2", 'id'=>'c_pref2', 'class'=>'pref'],
             'wrapper'=>['class'=>'input-field col m6'],
             'label' => 'Exam Centre Preference 2'
 	      ]);

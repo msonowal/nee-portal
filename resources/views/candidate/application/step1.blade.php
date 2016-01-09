@@ -101,13 +101,13 @@
             	$('#allied_branch_id-error').remove();
                 $alliedBranch.empty();
 								$alliedBranch.empty().html('');
-                $("<option>").val('').text('-- Select Allied Branch --').appendTo($alliedBranch);
+                $("<option>").val('').text('-- Choose Allied Branch --').appendTo($alliedBranch);
                 $.each(msg, function(key, value) {
                     $("<option>").val(value.id).text(value.allied_branch).appendTo($alliedBranch);
                 });
-								//$reservation_code.material_select();
-								$alliedBranch.material_select('update');
-								//$alliedBranch.closest('.input-field').children('span.caret').remove();
+				//$reservation_code.material_select();
+				$alliedBranch.material_select('update');
+				//$alliedBranch.closest('.input-field').children('span.caret').remove();
                 return true;
             });
         }else
@@ -130,5 +130,26 @@
       }
     });
 	$('#step1_form').submit(function(e) {  });
+
+	$('.pref').on('change', function() {
+
+        var me = $(this);
+        if(me.val()!=''){
+        	var except = me.attr('id');
+	        $('.pref').each(function(key, element ) {
+	            var choose = $(this);
+	            var current = $(this).attr('id');
+	            if( current != except) {
+
+	                if(choose.val() == me.val()) {
+	                    $(me).val('');
+	                    $(me).material_select('update');
+	                    showError('Exam centre preference already selected<br/>Please choose a different option');
+	                    return false;
+	                }
+	            }
+	        });
+	    }
+    });
 
 @stop
