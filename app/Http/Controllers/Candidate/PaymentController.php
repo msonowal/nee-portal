@@ -15,6 +15,7 @@ use nee_portal\Models\Step3;
 use nee_portal\Models\CandidateInfo;
 use nee_portal\Models\Candidate;
 use nee_portal\Models\Order;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PaymentController extends Controller
 {
@@ -56,10 +57,10 @@ class PaymentController extends Controller
             return redirect()->route($this->content.'dashboard');
 
         try{
-            $candidate_info=CandidateInfo::where('id', $info_id)->first();
-            $step1 = Step1::where('candidate_info_id', $info_id)->first();
-            $step2 = Step2::where('candidate_info_id', $info_id)->first();
-            $step3 = Step3::where('candidate_info_id', $info_id)->first();
+            $candidate_info=CandidateInfo::where('id', $info_id)->firstOrFail();
+            $step1 = Step1::where('candidate_info_id', $info_id)->firstOrFail();
+            $step2 = Step2::where('candidate_info_id', $info_id)->firstOrFail();
+            $step3 = Step3::where('candidate_info_id', $info_id)->firstOrFail();
         }catch(ModelNotFoundException $e){
 
             return redirect()->route('candidate.error')->withErrors('Record not found!');
@@ -111,11 +112,11 @@ class PaymentController extends Controller
             return redirect()->route($this->content.'dashboard');
 
         try{
-            $candidate=Candidate::where('id', Auth::candidate()->get()->id)->first();
-            $candidate_info=CandidateInfo::where('id', $info_id)->first();
-            $step1 = Step1::where('candidate_info_id', $info_id)->first();
-            $step2 = Step2::where('candidate_info_id', $info_id)->first();
-            $step3 = Step3::where('candidate_info_id', $info_id)->first();
+            $candidate=Candidate::where('id', Auth::candidate()->get()->id)->firstOrFail();
+            $candidate_info=CandidateInfo::where('id', $info_id)->firstOrFail();
+            $step1 = Step1::where('candidate_info_id', $info_id)->firstOrFail();
+            $step2 = Step2::where('candidate_info_id', $info_id)->firstOrFail();
+            $step3 = Step3::where('candidate_info_id', $info_id)->firstOrFail();
         }catch(ModelNotFoundException $e){
 
             return redirect()->route('candidate.error')->withErrors('Record not found!');
@@ -291,10 +292,10 @@ class PaymentController extends Controller
             return redirect()->route($this->content.'dashboard');
 
         try{
-            $candidate_info=CandidateInfo::where('id', $info_id)->first();
-            $step1 = Step1::where('candidate_info_id', $info_id)->first();
-            $step2 = Step2::where('candidate_info_id', $info_id)->first();
-            $step3 = Step3::where('candidate_info_id', $info_id)->first();
+            $candidate_info=CandidateInfo::where('id', $info_id)->firstOrFail();
+            $step1 = Step1::where('candidate_info_id', $info_id)->firstOrFail();
+            $step2 = Step2::where('candidate_info_id', $info_id)->firstOrFail();
+            $step3 = Step3::where('candidate_info_id', $info_id)->firstOrFail();
         }catch(ModelNotFoundException $e){
 
             return redirect()->route('candidate.error')->withErrors('Record not found!');
@@ -346,11 +347,11 @@ class PaymentController extends Controller
             return redirect()->route($this->content.'dashboard');
 
         try{
-            $candidate=Candidate::where('id', Auth::candidate()->get()->id)->first();
-            $candidate_info=CandidateInfo::where('id', $info_id)->first();
-            $step1 = Step1::where('candidate_info_id', $info_id)->first();
-            $step2 = Step2::where('candidate_info_id', $info_id)->first();
-            $step3 = Step3::where('candidate_info_id', $info_id)->first();
+            $candidate=Candidate::where('id', Auth::candidate()->get()->id)->firstOrFail();
+            $candidate_info=CandidateInfo::where('id', $info_id)->firstOrFail();
+            $step1 = Step1::where('candidate_info_id', $info_id)->firstOrFail();
+            $step2 = Step2::where('candidate_info_id', $info_id)->firstOrFail();
+            $step3 = Step3::where('candidate_info_id', $info_id)->firstOrFail();
         }catch(ModelNotFoundException $e){
 
             return redirect()->route('candidate.error')->withErrors('Record not found!');
@@ -498,10 +499,10 @@ class PaymentController extends Controller
             return redirect()->route($this->content.'dashboard');
 
         try{
-            $candidate_info=CandidateInfo::where('id', $info_id)->first();
-            $step1 = Step1::where('candidate_info_id', $info_id)->first();
-            $step2 = Step2::where('candidate_info_id', $info_id)->first();
-            $step3 = Step3::where('candidate_info_id', $info_id)->first();
+            $candidate_info=CandidateInfo::where('id', $info_id)->firstOrFail();
+            $step1 = Step1::where('candidate_info_id', $info_id)->firstOrFail();
+            $step2 = Step2::where('candidate_info_id', $info_id)->firstOrFail();
+            $step3 = Step3::where('candidate_info_id', $info_id)->firstOrFail();
         }catch(ModelNotFoundException $e){
 
             return redirect()->route('candidate.error')->withErrors('Record not found!');
@@ -545,11 +546,11 @@ class PaymentController extends Controller
             return redirect()->route($this->content.'dashboard');
 
         try{
-            $candidate=Candidate::where('id', Auth::candidate()->get()->id)->first();
-            $candidate_info=CandidateInfo::where('id', $info_id)->first();
-            $step1 = Step1::where('candidate_info_id', $info_id)->first();
-            $step2 = Step2::where('candidate_info_id', $info_id)->first();
-            $step3 = Step3::where('candidate_info_id', $info_id)->first();
+            $candidate=Candidate::where('id', Auth::candidate()->get()->id)->firstOrFail();
+            $candidate_info=CandidateInfo::where('id', $info_id)->firstOrFail();
+            $step1 = Step1::where('candidate_info_id', $info_id)->firstOrFail();
+            $step2 = Step2::where('candidate_info_id', $info_id)->firstOrFail();
+            $step3 = Step3::where('candidate_info_id', $info_id)->firstOrFail();
         }catch(ModelNotFoundException $e){
 
             return redirect()->route('candidate.error')->withErrors('Record not found!');
@@ -653,10 +654,10 @@ class PaymentController extends Controller
           return redirect()->route($this->content.'dashboard');
 
     try{
-        $candidate_info=CandidateInfo::where('id', $info_id)->first();
-        $step1 = Step1::where('candidate_info_id', $info_id)->first();
-        $step2 = Step2::where('candidate_info_id', $info_id)->first();
-        $step3 = Step3::where('candidate_info_id', $info_id)->first();
+        $candidate_info=CandidateInfo::where('id', $info_id)->firstOrFail();
+        $step1 = Step1::where('candidate_info_id', $info_id)->firstOrFail();
+        $step2 = Step2::where('candidate_info_id', $info_id)->firstOrFail();
+        $step3 = Step3::where('candidate_info_id', $info_id)->firstOrFail();
     }catch(ModelNotFoundException $e){
         return redirect()->route('candidate.error')->withErrors('Record not found!');
     }

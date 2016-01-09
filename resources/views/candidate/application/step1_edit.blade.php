@@ -16,7 +16,7 @@
 				{!! form_until($form, 'dob') !!}
 
 				<div class="col m12">
-				{!! form_row($form->save) !!}
+				{!! form_row($form->update) !!}
 				</div>
 		        </div>
 			 </div>
@@ -145,9 +145,8 @@ var reservation_status = true;
 	        });
 	    }
     });
-		$('#quota').trigger('change');
 
-		$("#step1_form").validate({
+	$("#step1_form").validate({
       rules: {
         quota: {
           required: true,
