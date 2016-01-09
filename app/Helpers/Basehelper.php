@@ -226,5 +226,20 @@ class Basehelper{
         }
     }
 
+    public static function net_bankingProperty($property) {
+        $process_file_array=array();
+        $fp = @fopen($property, 'r');
+        if ($fp) {
+            $array = explode("\n", fread($fp, filesize($property)));
+        }
+        $array_count=count($array);
+        for($i=0;$i<$array_count;$i++) {
+            $array_str=explode("=",$array[$i]);
+            $process_file_array[]=$array_str[1];
+        }
+        return $process_file_array;
+        
+    }
+
 
 }

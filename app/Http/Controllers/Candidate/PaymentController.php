@@ -79,13 +79,13 @@ class PaymentController extends Controller
             //$vpc_OrderInfo='NEE CreditDebit Pay';
             $vpc_OrderInfo=strtoupper($info_id.'_'.uniqid());
             $vpc_Amount='200';
-            //$vpc_Amount=(Basehelper::getPayableAmount($info_id))*100+4;
+            //$vpc_Amount=(Basehelper::getPayableAmount($info_id))*100+400;
             $vpc_Locale='en';
 
             //$vpc_ReturnURL='https://www.neeonline.ac.in/nee/candidate/vpc_php_serverhost_dr.php';
             $vpc_ReturnURL = route('payment.response.debit_card');
 
-            return view($this->content.'debit_credit')->with([
+            return view($this->content.'debit_card')->with([
                     'Title' =>$Title,
                     'virtualPaymentClientURL' =>$virtualPaymentClientURL,
                     'vpc_Version' =>$vpc_Version,
@@ -132,7 +132,36 @@ class PaymentController extends Controller
           $data['amount'] =$request->vpc_Amount;
           $data['status'] ='PENDING';
 
-          $order= new Order;
+        $data['candidate_info_id']=$info_id;
+
+        $data['mobile_no']=$candidate->mobile_no;
+
+        $data['email']=$candidate->email;
+
+        $data['trans_type']='debit';
+
+        $data['order_id'] =$request->vpc_MerchTxnRef;
+
+        $data['order_info']=$request->vpc_OrderInfo;
+
+        $data['amount'] =$request->vpc_Amount;
+
+        $data['status'] ='PENDING';
+
+        $order= new Order;
+
+        $order->fill($data);
+
+        if(!$order->save())
+            return back()->withErrors('Unable to proceed!');
+
+        //payment gateway dibit_credit
+        require('pgconfig.php');
+
+        $md5HashData = $SECURE_SECRET;
+
+        $vpcURL=$request->virtualPaymentClientURL.'?';
+        $order= new Order;
           $order->fill($data);
 
           if(!$order->save())
@@ -285,13 +314,13 @@ class PaymentController extends Controller
             //$vpc_OrderInfo='NEE CreditDebit Pay';
             $vpc_OrderInfo=strtoupper($info_id.'_'.uniqid());
             $vpc_Amount='200';
-            //$vpc_Amount=(Basehelper::getPayableAmount($info_id))*100+6;
+            //$vpc_Amount=(Basehelper::getPayableAmount($info_id))*100+600;
             $vpc_Locale='en';
 
             //$vpc_ReturnURL='https://www.neeonline.ac.in/nee/candidate/vpc_php_serverhost_dr.php';
             $vpc_ReturnURL = route('payment.response.credit_card');
 
-            return view($this->content.'debit_credit')->with([
+            return view($this->content.'credit_card')->with([
                     'Title' =>$Title,
                     'virtualPaymentClientURL' =>$virtualPaymentClientURL,
                     'vpc_Version' =>$vpc_Version,
@@ -333,6 +362,10 @@ class PaymentController extends Controller
         $data['candidate_info_id']=$info_id;
         $data['mobile_no']=$candidate->mobile_no;
         $data['email']=$candidate->email;
+
+        $data['trans_type']='credit';
+
+
         $data['trans_type']='debit_credit';
         $data['order_id'] =$request->vpc_MerchTxnRef;
         $data['order_info']=$request->vpc_OrderInfo;
@@ -455,6 +488,98 @@ class PaymentController extends Controller
           $order->save();
           return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed.<br/>Your order No is <strong>'.$orderInfo.'</strong>.<br/>Please try again.');
        }
+  }
+
+  public function showNet_banking()
+  {
+      $info_id = Session::get('candidate_info_id');
+
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
+        try{
+            $candidate_info=CandidateInfo::where('id', $info_id)->first();
+            $step1 = Step1::where('candidate_info_id', $info_id)->first();
+            $step2 = Step2::where('candidate_info_id', $info_id)->first();
+            $step3 = Step3::where('candidate_info_id', $info_id)->first();
+        }catch(ModelNotFoundException $e){
+
+            return redirect()->route('candidate.error')->withErrors('Record not found!');
+        }
+
+        if($candidate_info->reg_status=="payment_pending"){
+            $txtTranID=$info_id;
+            $txtMarketCode='L2748';
+            //$txtAcctNo = '';
+            $txtBankCode='NA';
+            $amount=(Basehelper::getPayableAmount($info_id))*100+600;
+
+            return view($this->content.'net_banking')->with([
+                        'txtTranID' => $txtTranID,
+                        'txtMarketCode' => $txtMarketCode,
+                        'txtBankCode' => $txtBankCode,
+                        'amount' => $amount                   
+                    ]);
+        }
+
+        return redirect()->action('Candidate\RegistrationController@getStep');
+  }
+
+  public function doNet_banking(Request $request)
+  {
+      $info_id = Session::get('candidate_info_id');
+
+        if(!Basehelper::checkSession())
+            return redirect()->route($this->content.'dashboard');
+
+        try{
+            $candidate=Candidate::where('id', Auth::candidate()->get()->id)->first();
+            $candidate_info=CandidateInfo::where('id', $info_id)->first();
+            $step1 = Step1::where('candidate_info_id', $info_id)->first();
+            $step2 = Step2::where('candidate_info_id', $info_id)->first();
+            $step3 = Step3::where('candidate_info_id', $info_id)->first();
+        }catch(ModelNotFoundException $e){
+
+            return redirect()->route('candidate.error')->withErrors('Record not found!');
+        }
+
+        if($candidate_info->reg_status=="payment_pending"){
+
+
+        $data['candidate_info_id']=$info_id;
+
+        $data['mobile_no']=$candidate->mobile_no;
+
+        $data['email']=$candidate->email;
+
+        $data['trans_type']='net banking';
+
+        $data['order_id'] =$request->txtTranID;
+
+        $data['amount'] =$request->amount;
+
+        $data['status'] ='PENDING';
+
+        $order= new Order;
+
+        $order->fill($data);
+
+        if(!$order->save())
+            return back()->withErrors('Unable to proceed!');
+
+        //set_time_limit(900);
+        $property_path="MerchantDetails.properties";
+
+        $property_array=Basehelper::net_bankingProperty($property_path);
+
+        $property_array;
+
+        if(count($property_array)<5){
+            ShowError("Invald Property File");
+            die();
+        }
+
+      } 
   }
 
 

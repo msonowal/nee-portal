@@ -56,6 +56,9 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
         //Credit Card payment of Axis Bank
         Route::get('/payment/credit_card', ['as' => 'payment.credit_card', 'uses' =>'PaymentController@showCredit_card']);
         Route::post('/payment/debit_card', ['as' => 'payment.credit_card', 'uses' =>'PaymentController@doCredit_card']);
+        //Net Banking payment of Axis Bank
+        Route::get('/payment/net_banking', ['as' => 'payment.net_banking', 'uses' =>'PaymentController@showNet_banking']);
+        Route::post('/payment/net_banking', ['as' => 'payment.net_banking', 'uses' =>'PaymentController@doNet_banking']);
         //Pay U money
         Route::get('/payment/pay_u', ['as' => 'payment.pay_u', 'uses' =>'PaymentController@showPayU']);
         Route::post('/payment/pay_u', ['as' => 'payment.pay_u', 'uses' =>'PaymentController@doPayU']);

@@ -565,14 +565,17 @@ class RegistrationController extends Controller
             }
             $option = $request->payment_option;
 
-            if($option == "challan"){
+            if($option == 'challan'){
                 return redirect()->route($this->content.'challan');
 
-            }else if($option == "debit_card"){
+            }else if($option == 'debit_card'){
                 return redirect()->route('payment.debit_card');
 
-            }else if($option == "credit_card"){
+            }else if($option == 'credit_card'){
                 return redirect()->route('payment.credit_card');
+
+            }else if($option == 'net_banking'){
+                return redirect()->route('payment.net_banking');
 
             }elseif ($option == 'pay_u') {
 
