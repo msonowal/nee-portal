@@ -39,6 +39,7 @@ class RegistrationController extends Controller
         }
 
         $reg_status = $candidate_info->reg_status;
+
         $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
         $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
         $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
@@ -60,10 +61,14 @@ class RegistrationController extends Controller
         }
         else if($reg_status=="payment_pending"){
 
-                return redirect()->route($this->content.'payment_options');
+            if(count($step1)==0 || count($step2)==0 || count($step3)==0){
+                Log::info('Data missing CODE: ##401## Info ID: =='.$this->info_id.'==');
+                return redirect()->route('candidate.error')->with('message', 'DATA ERROR CODE 401');
+            }
 
-        }
-        else if($reg_status=="completed"){
+            return redirect()->route($this->content.'payment_options');
+
+        }else if($reg_status=="completed"){
 
                 return redirect()->route($this->content.'completed');
 
@@ -382,7 +387,7 @@ class RegistrationController extends Controller
 
         try {
 
-            $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
+            $step2 = Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
 
         }catch(ModelNotFoundException $e) {
 
@@ -431,7 +436,7 @@ class RegistrationController extends Controller
     public function updateStep3(Request $request)
     {
         try{
-            $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+            $step3 = Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
         }catch(ModelNotFoundException $e){
 
             return $this->getStep();
@@ -482,9 +487,9 @@ class RegistrationController extends Controller
 
         try{
 
-            $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
-            $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
-            $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+            $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step2 = Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step3 = Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
         }
         catch(ModelNotFoundException $e){
 
@@ -506,10 +511,10 @@ class RegistrationController extends Controller
             return redirect()->route($this->content.'dashboard');
 
         try{
-            $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
-            $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
-            $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
-            $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+            $candidate_info=CandidateInfo::where('id', $this->info_id)->firstOrFail();
+            $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step2 = Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step3 = Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
         }catch(ModelNotFoundException $e){
 
             return redirect()->route('candidate.error')->withErrors('Record not found!');
@@ -536,10 +541,10 @@ class RegistrationController extends Controller
             return redirect()->route($this->content.'dashboard');
 
         try{
-            $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
-            $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
-            $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
-            $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+            $candidate_info=CandidateInfo::where('id', $this->info_id)->firstOrFail();
+            $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step2 = Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step3 = Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
         }catch(ModelNotFoundException $e){
 
             return redirect()->route('candidate.error')->withErrors('Record not found!');
@@ -588,10 +593,10 @@ class RegistrationController extends Controller
             return redirect()->route($this->content.'dashboard');
 
         try{
-            $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
-            $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
-            $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
-            $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+            $candidate_info=CandidateInfo::where('id', $this->info_id)->firstOrFail();
+            $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step2 = Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step3 = Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
         }catch(ModelNotFoundException $e){
 
             return redirect()->route('candidate.error')->withErrors('Record not found!');
@@ -614,10 +619,10 @@ class RegistrationController extends Controller
         try{
             $id=Auth::candidate()->get()->id;
             $candidate=Candidate::where('id', $id)->first();
-            $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
-            $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
-            $step2 = Step2::where('candidate_info_id', $this->info_id)->first();
-            $step3 = Step3::where('candidate_info_id', $this->info_id)->first();
+            $candidate_info=CandidateInfo::where('id', $this->info_id)->firstOrFail();
+            $step1 = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step2 = Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step3 = Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
         }catch(ModelNotFoundException $e){
 
             return redirect()->route('candidate.error')->withErrors('Record not found!');
@@ -656,22 +661,18 @@ class RegistrationController extends Controller
 
         try{
 
-            $step2=Step2::where('candidate_info_id', $this->info_id)->first();
-            $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
-            $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
+            $step2  =   Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $candidate_info = CandidateInfo::where('id', $this->info_id)->firstOrFail();
+            $candidate_info->exam_id    = Basehelper::getExam($candidate_info->exam_id);
         }catch(ModelNotFoundException $e){
 
             return redirect()->route('candidate.error')->withErrors('Record not found!');
         }
 
-        if($candidate_info->reg_status == "completed"){
-
+        if($candidate_info->reg_status == "completed")
             return view($this->content.'completed', compact('step2', 'candidate_info'));
 
-        }
-
         return $this->getStep();
-
     }
 
     public function e_application(){
@@ -680,11 +681,11 @@ class RegistrationController extends Controller
             return redirect()->route($this->content.'dashboard');
 
         try{
-            $step1=Step1::where('candidate_info_id', $this->info_id)->first();
-            $step2=Step2::where('candidate_info_id', $this->info_id)->first();
-            $step3=Step3::where('candidate_info_id', $this->info_id)->first();
-            $candidate=Candidate::where('id', Auth::candidate()->get()->id)->first();
-            $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
+            $step1  =   Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step2  =   Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $step3  =   Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
+            $candidate  = Candidate::where('id', Auth::candidate()->get()->id)->firstOrFail();
+            $candidate_info    =    CandidateInfo::where('id', $this->info_id)->firstOrFail();
         }catch(ModelNotFoundException $e){
             return redirect()->route('candidate.error')->withErrors('Record not found!');
         }
