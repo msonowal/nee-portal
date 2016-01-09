@@ -31,7 +31,7 @@ class Step2 extends Form
 	      $this->add('gender', 'select', [
 	      	  'choices' => ['MALE' => 'MALE', 'FEMALE' => 'FEMALE', 'TRANSGENDER' => 'TRANSGENDER'],
 	          'empty_value' => ' -- Select Gender -- ',
-	          'attr' => ['required', 'data-msg'=>"please choose your gender from the list"],
+	          'attr' => ['required', 'data-msg'=>"please choose your gender from the list", 'id'=>'gender'],
 	          'wrapper'=>['class'=>'input-field col s12 m6 l4'],
 	      ]);
 
@@ -44,7 +44,7 @@ class Step2 extends Form
 	      $this->add('emp_status', 'select', [
 	      	  'choices' => ['YES' => 'YES', 'NO' => 'NO'],
 	      	  'empty_value' => ' -- Select -- ',
-	          'attr' => ['required', 'data-msg'=>"select your employment status"],
+	          'attr' => ['required', 'data-msg'=>"select your employment status", 'id'=>'emp_status'],
 	          'wrapper'=>['class'=>'input-field col s12 m6 l4'],
 	          'label' => 'Are you Employed?'
 	      ]);

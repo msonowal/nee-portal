@@ -64,6 +64,7 @@
         });
         $('.tooltipped').tooltip({delay: 50}); //Tooltip
         $('.modal-trigger').leanModal(); //Trigger Model
+        $('body').on('change', 'select', function(e){ var id = $(this).attr('id'); if(id!=undefined){ $('#'+id+'-error').remove();}});
         //$.blockUI({ message: '<h1><img src="busy.gif" /> Just a moment...</h1>' });
         //$.blockUI({ message: '<div class="preloader-wrapper big active"><div class="spinner-layer spinner-blue"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div>'});
         //$.blockUI({ message: '<div class="progress"><div class="indeterminate"></div></div>'});
