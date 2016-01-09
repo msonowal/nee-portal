@@ -66,7 +66,7 @@ class ValidationRules{
       					'district' => 'required|exists:districts,id',
       					'po' => 'required|max:20',
       					'pin' => 'required|digits:6',
-      					'village' => 'required|max:20',
+      					'village' => 'max:20',
       					'address_line' => 'required|max:300'
       ];
   }

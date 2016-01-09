@@ -5,20 +5,20 @@
 		<h5>Examination Details</h5>
 		  {!! form_start($form, ['id'=>'step1_form']) !!}
 		    <div class="row">
-		        <div class="col m12">
+		        <div class="col s12 m12 l12">
 
-		        {!! form_row($form->quota) !!}
-
-		        <div class="input-field col m6">
-		        {!! form_widget($form->reservation_code) !!}
-		        <a class="modal-trigger" href="#modal1" data-id="">Click here to view reservation list</a><br/><br/>
-		        </div>
+			        {!! form_row($form->quota) !!}
+			        <div class="input-field col s12 m6 l4">
+			        {!! form_widget($form->reservation_code) !!}
+			        {!! form_label($form->reservation_code) !!}
+			        <a class="modal-trigger" href="#modal1" data-id="">Click here to view reservation list</a><br/><br/>
+			        </div>
 		        
-				{!! form_until($form, 'gender') !!}
+					{!! form_until($form, 'dob') !!}
 
-				<div class="col m12">
-				{!! form_row($form->save) !!}
-				</div>
+					<div class="col s12 m12 l12">
+					{!! form_row($form->save) !!}
+					</div>
 
 		        </div>
 			 </div>
@@ -30,6 +30,7 @@
     <div class="modal-content">
     Reservation Information List
 	<div id="reservation_list">
+	Please select a Quota first
 	</div>
     </div>
 </div>

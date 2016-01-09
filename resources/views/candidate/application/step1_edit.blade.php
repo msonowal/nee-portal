@@ -1,41 +1,43 @@
 @extends('candidate.plane')
 @section('body')
-	<div class="card-panel hoverable">
-		<div class="col s6 offset-s3">
-		<h5>Examination Details</h5>
-			{!! form_start($form, ['id'=>'step1_form']) !!}
-		    <div class="row">
-		        <div class="col m12">
-		        {!! form_row($form->quota) !!}
+<div class="card-panel hoverable">
+	<div class="col s6 offset-s3">
+	<h5>Examination Details</h5>
+		{!! form_start($form, ['id'=>'step1_form']) !!}
+	    <div class="row">
+	        <div class="col m12">
 
-		        <div class="input-field col m6">
-		        {!! form_widget($form->reservation_code) !!}
-		        <a class="modal-trigger" href="#modal1" data-id="">Click here to view reservation list</a><br/><br/>
-		        </div>
-		        
-				{!! form_until($form, 'gender') !!}
+			{!! form_row($form->quota) !!}
+	        <div class="input-field col s12 m6 l4">
+	        {!! form_widget($form->reservation_code) !!}
+	        {!! form_label($form->reservation_code) !!}
+	        <a class="modal-trigger" href="#modal1" data-id="">Click here to view reservation list</a><br/><br/>
+	        </div>
+        
+			{!! form_until($form, 'dob') !!}
 
-				<div class="col m12">
-				{!! form_row($form->update) !!}
-				</div>
-		        </div>
-			 </div>
-		  {!! form_end($form) !!}
-		</div>
+			<div class="col s12 m12 l12">
+			{!! form_row($form->update) !!}
+			</div>
+
+	        </div>
+		 </div>
+	  {!! form_end($form) !!}
 	</div>
-	<div id="modal1" class="modal">
-	    <div class="modal-content">
-	    Reservation List
-				<div id="reservation_list">
-				</div>
-	    </div>
+</div>
+<div id="modal1" class="modal">
+    <div class="modal-content">
+    Reservation List
+	<div id="reservation_list">
+	Please select a Quota first
 	</div>
+    </div>
+</div>
 
 @stop
 @section('script')
 <script type="text/javascript">
 var reservation_code_list = @if(old('reservation_code')=='') false @else true @endif;
-//var reservation_status = true;
 
     function getReservationCode(quotaElement, reservationElement){
         var url = '{!! route('reservation_code.by.quota') !!}';
@@ -122,7 +124,10 @@ var reservation_code_list = @if(old('reservation_code')=='') false @else true @e
 	$('#branch_id').change(function(e){ getAlliedBranch(this, $('#allied_branch_id')); });
 	$('#reservation_code').change(function(e) { getReservationStatus($('#reservation_code').val()); });
 	$('body').on('click', 'a.reservation_list_code', function(e){ e.preventDefault(); $('#reservation_code').val($(this).attr('data-code')); $('#modal1').closeModal(); $('#reservation_code').material_select('update'); $('#reservation_code').trigger('change'); });
-	$('#quota').trigger('change');
+	
+	if(reservation_code_list){
+		$('#quota').trigger('change');
+	}
 	$('.pref').on('change', function() {
 
         var me = $(this);
