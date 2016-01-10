@@ -74,8 +74,8 @@ return [
     */
 
     //'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-    //'encryption' => 'ssl',
-    'encryption' => 'tls',
+    'encryption' => 'ssl',
+    //'encryption' => 'tls',
 
     /*
     |--------------------------------------------------------------------------
