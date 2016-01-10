@@ -84,7 +84,6 @@ class RegistrationController extends Controller
 
         $step1 = Step1::where('candidate_info_id', $this->info_id)->first();
         $info = CandidateInfo::find($this->info_id);
-        //Log::info('showstep1');
 
         if(count($step1)==0){
 

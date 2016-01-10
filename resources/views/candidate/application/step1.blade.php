@@ -10,7 +10,9 @@
 			        <div class="input-field col s12 m6 l4">
 			        {!! form_widget($form->reservation_code) !!}
 			        {!! form_label($form->reservation_code) !!}
-			        <a class="modal-trigger" href="#modal1" data-id=""> Click here to view reservation list</a><br/><br/>
+				        <a id="reservation_list_link" class="modal-trigger" href="#modal1" data-id=""> 
+				        	Click here for reservation list
+				        </a><br/>
 			        </div>
 					{!! form_until($form, 'dob') !!}
 					<div class="col s12 m12 l12">
@@ -48,6 +50,7 @@ var reservation_code_list = @if(old('reservation_code')=='') false @else true @e
                 });
 				list+='</table>';
 				$('#reservation_list').html(list);
+				$('#reservation_list_link').html('Click here for reservation list');
 				if(reservation_code_list){
 				  $reservation_code.val('{{ old('reservation_code') }}');
 				  reservation_code_list = false;
@@ -71,13 +74,14 @@ var reservation_code_list = @if(old('reservation_code')=='') false @else true @e
 							$reservation_code.empty();
 							$reservation_code.empty().html('');
 								var list = '<table class="bordered"><tr><th style="width:145px;">Quota</th><th style="width:137px;">Reservation Code</th><th>Description</th></tr>';
-								$("<option>").val('').text(' -- Choose an Alternate Reservation Code -- ').appendTo($reservation_code);
+								$("<option>").val('').text('-- Choose an alternate reservation code --').appendTo($reservation_code);
 								$.each(msg.alt_codes, function(key, value) {
 										$("<option>").val(value.reservation_code).text(value.reservation_code).appendTo($reservation_code);
 										list += "<tr><td>" + value.quota.name + '</td><td><a href="#" class="reservation_list_code" data-code="'+ value.reservation_code +'">' + value.reservation_code +'</a></td><td>' + value.description + '</td></tr>';
 								});
 
 								$('#reservation_list').html(list);
+								$('#reservation_list_link').html('<span style="color:red;">Click here for alternate reservation codes</span>');
 								$reservation_code.material_select('update');
 								$reservation_code.closest('.input-field').children('span.caret').remove();
 								return true;

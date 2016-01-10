@@ -10,7 +10,9 @@
 	        <div class="input-field col s12 m6 l4">
 	        {!! form_widget($form->reservation_code) !!}
 	        {!! form_label($form->reservation_code) !!}
-	        <a class="modal-trigger" href="#modal1" data-id=""> Click here to view reservation list</a><br/><br/>
+	        <a id="reservation_list_link" class="modal-trigger" href="#modal1" data-id=""> 
+	        	Click here for reservation list
+	        </a><br/>
 	        </div>
 			{!! form_until($form, 'dob') !!}
 			<div class="col s12 m12 l12">
@@ -71,6 +73,7 @@ var reservation_code_list = @if(old('reservation_code')=='') false @else true @e
 				}
 				list+='</table>';
 				$('#reservation_list').html(list);
+				$('#reservation_list_link').html('Click here for reservation list');
 				$reservation_code.material_select('update');
 				$reservation_code.closest('.input-field').children('span.caret').remove();
                 return true;
@@ -97,6 +100,7 @@ var reservation_code_list = @if(old('reservation_code')=='') false @else true @e
 								});
 
 								$('#reservation_list').html(list);
+								$('#reservation_list_link').html('<span style="color:red;">Click here for alternate reservation codes</span>');
 								$reservation_code.material_select('update');
 								$reservation_code.closest('.input-field').children('span.caret').remove();
 								return true;
