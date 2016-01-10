@@ -214,7 +214,7 @@ class PaymentController extends Controller
         $vpc_Txn_Secure_Hash = $request->vpc_SecureHash;
         $input=$request->except('vpc_SecureHash');
 
-        $hashValidated= flase;
+        $hashValidated= false;
         if (strlen($SECURE_SECRET) > 0 && $txnResponseCode != "7" && $txnResponseCode != "No Value Returned")
         {
             $md5HashData = $SECURE_SECRET;
@@ -423,7 +423,7 @@ class PaymentController extends Controller
         //$vpc_Txn_Secure_Hash = $request->vpc_SecureHash;
         //$input=$request->except('vpc_SecureHash');
 
-        $hashValidated= flase;
+        $hashValidated= false;
         if (strlen($SECURE_SECRET) > 0 && $txnResponseCode != "7" && $txnResponseCode != "No Value Returned")
         {
             $md5HashData = $SECURE_SECRET;
@@ -444,7 +444,7 @@ class PaymentController extends Controller
         }else{
             return redirect()->route($this->content.'payment_options')->withErrors('Security Check Failed. Please try again');
         }
-        
+
         //Log::info('on Line 236');
         $order = Order::where('order_info', $orderInfo)->orderBy('id', 'desc')->first();
         $data['description']=Basehelper::getResponseDescription($txnResponseCode);
