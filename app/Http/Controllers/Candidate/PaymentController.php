@@ -420,8 +420,8 @@ class PaymentController extends Controller
         $transactionNo   = $request->vpc_TransactionNo;
         $acqResponseCode = $request->vpc_AcqResponseCode;
         $txnResponseCode = $request->vpc_TxnResponseCode;
-        //$vpc_Txn_Secure_Hash = $request->vpc_SecureHash;
-        //$input=$request->except('vpc_SecureHash');
+        $vpc_Txn_Secure_Hash = $request->vpc_SecureHash;
+        $input=$request->except('vpc_SecureHash');
 
         $hashValidated= false;
         if (strlen($SECURE_SECRET) > 0 && $txnResponseCode != "7" && $txnResponseCode != "No Value Returned")
