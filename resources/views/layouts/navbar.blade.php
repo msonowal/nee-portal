@@ -1,6 +1,6 @@
 	<nav>
 	    <div class="nav-wrapper red">
-	      <a href="javascript:void(0)" class="brand-logo" style="padding-left:10px;">NEE Portal {!! $year=Date('Y') !!}</a>
+	      <a href="{{ route('index') }}" class="brand-logo" style="padding-left:10px;">NEE Portal {!! $year=Date('Y') !!}</a>
 	      	<a href="#" data-activates="mobile-demo" class="button-collapse">
 	      	<i class="material-icons">menu</i></a>
 	      	<ul class="right hide-on-med-and-down">

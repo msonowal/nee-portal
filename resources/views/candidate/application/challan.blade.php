@@ -46,6 +46,8 @@
 @stop
 @section('page_script')  
   $('.transaction_date').pickadate({
-    format: 'dd-mm-yyyy' // Datepicker
+    format: 'dd-mm-yyyy',
+    defaultDate: "+0",
+    maxDate: new Date,
   });
 @stop
