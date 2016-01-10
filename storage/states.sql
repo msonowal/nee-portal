@@ -17,11 +17,11 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `tezu15`
+-- Database: `nee_portal`
 --
 -- --------------------------------------------------------
 --
--- Table structure for table `du_states`
+-- Table structure for table `nee_states`
 --
 
 CREATE TABLE IF NOT EXISTS `nee_states` (
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `nee_states` (
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `du_states`
+-- Dumping data for table `nee_states`
 --
 
 INSERT INTO `nee_states` (`id`, `name`) VALUES
@@ -68,15 +68,14 @@ INSERT INTO `nee_states` (`id`, `name`) VALUES
 (32, 'Tripura (TR)'),
 (33, 'Uttar Pradesh (UP)'),
 (34, 'Uttarakhand (UK)'),
-(35, 'West Bengal (WB)'),
-(36, 'OTHERS --Please Specify--');
+(35, 'West Bengal (WB)');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `tu_states`
+-- Indexes for table `nee_states`
 --
 ALTER TABLE `nee_states`
   ADD PRIMARY KEY (`id`);
@@ -86,10 +85,10 @@ ALTER TABLE `nee_states`
 --
 
 --
--- AUTO_INCREMENT for table `du_states`
+-- AUTO_INCREMENT for table `nee_states`
 --
 ALTER TABLE `nee_states`
-  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=37;
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=36;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

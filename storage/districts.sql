@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `tezu15`
+-- Database: `nee_portal`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `du_districts`
+-- Table structure for table `nee_districts`
 --
 
 CREATE TABLE IF NOT EXISTS `nee_districts` (
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `nee_districts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `du_districts`
+-- Dumping data for table `nee_districts`
 --
 
 INSERT INTO `nee_districts` (`id`, `state_id`, `name`) VALUES
@@ -74,7 +74,7 @@ INSERT INTO `nee_districts` (`id`, `state_id`, `name`) VALUES
 (35, 3, 'Papum Pare'),
 (36, 3, 'Tawang'),
 (37, 3, 'Tirap'),
-(38, 3, 'Dibang Valley'),
+(38, 3, 'Upper Dibang Valley'),
 (39, 3, 'Upper Siang'),
 (40, 3, 'Upper Subansiri'),
 (41, 3, 'West Kameng'),
@@ -682,14 +682,16 @@ INSERT INTO `nee_districts` (`id`, `state_id`, `name`) VALUES
 (643, 35, 'Purulia'),
 (644, 35, 'South 24 Parganas'),
 (645, 35, 'Uttar Dinajpur'),
-(646, 36, 'OTHERS --Please Specify--');
+(646, 3, 'Longding'),
+(647, 3, 'Namsai'),
+(648, 3, 'Kra Daadi');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `du_districts`
+-- Indexes for table `nee_districts`
 --
 ALTER TABLE `nee_districts`
   ADD PRIMARY KEY (`id`);
