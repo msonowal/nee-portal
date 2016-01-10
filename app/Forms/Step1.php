@@ -112,7 +112,7 @@ class Step1 extends Form
             'wrapper'=>['class'=>'input-field col s12 m6 l4'],
         ]);
 
-        $this->add('dob', 'date', [
+        $this->add('dob', 'text', [
             'attr' => ['required', 'class' => 'datepicker', 'data-msg'=>"Please select a Date of birth"],
             //'wrapper'=>['class'=>'input-field col m6'],
             'wrapper'=>['class'=>'input-field col s12 m6 l4'],
