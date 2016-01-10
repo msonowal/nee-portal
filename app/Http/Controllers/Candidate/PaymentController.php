@@ -79,8 +79,8 @@ class PaymentController extends Controller
             $vpc_Merchant='NERIST';
             //$vpc_OrderInfo='NEE CreditDebit Pay';
             $vpc_OrderInfo=strtoupper($info_id.'_'.uniqid());
-            $vpc_Amount='200';
-            //$vpc_Amount=(Basehelper::getPayableAmount($info_id))*100+400;
+            //$vpc_Amount='200';
+            $vpc_Amount=(Basehelper::getPayableAmount($info_id))*100+400;
             $vpc_Locale='en';
 
             //$vpc_ReturnURL='https://www.neeonline.ac.in/nee/candidate/vpc_php_serverhost_dr.php';
@@ -302,8 +302,8 @@ class PaymentController extends Controller
             $vpc_Merchant='NERIST';
             //$vpc_OrderInfo='NEE CreditDebit Pay';
             $vpc_OrderInfo=strtoupper($info_id.'_'.uniqid());
-            $vpc_Amount='200';
-            //$vpc_Amount=(Basehelper::getPayableAmount($info_id))*100+600;
+            //$vpc_Amount='200';
+            $vpc_Amount=(Basehelper::getPayableAmount($info_id))*100+600;
             $vpc_Locale='en';
             //$vpc_ReturnURL='https://www.neeonline.ac.in/nee/candidate/vpc_php_serverhost_dr.php';
             $vpc_ReturnURL = route('payment.response.credit_card');
@@ -505,7 +505,7 @@ class PaymentController extends Controller
             $txtMarketCode='L2748';
             $txtAcctNo = '9085538844';
             $txtBankCode='NA';
-            $amount=(Basehelper::getPayableAmount($info_id))*100+600;
+            $amount=(Basehelper::getPayableAmount($info_id))+23;
 
             return view($this->content.'net_banking')->with([
                         'action' =>$action,

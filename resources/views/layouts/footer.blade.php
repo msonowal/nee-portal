@@ -12,7 +12,7 @@
   </div>
   <div class="footer-copyright">
     <div class="container">
-    &copy; Copyright 2016 NERIST, Powered by
+    &copy; Copyright {{ $year=Date('Y') }} NERIST, Powered by
     <a class="white-text text-lighten-3" href="http://www.zantrik.in" target="_blank">
       Infotech Solution
     </a>
