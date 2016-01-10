@@ -32,7 +32,7 @@
         {{ date('Y') }}-{{ date('Y')+1}}
       </h3>
       <div class="row center">
-        <h5 class="header col s12 light">North East Regional Institute of Science and Technology, Nirjuli (Itanagar) <br />
+        <h5 class="header col s12 light">North Eastern Regional Institute of Science and Technology, Nirjuli (Itanagar) <br />
         <marquee> NEE Online Portal will be live on 11th of January 2016</marquee>
       </div>
 

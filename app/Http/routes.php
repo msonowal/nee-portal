@@ -73,7 +73,8 @@ Route::get('/payment/response/credit_card', ['as' => 'payment.response.credit_ca
 //NetBanking Payment Gatway Response
 Route::get('/nee/candidate/getcheck.php', ['as' => 'payment.net_banking.getcheck', 'uses' =>'Candidate\PaymentController@doNet_banking']);
 Route::post('/nee/candidate/getcheck.php', ['as' => 'payment.net_banking.getcheck', 'uses' =>'Candidate\PaymentController@doNet_banking']);
-Route::post('/nee/candidate/Response.php', ['as' => 'payment.response.net_banking','uses' =>'Candidate\PaymentController@netBankingResponse']);
+Route::get('/nee/candidate/response.php', ['as' => 'payment.response.net_banking','uses' =>'Candidate\PaymentController@netBankingResponse']);
+Route::post('/nee/candidate/response.php', ['as' => 'payment.response.net_banking','uses' =>'Candidate\PaymentController@netBankingResponse']);
 
 //PayYMoney
 Route::get('/payment/response/pay_u/sucess', ['as' => 'payment.response.pay_u.sucess','uses' =>'Candidate\PaymentController@payUResponseSuccess']);

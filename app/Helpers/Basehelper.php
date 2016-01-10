@@ -335,4 +335,17 @@ class Basehelper{
         }
     }
 
+    public static function getRegistrationNo($info_id)
+    {
+        $candidate_info =CandidateInfo::where('id', $info_id)->first();
+        $step1=Step1::where('candidate_info_id', $info_id)->first();
+
+        $exam_id =$candidate_info->exam_id;
+        $paper_code =$candidate_info->paper_code;
+        $form_no =$candidate_info->form_no;
+        $centre_code=$step1->c_pref1;
+
+        return $registration_no =$exam_id.$paper_code.$centre_code.$form_no;
+    }
+
 }
