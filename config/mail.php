@@ -74,8 +74,8 @@ return [
     */
 
     //'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-    'encryption' => 'ssl',
-    //'encryption' => 'tls',
+    //'encryption' => 'ssl',
+    'encryption' => 'tls',
 
     /*
     |--------------------------------------------------------------------------
@@ -89,7 +89,7 @@ return [
     */
 
     //'username' => '',
-    //'username' => 'info@neeonline.ac.in',
+    'username' => 'info@neeonline.ac.in',
 
     /*
     |--------------------------------------------------------------------------
