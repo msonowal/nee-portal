@@ -147,7 +147,7 @@
        		<div class="border-3" align="center"><h2>NERIST</h2></div>
          		<div class="border-3" align="center"><h3>Nirjuli, Arunachal Pradesh</h3></div>
           		<div align="right">Date: {{ $date=Date('d-m-Y') }}</div>
-          		<div align="left">Transaction Reference No. {{ $candidate_info->form_no }}</div>
+          		<div align="left">Transaction Reference No. <font color="red"><strong> {{ $candidate_info->form_no }}</strong></font></div>
              	<div>(To be filled by Bank Officials)</div>
           	  <div class="box"><img src="{{ asset('images/challan_1stcopy.jpg') }}" class="image">
           		<div class="box-1">
@@ -223,7 +223,7 @@
         		<tr>
         			<td>
         				<div class="box-6">
-        					Denomination of Notes	
+        					<br/><br/><br/><br/>Notes Denomination 	
         				</div>
         			</td>
         			<td>		
@@ -252,7 +252,7 @@
        		<div class="border-3" align="center"><h2>NERIST</h2></div>
          		<div class="border-3" align="center"><h3>Nirjuli, Arunachal Pradesh</h3></div>
           		<div align="right">Date: {{ $date=Date('d-m-Y') }}</div>
-          		<div align="left">Transaction Reference No. {{ $candidate_info->form_no }}</div>
+          		<div align="left">Transaction Reference No. <font color="red"><strong> {{ $candidate_info->form_no }}</strong></font></div>
              	<div>(To be filled by Bank Officials)</div>
           	  <div class="box"><img src="{{ asset('images/challan_2ndcopy.jpg') }}" class="image">
           		<div class="box-1">
@@ -328,7 +328,7 @@
         		<tr>
         			<td>
         				<div class="box-6">
-        					Denomination of Notes	
+        					<br/><br/><br/><br/>Notes Denomination	
         				</div>
         			</td>
         			<td>		

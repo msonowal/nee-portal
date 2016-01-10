@@ -16,7 +16,7 @@
 <div class="col s6 offset-s3">
     <div class="row">
         <div class="col m12">
-            <blockquote>After Print out of your challan copy, don't forget to logout. After payment made in the bank, please wait for 48 hours and then login again, come to this step/page and enter your Challan Transaction ID and Date of Transaction in the following panel. You will get your registration confirmation page after challan verification.</blockquote>
+            <h5><blockquote><strong><span class="red-text text-darken-1">After Print out of your challan copy, don't forget to logout.</span> After payment made in the bank, <span class="red-text text-darken-1">please wait for 48 hours and then login again</span>, come to this step/page and enter your <span class="red-text text-darken-1">Challan Transaction ID and Date of Transaction</span> in the following panel. You will get your registration confirmation page after <span class="red-text text-darken-1">challan verification</span>.</strong></blockquote></h5>
         </div>
       </div>
     </div>
