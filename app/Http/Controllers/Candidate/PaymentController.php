@@ -555,7 +555,7 @@ class PaymentController extends Controller
             $data['mobile_no']=$candidate->mobile_no;
             $data['email']=$candidate->email;
             $data['trans_type']='net banking';
-            $data['order_id'] =$request->txtTranID;
+            $data['order_info'] =$request->txtTranID;
             $data['amount'] =$request->amount;
             $data['status'] ='PENDING';
 
@@ -645,6 +645,96 @@ class PaymentController extends Controller
       } 
     }
 }
+
+
+    public function netBankingResponse(Request $request)
+    {
+
+        require('MerchantDetails.php');
+        $msg=$request->msg;
+
+        If($msg!=''){
+            $msg_array=explode("|",$msg);
+
+            $txtBillerId=$BillerId;
+            $txtResponseUrl=$ResponseUrl;
+            $txtCRN=$CRN;
+            $txtCheckSumKey=$CheckSumKey;
+            $CheckSumGenUrl=$CheckSumGenUrl;
+            $TPSLUrl=$TPSLUrl;
+
+            $txtResponseKey = $msg_array[0] ."|".$msg_array[1] ."|".$msg_array[2] ."|".$msg_array[3] ."|".$msg_array[4] ."|".$msg_array[5] ."|".$msg_array[6] ."|".$msg_array[7] ."|".$msg_array[8] ."|".$msg_array[9] ."|".$msg_array[10] ."|".$msg_array[11] ."|".$msg_array[12] ."|".$msg_array[13] ."|".$msg_array[14] ."|".$msg_array[15] ."|".$msg_array[16] ."|".$msg_array[17] ."|".$msg_array[18] ."|".$msg_array[19] ."|".$msg_array[20] ."|".$msg_array[21] ."|".$msg_array[22] ."|".$msg_array[23] ."|".$msg_array[24] ."|".$txtCheckSumKey;    
+
+            $txtResponseKey = "txtResponseKey=" . $txtResponseKey;
+
+            define('POST', $CheckSumGenUrl);
+            define('POSTVARS', $txtResponseKey);
+
+            if($_SERVER['REQUEST_METHOD']==='POST') {  
+             $ch = curl_init(POST);
+             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, False);
+             curl_setopt($ch, CURLOPT_CAINFO, getcwd() . '/keystoretechp.pem'); 
+             curl_setopt ($ch, CURLOPT_SSLCERTPASSWD, 'changeit');
+             curl_setopt($ch, CURLOPT_POST      ,1);
+             curl_setopt($ch, CURLOPT_REFERER  , route('payment.response.net_banking')); //Setting header URL
+             curl_setopt($ch, CURLOPT_POSTFIELDS    ,POSTVARS);
+             curl_setopt($ch, CURLOPT_FOLLOWLOCATION  ,1); 
+             curl_setopt($ch, CURLOPT_HEADER      ,0);  // DO NOT RETURN HTTP HEADERS 
+             curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1); // RETURN THE CONTENTS OF THE CALL
+             
+            $Received_CheckSum_Data = curl_exec($ch);
+            curl_close($ch);
+
+            if($Received_CheckSum_Data == $msg_array[25]){
+
+            $order = Order::where('order_info', $order_info)->orderBy('id', 'desc')->first();    
+                        
+            $order_info=$msg_array[1];
+
+                if($msg_array[14]=='0300') //success 
+                {
+                      $data['status']='SUCCESS';
+                      $order->fill($data);
+                      if(!$order->save())
+                          return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
+
+                      //Log::info('On line 701');
+                      $candidate_info = CandidateInfo::where('id', $info_id)->first();
+                      $candidate_info->reg_status = 'completed';
+                      if(!$candidate_info->save())
+                          return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
+
+                      $message = 'Hello, your NEE Online form submission has been successfully completed. Your Form NO is '.$candidate_info->form_no;
+                      Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
+                      //return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed!<br/> Your payment order id is <strong>'.$orderInfo.'</strong>');
+                      return redirect()->route($this->content.'completed');
+
+                            
+                }
+                else //0399 failed
+                {
+                      //Log::info('Transaction Failed: '.$transactionNo);
+                      $message = 'Hello, your NEE Online Transaction has been failed. Your Form NO is '.$candidate_info->form_no;
+                      Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
+                      $data['status']='FAILURE';
+                      $order->fill($data);
+                      $order->save();
+                      //return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed.<br/>Your order No is <strong>'.$orderInfo.'</strong>.<br/>Please try again.');        
+                      return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed.<br/>Please try again.');        
+                               
+                }
+
+              }
+
+            }
+
+            return redirect()->route($this->content.'payment_options')->withErrors('Checksum verification failed!.<br/>Please try again.');         
+
+        } 
+
+         return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed!.<br/>Please try again.');                       
+    }
 
   public function showPayU()
   {

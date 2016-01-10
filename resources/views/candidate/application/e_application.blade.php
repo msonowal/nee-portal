@@ -6,12 +6,12 @@
 
 <style type="text/css">
 	div.block-1{
-		border:1px solid #000;
+		border:0px solid #000;
 		height: 853px;
 		width: 760px;
 		margin: auto;
 		margin-top: 30px;
-		margin-bottom: 30px;
+		margin-bottom: 100px;
 		padding: 0px 5px 5px 5px;
 	}
 	div.block-2{
@@ -19,7 +19,7 @@
 		height: 200px;
 		width: 748px;
 		margin: auto;
-		margin-top: 10px;
+		margin-top: 0px;
 	}
 	div.block-3{
 		border:0px solid #000;
@@ -52,11 +52,11 @@
 	}
 	div.block-7{
 		border:1px solid #000;
-		height: 600px;
+		height: 310px;
 		width: 748px;
 		margin: auto;
 		margin-top: 0px;
-		margin-bottom: 10px;
+		margin-bottom: 0px;
 	}
 	div.block-8{
 		border:0px solid #000;
@@ -68,13 +68,12 @@
 		width: 100%;
 		margin: auto;
 		table-layout: fixed;
-		font-weight: bold;
 	}
 	td{
 		padding: 5px 5px 5px 5px;
 	}
 	.image{
-		width: 148px;
+		width: 130px;
 		height: 148px;
 		padding: 20px 3px 3px 5px;
 	}
@@ -82,6 +81,8 @@
    	.noprint{
       display: none !important;
    }
+
+}
 	
 </style>
 <body>
@@ -96,6 +97,7 @@
 		<h3><P>NERIST ENTRANCE EXAMINATION {{ $year=Date('Y') }}</p></h3>
 		<h3><p>Registration Confirmation Page</p></h3>
 		<h4><p>Form No: {{ $candidate_info->form_no }}</p></h4>
+		<h4><p>Registration No: {{ $registration_no }}</p></h4>
 	</div>
 	<div class="block-5" style="float:right;">{!! Html::image($step3->getPhoto(), '', array('height' => '150px','width' => '140px')) !!}<br/>
 		 {!! Html::image($step3->getSignature(), '', array('height' => '40px','width' => '140px')) !!}
@@ -105,9 +107,7 @@
 	<div class="block-8" style="float:left">
 		Candidate's Personal Details
 	</div>
-	<div class="block-8" style="float:left">
-		Candidate's Examination Details
-	</div>
+	
 	</div>
 	<div class="block-7">
 		<table>
@@ -119,100 +119,10 @@
 					{{ $step2->name }}
 				</td>
 				<td>
-					Reservation Code:
+					Father Name:
 				</td>
 				<td>
-					{{ $step1->reservation_code }}
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Gender:
-				</td>
-				<td>
-					{{ $step2->gender }}
-				</td>
-				<td>
-					Category:
-				</td>
-				<td>
-					{{ $step1->category }}
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Nationality:
-				</td>
-				<td>
-					{{ $step2->nationality }}
-				</td>
-				<td>
-					Are you Nerist Student:
-				</td>
-				<td>
-					{{ $step1->nerist_stud }}
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Are you Employed:
-				</td>
-				<td>
-					{{ $step2->emp_status }}
-				</td>
-				<td>
-					Quota:
-				</td>
-				<td>
-					{{ $step1->quota }}
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Date Of Birth:
-				</td>
-				<td>
-					{{ $step1->dob }}
-				</td>
-				<td>
-					Eligibility:
-				</td>
-				<td>
-					{{ $candidate_info->q_id }}
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Phone Number:
-				</td>
-				<td>
-					{{ $candidate->mobile_no }}
-				</td>
-				<td>
-					Eligibility Status:
-				</td>
-				<td>
-					{{ $candidate_info->qualification_status }}
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Email Id:
-				</td>
-				<td>
-					{{ $candidate->email }}
-				</td>
-				<td>
-					Exam:
-				</td>
-				<td>
-					{{ $candidate_info->exam_id }}
+					{{ $step2->father_name }}
 				</td>
 			</tr>
 
@@ -224,25 +134,40 @@
 					{{ $step2->guardian_name }}
 				</td>
 				<td>
-					For admission in:
+					Nationality:
 				</td>
 				<td>
-					{{ $step1->admission_in }}
+					{{ $step2->nationality }}
 				</td>
 			</tr>
 
 			<tr>
 				<td>
-					Relation with Guardian:
+					Gender:
+				</td>
+				<td>
+					{{ $step1->gender }}
+				</td>
+				<td>
+					Date of Birth:
+				</td>
+				<td>
+					{{ $step1->dob }}
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					Relationship:
 				</td>
 				<td>
 					{{ $step2->relationship }}
 				</td>
 				<td>
-					Vocational Subject:
+					Are you employed:
 				</td>
 				<td>
-					{{ $step1->voc_subject }}
+					{{ $step2->emp_status }}
 				</td>
 			</tr>
 
@@ -254,25 +179,10 @@
 					{{ $step2->state }}
 				</td>
 				<td>
-					Branch:
-				</td>
-				<td>
-					{{ $step1->branch }}
-				</td>
-			</tr>
-
-			<tr>
-				<td>
 					District:
 				</td>
 				<td>
 					{{ $step2->district }}
-				</td>
-				<td>
-					Branch Subject:
-				</td>
-				<td>
-					{{ $step1->allied_branch }}
 				</td>
 			</tr>
 
@@ -284,19 +194,134 @@
 					{{ $step2->po }}
 				</td>
 				<td>
-					Centre Preference 1:
+					PIN:
 				</td>
 				<td>
-					{{ $step1->c_pref1 }}
+					{{ $step2->pin }}
 				</td>
 			</tr>
 
 			<tr>
 				<td>
-					PIN:
+					Mobile No:
 				</td>
 				<td>
-					{{ $step2->pin }}
+					{{ $candidate->mobile_no }}
+				</td>
+				<td>
+					Village:
+				</td>
+				<td>
+					{{ $step2->village }}
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					Email Id:
+				</td>
+				<td  colspan="3">
+					{{ $candidate->email }}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Address Line:
+				</td>
+				<td  colspan="3">
+					{{ $step2->address_line }}
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="block-6">
+		<div class="block-8" style="float:left">
+			Candidate's Examination Details
+		</div>
+	</div>
+	<div class="block-7">
+		<table>
+			<tr>
+				<td>
+					Quota:
+				</td>
+				<td>
+					{{ $step1->quota }}
+				</td>
+				<td>
+					Category:
+				</td>
+				<td>
+					{{ $step1->category }}
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					Are you Nerist Student:
+				</td>
+				<td>
+					{{ $step1->nerist_stud }}
+				</td>
+				<td>
+					Eligibility:
+				</td>
+				<td>
+					{{ $candidate_info->q_id }}
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					Eligibility Status:
+				</td>
+				<td>
+					{{ $candidate_info->qualification_status }}
+				</td>
+				<td>
+					Exam:
+				</td>
+				<td>
+					{{ $candidate_info->exam_id }}
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					For admission in::
+				</td>
+				<td>
+					{{ $step1->admission_in }}
+				</td>
+				<td>
+					Vocational Subject:
+				</td>
+				<td>
+					{{ $step1->voc_subject }}
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					Branch:
+				</td>
+				<td>
+					{{ $step1->branch }}
+				</td>
+				<td>
+					Branch Subject:
+				</td>
+				<td>
+					{{ $step1->allied_branch }}
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					Centre Preference 1:
+				</td>
+				<td>
+					{{ $step1->c_pref1 }}
 				</td>
 				<td>
 					Centre Preference 2:
@@ -308,25 +333,10 @@
 
 			<tr>
 				<td>
-					Village / Town:
-				</td>
-				<td>
-					{{ $step2->village }}
-				</td>
-				<td>
 					Paper Code:
 				</td>
 				<td>
 					{{ $candidate_info->paper_code }}
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					Address Line:
-				</td>
-				<td>
-					{{ $step2->address_line }}
 				</td>
 				<td>
 					Payment Method:
@@ -338,26 +348,11 @@
 
 			<tr>
 				<td>
-					&nbsp;
-				</td>
-				<td>
-					&nbsp;
-				</td>
-				<td>
 					Amount Paid:
 				</td>
 				<td>
 					{{ $amount }}
 				</td>
-			</tr>
-
-			<tr>
-				<td>
-					&nbsp;
-				</td>
-				<td>
-					&nbsp;
-				</td>
 				<td>
 					&nbsp;
 				</td>
@@ -365,7 +360,6 @@
 					&nbsp;
 				</td>
 			</tr>
-
 		</table>
 	</div>
   </div>

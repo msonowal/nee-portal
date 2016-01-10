@@ -697,6 +697,8 @@ class RegistrationController extends Controller
             $step1->c_pref2= Basehelper::getCentre($step1->c_pref2);
             $amount=Basehelper::getPayableAmount($this->info_id);
 
+            $registration_no= Basehelper::getRegistrationNo($this->info_id);
+
             if($step1->branch == NULL)
                 $step1->branch = 'NA';
 
@@ -706,7 +708,7 @@ class RegistrationController extends Controller
             if($step1->voc_subject == NULL)
                 $step1->voc_subject = 'NA';
 
-            return view($this->content.'e_application', compact('step1', 'step2', 'step3', 'candidate', 'candidate_info', 'order', 'amount'));
+            return view($this->content.'e_application', compact('step1', 'step2', 'step3', 'candidate', 'candidate_info', 'order', 'amount', 'registration_no'));
 
         }
 
