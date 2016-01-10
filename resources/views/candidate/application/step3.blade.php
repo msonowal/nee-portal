@@ -39,6 +39,20 @@
 		 </div>
 		</div>
 	</div>
+<div class="card-panel hoverable">
+<div class="col s6 offset-s3">
+    <div class="row">
+        <div class="col m12">
+            <ul class="collection">
+		      <li class="collection-item">1.<strong> The accepted formats of images (Candidate photo and signature) are .JPG, .JPEG and .PNG.</strong></li>
+		      <li class="collection-item">2.<strong> Maximum file size of Candidate's Passport Photo is 60KB and Signature is 30KB.</strong></li>
+		      <li class="collection-item">3.<strong> The signature image background must be white and the signature must be in black or blue color.</strong></li>
+		      <li class="collection-item">4.<strong> Use your recent photograph with identifiable clarity to avoid rejection of your application.</strong></li>
+		    </ul>
+        </div>
+      </div>
+    </div>
+</div>
 @stop
 
 @section('page_script')

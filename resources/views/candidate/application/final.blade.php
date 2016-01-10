@@ -18,15 +18,16 @@
 		  		<span class="card-title"> Step1 :</span>
 		  		<div class="col m12">
 		  			<div class="col m6"><p class="review"> State Quota : <strong>{{ $step1->quota }}</strong> </p></div>
+		  			<div class="col m6"><p class="review"> Reservation Code : <strong>{{ $step1->reservation_code }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Centre Preference 1 : <strong>{{ $step1->c_pref1 }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Centre Preference 2 : <strong>{{ $step1->c_pref2 }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Date of Birth : <strong>{{ $step1->dob }}</strong> </p></div>
+		  			<div class="col m6"><p class="review"> Gender : <strong>{{ $step1->gender }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Are you a Nerist Student : <strong>{{ $step1->nerist_stud }}</strong> </p></div>
-		  			<div class="col m6"><p class="review"> For Admission in : <strong>{{ $step1->admission_in }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Vocational Subject : <strong>{{ $step1->voc_subject }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Branch : <strong>{{ $step1->branch }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Branch Subject : <strong>{{ $step1->allied_branch }}</strong> </p></div>
-		  			<div class="col m6"><p class="review"> Reservation Code : <strong>{{ $step1->reservation_code }}</strong> </p></div>
+		  			<div class="col m6"><p class="review"> For Admission in : <strong>{{ $step1->admission_in }}</strong> </p></div>
 		  		</div>
 		  </div>
 		</div>
@@ -41,7 +42,6 @@
 		  			<div class="col m6"><p class="review"> Candidate Name : <strong>{{ $step2->name }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Father's Name : <strong>{{ $step2->father_name }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Guardian's Name : <strong>{{ $step2->guardian_name }}</strong> </p></div>
-		  			<div class="col m6"><p class="review"> Gender : <strong>{{ $step2->gender }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Nationality : <strong>{{ $step2->nationality }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Are you Employed : <strong>{{ $step2->emp_status }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Relationship with Guardian : <strong>{{ $step2->relationship }}</strong> </p></div>
@@ -95,7 +95,7 @@
 		  			<div class="col m6"><p class="review"> Candidate Name : <strong>{{ $step2->name }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Father's Name : <strong>{{ $step2->father_name }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Guardian's Name : <strong>{{ $step2->guardian_name }}</strong> </p></div>
-		  			<div class="col m6"><p class="review"> Gender : <strong>{{ $step2->gender }}</strong> </p></div>
+		  			<div class="col m6"><p class="review"> Gender : <strong>{{ $step1->gender }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Nationality : <strong>{{ $step2->nationality }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Are you Employed : <strong>{{ $step2->emp_status }}</strong> </p></div>
 		  			<div class="col m6"><p class="review"> Relationship with Guardian : <strong>{{ $step2->relationship }}</strong> </p></div>

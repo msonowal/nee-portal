@@ -17,6 +17,6 @@ class QualificationSeeder extends Seeder
         Qualification::create(array('qualification' => '10+2 PCM'));
         Qualification::create(array('qualification' => '10+2 (Vocational)/ITI/NERIST Certificate'));
         Qualification::create(array('qualification' => '10+2 PCB'));
-        Qualification::create(array('qualification' => 'Diploma in Engineering/Technology(AE/CE/ECE/EE/ME)'));
+        Qualification::create(array('qualification' => 'Diploma in Engineering/Technology'));
     }
 }

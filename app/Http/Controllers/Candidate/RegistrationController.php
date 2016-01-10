@@ -55,9 +55,9 @@ class RegistrationController extends Controller
             }
             elseif(count($step3)==0){
                 return redirect()->route($this->content.'step3');
-            }
-            else{
-                return redirect()->route($this->content.'final');
+            }else{
+                //return redirect()->route($this->content.'final');
+                return $this->showFinal();
             }
         }
         else if($reg_status=="payment_pending"){
@@ -347,7 +347,8 @@ class RegistrationController extends Controller
             if (!$step1->save())
                 return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
 
-            return $this->getStep();
+            //return $this->getStep();
+            return redirect()->route($this->content.'step')->with('message', 'Step1 data has been updated');
         }
     }
 
@@ -404,7 +405,8 @@ class RegistrationController extends Controller
                 if (!$step2->save())
                     return back()->withInput()->with('message', 'Error Storing your data, Please contact Technical Support');
 
-                return $this->getStep();
+                //return $this->getStep();
+                return redirect()->route($this->content.'step')->with('message', 'Step2 data has been updated');
             }
         }
     }
@@ -469,7 +471,8 @@ class RegistrationController extends Controller
         $step3->fill($data);
         if(!$step3->save())
           return back()->with('message', 'Error while uploading! contact support');
-        return $this->getStep();
+        //return $this->getStep();
+      return redirect()->route($this->content.'step')->with('message', 'Step3 data has been updated');
     }
 
     public function finalSubmit(){
