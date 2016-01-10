@@ -6,31 +6,41 @@
 		{!! form_start($form, ['id'=>'step1_form']) !!}
 	    <div class="row">
 	        <div class="col m12">
-
 			{!! form_row($form->quota) !!}
 	        <div class="input-field col s12 m6 l4">
 	        {!! form_widget($form->reservation_code) !!}
 	        {!! form_label($form->reservation_code) !!}
-	        <a class="modal-trigger" href="#modal1" data-id="">Click here to view reservation list</a><br/><br/>
+	        <a class="modal-trigger" href="#modal1" data-id=""> Click here to view reservation list</a><br/><br/>
 	        </div>
-        
 			{!! form_until($form, 'dob') !!}
-
 			<div class="col s12 m12 l12">
 			{!! form_row($form->update) !!}
 			</div>
-
 	        </div>
 		 </div>
 	  {!! form_end($form) !!}
 	</div>
 </div>
 <div id="modal1" class="modal">
-    <div class="modal-content">
-    Reservation List
-	<div id="reservation_list">
-	Please select a Quota first
-	</div>
+    <div class="modal-content"> Reservation List
+		<div id="reservation_list">
+			 Please select a Quota first
+<table class="bordered"><tr><th style="width:145px;">Quota</th><th style="width:137px;">Reservation Code</th><th>Description</th></tr>
+@foreach($reservation_code_details as $item)
+	<tr>
+	<td>{{ $item->quota->name }}</td>
+	<td>
+		<a href="#" class="reservation_list_code" data-code="{{$item->reservation_code }}">
+		{{ $item->reservation_code }}</a>
+	</td>
+	<td> {{ $item->description }}</td>
+	</tr>
+@endforeach
+});
+</table>
+
+			 
+		</div>
     </div>
 </div>
 
@@ -94,7 +104,7 @@ var reservation_code_list = @if(old('reservation_code')=='') false @else true @e
 					});
 			}
 		}
-
+var allied_branch_status = @if(old('allied_branch')=='') false @else true @endif;
 		function getAlliedBranch(branchElement, alliedBranchElement){
         var url = '{!! route('allied_branch.by.branch_id') !!}';
         var branch_id = $(branchElement).val();
@@ -109,7 +119,10 @@ var reservation_code_list = @if(old('reservation_code')=='') false @else true @e
                 $.each(msg, function(key, value) {
                     $("<option>").val(value.id).text(value.allied_branch).appendTo($alliedBranch);
                 });
-								
+				if(allied_branch_status){
+				  $alliedBranch.val('{{ old('allied_branch') }}');
+				  allied_branch_status = false;
+				}
 				$alliedBranch.material_select('update');
                 return true;
             });
@@ -127,6 +140,9 @@ var reservation_code_list = @if(old('reservation_code')=='') false @else true @e
 	
 	if(reservation_code_list){
 		$('#quota').trigger('change');
+	}
+	if(allied_branch_status){
+		$('#branch_id').trigger('change');
 	}
 	$('.pref').on('change', function() {
 

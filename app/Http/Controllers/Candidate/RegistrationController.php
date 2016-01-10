@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use nee_portal\Models\CandidateInfo;
 use nee_portal\Models\Candidate;
 use nee_portal\Models\ChallanInfo;
+use nee_portal\Models\Reservation;
 use nee_portal\Models\AlliedBranch;
 use nee_portal\Models\Order;
 
@@ -99,12 +100,8 @@ class RegistrationController extends Controller
 
             return view($this->content.'step1', compact('form'));
 
-        }else{
-
+        }else
             return $this->getStep();
-        }
-
-
     }
 
     public function editStep1(){
@@ -135,8 +132,8 @@ class RegistrationController extends Controller
                   'model' => $step1,
         ])->remove('save');
 
-        return view($this->content.'step1_edit', compact('form', 'step1'));
-
+        $reservation_code_details = Reservation::with('quota')->where('quota_id', $step1->quota)->get();
+        return view($this->content.'step1_edit', compact('form', 'step1', 'reservation_code_details'));
     }
 
     public function saveStep1(Request $request)
