@@ -15,5 +15,5 @@ class ChallanInfo extends Model
    public static $rules =[
    			'transaction_id' => 'required',
    			'transaction_date' => 'required|date_format:d-m-Y'
-   			];
+   	];
 }

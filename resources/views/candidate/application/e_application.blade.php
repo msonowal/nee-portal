@@ -41,12 +41,13 @@
 		text-align: right;
 	}
 	div.block-6{
-		border:0px solid #000;
+		border-right:1px solid #000;
+		border-left:1px solid #000;
 		height: 30px;
-		width: 745px;
+		width: 744px;
 		margin-left: 5px;
 		color: #fff;
-		padding: 6px 0px 0px 5px;
+		padding: 6px 0px 0px 4px;
 		background-color: #3399ff;
 		font-weight: bold;
 	}

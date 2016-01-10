@@ -25,18 +25,17 @@ class PaymentController extends Controller
 
             $validator =Validator::make($data = $request->all(), ChallanInfo::$rules);
 
-            if($validator->fails()){
+            if($validator->fails())
                 return back()->withErrors($validator)->withInput();
-            }
 
             $transaction_id=$data['transaction_id'];
             $date=$data['transaction_date'];
             $date=Carbon::createFromFormat('d-m-Y', $date);
             $transaction_date=$date->format('Y-m-d');
 
-            $challan_info=ChallanInfo::where('transaction_id', $transaction_id)->where('transaction_date', $transaction_date)->first();
+            $challan_info=ChallanInfo::where('transaction_id', $transaction_id)->where('transaction_date', $transaction_date)->get();
 
-            if(count($challan_info)){
+            if(count($challan_info) > 0){
 
                 $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
                 $candidate_info->reg_status='completed';
@@ -67,7 +66,7 @@ class PaymentController extends Controller
             return redirect()->route('candidate.error')->withErrors('Record not found!');
         }
 
-        //   return Basehelper::getPayableAmount($info_id);
+        //return Basehelper::getPayableAmount($info_id);
 
         if($candidate_info->reg_status=="payment_pending"){
 
@@ -135,7 +134,6 @@ class PaymentController extends Controller
           $data['status'] ='PENDING';
 
         $order= new Order;
-
         $order->fill($data);
 
         if(!$order->save())
@@ -193,7 +191,6 @@ class PaymentController extends Controller
         $info_id = $request->vpc_MerchTxnRef;
         //Log::info('INFO ID: '.$info_id);
         //Log::info('merchTxnRef := '.$request->vpc_MerchTxnRef);
-
         require('pgconfig.php');
 
         $amount          = $request->vpc_Amount;
@@ -308,7 +305,6 @@ class PaymentController extends Controller
             $vpc_Amount='200';
             //$vpc_Amount=(Basehelper::getPayableAmount($info_id))*100+600;
             $vpc_Locale='en';
-
             //$vpc_ReturnURL='https://www.neeonline.ac.in/nee/candidate/vpc_php_serverhost_dr.php';
             $vpc_ReturnURL = route('payment.response.credit_card');
 
