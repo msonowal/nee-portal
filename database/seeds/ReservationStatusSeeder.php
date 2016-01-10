@@ -37,7 +37,8 @@ class ReservationStatusSeeder extends Seeder
     	ReservationStatus::create(['reservation_code' => '5201', 'exam_id' => '2', 'examdetail_id' => '3']);
 
     	//Nagaland
-    	ReservationStatus::create(['reservation_code' => '6201', 'exam_id' => '2', 'examdetail_id' => '3']);
+    	ReservationStatus::create(['reservation_code' => '6101', 'exam_id' => '2', 'examdetail_id' => '3']);
+        ReservationStatus::create(['reservation_code' => '6201', 'exam_id' => '2', 'examdetail_id' => '3']);
 
     	//Sikkim
     	ReservationStatus::create(['reservation_code' => '7103', 'exam_id' => '3', 'examdetail_id' => '4']);

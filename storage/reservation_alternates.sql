@@ -124,8 +124,6 @@ INSERT INTO `nee_reservation_alternates` (`reservation_code`, `alternate_code`) 
 ('7216', '9203'),
 ('2210', '9202'),
 ('5101', '9203'),
-('6101', '9202'),
-('6101', '9203'),
 ('2210', '9203'),
 ('2210', '9209'),
 ('5101', '9209'),
@@ -136,6 +134,7 @@ INSERT INTO `nee_reservation_alternates` (`reservation_code`, `alternate_code`) 
 ('7216', '9209'),
 ('6201', '9202'),
 ('6201', '9203');
+('6201', '9209');
 
 --
 -- Indexes for dumped tables
