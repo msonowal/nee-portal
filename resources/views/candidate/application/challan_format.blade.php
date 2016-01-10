@@ -216,7 +216,7 @@
         			</td>
         			<td>		
 			         	<div class="box-5"> 
-			        		{{ $amount }}/-
+			        		{{ $amount }}/- + 35.00/-(Bank Charge)
 			         	</div>
         			</td>
         		</tr>
@@ -321,7 +321,7 @@
         			</td>
         			<td>		
 			         	<div class="box-5"> 
-			        		{{ $amount }}/-
+			        		{{ $amount }}/- + 35.00/-(Bank Charge)
 			         	</div>
         			</td>
         		</tr>
