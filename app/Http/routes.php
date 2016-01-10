@@ -1,7 +1,7 @@
 <?php
 
 //Front End
-Route::get('/', array('uses' => 'FrontEndController@index'));
+Route::get('/', array('as'=>'index', 'uses' => 'FrontEndController@index'));
 
 //Candidate
 Route::get('/candidate/register', array('as' => 'candidate.register', 'uses' => 'Auth\CandidateAuthController@getRegister'));
