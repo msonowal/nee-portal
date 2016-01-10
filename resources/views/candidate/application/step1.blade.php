@@ -6,33 +6,25 @@
 		  {!! form_start($form, ['id'=>'step1_form']) !!}
 		    <div class="row">
 		        <div class="col s12 m12 l12">
-
 			        {!! form_row($form->quota) !!}
 			        <div class="input-field col s12 m6 l4">
 			        {!! form_widget($form->reservation_code) !!}
 			        {!! form_label($form->reservation_code) !!}
-			        <a class="modal-trigger" href="#modal1" data-id="">Click here to view reservation list</a><br/><br/>
+			        <a class="modal-trigger" href="#modal1" data-id=""> Click here to view reservation list</a><br/><br/>
 			        </div>
-		        
 					{!! form_until($form, 'dob') !!}
-
 					<div class="col s12 m12 l12">
 					{!! form_row($form->save) !!}
 					</div>
-
 		        </div>
 			 </div>
 		  {!! form_end($form) !!}
 		</div>
 	</div>
-
 <div id="modal1" class="modal">
-    <div class="modal-content">
-    Reservation Information List
-	<div id="reservation_list">
-	Please select a Quota first
+	<div class="modal-content"> Reservation Information List
+		<div id="reservation_list"> Please select a Quota first </div>
 	</div>
-    </div>
 </div>
 @stop
 @section('script')
@@ -69,7 +61,6 @@ var reservation_code_list = @if(old('reservation_code')=='') false @else true @e
     }
 
 		function getReservationStatus(code) {
-			//reservation_code
 			var url = '{!! route('reservation_code.get.status') !!}';
 
 			if(code!=''){
@@ -94,7 +85,7 @@ var reservation_code_list = @if(old('reservation_code')=='') false @else true @e
 					});
 			}
 		}
-
+var allied_branch_status = @if(old('allied_branch')=='') false @else true @endif;
 		function getAlliedBranch(branchElement, alliedBranchElement){
         var url = '{!! route('allied_branch.by.branch_id') !!}';
         var branch_id = $(branchElement).val();
@@ -104,12 +95,16 @@ var reservation_code_list = @if(old('reservation_code')=='') false @else true @e
             $.ajax({ url: url, type: 'GET', data: { branch_id: branch_id } }).done(function( msg ) {
             	$('#allied_branch_id-error').remove();
                 $alliedBranch.empty();
-								$alliedBranch.empty().html('');
+				$alliedBranch.empty().html('');
                 $("<option>").val('').text('-- Choose Allied Branch --').appendTo($alliedBranch);
                 $.each(msg, function(key, value) {
                     $("<option>").val(value.id).text(value.allied_branch).appendTo($alliedBranch);
                 });
-				//$reservation_code.material_select();
+
+                if(allied_branch_status){
+				  $alliedBranch.val('{{ old('allied_branch') }}');
+				  allied_branch_status = false;
+				}
 				$alliedBranch.material_select('update');
 				//$alliedBranch.closest('.input-field').children('span.caret').remove();
                 return true;
@@ -135,9 +130,8 @@ var reservation_code_list = @if(old('reservation_code')=='') false @else true @e
     });
 	$('#step1_form').submit(function(e) {  });
 	$('#quota').trigger('change');
-
+	$('#branch_id').trigger('change');
 	$('.pref').on('change', function() {
-
         var me = $(this);
         if(me.val()!=''){
         	var except = me.attr('id');
@@ -156,5 +150,4 @@ var reservation_code_list = @if(old('reservation_code')=='') false @else true @e
 	        });
 	    }
     });
-
 @stop
