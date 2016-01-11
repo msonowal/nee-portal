@@ -682,7 +682,8 @@ class RegistrationController extends Controller
         }
 
         if($candidate_info->reg_status == "completed"){
-            $order = Order::where('candidate_info_id', $this->info_id)->where('status', 'SUCCESS')->orderBy('id', 'desc')->first();
+            $order = Order::where('candidate_info_id', $this->info_id)
+            ->where('status', 'SUCCESS')->orderBy('id', 'desc')->first();
             $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
             $step1->category= Basehelper::getCategory($step1->reservation_code);
             $step1->quota= Basehelper::getQuota($step1->quota);
