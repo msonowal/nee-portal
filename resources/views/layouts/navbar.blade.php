@@ -4,7 +4,7 @@
 	      	<a href="#" data-activates="mobile-demo" class="button-collapse">
 	      	<i class="material-icons">menu</i></a>
 	      	<ul class="right hide-on-med-and-down">
-	        	<li><a target="_blank" href="">
+	        	<li><a target="_blank" href="{{ asset('docs/Information Brochure_NEE 2016.pdf') }}">
 	        	<i class="material-icons left">info</i>
 	        	INFORMATION BROCHURE</a></li>
 	        	<li>
