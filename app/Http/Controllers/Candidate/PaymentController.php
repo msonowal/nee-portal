@@ -498,9 +498,10 @@ class PaymentController extends Controller
 
   public function showNet_banking()
   {
-
+        /*
         return back()->with('message', 'Please select a different option <br/>
             NETBANKING payment option is under process, will be soon online.');
+            */
         
 
 
@@ -527,7 +528,8 @@ class PaymentController extends Controller
             $txtMarketCode='L2748';
             $txtAcctNo = '9085538844';
             $txtBankCode='NA';
-            $amount=(Basehelper::getPayableAmount($info_id))+23;
+            //$amount=(Basehelper::getPayableAmount($info_id))+23;
+            $amount=2;
 
             return view($this->content.'net_banking')->with([
                         'action' =>$action,

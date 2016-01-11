@@ -26,9 +26,11 @@
       </h3>
       <div class="row center">
         <h5 class="header col s12 light">North Eastern Regional Institute of Science and Technology, Nirjuli (Itanagar) <br />
-        <marquee> NEE Online Portal will be live on 11th of January 2016</marquee></h5>
+        <marquee> NERIST Entrance Examination (NEE) 2016 for the sesion 2016-17</marquee>
+        </h5>
       </div>
       <!--##### -->
+      
       
   </div>
  </div>   
