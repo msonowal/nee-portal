@@ -37,7 +37,7 @@ class ReservationSeeder extends Seeder
         Reservation::create(array('quota_id' => '4', 'reservation_code' =>'4101', 'category_name' => 'GENERAL', 'description' =>'General, PRC holders of Meghalaya.'));
         Reservation::create(array('quota_id' => '4', 'reservation_code' =>'4106', 'category_name' => 'ST', 'description' =>'Khasi / Jaintia, PRC holders from Meghalaya.'));
         Reservation::create(array('quota_id' => '4', 'reservation_code' =>'4107', 'category_name' => 'ST', 'description' =>'Garo, PRC holders from Meghalaya.'));
-        Reservation::create(array('quota_id' => '4', 'reservation_code' =>'4108', 'category_name' => 'ST', 'description' =>'Other ST, PRC holders from Meghalaya.'));
+        Reservation::create(array('quota_id' => '4', 'reservation_code' =>'4108', 'category_name' => 'ST', 'description' =>'Other ST/SC, PRC holders from Meghalaya.'));
         
         //State Quota Mizoram
         Reservation::create(array('quota_id' => '5', 'reservation_code' =>'5101', 'category_name' => 'GENERAL', 'description' =>'General, PRC holders of Mizoram.'));
