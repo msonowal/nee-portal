@@ -516,7 +516,7 @@ class RegistrationController extends Controller
             $options = [''=>' -- Choose your option -- ',
                 'debit_card'=>'Debit Card',
                 'credit_card'=>'Credit Card',
-                //'pay_u'   =>  'PayUMoney (E-Wallet)',
+                'pay_u'   =>  'PayUMoney (E-Wallet)',
                 'challan'=> 'Challan',
                 'net_banking'=>'Net Banking',
             ];

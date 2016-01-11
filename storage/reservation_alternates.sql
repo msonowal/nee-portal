@@ -80,6 +80,8 @@ INSERT INTO `nee_reservation_alternates` (`reservation_code`, `alternate_code`) 
 ('4107', '9201'),
 ('4107', '4101'),
 ('4108', '4101'),
+('4108', '9201'),
+('4108', '9203'),
 ('4108', '9209'),
 ('5101', '9201'),
 ('5109', '9201'),
@@ -127,13 +129,12 @@ INSERT INTO `nee_reservation_alternates` (`reservation_code`, `alternate_code`) 
 ('2210', '9203'),
 ('2210', '9209'),
 ('5101', '9209'),
-('4108', '9201'),
 ('4101', '9202'),
 ('4101', '9203'),
 ('4101', '9209'),
 ('7216', '9209'),
 ('6201', '9202'),
-('6201', '9203');
+('6201', '9203'),
 ('6201', '9209');
 
 --
@@ -154,7 +155,7 @@ INSERT INTO `nee_reservation_alternates` (`reservation_code`, `alternate_code`) 
 -- AUTO_INCREMENT for table `reservation_alternates`
 --
 ALTER TABLE `reservation_alternates`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=100;
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=99;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
