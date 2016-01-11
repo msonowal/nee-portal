@@ -28,6 +28,7 @@
         <h5 class="header col s12 light">North Eastern Regional Institute of Science and Technology, Nirjuli (Itanagar) <br />
         <marquee> NEE Online Portal will be live on 11th of January 2016</marquee></h5>
       </div>
+      <!--##### -->
   </div>
  </div>   
 </main>

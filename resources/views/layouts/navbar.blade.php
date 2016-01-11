@@ -4,16 +4,12 @@
 	      	<a href="#" data-activates="mobile-demo" class="button-collapse">
 	      	<i class="material-icons">menu</i></a>
 	      	<ul class="right hide-on-med-and-down">
-	        	<li><a href="#">ADMISSIONS</a></li>
-	        	<li><a href="#">BROCHURE</a></li>
-	        	<li><a href="#">EXAM SCHEDULE</a></li>
-	        	<li><a href="#">CONTACT</a></li>
+	        	<li><a target="_blank" href="#">INFORMATION BROCHURE</a></li>
+	        	<li><a class="page-scroll" href="#contact">Contact</a></li>
 	      	</ul>
 	      	<ul class="side-nav" id="mobile-demo">
-	            <li><a href="#">ADMISSIONS</a></li>
-	        	<li><a href="#">BROCHURE</a></li>
-	        	<li><a href="#">EXAM SCHEDULE</a></li>
-	        	<li><a href="#">CONTACT</a></li>
+	        	<li><a target="_blank" href="#">INFORMATION BROCHURE</a></li>
+	        	<li><a class="page-scroll" href="#contact">Contact</a></li>
 	      	</ul>
 	    </div>
   	</nav>
