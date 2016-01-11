@@ -15,8 +15,8 @@ return [
     |
     */
 
-    //'driver' => 'mail',
-    'driver' => 'smtp',
+    'driver' => 'mail',
+    //'driver' => 'smtp',
     //'driver' => env('MAIL_DRIVER', 'mail'),
 
     /*
@@ -30,8 +30,8 @@ return [
     |
     */
 
-    //'host' => '',
-    'host' => 'smtp.gmail.com',
+    'host' => '',
+    //'host' => 'smtp.gmail.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -45,8 +45,8 @@ return [
     */
 
     // 'port' => env('MAIL_PORT', 587),
-    //'port' => 465,
-    'port' => 587,
+    'port' => 465,
+    //'port' => 587,
 
     /*
     |--------------------------------------------------------------------------
@@ -59,8 +59,8 @@ return [
     |
     */
 
-    //'from' => ['address' => 'neeonline@neeonline.ac.in', 'name' => 'NERIST Online'],
     'from' => ['address' => 'info@neeonline.ac.in', 'name' => 'NERIST Online'],
+    //'from' => ['address' => 'info@neeonline.ac.in', 'name' => 'NERIST Online'],
 
     /*
     |--------------------------------------------------------------------------
@@ -74,8 +74,8 @@ return [
     */
 
     //'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-    //'encryption' => 'ssl',
-    'encryption' => 'tls',
+    'encryption' => 'ssl',
+    //'encryption' => 'tls',
 
     /*
     |--------------------------------------------------------------------------
@@ -88,8 +88,8 @@ return [
     |
     */
 
-    //'username' => '',
-    'username' => 'info@neeonline.ac.in',
+    'username' => '',
+    //'username' => 'info@neeonline.ac.in',
 
     /*
     |--------------------------------------------------------------------------
@@ -102,8 +102,8 @@ return [
     |
     */
 
-    'password' =>'madeuta1313#',
-    //'password' => '',
+    //'password' =>'madeuta1313#',
+    'password' => '',
 
 
     /*
