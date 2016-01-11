@@ -29,12 +29,18 @@ class PaymentController extends Controller
                 return back()->withErrors($validator)->withInput();
 
             $info_id = Session::get('candidate_info_id');
-
             $transaction_id=$data['transaction_id'];
             $date=$data['transaction_date'];
             $date=Carbon::createFromFormat('d-m-Y', $date);
             $transaction_date=$date->format('Y-m-d');
 
+            $exist=Order::where('tansaction_id', $transaction_id)->where('transaction_date', $transaction_date)->get();
+
+
+            if(count($exist)!=0)
+            {
+                return back()->withErrors('The transaction is already used in another registration.<br/>Please provide the different transaction no.');
+            }
             $challan_info=ChallanInfo::where('transaction_id', $transaction_id)->where('transaction_date', $transaction_date)->get();
 
             if(count($challan_info) > 0){
