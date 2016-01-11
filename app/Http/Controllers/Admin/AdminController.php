@@ -7,7 +7,13 @@ use Illuminate\Http\Request;
 use nee_portal\Http\Requests;
 use nee_portal\Http\Controllers\Controller;
 use nee_portal\Models\ChallanInfo;
-use Session, URL, Validator;
+use Session, URL, Validator, Basehelper;
+use nee_portal\Models\CandidateInfo;
+use nee_portal\Models\Candidate;
+use nee_portal\Models\Step1;
+use nee_portal\Models\Step2;
+use nee_portal\Models\Step3;
+use nee_portal\Models\Order;
 
 class AdminController extends Controller
 {
@@ -26,50 +32,59 @@ class AdminController extends Controller
         return view($this->content.'challan.import', compact('result', 'paginator'));
     }
 
-    public function importChallan(Request $request){
+    public function verifiedForm()
+    {
+        $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    //->join('candidates', 'candidates.id', '=', 'candidate_info.id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->where('reg_status', 'completed')
+                                    //->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidates.mobile_no', 'candidate_info.created_at')
+                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidate_info.created_at')
+                                    ->paginate();
 
+        $paginator=0;
+        $paginator=$result->currentPage();
+        Session::put('url', URL::full());
 
-    	if(!$request->hasFile('challan')){
-    		return back()->with('message', 'Please upload a file');
-    	}
+        return view($this->content.'candidates.verified_form', compact('result', 'paginator'));
+    }
 
-        $filename=$request->challan->getClientOriginalName();
+    public function viewConfirmation($info_id)
+    {
+            $step1  =   Step1::where('candidate_info_id', $info_id)->firstOrFail();
+            $step2  =   Step2::where('candidate_info_id', $info_id)->firstOrFail();
+            $step3  =   Step3::where('candidate_info_id', $info_id)->firstOrFail();
+            $candidate  = Candidate::where('id', $info_id)->firstOrFail();
+            $candidate_info    = CandidateInfo::where('id', $info_id)->firstOrFail();
+            $order = Order::where('candidate_info_id', $info_id)->where('status', 'SUCCESS')->orderBy('id', 'desc')->first();
+            
+            $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
+            $step1->category= Basehelper::getCategory($step1->reservation_code);
+            $step1->quota= Basehelper::getQuota($step1->quota);
+            $candidate_info->q_id=Basehelper::getQualification($candidate_info->q_id);
+            $step1->admission_in= Basehelper::getAdmissionIn($step1->admission_in);
+            $step2->state= Basehelper::getState($step2->state);
+            $step2->district= Basehelper::getDistrict($step2->district);
+            $step1->branch= Basehelper::getBranch($step1->branch);
+            $step1->allied_branch= Basehelper::getAlliedBranch($step1->allied_branch);
+            $step1->c_pref1= Basehelper::getCentre($step1->c_pref1);
+            $step1->c_pref2= Basehelper::getCentre($step1->c_pref2);
+            $amount=Basehelper::getPayableAmount($info_id);
 
-        $destination_path= storage_path().'/challan/'; 
+            $registration_no= Basehelper::getRegistrationNo($info_id);
 
-        $path=$destination_path.$filename;
+            if($step1->branch == NULL)
+                $step1->branch = 'NA';
 
-        if(File::exists($request->challan)){
-            echo 'file exist';
-        }
+            if($step1->allied_branch == NULL)
+                $step1->allied_branch = 'NA';
 
-    	$request->challan->move($destination_path, $filename);
+            if($step1->voc_subject == NULL)
+                $step1->voc_subject = 'NA';
 
-    	Excel::selectSheets('RECO')->load($path, function($reader){
-
-            $results= $reader->toArray();
-
-            foreach ($results as $key => $value) {
-
-                $challan_info= New ChallanInfo;
-                $challan_info->transaction_id= $value['tranid'];
-                $date= $value['trandate'];
-
-                if($challan_info->transaction_id !=null && $date!=null){
-                    
-                    $challan_info->transaction_date = Carbon::createFromFormat('d-m-Y', $date)->toDateTimeString();
-                    
-                    $data=ChallanInfo::where('transaction_id', $challan_info->transaction_id)->first();
-
-                    $challan_info->save();   
-                }
-                
-            }
-
-		});
-
-        return back()->with('message', 'File upload successfully!');
+            return view($this->content.'candidates.view_comfirmation', compact('step1', 'step2', 'step3', 'candidate', 'candidate_info', 'order', 'amount', 'registration_no'));
 
     }
+
 
 }

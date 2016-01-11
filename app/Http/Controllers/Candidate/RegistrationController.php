@@ -707,7 +707,7 @@ class RegistrationController extends Controller
             if($step1->voc_subject == NULL)
                 $step1->voc_subject = 'NA';
 
-            return view($this->content.'e_application', compact('step1', 'step2', 'step3', 'candidate', 'candidate_info', 'order', 'amount', 'registration_no'));
+            return view($this->content.'view_confirmation', compact('step1', 'step2', 'step3', 'candidate', 'candidate_info', 'order', 'amount', 'registration_no'));
 
         }
 

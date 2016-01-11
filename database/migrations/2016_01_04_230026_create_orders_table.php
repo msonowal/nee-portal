@@ -28,6 +28,7 @@ class CreateOrdersTable extends Migration
             $table->string('tansaction_id', 100)->nullable();
             $table->string('bank_id', 100)->nullable();
             $table->string('card_type', 100)->nullable();
+            $table->date('transaction_date')->nullable();
             $table->enum('status', ['PENDING', 'FAILURE', 'SUCCESS']);
             $table->timestamps();
             $table->foreign('candidate_info_id')->references('id')->on('candidate_info');

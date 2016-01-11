@@ -31,10 +31,17 @@ class ExcelController extends Controller
 
                 if($value['tranid'] !=null && $value['trandate']!=null){
 
-                    $data=ChallanInfo::where('transaction_id', $value['tranid'])->get();
+                    $data=ChallanInfo::where('transaction_id', $value['tranid'])
+                                     ->where('transaction_date', $value['trandate'])
+                                     ->get();
 
                     if(count($data) == 0){
                         $challan_info   = New ChallanInfo;
+                        $challan_info->branch_id  = $value['brid'];
+                        $challan_info->branch_name  = $value['brname'];
+                        $challan_info->trans_type  = $value['trantype'];
+                        $challan_info->amount  = $value['amount'];
+                        $challan_info->amount  = $value['amount'];
                         $challan_info->transaction_id  = $value['tranid'];
                         $challan_info->transaction_date = date('Y-m-d', strtotime($value['trandate']));
                         $challan_info->save();                        
