@@ -88,25 +88,10 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li >
-                            <a href="#"><i class="fa fa-users fa-fw"></i> USER MANAGEMENT <span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('panels') }}"> ADD USER </a>
-                                </li>
-                                <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('buttons' ) }}"> USER LIST </a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li >
                             <a href="#"><i class="fa fa-pencil-square-o fa-fw"></i> FORM MANAGEMENT <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('panels') }}"> VERIFIED FORMS </a>
-                                </li>
-                                <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('buttons' ) }}"> PENDING FORMS </a>
+                                    <a href="{{ route('admin.candidate.submitedform') }}"> Submited Forms </a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

@@ -18,7 +18,7 @@ class Home extends Form
 	      ]);
 
         $this->add('qualification_status', 'select', [
-           	'choices' => ['PASSED' => 'PASSED', 'APPEARED' => 'APPEARED'],
+           	'choices' => ['PASSED' => 'PASSED', 'APPEARING/APPEARED' => 'APPEARING/APPEARED'],
            	'empty_value' => ' -- Choose Qualification Status -- ',
 	          'attr' => ['required', 'id'=>'qualification_status', 'data-msg'=>"Qualification status field is required"],
             'wrapper'=>['class'=>'input-field col m6']
@@ -32,9 +32,9 @@ class Home extends Form
 	      ]);
 
 
-      	$this->add('submit', 'submit', [
-          'attr' => ['class'=>'btn waves-effect waves-light blue col s12'],
-          'label' => 'Apply'
-      	]);
+      	// $this->add('submit', 'submit', [
+       //    'attr' => ['class'=>'btn waves-effect waves-light blue col s12', 'id'=>'submit'],
+       //    'label' => 'Apply'
+      	// ]);
     }
 }

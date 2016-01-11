@@ -9,9 +9,24 @@
         {!! form($form, ['id'=>'home_form']) !!}
 
         </div>
+        <button type="submit" id="submit" class="btn waves-effect waves-light blue col s12">Apply</button>
      </div>
     </div>
 </div>
+
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <p class="text-light-blue">Are you sure to Apply?
+            Please note that once you click the Agree button, you cann't change your Eligibility for the selected Examination.
+        </p>
+    </div>
+    <div class="modal-footer">
+      <button id="agree_button" class="modal-action modal-close waves-effect waves-green btn blue">
+      Agree
+      </button>
+      <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat ">CANCEL</a>
+    </div>
+  </div>
 
 @stop
 @section('script')
@@ -39,48 +54,30 @@
 @stop
 
 @section('page_script')
+
+$(document).on('click', '#submit', function(e) {
+    if($("#home_form").valid()){
+        $('#modal1').openModal();
+      }
+});
+
+$(document).on('click', '#agree_button', function(e) {
+    $('#home_form').submit();
+});
+
+
     $('#q_id').change(function(e){ getExamList(this, $('#exam_id')); });
 
     $("#home_form").validate({ });
 
     $('#home_form').submit(function(e) {
 
-      if($("#home_form").valid()){
-        //alert('VALID');
-        //return true;
-      }else{
-        //alert('INVALID');
-        //return false;
+    /*
+      if(!$("#home_form").valid()){
+        return false;
       }
-      /*
-        var errors = '';
-        var stop = 0;
-
-        if($("#q_id").val() == ''){
-            stop++;
-            errors = 'Please choose an Qualification';
-        }
-
-        if($("#qualification_status").val() == ''){
-            if(stop!=0)
-                errors += '<br/>';
-            stop++;
-            errors += 'Please choose qualification status ';
-        }
-
-        if($("#exam_id").val() == ''){
-            if(stop!=0)
-                errors += '<br/>';
-            stop++;
-            errors += 'Please select an Exam to appear for';
-        }
-
-        if(stop!=0){
-            showError(errors);
-            e.preventDefault();
-            return false;
-        }else
-            return true;
+        e.preventDefault();
+        return false;
     */
     });
 

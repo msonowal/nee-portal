@@ -28,6 +28,8 @@ class PaymentController extends Controller
             if($validator->fails())
                 return back()->withErrors($validator)->withInput();
 
+            $info_id = Session::get('candidate_info_id');
+
             $transaction_id=$data['transaction_id'];
             $date=$data['transaction_date'];
             $date=Carbon::createFromFormat('d-m-Y', $date);
@@ -37,7 +39,14 @@ class PaymentController extends Controller
 
             if(count($challan_info) > 0){
 
-                $candidate_info=CandidateInfo::where('id', $this->info_id)->first();
+                $order= new Order();
+                $order->candidate_info_id = $info_id;
+                $order->description = 'challan payment';
+                $order->tansaction_id = $transaction_id;
+                $order->transaction_date = $transaction_date;
+                $order->save();
+                
+                $candidate_info=CandidateInfo::where('id', $info_id)->first();
                 $candidate_info->reg_status='completed';
                 $candidate_info->save();
                 $message = 'Hello, your NEE Online form submission has been successfully completed. Your Form NO is '.$candidate_info->form_no;

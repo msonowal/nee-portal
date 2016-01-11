@@ -113,5 +113,7 @@ Route::group(['middleware'=>['auth.admin']], function() {
      Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
         Route::get('/challan', ['as' => 'admin.challan.index', 'uses' =>'AdminController@challan']);
         Route::post('/challan/import', ['as' => 'admin.challan.import', 'uses' =>'ExcelController@challanImport']);
+        Route::get('/candidate/submited_forms', ['as' => 'admin.candidate.submitedform', 'uses' =>'AdminController@verifiedForm']);
+        Route::get('/candidate/view_confirmation/{id}', ['as' =>'admin.candidate.view_confirmation', 'uses'=>'AdminController@viewConfirmation']);
      });
 });
