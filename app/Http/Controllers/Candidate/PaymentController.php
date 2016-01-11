@@ -482,6 +482,13 @@ class PaymentController extends Controller
 
   public function showNet_banking()
   {
+
+        
+        return back()->with('message', 'Please select differen option <br/>
+            NETBANKING payment option is working under process will be soon online.');
+        
+
+
       $info_id = Session::get('candidate_info_id');
 
         if(!Basehelper::checkSession())
@@ -734,6 +741,10 @@ class PaymentController extends Controller
 
   public function showPayU()
   {
+
+    return back()->with('message', 'Please select differen option <br/>
+        PayUMoney payment option is working under process will be soon online.');
+
       $info_id = Session::get('candidate_info_id');
       if(!Basehelper::checkSession())
           return redirect()->route($this->content.'dashboard');
