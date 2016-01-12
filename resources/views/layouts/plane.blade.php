@@ -38,11 +38,16 @@
       @include('layouts.footer')
       <script type="text/javascript" src="{{ asset("frontend/js/jquery-2.1.1.min.js") }}"></script>
       <script type="text/javascript" src="{{ asset("frontend/js/materialize.min.js") }}"></script>
+      <script src="{{ asset('frontend/js/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/additional-methods.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset("frontend/js/jquery.blockUI.min.js") }}"></script>
+    <script type="text/javascript" src="{{ asset("frontend/js/custom.js") }}"></script>
       <script type="text/javascript">
       $(document).ready(function(){
           $(".button-collapse").sideNav();
           $(".dropdown-button").dropdown();
           $('select').material_select();
+          @yield('page_script')
       });
       </script>
     </body>

@@ -355,10 +355,10 @@
 					{{ $amount }}
 				</td>
 				<td>
-					&nbsp;
+					Reservation Code
 				</td>
 				<td>
-					&nbsp;
+					{{ $step1->reservation_code }}
 				</td>
 			</tr>
 		</table>

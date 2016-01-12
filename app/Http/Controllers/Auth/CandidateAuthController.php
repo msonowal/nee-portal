@@ -63,7 +63,7 @@ class CandidateAuthController extends Controller
         ];
 
         $candidate = Candidate::create($data);
-        $message = 'Hello '.$request->first_name.', you have registered for NEE Online. Your OTP is '.$confirmation_code.' .Your email is '.$request->email.' and password is '.$request->password;
+        $message = 'Hello '.$request->first_name.', you have registered for NEE Online. Your email is '.$request->email.' and password is '.$request->password;
         $data['password'] = $request->password;
 
         Mail::send('emails.verify', $data, function($message) use ($candidate, $data){
