@@ -74,8 +74,6 @@ class CandidateAuthController extends Controller
 
         $message = 'Hello '.$request->first_name.', you have registered for NEE Online. Your OTP is '.$confirmation_code.' .Your email is '.$request->email.' and password is '.$request->password;
         Basehelper::sendSMS($request->mobile_no, $message);
-        //return Redirect::route($this->content.'register')->with('message', 'Registered Successfully. Please Activate your A/C by OTP Activation link');
-        // Redirect::route($this->content.'otp.activate')
         return redirect()->route($this->content.'otp.activate')
                 ->withInput()
                 ->with('message', 'Your account has been Registered Successfully,<br/> however you must activate your A/C by providing the OTP that you have recieved via SMS after that only you can login ');
