@@ -14,7 +14,6 @@
                 Name name = {{ $first_name }} {{ $last_name }} <br/>
                 password = {{ $password }} <br/>
                 mobile_no = {{ $mobile_no }} <br/>
-                OTP = {{ $confirm_code }} <br/>
             </p>
             <p>
                 Never reply this to email address
