@@ -26,7 +26,7 @@
 					<td >{{ $res->form_no }}</td>
 					<td >{{ $res->created_at->format('d-m-Y') }}</td>
 					<td>
-						<a target="_blank" href="{!! URL::Route('admin.candidate.view_confirmation', array($res->form_no)) !!}", class="btn btn-info btn-md pull-left">
+						<a target="_blank" href="{!! URL::Route('admin.candidate.view_confirmation', array($res->info_id)) !!}", class="btn btn-info btn-md pull-left">
 							<i class="fa fa-eye"></i>
 						</a>
 					</td>

@@ -39,7 +39,7 @@ class AdminController extends Controller
                                     ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->where('reg_status', 'completed')
                                     //->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidates.mobile_no', 'candidate_info.created_at')
-                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidate_info.created_at')
+                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'candidate_info.created_at')
                                     ->paginate();
 
         $paginator=0;
@@ -51,11 +51,12 @@ class AdminController extends Controller
 
     public function viewConfirmation($info_id)
     {
+
             $step1  =   Step1::where('candidate_info_id', $info_id)->firstOrFail();
             $step2  =   Step2::where('candidate_info_id', $info_id)->firstOrFail();
             $step3  =   Step3::where('candidate_info_id', $info_id)->firstOrFail();
-            $candidate  = Candidate::where('id', $info_id)->firstOrFail();
             $candidate_info    = CandidateInfo::where('id', $info_id)->firstOrFail();
+            $candidate  = Candidate::where('id', $candidate_info->candidate_id)->firstOrFail();
             $order = Order::where('candidate_info_id', $info_id)->where('status', 'SUCCESS')->orderBy('id', 'desc')->first();
             
             $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
