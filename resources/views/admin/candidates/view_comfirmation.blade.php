@@ -53,7 +53,7 @@
 	}
 	div.block-7{
 		border:1px solid #000;
-		height: 310px;
+		height: 330px;
 		width: 748px;
 		margin: auto;
 		margin-top: 0px;
