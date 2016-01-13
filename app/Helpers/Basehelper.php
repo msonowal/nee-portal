@@ -267,7 +267,9 @@ class Basehelper{
         $ID="nerist";
         $Password="nerist";
         $Sid="NERIST";
-        $url = "http://t.onetouchsms.in/sendsms.jsp?user=".$ID."&password=".$Password."&mobiles=".$mobile."&sms=".$Text."&senderid=".$Sid;
+        //$fqdn = 'http://t.onetouchsms.in/sendsms.jsp';
+        $fqdn = 'http://trans.onetouchsms.in';
+        $url = $fqdn."?user=".$ID."&password=".$Password."&mobiles=".$mobile."&sms=".$Text."&senderid=".$Sid;
         $ch=curl_init();
         //curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
