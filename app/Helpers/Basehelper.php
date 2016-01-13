@@ -111,7 +111,9 @@ class Basehelper{
             }
         }elseif ($candidateinfo->exam_id == 3) {
             $step1 = Step1::where('candidate_info_id', $info_id)->first();
-            $paper_code = Branch::find($step1->branch)->pluck('paper_code');
+            //$paper_code = Branch::find($step1->branch)->pluck('paper_code');
+            $branch = Branch::where('id', $step1->branch)->first();
+            $paper_code=$branch->paper_code;
         }
 
         return $paper_code;
