@@ -155,18 +155,6 @@ class PaymentController extends Controller
         if(!$order->save())
             return back()->withErrors('Unable to proceed!');
 
-        //payment gateway dibit_credit
-        require('pgconfig.php');
-
-        $md5HashData = $SECURE_SECRET;
-
-        $vpcURL=$request->virtualPaymentClientURL.'?';
-        $order= new Order;
-          $order->fill($data);
-
-          if(!$order->save())
-              return back()->withErrors('Unable to proceed!');
-
           //payment gateway dibit_credit
           require('pgconfig.php');
           $md5HashData = $SECURE_SECRET;
