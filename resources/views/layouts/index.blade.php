@@ -13,9 +13,7 @@
         <div class="card-panel blue hoverable">
         <p class="flow-text white-text">
 
-          For any academic related query please contact : +91 0360 2257401-410, ext: 6460 between 10:00AM to 4:30PM Monday-Friday.
-          <br/>
-          For any academic related query a candidate can also send email in the following  Email ID :- <a class="white-text" href="mailto:info@neeonline.ac.in?subject=AcademicQuery">info@neeonline.ac.in</a>
+          For any academic related query a candidate can send email in the following  Email ID :- <a class="white-text" href="mailto:info@neeonline.ac.in?subject=AcademicQuery">info@neeonline.ac.in</a>
           <br/>
           	For any technical assistance please feel free to contact our HELPLINE NO: 09707309326 between 10:00AM to 5:00PM  Monday-Friday.
             <br/>
