@@ -673,9 +673,9 @@ class PaymentController extends Controller
             $CheckSumGenUrl=$CheckSumGenUrl;
             $TPSLUrl=$TPSLUrl;
 
-            $txtResponseKey = $msg_array[0] ."|".$msg_array[1] ."|".$msg_array[2] ."|".$msg_array[3] ."|".$msg_array[4] ."|".$msg_array[5] ."|".$msg_array[6] ."|".$msg_array[7] ."|".$msg_array[8] ."|".$msg_array[9] ."|".$msg_array[10] ."|".$msg_array[11] ."|".$msg_array[12] ."|".$msg_array[13] ."|".$msg_array[14] ."|".$msg_array[15] ."|".$msg_array[16] ."|".$msg_array[17] ."|".$msg_array[18] ."|".$msg_array[19] ."|".$msg_array[20] ."|".$msg_array[21] ."|".$msg_array[22] ."|".$msg_array[23] ."|".$msg_array[24] ."|".$txtCheckSumKey;    
+            $txtResponseKey =$msg_array[0]."|".$msg_array[1]."|".$msg_array[2]."|".$msg_array[3]."|".$msg_array[4]."|".$msg_array[5]."|".$msg_array[6]."|".$msg_array[7]."|".$msg_array[8]."|".$msg_array[9]."|".$msg_array[10]."|".$msg_array[11]."|".$msg_array[12]."|".$msg_array[13]."|".$msg_array[14]."|".$msg_array[15]."|".$msg_array[16]."|".$msg_array[17]."|".$msg_array[18]."|".$msg_array[19]."|".$msg_array[20]."|".$msg_array[21]."|".$msg_array[22]."|".$msg_array[23]."|".$msg_array[24]."|".$txtCheckSumKey;    
 
-            $txtResponseKey = "txtResponseKey=" . $txtResponseKey;
+            $txtResponseKey = "txtResponseKey=".$txtResponseKey;
             define('POST', $CheckSumGenUrl);
             define('POSTVARS', $txtResponseKey);
 
@@ -694,12 +694,10 @@ class PaymentController extends Controller
              
             $Received_CheckSum_Data = curl_exec($ch);
             curl_close($ch);
-            echo $Received_CheckSum_Data;
-            echo $msg_array[25];
-            exit();
-            if($Received_CheckSum_Data == $msg_array[25]){
 
-            $order_info=$msg_array[1];    
+            if($Received_CheckSum_Data ==$msg_array[25]){
+
+            $order_info=tirm($msg_array[1]);    
 
             $order = Order::where('order_info', $order_info)->orderBy('id', 'desc')->first();    
                         
