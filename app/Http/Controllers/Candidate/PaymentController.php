@@ -82,8 +82,6 @@ class PaymentController extends Controller
             return redirect()->route('candidate.error')->withErrors('Record not found!');
         }
 
-        //return Basehelper::getPayableAmount($info_id);
-
         if($candidate_info->reg_status=="payment_pending"){
 
             $Title='NEE Online Payment';
@@ -292,8 +290,6 @@ class PaymentController extends Controller
 
             return redirect()->route('candidate.error')->withErrors('Record not found!');
         }
-
-        //   return Basehelper::getPayableAmount($info_id);
 
         if($candidate_info->reg_status=="payment_pending"){
 
@@ -518,7 +514,8 @@ class PaymentController extends Controller
             $txtBankCode=1;
             //$txtMarketCode=1;
             $txtMarketCode=rand(100000,999999);
-            $amount=(Basehelper::getPayableAmount($info_id))+23;
+            $amount = (Basehelper::getPayableAmount($info_id)) + 23;
+            $amount.= '.00';
 
             return view($this->content.'net_banking')->with([
                         'action' =>$action,
@@ -565,7 +562,9 @@ class PaymentController extends Controller
             $data['trans_type']='net banking';
             $data['order_info'] =$request->txtTranID;
             //$amount=(Basehelper::getPayableAmount($info_id))+23;
-            $amount = '30.00';
+            $amount = '30.00'; //for test payments
+            
+            $amount.= '.00';
             $data['amount'] =$amount;
             $data['status'] ='PENDING';
 
@@ -682,44 +681,46 @@ class PaymentController extends Controller
                 if(trim($Received_CheckSum_Data) == trim($msg_array[25])){
 
                     $order_id=trim($msg_array[1]);
-                    $order_info= trim($msg_array[2]);
-                    $order = Order::where('order_info', $order_id)->where('candidate_info_id', $info_id)->orderBy('id', 'desc')->first();
+                    $transaction_id= trim($msg_array[2]);
+                    $order = Order::where('order_info', $order_id)
+                                ->where('candidate_info_id', $info_id)
+                                ->orderBy('id', 'desc')->first();
+                    $order->tansaction_id = $transaction_id;
                     $candidate_info = CandidateInfo::where('id', $info_id)->first();
 
                     if($msg_array[14]=='0300'){
                         //success
                         $order->status = 'SUCCESS';
                         if(!$order->save()){
-                            Log::info('On NET BANKING REPONSE LINE:694 #order_info'.$order_info);
+                            Log::info('On NET BANKING REPONSE LINE:694 #order_id'.$order_id);
                             return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
                         }
 
                         $candidate_info->reg_status = 'completed';
                         if(!$candidate_info->save()){
-                            Log::info('On NET BANKING REPONSE LINE:700 #order_info'.$order_info.' info_id#'.$info_id);
+                            Log::info('On NET BANKING REPONSE LINE:702 #order_id'.$order_id.' info_id#'.$info_id);
                             return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
                         }
 
                         $message = 'Hello, your NEE Online form submission has been successfully completed. Your Form NO is '.$candidate_info->form_no;
                         Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
-                        return $request->all();
-                        return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed!<br/> Your payment order id is <strong>'.$order_info.'</strong>');
+                        //return $request->all();
+                        return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed!<br/> Your payment order id is <strong>'.$transaction_id.'</strong>');
                                 
                     }else if($msg_array[14]=='0399'){
                         //0399 failed
                         $message = 'Hello, your NEE Online Transaction has been failed. Your Form NO is '.$candidate_info->form_no;
                         Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
                         $order->status ='FAILURE';
-                        $order->order_info = $order_info;
                         $order->save();
-                        return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed. Your order No is <strong>'.$order_info.'</strong>.<br/>Please try again.');
+                        return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed. Your order No is <strong>'.$transaction_id.'</strong>.<br/>Please try again.');
                     }
                 }else{
                     return redirect()->route($this->content.'payment_options')->withErrors('Checksum verification failed!.<br/>Please try again.');
                 }
             }
         }else{
-            Log::info('Emplty respnse');
+            Log::info('Empty respnse');
             return redirect()->route($this->content.'payment_options')->withErrors('NO RESPONSE RECIEVED.<br/>Transaction not completed!.<br/>Please try again.');
         }
     }
