@@ -661,6 +661,7 @@ class PaymentController extends Controller
 
         require('MerchantDetails.php');
         $msg=$request->msg;
+        return $request->all();
 
         If($msg!=''){
 
