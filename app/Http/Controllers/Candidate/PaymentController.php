@@ -699,7 +699,7 @@ class PaymentController extends Controller
 
             $order_info=trim($msg_array[1]);  
             $info_id=trim($msg_array[1]);    
-
+            return trim($msg_array[2]);
             $order = Order::where('order_info', $info_id)->orderBy('id', 'desc')->first();    
             $candidate_info = CandidateInfo::where('id', $order_info)->first();
 
