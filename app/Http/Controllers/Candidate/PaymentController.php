@@ -524,7 +524,7 @@ class PaymentController extends Controller
             //$txtMarketCode=1;
             $txtMarketCode=rand(100000,999999);
             //$amount=(Basehelper::getPayableAmount($info_id))+23;
-            $amount = '200.00';
+            $amount = '10.00';
 
             return view($this->content.'net_banking')->with([
                         'action' =>$action,
