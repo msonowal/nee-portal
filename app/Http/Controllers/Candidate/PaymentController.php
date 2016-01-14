@@ -493,7 +493,6 @@ class PaymentController extends Controller
             NETBANKING payment option is under process, will be soon online.');
     }
 
-
       $info_id = Session::get('candidate_info_id');
 
         if(!Basehelper::checkSession())
@@ -515,10 +514,11 @@ class PaymentController extends Controller
             $proceed='Pay Now !';
             $txtTranID=$info_id;
             $txtMarketCode='L2748';
-            $txtAcctNo = '9085538844';
+            //$txtAcctNo = '9085538844';
+            $txtAcctNo = $bankAcctNo;
             $txtBankCode='NA';
             //$amount=(Basehelper::getPayableAmount($info_id))+23;
-            $amount=2;
+            $amount=2.00;
 
             return view($this->content.'net_banking')->with([
                         'action' =>$action,

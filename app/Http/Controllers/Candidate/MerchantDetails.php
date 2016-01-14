@@ -6,3 +6,5 @@ $CRN='INR';
 $CheckSumKey='7729174771VTNWNA';
 $CheckSumGenUrl='https://www.tpsl-india.in/PaymentGateway/CheckSumRequest';
 $TPSLUrl='https://www.tpsl-india.in/PaymentGateway/TransactionRequest.jsp';
+
+$bankAcctNo = 1;
