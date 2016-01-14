@@ -697,15 +697,17 @@ class PaymentController extends Controller
 
             if(trim($Received_CheckSum_Data) == trim($msg_array[25])){
 
-            $order_info=trim($msg_array[1]);  
+            $order_id=trim($msg_array[1]);  
             $info_id=trim($msg_array[1]);    
-            return trim($msg_array[2]);
-            $order = Order::where('order_info', $info_id)->orderBy('id', 'desc')->first();    
-            $candidate_info = CandidateInfo::where('id', $order_info)->first();
+            $order_info= trim($msg_array[2]);
+
+            $order = Order::where('order_info', $order_id)->orderBy('id', 'desc')->first();    
+            $candidate_info = CandidateInfo::where('id', $info_id)->first();
 
                 if($msg_array[14]=='0300') //success 
                 {
                       $data['status']='SUCCESS';
+                      $data['order_info']=$order_info;
                       $order->fill($data);
                       if(!$order->save())
                           return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
@@ -717,8 +719,8 @@ class PaymentController extends Controller
 
                       $message = 'Hello, your NEE Online form submission has been successfully completed. Your Form NO is '.$candidate_info->form_no;
                       Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
-                      //return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed!<br/> Your payment order id is <strong>'.$orderInfo.'</strong>');
-                      return redirect()->route($this->content.'completed');
+                      return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed!<br/> Your payment order id is <strong>'.$order_info.'</strong>');
+                      //return redirect()->route($this->content.'completed');
 
                             
                 }
@@ -728,10 +730,11 @@ class PaymentController extends Controller
                       $message = 'Hello, your NEE Online Transaction has been failed. Your Form NO is '.$candidate_info->form_no;
                       Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
                       $data['status']='FAILURE';
+                      $data['order_info']=$order_info;
                       $order->fill($data);
                       $order->save();
-                      //return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed.<br/>Your order No is <strong>'.$orderInfo.'</strong>.<br/>Please try again.');        
-                      return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed.<br/>Please try again.');        
+                      return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed.<br/>Your order No is <strong>'.$order_info.'</strong>.<br/>Please try again.');        
+                      //return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed.<br/>Please try again.');        
                                
                 }
 
