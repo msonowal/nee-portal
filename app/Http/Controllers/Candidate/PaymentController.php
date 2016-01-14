@@ -512,7 +512,9 @@ class PaymentController extends Controller
             require('MerchantDetails.php');
             $action='process';
             $proceed='Pay Now !';
-            $txtTranID=$info_id;
+            //$txtTranID=$info_id;
+            //$txtTranID = Str::upper(substr(hash('sha256', mt_rand() . microtime()), 0, 20));
+            $txtTranID = rand(10000,99999);
             $txtMarketCode='L2748';
             //$txtAcctNo = '9085538844';
             $txtAcctNo = $bankAcctNo;
