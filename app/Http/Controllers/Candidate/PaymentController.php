@@ -562,8 +562,7 @@ class PaymentController extends Controller
             $data['trans_type']='net banking';
             $data['order_info'] =$request->txtTranID;
             //$amount=(Basehelper::getPayableAmount($info_id))+23;
-            $amount = '30.00'; //for test payments
-            
+            $amount = '30'; //for test payments
             $amount.= '.00';
             $data['amount'] =$amount;
             $data['status'] ='PENDING';
