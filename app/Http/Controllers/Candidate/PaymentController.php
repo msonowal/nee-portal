@@ -700,6 +700,7 @@ class PaymentController extends Controller
             $order_info=trim($msg_array[1]);    
 
             $order = Order::where('order_info', $order_info)->orderBy('id', 'desc')->first();    
+            $candidate_info = CandidateInfo::where('id', $info_id)->first();
                         
                 if($msg_array[14]=='0300') //success 
                 {
@@ -709,7 +710,6 @@ class PaymentController extends Controller
                           return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
 
                       //Log::info('On line 701');
-                      $candidate_info = CandidateInfo::where('id', $info_id)->first();
                       $candidate_info->reg_status = 'completed';
                       if(!$candidate_info->save())
                           return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
