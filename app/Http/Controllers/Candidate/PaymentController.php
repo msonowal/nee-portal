@@ -663,6 +663,7 @@ class PaymentController extends Controller
         $msg=$request->msg;
 
         If($msg!=''){
+
             $msg_array=explode("|",$msg);
 
             $txtBillerId=$BillerId;
@@ -675,7 +676,6 @@ class PaymentController extends Controller
             $txtResponseKey = $msg_array[0] ."|".$msg_array[1] ."|".$msg_array[2] ."|".$msg_array[3] ."|".$msg_array[4] ."|".$msg_array[5] ."|".$msg_array[6] ."|".$msg_array[7] ."|".$msg_array[8] ."|".$msg_array[9] ."|".$msg_array[10] ."|".$msg_array[11] ."|".$msg_array[12] ."|".$msg_array[13] ."|".$msg_array[14] ."|".$msg_array[15] ."|".$msg_array[16] ."|".$msg_array[17] ."|".$msg_array[18] ."|".$msg_array[19] ."|".$msg_array[20] ."|".$msg_array[21] ."|".$msg_array[22] ."|".$msg_array[23] ."|".$msg_array[24] ."|".$txtCheckSumKey;    
 
             $txtResponseKey = "txtResponseKey=" . $txtResponseKey;
-
             define('POST', $CheckSumGenUrl);
             define('POSTVARS', $txtResponseKey);
 
@@ -697,14 +697,12 @@ class PaymentController extends Controller
 
             if($Received_CheckSum_Data == $msg_array[25]){
 
+            $order_info=$msg_array[1];    
+
             $order = Order::where('order_info', $order_info)->orderBy('id', 'desc')->first();    
                         
-            $order_info=$msg_array[1];
-
                 if($msg_array[14]=='0300') //success 
                 {
-                    echo $msg_array[14];
-                    echo '<br/>sjddsjd';
                       $data['status']='SUCCESS';
                       $order->fill($data);
                       if(!$order->save())
@@ -735,17 +733,18 @@ class PaymentController extends Controller
                       return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed.<br/>Please try again.');        
                                
                 }
-                
 
             }
             return redirect()->route($this->content.'payment_options')->withErrors('Checksum verification failed!.<br/>Please try again.');         
 
-        } 
+        }
 
-         return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed!.<br/>Please try again.');                       
-    }
+     }
 
-}
+     redirect()->route($this->content.'payment_options')->withErrors('Transaction not completed!.<br/>Please try again.');           
+
+            
+  }
 
   public function showPayU()
   {
