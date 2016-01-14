@@ -697,7 +697,7 @@ class PaymentController extends Controller
 
             if(trim($Received_CheckSum_Data) == trim($msg_array[25])){
 
-            $order_info=tirm($msg_array[1]);    
+            $order_info=trim($msg_array[1]);    
 
             $order = Order::where('order_info', $order_info)->orderBy('id', 'desc')->first();    
                         
