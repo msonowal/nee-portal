@@ -692,9 +692,8 @@ class PaymentController extends Controller
              curl_setopt($ch, CURLOPT_HEADER      ,0);  // DO NOT RETURN HTTP HEADERS 
              curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1); // RETURN THE CONTENTS OF THE CALL
              
-            echo $Received_CheckSum_Data = curl_exec($ch);
-            echo $msg_array[25];
-            exit();
+            $Received_CheckSum_Data = curl_exec($ch);
+            $msg_array[25];
             curl_close($ch);
 
             if($Received_CheckSum_Data == $msg_array[25]){
@@ -705,6 +704,8 @@ class PaymentController extends Controller
 
                 if($msg_array[14]=='0300') //success 
                 {
+                    echo $msg_array[14];
+                    echo '<br/>sjddsjd';
                       $data['status']='SUCCESS';
                       $order->fill($data);
                       if(!$order->save())
@@ -725,6 +726,8 @@ class PaymentController extends Controller
                 }
                 else //0399 failed
                 {
+                    echo $msg_array[14];
+                    echo '<br/>mfmgmm';
                       //Log::info('Transaction Failed: '.$transactionNo);
                       $message = 'Hello, your NEE Online Transaction has been failed. Your Form NO is '.$candidate_info->form_no;
                       Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
@@ -735,11 +738,15 @@ class PaymentController extends Controller
                       return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed.<br/>Please try again.');        
                                
                 }
+                echo $msg_array[14];
+                    echo '<br/>manuujj';
 
               }
 
             }
-
+            echo $msg_array[14];
+                    echo '<br/>manuujjrajsdjd';
+            exit();        
             return redirect()->route($this->content.'payment_options')->withErrors('Checksum verification failed!.<br/>Please try again.');         
 
         } 
