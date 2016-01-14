@@ -579,11 +579,7 @@ class PaymentController extends Controller
             $data = '';
 
         require('MerchantDetails.php');
-        //$TPSLUrl =$request->TPSLUrl;
-        //$CheckSumGenUrl = $request->CheckSumGenUrl;          
-        //$txtBillerIdStr = "txtBillerid=".$request->BillerId."&";
         $txtBillerIdStr = "txtBillerid=".$BillerId."&";
-        //$txtResponseUrl = "txtResponseUrl=".$request->ResponseUrl."&";
         $txtResponseUrl = "txtResponseUrl=".$ResponseUrl."&";
         //$txtCRN =   "txtCRN=".$request->CRN."&";
         $txtCRN =   "txtCRN=".$CRN."&";
@@ -610,7 +606,6 @@ class PaymentController extends Controller
         $txtAcctNo= 'txtAcctNo='.$request->txtAcctNo;
         $txtTxnAmount ='txtTxnAmount='.$request->amount;
         $txtBankCode ='txtBankCode='.$request->txtBankCode;
-
        
         $PostData =$action.'&'.$txtTranID.'&'.$txtMarketCode.'&'.$txtAcctNo.'&'.$txtTxnAmount.'&'.$txtBankCode.'&'.$proceed.'&'.trim($string).'&'.$txtPostid;
 
@@ -669,9 +664,9 @@ class PaymentController extends Controller
 
         require('MerchantDetails.php');
         $msg=$request->msg;
-        return $request->all();
+        //return $request->all();
 
-        If($msg!=''){
+        if($msg!=''){
 
             $msg_array=explode("|",$msg);
 
@@ -710,47 +705,39 @@ class PaymentController extends Controller
             $info_id=trim($msg_array[1]);    
             $order_info= trim($msg_array[2]);
 
-            $order = Order::where('order_info', $order_id)->orderBy('id', 'desc')->first();    
+            $order = Order::where('order_info', $order_id)->where('candidate_info_id', $info_id)->orderBy('id', 'desc')->first();
             $candidate_info = CandidateInfo::where('id', $info_id)->first();
 
-                if($msg_array[14]=='0300') //success 
-                {
-                      $data['status']='SUCCESS';
-                      $data['order_info']=$order_info;
-                      $order->fill($data);
-                      if(!$order->save())
-                          return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
-
-                      //Log::info('On line 701');
-                      $candidate_info->reg_status = 'completed';
-                      if(!$candidate_info->save())
-                          return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
-
-                      $message = 'Hello, your NEE Online form submission has been successfully completed. Your Form NO is '.$candidate_info->form_no;
-                      Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
-                      return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed!<br/> Your payment order id is <strong>'.$order_info.'</strong>');
-                      //return redirect()->route($this->content.'completed');
-
-                            
-                }
-                else if($msg_array[14]=='0399') //0399 failed
-                {
-                      //Log::info('Transaction Failed: '.$transactionNo);
-                      $message = 'Hello, your NEE Online Transaction has been failed. Your Form NO is '.$candidate_info->form_no;
-                      Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
-                      $data['status']='FAILURE';
-                      $data['order_info']=$order_info;
-                      $order->fill($data);
-                      $order->save();
-                      return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed. Your order No is <strong>'.$order_info.'</strong>.<br/>Please try again.');        
-                      //return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed.<br/>Please try again.');        
-                               
+            if($msg_array[14]=='0300') //success 
+            {
+                $order->status = 'SUCCESS';
+                if(!$order->save()){
+                    Log::info('On NET BANKING REPONSE LINE:717 #order_info'.$order_info);
+                    return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
                 }
 
+                $candidate_info->reg_status = 'completed';
+                if(!$candidate_info->save()){
+                    Log::info('On NET BANKING REPONSE LINE:723 #order_info'.$order_info.' info_id#'.$info_id);
+                    return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
+                }
+
+                $message = 'Hello, your NEE Online form submission has been successfully completed. Your Form NO is '.$candidate_info->form_no;
+                Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
+                return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed!<br/> Your payment order id is <strong>'.$order_info.'</strong>');
+                        
+            }else if($msg_array[14]=='0399') //0399 failed
+            {
+                $message = 'Hello, your NEE Online Transaction has been failed. Your Form NO is '.$candidate_info->form_no;
+                Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
+                $order->status ='FAILURE';
+                $order->order_info = $order_info;
+                $order->save();
+                return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed. Your order No is <strong>'.$order_info.'</strong>.<br/>Please try again.');
             }
-            return redirect()->route($this->content.'payment_options')->withErrors('Checksum verification failed!.<br/>Please try again.');         
-
         }
+        return redirect()->route($this->content.'payment_options')->withErrors('Checksum verification failed!.<br/>Please try again.');
+    }
 
      }
 
