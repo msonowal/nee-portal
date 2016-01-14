@@ -515,12 +515,16 @@ class PaymentController extends Controller
             //$txtTranID=$info_id;
             //$txtTranID = Str::upper(substr(hash('sha256', mt_rand() . microtime()), 0, 20));
             $txtTranID = rand(10000000,99999999);
-            $txtMarketCode='L2748';
+            
             //$txtAcctNo = '9085538844';
             $txtAcctNo = $bankAcctNo;
-            $txtBankCode='NA';
+            //$txtBankCode='NA';
+            //$txtMarketCode='L2748';
+            $txtBankCode=1;
+            //$txtMarketCode=1;
+            $txtMarketCode=rand(100000,999999);
             //$amount=(Basehelper::getPayableAmount($info_id))+23;
-            $amount = '2.00';
+            $amount = '200.00';
 
             return view($this->content.'net_banking')->with([
                         'action' =>$action,
