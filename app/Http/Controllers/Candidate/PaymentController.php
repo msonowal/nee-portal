@@ -694,6 +694,7 @@ class PaymentController extends Controller
              
             echo $Received_CheckSum_Data = curl_exec($ch);
             echo $msg_array[25];
+            exit();
             curl_close($ch);
 
             if($Received_CheckSum_Data == $msg_array[25]){
