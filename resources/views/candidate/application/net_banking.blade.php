@@ -23,7 +23,6 @@
           {!! Form::hidden('CRN', $CRN) !!}
           {!! Form::hidden('CheckSumKey', $CheckSumKey) !!}
           {!! Form::hidden('CheckSumGenUrl', $CheckSumGenUrl) !!}
-          {!! Form::hidden('TPSLUrl', $TPSLUrl) !!}
           {!! Form::hidden('txtAcctNo', $txtAcctNo) !!}          
           {!! Form::hidden('txtTranID', $txtTranID) !!}
           {!! Form::hidden('txtMarketCode', $txtMarketCode) !!}

@@ -4,13 +4,14 @@
 <div class="card-panel hoverable">
     <div class="col s6 offset-s3">
       <div class="row">
-      {!! Form::open(['url' => $url, 'class'=>'col s12', 'id'=>'netbanking_form']) !!}
+      <form action="{!!$url!!}" class="col s12", id="netbanking_form">
         <div class="col m6">
           <h6> sss </h6>
         </div>
       </div>
           {!! Form::hidden('msg', $msg) !!}
-       {!! Form::close() !!}
+          </form>
+       
       </div>
     </div>
 </div>

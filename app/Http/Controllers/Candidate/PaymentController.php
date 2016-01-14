@@ -514,13 +514,13 @@ class PaymentController extends Controller
             $proceed='Pay Now !';
             //$txtTranID=$info_id;
             //$txtTranID = Str::upper(substr(hash('sha256', mt_rand() . microtime()), 0, 20));
-            $txtTranID = rand(10000,99999);
+            $txtTranID = rand(10000000,99999999);
             $txtMarketCode='L2748';
             //$txtAcctNo = '9085538844';
             $txtAcctNo = $bankAcctNo;
             $txtBankCode='NA';
             //$amount=(Basehelper::getPayableAmount($info_id))+23;
-            $amount=2.00;
+            $amount = '2.00';
 
             return view($this->content.'net_banking')->with([
                         'action' =>$action,
@@ -530,7 +530,7 @@ class PaymentController extends Controller
                         'CRN' => $CRN,
                         'CheckSumKey' => $CheckSumKey,
                         'CheckSumGenUrl' => $CheckSumGenUrl,
-                        'TPSLUrl' => $TPSLUrl,
+                        //'TPSLUrl' => $TPSLUrl,
                         'txtAcctNo' => $txtAcctNo,
                         'txtTranID' => $txtTranID,
                         'txtMarketCode' => $txtMarketCode,
@@ -578,12 +578,17 @@ class PaymentController extends Controller
 
             $data = '';
 
-        $TPSLUrl =$request->TPSLUrl;
-        $CheckSumGenUrl = $request->CheckSumGenUrl;          
-        $txtBillerIdStr = "txtBillerid=".$request->BillerId."&";
-        $txtResponseUrl = "txtResponseUrl=".$request->ResponseUrl."&";
-        $txtCRN =   "txtCRN=".$request->CRN."&";
-        $txtCheckSumKey = "txtCheckSumKey=".$request->CheckSumKey;
+        require('MerchantDetails.php');
+        //$TPSLUrl =$request->TPSLUrl;
+        //$CheckSumGenUrl = $request->CheckSumGenUrl;          
+        //$txtBillerIdStr = "txtBillerid=".$request->BillerId."&";
+        $txtBillerIdStr = "txtBillerid=".$BillerId."&";
+        //$txtResponseUrl = "txtResponseUrl=".$request->ResponseUrl."&";
+        $txtResponseUrl = "txtResponseUrl=".$ResponseUrl."&";
+        //$txtCRN =   "txtCRN=".$request->CRN."&";
+        $txtCRN =   "txtCRN=".$CRN."&";
+        //$txtCheckSumKey = "txtCheckSumKey=".$request->CheckSumKey;
+        $txtCheckSumKey = "txtCheckSumKey=".$CheckSumKey;
         $txtTranID = $request->txtTranID;
         $market = $request->txtMarketCode;
         $account = $request->txtAcctNo;
@@ -594,7 +599,8 @@ class PaymentController extends Controller
         $txtVals = $txtTranID.$market.$account.$transaction_amount.$bankcode;
         $txt_encrypt = md5(base64_encode($txtVals));
 
-        $txtForEncode = $txt_encrypt.$request->CheckSumKey;
+        //$txtForEncode = $txt_encrypt.$request->CheckSumKey;
+        $txtForEncode = $txt_encrypt.$CheckSumKey;
         $txtPostid = md5($txtForEncode);
         $txtPostid ="txtPostid=".$txtPostid;
         $action ='action='.$request->action;
