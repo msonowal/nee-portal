@@ -693,7 +693,6 @@ class PaymentController extends Controller
              curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1); // RETURN THE CONTENTS OF THE CALL
              
             $Received_CheckSum_Data = curl_exec($ch);
-            $msg_array[25];
             curl_close($ch);
 
             if($Received_CheckSum_Data == $msg_array[25]){
@@ -724,10 +723,8 @@ class PaymentController extends Controller
 
                             
                 }
-                else //0399 failed
+                else if($msg_array[14]=='0399') //0399 failed
                 {
-                    echo $msg_array[14];
-                    echo '<br/>mfmgmm';
                       //Log::info('Transaction Failed: '.$transactionNo);
                       $message = 'Hello, your NEE Online Transaction has been failed. Your Form NO is '.$candidate_info->form_no;
                       Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
@@ -738,21 +735,17 @@ class PaymentController extends Controller
                       return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed.<br/>Please try again.');        
                                
                 }
-                echo $msg_array[14];
-                    echo '<br/>manuujj';
-
-              }
+                
 
             }
-            echo $msg_array[14];
-                    echo '<br/>manuujjrajsdjd';
-            exit();        
             return redirect()->route($this->content.'payment_options')->withErrors('Checksum verification failed!.<br/>Please try again.');         
 
         } 
 
          return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed!.<br/>Please try again.');                       
     }
+
+}
 
   public function showPayU()
   {
