@@ -733,7 +733,7 @@ class PaymentController extends Controller
                       $data['order_info']=$order_info;
                       $order->fill($data);
                       $order->save();
-                      return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed.<br/>Your order No is <strong>'.$order_info.'</strong>.<br/>Please try again.');        
+                      return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed. Your order No is <strong>'.$order_info.'</strong>.<br/>Please try again.');        
                       //return redirect()->route($this->content.'payment_options')->withErrors('Transaction failed.<br/>Please try again.');        
                                
                 }
