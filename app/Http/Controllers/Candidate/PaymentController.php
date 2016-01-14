@@ -660,7 +660,7 @@ class PaymentController extends Controller
     {
 
         require('MerchantDetails.php');
-        $msg=$request->msg;
+        return $msg=$request->msg;
 
         If($msg!=''){
             $msg_array=explode("|",$msg);
