@@ -512,16 +512,12 @@ class PaymentController extends Controller
             require('MerchantDetails.php');
             $action='process';
             $proceed='Pay Now !';
-            //$txtTranID=$info_id;
             $txtTranID = Str::upper(substr(hash('sha256', mt_rand() . microtime()), 0, 8));
             //$txtTranID = rand(10000000, 99999999);
-            
             $txtAcctNo = $bankAcctNo;
             $txtBankCode=1;
             //$txtMarketCode=1;
             $txtMarketCode=rand(100000,999999);
-            //$amount=(Basehelper::getPayableAmount($info_id))+23;
-            $amount = '50.00';
 
             return view($this->content.'net_banking')->with([
                         'action' =>$action,
@@ -534,9 +530,8 @@ class PaymentController extends Controller
                         'txtAcctNo' => $txtAcctNo,
                         'txtTranID' => $txtTranID,
                         'txtMarketCode' => $txtMarketCode,
-                        'txtBankCode' => $txtBankCode,
-                        'amount' => $amount                   
-                    ]);
+                        'txtBankCode' => $txtBankCode
+            ]);
         }
 
         return redirect()->action('Candidate\RegistrationController@getStep');
@@ -567,7 +562,9 @@ class PaymentController extends Controller
             $data['email']=$candidate->email;
             $data['trans_type']='net banking';
             $data['order_info'] =$request->txtTranID;
-            $data['amount'] =$request->amount;
+            //$amount=(Basehelper::getPayableAmount($info_id))+23;
+            $amount = '30.00';
+            $data['amount'] =$amount;
             $data['status'] ='PENDING';
 
             $order= new Order;
@@ -586,7 +583,7 @@ class PaymentController extends Controller
         $txtTranID = $request->txtTranID;
         $market = $request->txtMarketCode;
         $account = $request->txtAcctNo;
-        $transaction_amount = $request->amount;
+        $transaction_amount = $amount;
         $bankcode = $request->txtBankCode;
                 
         $string=$txtBillerIdStr.$txtResponseUrl.$txtCRN.$txtCheckSumKey;
@@ -601,7 +598,7 @@ class PaymentController extends Controller
         $txtTranID ='txtTranID='.$request->txtTranID;
         $txtMarketCode ='txtMarketCode='.$request->txtMarketCode;
         $txtAcctNo= 'txtAcctNo='.$request->txtAcctNo;
-        $txtTxnAmount ='txtTxnAmount='.$request->amount;
+        $txtTxnAmount ='txtTxnAmount='.$amount;
         $txtBankCode ='txtBankCode='.$request->txtBankCode;
        
         $PostData =$action.'&'.$txtTranID.'&'.$txtMarketCode.'&'.$txtAcctNo.'&'.$txtTxnAmount.'&'.$txtBankCode.'&'.$proceed.'&'.trim($string).'&'.$txtPostid;
@@ -703,6 +700,7 @@ class PaymentController extends Controller
 
                         $message = 'Hello, your NEE Online form submission has been successfully completed. Your Form NO is '.$candidate_info->form_no;
                         Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
+                        return $request->all();
                         return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed!<br/> Your payment order id is <strong>'.$order_info.'</strong>');
                                 
                     }else if($msg_array[14]=='0399'){

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', true),
+    'debug' => env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'url' => 'http://localhost/',
+    'url' => 'https://www.neeonline.a.in/',
 
     /*
     |--------------------------------------------------------------------------
@@ -205,7 +205,6 @@ return [
         'Basehelper'=> nee_portal\Helpers\Basehelper::class,
         'ValidationRules'=> nee_portal\Helpers\ValidationRules::class,
         'Carbon' =>'Carbon\Carbon',
-
     ],
 
 ];

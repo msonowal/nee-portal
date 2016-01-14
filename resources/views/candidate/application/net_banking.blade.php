@@ -27,7 +27,6 @@
           {!! Form::hidden('txtTranID', $txtTranID) !!}
           {!! Form::hidden('txtMarketCode', $txtMarketCode) !!}
           {!! Form::hidden('txtBankCode', $txtBankCode) !!}
-          {!! Form::hidden('amount', $amount) !!}
        {!! Form::close() !!}
       </div>
     </div>
