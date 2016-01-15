@@ -12,6 +12,8 @@
 					<th>Name</th>
 					<th>Form No</th>
 					<th>Registration Date</th>
+					<th>Transaction Type</th>
+					<th>Order No.</th>
 					<th>View</th>
 
 				</tr>
@@ -25,7 +27,9 @@
 					<td >{{ $res->name }}</td>
 					<td >{{ $res->form_no }}</td>
 					<td >{{ $res->created_at->format('d-m-Y') }}</td>
-					<td>
+					<td >{{ $res->trans_type }}</td>
+					<td >{{ $res->order_info }}</td>
+					<td >
 						<a target="_blank" href="{!! URL::Route('admin.candidate.view_confirmation', array($res->info_id)) !!}", class="btn btn-info btn-md pull-left">
 							<i class="fa fa-eye"></i>
 						</a>
