@@ -49,7 +49,7 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
         Route::get('/application/challan_copy', ['as' => 'candidate.application.challan_copy', 'uses' =>'RegistrationController@challanCopy']);
         Route::get('/error', ['as' => 'candidate.error', 'uses' =>'RegistrationController@showError']);
         Route::get('/application/completed', ['as' => 'candidate.application.completed', 'uses' =>'RegistrationController@completed']);
-        Route::get('/application/e_application', ['as' => 'candidate.application.e_application', 'uses' =>'RegistrationController@e_application']);
+        Route::get('/application/view_confirmation', ['as' => 'candidate.application.view_confirmation', 'uses' =>'RegistrationController@viewConfirmation']);
         //Debit Card payment of Axis Bank
         Route::get('/payment/debit_card', ['as' => 'payment.debit_card', 'uses' =>'PaymentController@showDebit_card']);
         Route::post('/payment/debit_card', ['as' => 'payment.debit_card', 'uses' =>'PaymentController@doDebit_card']);

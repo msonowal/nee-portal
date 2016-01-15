@@ -17,6 +17,7 @@ use nee_portal\Models\District;
 use Session, Log, Route;
 use nee_portal\Models\Step1;
 use Carbon\Carbon;
+use nee_portal\Models\VocationalSubject;
 
 class Basehelper{
 
@@ -147,6 +148,11 @@ class Basehelper{
       }else {
         return false;
       }
+    }
+
+    public static function getVocSubject($id, $return = 'name')
+    {
+        return VocationalSubject::where('paper_code', $id)->pluck($return);
     }
 
     public static function getBranchFieldStatus($qualification_id, $exam_id)

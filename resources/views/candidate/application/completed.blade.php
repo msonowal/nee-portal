@@ -11,13 +11,13 @@
 	  	<blockquote>
 	  		Dear <strong>{{ $step2->name }}, </strong> 
 		   	you have successfully applied for <strong>NEE {{ $year=Date('Y') }}</strong> for <strong>{{ $candidate_info->exam_id }}</strong>.
-		   	You may click the following button to download E-Application of your form.
+		   	You may click the following button to download Confirmation Page.
 		 	Please note that if you are selected for the programme you will have to carry a printout of this form, 
 		    the original documents and a set of photo copies of the documents during the time of your admission.
 		</blockquote>
 	  </div>
 	  <div class="col m12">
-			<a class="right btn blue waves-effect waves-light" target="_blank" href="{{ route('candidate.application.e_application') }}">
+			<a class="right btn blue waves-effect waves-light" target="_blank" href="{{ route('candidate.application.view_confirmation') }}">
 			 &nbsp; Click to View 
 			</a>
 	  </div>

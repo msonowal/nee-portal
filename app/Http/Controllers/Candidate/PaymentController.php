@@ -48,6 +48,7 @@ class PaymentController extends Controller
                 $order= new Order();
                 $order->candidate_info_id = $info_id;
                 $order->description = 'challan payment';
+                $order->trans_type = 'Challan';
                 $order->status = 'SUCCESS';
                 $order->tansaction_id = $transaction_id;
                 $order->transaction_date = $transaction_date;

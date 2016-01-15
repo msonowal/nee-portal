@@ -666,7 +666,7 @@ class RegistrationController extends Controller
         return $this->getStep();
     }
 
-    public function e_application(){
+    public function viewConfirmation(){
 
         if(!Basehelper::checkSession())
             return redirect()->route($this->content.'dashboard');
@@ -698,6 +698,7 @@ class RegistrationController extends Controller
             $amount=Basehelper::getPayableAmount($this->info_id);
 
             $registration_no= Basehelper::getRegistrationNo($this->info_id);
+            $step1->voc_subject= Basehelper::getVocSubject($step1->voc_subject);
 
             if($step1->branch == NULL)
                 $step1->branch = 'NA';

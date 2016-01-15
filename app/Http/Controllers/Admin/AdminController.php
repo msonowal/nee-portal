@@ -26,7 +26,27 @@ class AdminController extends Controller
        $nee_ii_submitted =CandidateInfo::where('reg_status', 'completed')->where('exam_id', 2)->get()->count();
        $nee_iii_submitted =CandidateInfo::where('reg_status', 'completed')->where('exam_id', 3)->get()->count();
 
-       return view($this->content.'dashboard', compact('total_submitted', 'nee_i_submitted', 'nee_ii_submitted', 'nee_iii_submitted')); 
+       $debit_card =CandidateInfo::join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                ->where('orders.status', 'SUCCESS')
+                                ->where('orders.trans_type', 'Debit Card')
+                                ->where('reg_status', 'completed')->get()->count();
+
+       $credit_card =CandidateInfo::join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                ->where('orders.status', 'SUCCESS')
+                                ->where('orders.trans_type', 'Credit Card')
+                                ->where('reg_status', 'completed')->get()->count(); 
+
+       $net_banking =CandidateInfo::join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                ->where('orders.status', 'SUCCESS')
+                                ->where('orders.trans_type', 'Net Banking')
+                                ->where('reg_status', 'completed')->get()->count(); 
+
+       $challan =CandidateInfo::join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                ->where('orders.status', 'SUCCESS')
+                                ->where('orders.trans_type', 'Challan')
+                                ->where('reg_status', 'completed')->get()->count();                                                                           
+
+       return view($this->content.'dashboard', compact('total_submitted', 'nee_i_submitted', 'nee_ii_submitted', 'nee_iii_submitted', 'debit_card', 'credit_card', 'net_banking', 'challan')); 
     }
 
     public function challan()
@@ -145,6 +165,7 @@ class AdminController extends Controller
             $amount=Basehelper::getPayableAmount($info_id);
 
             $registration_no= Basehelper::getRegistrationNo($info_id);
+            $step1->voc_subject= Basehelper::getVocSubject($step1->voc_subject);
 
             if($step1->branch == NULL)
                 $step1->branch = 'NA';
