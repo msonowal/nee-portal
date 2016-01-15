@@ -483,11 +483,11 @@ class PaymentController extends Controller
   public function showNet_banking()
   {
 
-    if(Auth::candidate()->get()->email != 'manash149@gmail.com'){
+    /*if(Auth::candidate()->get()->email != 'manash149@gmail.com'){
 
         return back()->with('message', 'Please select a different option <br/>
             NETBANKING payment option is under process, will be soon online.');
-    }
+    }*/
 
       $info_id = Session::get('candidate_info_id');
 
@@ -561,8 +561,8 @@ class PaymentController extends Controller
             $data['email']=$candidate->email;
             $data['trans_type']='net banking';
             $data['order_info'] =$request->txtTranID;
-            //$amount=(Basehelper::getPayableAmount($info_id))+23;
-            $amount = '30'; //for test payments
+            $amount=(Basehelper::getPayableAmount($info_id))+23;
+            //$amount = '30'; //for test payments
             $amount.= '.00';
             $data['amount'] =$amount;
             $data['status'] ='PENDING';
