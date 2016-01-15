@@ -19,6 +19,16 @@ class AdminController extends Controller
 {
     private $content='admin.';
 
+    public function dashboard()
+    {
+       $total_submitted =CandidateInfo::where('reg_status', 'completed')->get()->count();
+       $nee_i_submitted =CandidateInfo::where('reg_status', 'completed')->where('exam_id', 1)->get()->count();
+       $nee_ii_submitted =CandidateInfo::where('reg_status', 'completed')->where('exam_id', 2)->get()->count();
+       $nee_iii_submitted =CandidateInfo::where('reg_status', 'completed')->where('exam_id', 3)->get()->count();
+
+       return view($this->content.'dashboard', compact('total_submitted', 'nee_i_submitted', 'nee_ii_submitted', 'nee_iii_submitted')); 
+    }
+
     public function challan()
     {
         $result=ChallanInfo::paginate();
@@ -32,12 +42,66 @@ class AdminController extends Controller
         return view($this->content.'challan.import', compact('result', 'paginator'));
     }
 
-    public function verifiedForm()
+    public function submittedForm()
     {
         $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
                                     //->join('candidates', 'candidates.id', '=', 'candidate_info.id')
                                     ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->where('reg_status', 'completed')
+                                    //->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidates.mobile_no', 'candidate_info.created_at')
+                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'candidate_info.created_at')
+                                    ->paginate();
+
+        $paginator=0;
+        $paginator=$result->currentPage();
+        Session::put('url', URL::full());
+
+        return view($this->content.'candidates.verified_form', compact('result', 'paginator'));
+    }
+
+    public function nee_i_submitted()
+    {
+        $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    //->join('candidates', 'candidates.id', '=', 'candidate_info.id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->where('reg_status', 'completed')
+                                    ->where('exam_id', 1)
+                                    //->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidates.mobile_no', 'candidate_info.created_at')
+                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'candidate_info.created_at')
+                                    ->paginate();
+
+        $paginator=0;
+        $paginator=$result->currentPage();
+        Session::put('url', URL::full());
+
+        return view($this->content.'candidates.verified_form', compact('result', 'paginator'));
+    }
+
+    public function nee_ii_submitted()
+    {
+        $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    //->join('candidates', 'candidates.id', '=', 'candidate_info.id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->where('reg_status', 'completed')
+                                    ->where('exam_id', 2)
+                                    //->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidates.mobile_no', 'candidate_info.created_at')
+                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'candidate_info.created_at')
+                                    ->paginate();
+
+        $paginator=0;
+        $paginator=$result->currentPage();
+        Session::put('url', URL::full());
+
+        return view($this->content.'candidates.verified_form', compact('result', 'paginator'));
+    }
+
+    public function nee_iii_submitted()
+    {
+        $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    //->join('candidates', 'candidates.id', '=', 'candidate_info.id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->where('reg_status', 'completed')
+                                    ->where('exam_id', 3)
                                     //->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidates.mobile_no', 'candidate_info.created_at')
                                     ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'candidate_info.created_at')
                                     ->paginate();

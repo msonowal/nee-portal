@@ -86,11 +86,9 @@ Route::get('/admin/login', array('as' => 'admin.login', 'uses' => 'Auth\AdminAut
 Route::post('/admin/login', array('as' => 'admin.login', 'uses' => 'Auth\AdminAuthController@postLogin'));
 Route::get('admin/logout', [ 'as' => 'admin.logout', 'uses' => 'Auth\AdminAuthController@getLogout']);
 
-Route::group(['prefix'=>'admin', 'namespace' => 'Admin\MasterEntry'], function() {
+Route::group(['prefix'=>'admin', 'namespace' => 'Admin'], function() {
     Route::group(['middleware'=>['auth.admin']], function() {
-        Route::get('/dashboard', ['as' => 'admin.dashboard', function () {
-            return View::make('admin.dashboard');
-        }]);
+        Route::get('/dashboard', ['as' => 'admin.dashboard', 'uses' => 'AdminController@dashboard']);
     });
 });
 
@@ -113,7 +111,10 @@ Route::group(['middleware'=>['auth.admin']], function() {
      Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
         Route::get('/challan', ['as' => 'admin.challan.index', 'uses' =>'AdminController@challan']);
         Route::post('/challan/import', ['as' => 'admin.challan.import', 'uses' =>'ExcelController@challanImport']);
-        Route::get('/candidate/submited_forms', ['as' => 'admin.candidate.submitedform', 'uses' =>'AdminController@verifiedForm']);
+        Route::get('/candidate/submitted_forms', ['as' => 'admin.candidate.submittedform', 'uses' =>'AdminController@submittedForm']);
+        Route::get('/candidate/nee_i_submitted', ['as' => 'admin.candidate.nee_i_submitted', 'uses' =>'AdminController@nee_i_submitted']);
+        Route::get('/candidate/nee_ii_submitted', ['as' => 'admin.candidate.nee_ii_submitted', 'uses' =>'AdminController@nee_ii_submitted']);
+        Route::get('/candidate/nee_iii_submitted', ['as' => 'admin.candidate.nee_iii_submitted', 'uses' =>'AdminController@nee_iii_submitted']);
         Route::get('/candidate/view_confirmation/{id}', ['as' =>'admin.candidate.view_confirmation', 'uses'=>'AdminController@viewConfirmation']);
      });
 });

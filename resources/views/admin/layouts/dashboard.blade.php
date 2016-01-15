@@ -12,7 +12,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ url ('admin/dashboard') }}"><strong>NERIST</strong> | NEE {!! $year=Date('Y'); !!}</a>
+                <a class="navbar-brand" href="{{ route('admin.dashboard') }}"><strong>NERIST</strong> | NEE {!! $year=Date('Y'); !!}</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -91,7 +91,16 @@
                             <a href="#"><i class="fa fa-pencil-square-o fa-fw"></i> FORM MANAGEMENT <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.candidate.submitedform') }}"> Submited Forms </a>
+                                    <a href="{{ route('admin.candidate.submittedform') }}"> Submitted Forms </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.candidate.nee_i_submitted') }}"> NEE I Submitted </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.candidate.nee_ii_submitted') }}"> NEE II Submitted </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.candidate.nee_iii_submitted') }}"> NEE III Submitted </a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
