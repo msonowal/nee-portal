@@ -180,5 +180,43 @@ class AdminController extends Controller
 
     }
 
+    public function transactionSuccess()
+    {
+        $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    //->join('candidates', 'candidates.id', '=', 'candidate_info.id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.reg_status', 'completed')
+                                    //->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidates.mobile_no', 'candidate_info.created_at')
+                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at')
+                                    ->paginate();
+
+        $paginator=0;
+        $paginator=$result->currentPage();
+        Session::put('url', URL::full());
+
+        return view($this->content.'candidates.transaction_success', compact('result', 'paginator'));
+    }
+
+    public function transactionFailed()
+    {
+        $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    //->join('candidates', 'candidates.id', '=', 'candidate_info.id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'FAILURE')
+                                    ->where('candidate_info.reg_status', 'payment_pending')
+                                    //->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidates.mobile_no', 'candidate_info.created_at')
+                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at')
+                                    ->paginate();
+
+        $paginator=0;
+        $paginator=$result->currentPage();
+        Session::put('url', URL::full());
+
+        return view($this->content.'candidates.transaction_failed', compact('result', 'paginator'));
+    }
+
 
 }

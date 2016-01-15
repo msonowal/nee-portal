@@ -116,5 +116,7 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::get('/candidate/nee_ii_submitted', ['as' => 'admin.candidate.nee_ii_submitted', 'uses' =>'AdminController@nee_ii_submitted']);
         Route::get('/candidate/nee_iii_submitted', ['as' => 'admin.candidate.nee_iii_submitted', 'uses' =>'AdminController@nee_iii_submitted']);
         Route::get('/candidate/view_confirmation/{id}', ['as' =>'admin.candidate.view_confirmation', 'uses'=>'AdminController@viewConfirmation']);
+        Route::get('/transaction/success', ['as'=>'admin.transaction.success', 'uses' =>'AdminController@transactionSuccess']);
+        Route::get('/transaction/failed', ['as'=>'admin.transaction.failed', 'uses' =>'AdminController@transactionFailed']);
      });
 });

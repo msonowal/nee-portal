@@ -142,28 +142,13 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li >
-                            <a href="#"><i class="fa fa-envelope-o fa-fw"></i> MESSAGE <span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-dollar fa-fw"></i> TRASACTION <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('panels') }}"> COMPOSE MESSAGE </a>
+                                <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.transaction.success') }}"> SUCCESS </a>
                                 </li>
                                 <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('buttons' ) }}"> VIEW MESSAGES </a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li >
-                            <a href="#"><i class="fa fa-dollar fa-fw"></i> ONLINE TRASACTION <span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('panels') }}"> ALL TRANSACTION </a>
-                                </li>
-                                <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('buttons' ) }}"> SUCEESS TRANSACTION </a>
-                                </li>
-                                <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('buttons' ) }}"> FAILED TRANSACTION </a>
+                                    <a href="{{ route('admin.transaction.failed') }}"> FAILED </a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
