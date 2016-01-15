@@ -35,7 +35,7 @@ class PaymentController extends Controller
             $transaction_date=$date->format('Y-m-d');
 
             $exist=Order::where('tansaction_id', $transaction_id)->where('transaction_date', $transaction_date)->get();
-
+            $candidate=Candidate::where('id', Auth::candidate()->get()->id)->firstOrFail();
 
             if(count($exist)!=0)
             {
@@ -49,6 +49,12 @@ class PaymentController extends Controller
                 $order->candidate_info_id = $info_id;
                 $order->description = 'challan payment';
                 $order->trans_type = 'Challan';
+                $order->mobile_no=$candidate->mobile_no;
+                $order->email=$candidate->email;
+                $order->order_id=$info_id;
+                $order->order_info=$transaction_id;
+                $amount=(Basehelper::getPayableAmount($info_id))+35;
+                $order->amount =$amount;
                 $order->status = 'SUCCESS';
                 $order->tansaction_id = $transaction_id;
                 $order->transaction_date = $transaction_date;
