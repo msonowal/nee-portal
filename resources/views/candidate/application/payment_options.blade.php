@@ -1,6 +1,7 @@
 @extends('candidate.plane')
 @section('body')
 <h5>Payment Options</h5>
+<marquee><h5><font color="red">Those who want to make payment through challan please wait till Monday. Already paid (thorough challan only) candidates are also requested to wait till Monday to get their confirmation page.</font></h5></marquee>
 <div class="card-panel hoverable">
     <div class="col s6 offset-s3">
       <div class="row">
