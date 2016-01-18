@@ -78,7 +78,7 @@ class AdminController extends Controller
         $paginator=$result->currentPage();
         Session::put('url', URL::full());
 
-        return view($this->content.'candidates.verified_form', compact('result', 'paginator'));
+        return view($this->content.'candidates.submitted_forms', compact('result', 'paginator'));
     }
 
     public function nee_i_submitted()
@@ -98,7 +98,7 @@ class AdminController extends Controller
         $paginator=$result->currentPage();
         Session::put('url', URL::full());
 
-        return view($this->content.'candidates.verified_form', compact('result', 'paginator'));
+        return view($this->content.'candidates.submitted_nee_i_forms', compact('result', 'paginator'));
     }
 
     public function nee_ii_submitted()
@@ -118,7 +118,7 @@ class AdminController extends Controller
         $paginator=$result->currentPage();
         Session::put('url', URL::full());
 
-        return view($this->content.'candidates.verified_form', compact('result', 'paginator'));
+        return view($this->content.'candidates.submitted_nee_ii_forms', compact('result', 'paginator'));
     }
 
     public function nee_iii_submitted()
@@ -138,7 +138,7 @@ class AdminController extends Controller
         $paginator=$result->currentPage();
         Session::put('url', URL::full());
 
-        return view($this->content.'candidates.verified_form', compact('result', 'paginator'));
+        return view($this->content.'candidates.submitted_nee_iii_forms', compact('result', 'paginator'));
     }
 
     public function viewConfirmation($info_id)
