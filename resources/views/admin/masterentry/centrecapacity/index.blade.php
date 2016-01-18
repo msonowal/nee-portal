@@ -20,7 +20,7 @@
 			@foreach($result as $res)
 				<tr>
 					<td align="center">{!! $i      !!}</td>
-					<td>{!! $res->centre_id        !!}</td>
+					<td>{!! $res->centre_name        !!}</td>
 					<td>{!! $res->centre_location  !!}</td>
 					<td>{!! $res->centre_capacity  !!}</td>
 					<td>
