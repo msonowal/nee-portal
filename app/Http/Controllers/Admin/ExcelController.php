@@ -78,7 +78,7 @@ class ExcelController extends Controller
            $results[$result]['CENTRE_PREF1']= Basehelper::getCentre($res->CENTRE_PREF1);
            $results[$result]['CENTRE_PREF2']= Basehelper::getCentre($res->CENTRE_PREF2);
            $dob=Carbon::createFromFormat('Y-m-d', $res->DOB);
-           $results[$result]['DOB']=$dob->format('Y-m-d');
+           $results[$result]['DOB']=$dob->format('d-m-Y');
            $results[$result]['REGISTRATION_NO']= Basehelper::getRegistrationNo($res->REGISTRATION_NO);
            $results[$result]['VOCATIONAL_SUBJECT']= Basehelper::getVocSubject($res->VOCATIONAL_SUBJECT);
            $results[$result]['ELIGIBILITY']=Basehelper::getQualification($res->ELIGIBILITY);
