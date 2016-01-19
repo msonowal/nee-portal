@@ -10,7 +10,7 @@ class Centre extends Model
 
     protected $fillable= ['centre_code', 'centre_name', 'centre_state', 'NEE I', 'NEE II', 'NEE III'];
 
-    public static $rules=['centre_code' => 'required|numeric|unique:centres,centre_code, :id',
+    public static $rules=['centre_code' => 'required|numeric|unique:centres,centre_code',
     					  'centre_name' => 'required|alpha',
     					  'centre_state'=> 'required|alpha'  		
     						];

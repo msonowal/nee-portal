@@ -88,7 +88,7 @@ class CentreController extends Controller
      */
     public function edit($id, FormBuilder $formBuilder){
 
-            $centre  = Centre::findOrFail($id);
+            $centre  = Centre::where('centre_code', $id)->firstOrFail();
 
                 $form    = $formBuilder->create('nee_portal\Forms\CentreForm',
                 [
@@ -114,7 +114,7 @@ class CentreController extends Controller
     {
         $this->validate($request, Centre::$edit_rules);
         
-        $result=Centre::findOrFail($id);
+        $result=Centre::where('centre_code', $id)->firstOrFail();
 
         $data=$request->all();
 
@@ -133,7 +133,7 @@ class CentreController extends Controller
     {
         try{
 
-              Centre::destroy($id);
+              Centre::where('centre_code', $id)->delete();
 
             }catch(QueryException $e){
 

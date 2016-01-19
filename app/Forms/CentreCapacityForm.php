@@ -10,8 +10,8 @@ class CentreCapacityForm extends Form
 {
     public function buildForm()
     {
-        $this->add('centre_id', 'select', [
-        	  'choices' => Centre::lists('centre_name', 'id')->all(),		
+        $this->add('centre_code', 'select', [
+        	  'choices' => Centre::lists('centre_name', 'centre_code')->all(),		
 	          'attr' => ['required'],
 	          'label' => 'Centre',
 	          'wrapper' => ['class' => 'form-group'] 

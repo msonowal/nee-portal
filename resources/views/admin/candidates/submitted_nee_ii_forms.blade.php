@@ -1,4 +1,4 @@
-@extends('admin.layouts.dashboard')
+@extends('admin.layouts.main')
 @section('page_heading','Submited NEE II Form List')
 @section('section')
   <div class="col-sm-12">
@@ -16,7 +16,8 @@
 					<th width="6%">SL No</th>	
 					<th>Exam</th>
 					<th>Name</th>
-					<th>Form No</th>
+					<th>Form No.</th>
+					<th>Mobile No.</th>
 					<th>Registration Date</th>
 					<th>Transaction Type</th>
 					<th>Order No.</th>
@@ -32,6 +33,7 @@
 					<td >{{ $res->exam_name }}</td>
 					<td >{{ $res->name }}</td>
 					<td >{{ $res->form_no }}</td>
+					<td >{{ $res->mobile_no }}</td>
 					<td >{{ $res->created_at->format('d-m-Y') }}</td>
 					<td >{{ $res->trans_type }}</td>
 					<td >{{ $res->order_info }}</td>

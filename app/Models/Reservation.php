@@ -11,10 +11,8 @@ class Reservation extends Model
 
     protected $fillable= ['quota_id', 'reservation_code', 'description'];
 
-    protected $guarded= ['id'];
-
     public static $rules=['quota_id' => 'required|numeric',
-    					  'reservation_code' => 'required|numeric|unique:reservations,reservation_code, :id',
+    					  'reservation_code' => 'required|numeric|unique:reservations,reservation_code',
     					  'description' => 'required'
     					 ];
 
