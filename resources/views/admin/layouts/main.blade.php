@@ -1,11 +1,11 @@
 @extends('admin.layouts.plane')
 @section('body')
 <style type="text/css">
-    .navbar-default{
+    .navbar{
         background-color: #F44336 !important;
         height: 70px;
     }
-    .a-color{
+    .a-nav{
         color: #ffffff !important;
     }
     h3, .h3{
