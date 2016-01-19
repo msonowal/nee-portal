@@ -5,11 +5,26 @@
 	@if($result->count())
 	<div class="box">
 		<div class="box-header">
-			<div class="form-group">
-					<a href="{{ route('genrate.report.all') }}" class="btn btn-info"><i class="fa fa-file-text-o"></i> Generate Report</a>
+			<div class="form-group col-sm-3">
+			{!! Form::open(array('route'=>'admin.search.confirmation_page', 'id' => 'applicant_search_form', 'class'=>'form-horizontal')) !!}
+				 <?php $type = [''=>'--Select--', 'form_no' =>'Form No'];
+				       $s_type = (Input::has('type')) ? Input::get('type') : null;
+                       $s_val = (Input::has('value')) ? Input::get('value') : null; 
+                 ?>      
+                {!! Form::select('type', $type, $s_type, array('class'=>'form-control', 'required')) !!}
+            </div>
+            <div class="form-group col-sm-3">
+            	{!! Form::text('value', $s_val, array('class'=>'form-control search-box', 'autocomplete'=>'off')) !!}
+            </div>
+            <div class="form-group col-sm-3">    
+                {!! Form::submit('Search', array('class'=>'btn btn-success')) !!}
 			</div>
+			<div class="form-group col-sm-3">
+				<a href="{{ route('genrate.report.all') }}" class="btn btn-info"><i class="fa fa-file-text-o"></i> Generate Report</a>
+			</div>
+			{!! Form::close() !!}
 		</div>
-		<div class="box-body table-responsive">
+		<div class="box-body table-responsive  col-sm-12">
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
