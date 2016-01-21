@@ -32,19 +32,13 @@ class CentreCapacityController extends Controller
      */
     public function index()
     {
-        $result=$this->centre_capacity->paginate();
+        $result=$this->centre_capacity->join('centres', 'centres.centre_code', '=', 'centre_capacities.centre_code')->paginate();
 
         $paginator=0;
 
         $paginator=$result->currentPage();
 
         Session::put('url', URL::full());
-
-        foreach ($result as $res) {
-
-           $res->centre_id = Basehelper::getCentre($res->centre_id);
-
-        }        
 
         return view($this->content.'index', compact('result', 'paginator'));
     }

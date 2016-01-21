@@ -8,9 +8,9 @@ class CentreCapacity extends Model
 {
     protected $table= 'centre_capacities';
 
-    protected $fillable= ['centre_id', 'centre_location', 'centre_capacity'];
+    protected $fillable= ['centre_code', 'centre_location', 'centre_capacity'];
 
-    public static $rules=['centre_id' => 'required|numeric',
+    public static $rules=['centre_code' => 'required|numeric',
     					  'centre_location' =>'required',
     					  'centre_capacity' =>'required|numeric'	
     						];

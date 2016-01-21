@@ -1,4 +1,4 @@
-@extends('admin.layouts.dashboard')
+@extends('admin.layouts.main')
 @section('page_heading','CENTRE CAPACITY LIST')
 @section('sub_title') <a href="{!! URL::route('admin.masterentry.centrecapacity.create') !!}" class="btn btn-info btn-md"> Add New </a> @stop
 @section('section')
@@ -20,7 +20,7 @@
 			@foreach($result as $res)
 				<tr>
 					<td align="center">{!! $i      !!}</td>
-					<td>{!! $res->centre_id        !!}</td>
+					<td>{!! $res->centre_name        !!}</td>
 					<td>{!! $res->centre_location  !!}</td>
 					<td>{!! $res->centre_capacity  !!}</td>
 					<td>

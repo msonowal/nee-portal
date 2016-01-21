@@ -65,80 +65,76 @@ class AdminController extends Controller
     public function submittedForm()
     {
         $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
-                                    //->join('candidates', 'candidates.id', '=', 'candidate_info.id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
                                     ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('candidate_info.reg_status', 'completed')
-                                    //->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidates.mobile_no', 'candidate_info.created_at')
-                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at')
+                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email')
                                     ->paginate();
 
         $paginator=0;
         $paginator=$result->currentPage();
         Session::put('url', URL::full());
 
-        return view($this->content.'candidates.verified_form', compact('result', 'paginator'));
+        return view($this->content.'candidates.submitted_forms', compact('result', 'paginator'));
     }
 
     public function nee_i_submitted()
     {
         $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
-                                    //->join('candidates', 'candidates.id', '=', 'candidate_info.id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
                                     ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('reg_status', 'completed')
                                     ->where('exam_id', 1)
-                                    //->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidates.mobile_no', 'candidate_info.created_at')
-                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at')
+                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email')
                                     ->paginate();
 
         $paginator=0;
         $paginator=$result->currentPage();
         Session::put('url', URL::full());
 
-        return view($this->content.'candidates.verified_form', compact('result', 'paginator'));
+        return view($this->content.'candidates.submitted_nee_i_forms', compact('result', 'paginator'));
     }
 
     public function nee_ii_submitted()
     {
         $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
-                                    //->join('candidates', 'candidates.id', '=', 'candidate_info.id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
                                     ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('reg_status', 'completed')
                                     ->where('exam_id', 2)
-                                    //->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidates.mobile_no', 'candidate_info.created_at')
-                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at')
+                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email')
                                     ->paginate();
 
         $paginator=0;
         $paginator=$result->currentPage();
         Session::put('url', URL::full());
 
-        return view($this->content.'candidates.verified_form', compact('result', 'paginator'));
+        return view($this->content.'candidates.submitted_nee_ii_forms', compact('result', 'paginator'));
     }
 
     public function nee_iii_submitted()
     {
         $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
-                                    //->join('candidates', 'candidates.id', '=', 'candidate_info.id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
                                     ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('reg_status', 'completed')
                                     ->where('exam_id', 3)
-                                    //->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidates.mobile_no', 'candidate_info.created_at')
-                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at')
+                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email')
                                     ->paginate();
 
         $paginator=0;
         $paginator=$result->currentPage();
         Session::put('url', URL::full());
 
-        return view($this->content.'candidates.verified_form', compact('result', 'paginator'));
+        return view($this->content.'candidates.submitted_nee_iii_forms', compact('result', 'paginator'));
     }
 
     public function viewConfirmation($info_id)
@@ -183,13 +179,12 @@ class AdminController extends Controller
     public function transactionSuccess()
     {
         $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
-                                    //->join('candidates', 'candidates.id', '=', 'candidate_info.id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
                                     ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('candidate_info.reg_status', 'completed')
-                                    //->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidates.mobile_no', 'candidate_info.created_at')
-                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at')
+                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no')
                                     ->paginate();
 
         $paginator=0;
@@ -202,13 +197,12 @@ class AdminController extends Controller
     public function transactionFailed()
     {
         $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
-                                    //->join('candidates', 'candidates.id', '=', 'candidate_info.id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
                                     ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     ->where('orders.status', 'FAILURE')
                                     ->where('candidate_info.reg_status', 'payment_pending')
-                                    //->select('exams.exam_name', 'step2.name', 'candidate_info.form_no', 'candidates.mobile_no', 'candidate_info.created_at')
-                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at')
+                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no')
                                     ->paginate();
 
         $paginator=0;
@@ -216,6 +210,38 @@ class AdminController extends Controller
         Session::put('url', URL::full());
 
         return view($this->content.'candidates.transaction_failed', compact('result', 'paginator'));
+    }
+
+    public function searchForm(Request $request)
+    {
+        if($request->type != "")
+        {
+            $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.reg_status', 'completed');
+
+            if($request->type =="form_no")
+                $results->where('candidate_info.'.$request->type, $request->value);
+
+            if($request->type =="mobile_no")
+                $results->where('candidates.'.$request->type, $request->value);
+
+            if($request->type =="name")
+                $results->where('step2.'.$request->type, $request->value);
+
+            if($request->type =="order_info")
+                $results->where('orders.'.$request->type, $request->value);
+
+            $results->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $result=$results->paginate();
+            $paginator=0;
+            $paginator=$result->currentPage();
+            Session::put('url', URL::full());
+            return view($this->content.'candidates.submitted_forms', compact('result', 'paginator'));                        
+        }
     }
 
 

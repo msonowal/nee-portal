@@ -118,5 +118,7 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::get('/candidate/view_confirmation/{id}', ['as' =>'admin.candidate.view_confirmation', 'uses'=>'AdminController@viewConfirmation']);
         Route::get('/transaction/success', ['as'=>'admin.transaction.success', 'uses' =>'AdminController@transactionSuccess']);
         Route::get('/transaction/failed', ['as'=>'admin.transaction.failed', 'uses' =>'AdminController@transactionFailed']);
-     });
+        Route::get('/report/all', ['as' =>'genrate.report.all', 'uses' =>'ExcelController@allCompleted']);
+        Route::post('/candidate/submitted_forms', ['as' =>'admin.search.confirmation_page', 'uses' =>'AdminController@searchForm']);
+    });
 });

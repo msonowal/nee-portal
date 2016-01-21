@@ -16,6 +16,8 @@ use Redirect, Session, URL;
 
 use nee_portal\Helpers\Basehelper;
 
+use Illuminate\Database\QueryException;
+
 class ReservationController extends Controller
 {
     private $content='admin.masterentry.reservation.';
@@ -110,7 +112,7 @@ class ReservationController extends Controller
      */
     public function edit($id, FormBuilder $formBuilder){
 
-            $reservsation  = Reservation::findOrFail($id);
+            $reservsation  = Reservation::where('reservation_code', $id)->firstOrFail();
 
                 $form    = $formBuilder->create('nee_portal\Forms\ReservationForm',
                 [
@@ -136,7 +138,7 @@ class ReservationController extends Controller
     {
         $this->validate($request, Reservation::$edit_rules);
         
-        $result=Reservation::findOrFail($id);
+        $result=Reservation::where('reservation_code', $id)->firstOrFail();
 
         $data=$request->all();
 
@@ -158,7 +160,15 @@ class ReservationController extends Controller
      */
     public function destroy($id)
     {
-        Reservation::destroy($id);
+        
+        try{
+
+              Reservation::where('reservation_code', $id)->delete();
+
+            }catch(QueryException $e){
+
+              return Redirect::back()->with('message', 'Can not delete!');
+            }
 
         if(Session::has('url')){
 

@@ -3,6 +3,12 @@
 @section('section')
   <div class="col-sm-12">
 	@if($result->count())
+	<div class="box">
+		<div class="box-header">
+			<div class="form-group">
+					<a href="{{ route('genrate.report.all') }}" class="btn btn-info"><i class="fa fa-file-text-o"></i> Generate Report</a>
+			</div>
+		</div>
 		<div class="box-body table-responsive">
 		<table class="table table-bordered table-striped">
 			<thead>
@@ -47,4 +53,5 @@
 			</div>    		
     	@endif	
 	</div>
+</div>
 @stop

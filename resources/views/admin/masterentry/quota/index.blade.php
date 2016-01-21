@@ -1,4 +1,4 @@
-@extends('admin.layouts.dashboard')
+@extends('admin.layouts.main')
 @section('page_heading','QUOTA LIST')
 @section('sub_title') <a href="{!! URL::route('admin.masterentry.quota.create') !!}" class="btn btn-info btn-md"> Add New </a> @stop
 @section('section')
