@@ -199,6 +199,7 @@ class PaymentController extends Controller
         //$info_id = Session::get('candidate_info_id');
         $info_id = $request->vpc_MerchTxnRef;
         //Log::info('INFO ID: '.$info_id);
+        $candidate_info = CandidateInfo::where('id', $info_id)->first();
         //Log::info('merchTxnRef := '.$request->vpc_MerchTxnRef);
         require('pgconfig.php');
 
@@ -261,7 +262,6 @@ class PaymentController extends Controller
               return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
 
           //Log::info('On line 254');
-          $candidate_info = CandidateInfo::where('id', $info_id)->first();
           $candidate_info->reg_status = 'completed';
           if(!$candidate_info->save())
               return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
@@ -403,6 +403,7 @@ class PaymentController extends Controller
 
         //$info_id = Session::get('candidate_info_id');
         $info_id = $request->vpc_MerchTxnRef;
+        $candidate_info = CandidateInfo::where('id', $info_id)->first();
         //Log::info('INFO ID: '.$info_id);
         //Log::info('merchTxnRef := '.$request->vpc_MerchTxnRef);
 
@@ -467,7 +468,7 @@ class PaymentController extends Controller
               return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
 
           //Log::info('On line 254');
-          $candidate_info = CandidateInfo::where('id', $info_id)->first();
+          
           $candidate_info->reg_status = 'completed';
           if(!$candidate_info->save())
               return redirect()->route($this->content.'payment_options')->withErrors('Data lost while saving. Please contect NEE Tech Support Team.');
@@ -477,6 +478,7 @@ class PaymentController extends Controller
           return redirect()->route($this->content.'completed')->with('message', 'Transaction is successfully completed!<br/> Your payment order id is <strong>'.$orderInfo.'</strong>');
 
        }else{
+
           Log::info('Transaction Failed: '.$transactionNo);
           $message = 'Hello, your NEE Online Transaction has been failed. Your Form NO is '.$candidate_info->form_no;
           Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
