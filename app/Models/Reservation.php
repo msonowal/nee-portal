@@ -9,7 +9,7 @@ class Reservation extends Model
 {
     protected $table= 'reservations';
 
-    protected $fillable= ['quota_id', 'reservation_code', 'description'];
+    protected $fillable= ['quota_id', 'category_name', 'reservation_code', 'description'];
 
     public static $rules=['quota_id' => 'required|numeric',
     					  'reservation_code' => 'required|numeric|unique:reservations,reservation_code',

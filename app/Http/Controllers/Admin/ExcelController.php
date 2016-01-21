@@ -10,6 +10,17 @@ use nee_portal\Models\ChallanInfo;
 use Session, URL, Validator, Carbon\Carbon, File, Basehelper;
 use Maatwebsite\Excel\Facades\Excel;
 use nee_portal\Models\CandidateInfo;
+use nee_portal\Models\Exam;
+use nee_portal\Models\Quota;
+use nee_portal\Models\Reservation;
+use nee_portal\Models\State;
+use nee_portal\Models\District;
+use nee_portal\Models\Branch;
+use nee_portal\Models\AlliedBranch;
+use nee_portal\Models\VocationalSubject;
+use nee_portal\Models\Centre;
+use nee_portal\Models\Qualification;
+use nee_portal\Models\ExamDetail;
 
 
 class ExcelController extends Controller
@@ -67,22 +78,82 @@ class ExcelController extends Controller
 
         foreach ($results as $result => $res)
         {
-           $results[$result]['EXAM']= Basehelper::getExam($res->EXAM);
-           $results[$result]['QUOTA']= Basehelper::getQuota($res->QUOTA);
-           $results[$result]['CATEGORY']= Basehelper::getCategory($res->CATEGORY);
+          $exams=Exam::all();
+          $quotas=Quota::all();
+          $categories=Reservation::all();
+          $states=State::all();
+          $districts=District::all();
+          $branches=Branch::all();
+          $branch_subjects=AlliedBranch::all();
+          $centres=Centre::all();
+          $voc_subjects=VocationalSubject::all();
+          $eligibilites=Qualification::all();
+          $eligibles=ExamDetail::all();
+
+          $item = $res['EXAM'];
+          if($item !=NULL)
+              $results[$result]['EXAM'] = $exams->filter(function($exam) use ($item){if( $exam->id==$item ) return $exam;})->first()->exam_name;
+
+          $item = $res['QUOTA'];
+          if($item !=NULL)
+              $results[$result]['QUOTA'] = $quotas->filter(function($quota) use ($item){if( $quota->id==$item ) return $quota;})->first()->name;
+
+          $item = $res['CATEGORY'];
+          if($item !=NULL)
+              $results[$result]['CATEGORY'] = $categories->filter(function($category) use ($item){if( $category->reservation_code==$item ) return $category;})->first()->category_name;  
+
+          $item = $res['STATE'];
+          if($item !=NULL)
+              $results[$result]['STATE'] = $states->filter(function($state) use ($item){if( $state->id==$item ) return $state;})->first()->name;
+
+          $item = $res['DISTRICT'];
+          if($item !=NULL)
+              $results[$result]['DISTRICT'] = $districts->filter(function($district) use ($item){if( $district->id==$item ) return $district;})->first()->name; 
+
+          $item = $res['BRANCH'];
+          if($item !=NULL)
+              $results[$result]['BRANCH'] = $branches->filter(function($branch) use ($item){if( $branch->id==$item ) return $branch;})->first()->branch_name;   
+
+          $item = $res['BRANCH_SUBJECT'];
+          if($item !=NULL)
+              $results[$result]['BRANCH_SUBJECT'] = $branch_subjects->filter(function($branch_subject) use ($item){if( $branch_subject->id==$item ) return $branch_subject;})->first()->allied_branch;     
+
+          $item = $res['CENTRE_PREF1'];
+          if($item !=NULL)
+              $results[$result]['CENTRE_PREF1'] = $centres->filter(function($centre) use ($item){if( $centre->centre_code==$item ) return $centre;})->first()->centre_name;       
+
+          $item = $res['CENTRE_PREF2'];
+          if($item !=NULL)
+              $results[$result]['CENTRE_PREF2'] = $centres->filter(function($centre) use ($item){if( $centre->centre_code==$item ) return $centre;})->first()->centre_name;         
+
+          $item = $res['VOCATIONAL_SUBJECT'];
+          if($item !=NULL)
+              $results[$result]['VOCATIONAL_SUBJECT'] = $voc_subjects->filter(function($voc_subject) use ($item){if( $voc_subject->paper_code==$item ) return $voc_subject;})->first()->name;           
+
+          $item = $res['ELIGIBILITY'];
+          if($item !=NULL)
+              $results[$result]['ELIGIBILITY'] = $eligibilites->filter(function($eligibility) use ($item){if( $eligibility->id==$item ) return $eligibility;})->first()->qualification;             
+
+          $item = $res['FOR_ADMISSION_IN'];
+          if($item !=NULL)
+              $results[$result]['FOR_ADMISSION_IN'] = $eligibles->filter(function($eligible_for) use ($item){if( $eligible_for->id==$item ) return $eligible_for;})->first()->eligible_for;               
+          
+           //$results[$result]['EXAM']= Basehelper::getExam($res->EXAM);
+           //$results[$result]['QUOTA']= Basehelper::getQuota($res->QUOTA);
+           //$results[$result]['CATEGORY']= Basehelper::getCategory($res->CATEGORY);
            $results[$result]['AMOUNT']=Basehelper::getPayableAmount($res->AMOUNT);
-           $results[$result]['STATE']= Basehelper::getState($res->STATE);
-           $results[$result]['DISTRICT']= Basehelper::getDistrict($res->DISTRICT);
-           $results[$result]['BRANCH']= Basehelper::getBranch($res->BRANCH);
-           $results[$result]['BRANCH_SUBJECT']= Basehelper::getAlliedBranch($res->BRANCH_SUBJECT);
-           $results[$result]['CENTRE_PREF1']= Basehelper::getCentre($res->CENTRE_PREF1);
-           $results[$result]['CENTRE_PREF2']= Basehelper::getCentre($res->CENTRE_PREF2);
+           //$results[$result]['STATE']= Basehelper::getState($res->STATE);
+           //$results[$result]['DISTRICT']= Basehelper::getDistrict($res->DISTRICT);
+           //$results[$result]['BRANCH']= Basehelper::getBranch($res->BRANCH);
+           //$results[$result]['BRANCH_SUBJECT']= Basehelper::getAlliedBranch($res->BRANCH_SUBJECT);
+           //$results[$result]['CENTRE_PREF1']= Basehelper::getCentre($res->CENTRE_PREF1);
+           //$results[$result]['CENTRE_PREF2']= Basehelper::getCentre($res->CENTRE_PREF2);
            $dob=Carbon::createFromFormat('Y-m-d', $res->DOB);
            $results[$result]['DOB']=$dob->format('d-m-Y');
            $results[$result]['REGISTRATION_NO']= Basehelper::getRegistrationNo($res->REGISTRATION_NO);
-           $results[$result]['VOCATIONAL_SUBJECT']= Basehelper::getVocSubject($res->VOCATIONAL_SUBJECT);
-           $results[$result]['ELIGIBILITY']=Basehelper::getQualification($res->ELIGIBILITY);
-           $results[$result]['FOR_ADMISSION_IN']= Basehelper::getAdmissionIn($res->FOR_ADMISSION_IN);
+           //$results[$result]['VOCATIONAL_SUBJECT']= Basehelper::getVocSubject($res->VOCATIONAL_SUBJECT);
+           //$results[$result]['ELIGIBILITY']=Basehelper::getQualification($res->ELIGIBILITY);
+           //$results[$result]['FOR_ADMISSION_IN']= Basehelper::getAdmissionIn($res->FOR_ADMISSION_IN);
         } 
 
         $this->generateExcel($results, 'xlsx');                          
