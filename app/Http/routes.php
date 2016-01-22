@@ -119,6 +119,12 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::get('/transaction/success', ['as'=>'admin.transaction.success', 'uses' =>'AdminController@transactionSuccess']);
         Route::get('/transaction/failed', ['as'=>'admin.transaction.failed', 'uses' =>'AdminController@transactionFailed']);
         Route::get('/report/all', ['as' =>'genrate.report.all', 'uses' =>'ExcelController@allCompleted']);
-        Route::post('/candidate/submitted_forms', ['as' =>'admin.search.confirmation_page', 'uses' =>'AdminController@searchForm']);
+        Route::post('/candidate/submitted_forms', ['as' =>'admin.search.all', 'uses' =>'AdminController@searchALL']);
+        Route::get('/report/nee_i', ['as' =>'genrate.report.nee_i', 'uses' =>'ExcelController@nee_i']);
+        Route::post('/candidate/nee_i_submitted', ['as' =>'admin.search.nee_i', 'uses' =>'AdminController@search_nee_i']);
+        Route::get('/report/nee_ii', ['as' =>'genrate.report.nee_ii', 'uses' =>'ExcelController@nee_ii']);
+        Route::post('/candidate/nee_ii_submitted', ['as' =>'admin.search.nee_ii', 'uses' =>'AdminController@search_nee_ii']);
+        Route::get('/report/nee_iii', ['as' =>'genrate.report.nee_iii', 'uses' =>'ExcelController@nee_iii']);
+        Route::post('/candidate/nee_iii_submitted', ['as' =>'admin.search.nee_iii', 'uses' =>'AdminController@search_nee_iii']);
     });
 });

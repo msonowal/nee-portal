@@ -6,7 +6,7 @@
 	<div class="box">
 		<div class="box-header">
 			<div class="form-group col-sm-3">
-			{!! Form::open(array('route'=>'admin.search.confirmation_page', 'id' => 'applicant_search_form', 'class'=>'form-horizontal')) !!}
+			{!! Form::open(array('route'=>'admin.search.all', 'id' => 'applicant_search_form', 'class'=>'form-horizontal')) !!}
 				 <?php $type = [''=>'--Select--', 'form_no' => 'Form No', 'mobile_no' => 'Mobile No', 'order_info' => 'Order No', 'name' => 'Candidate Name'];
 				       $s_type = (Input::has('type')) ? Input::get('type') : null;
                        $s_val = (Input::has('value')) ? Input::get('value') : null; 
