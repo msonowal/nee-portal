@@ -37,15 +37,19 @@ class ExcelController extends Controller
         $request->challan->move($destination_path, $filename);
 
         Excel::selectSheets('RECO')->load($path, function($reader){
+            //$reader->formatDates(false);
+            $reader->setDateColumns(array('trandate'))->get();
+            $reader->setDateFormat('Y-m-d');
             $results= $reader->toArray();
-            dd($results);
             foreach ($results as $key => $value) {
 
                 if($value['tranid'] !=null && $value['trandate']!=null){
 
-                    $data=ChallanInfo::where('transaction_id', $value['tranid'])
-                                     ->where('transaction_date', $value['trandate'])
-                                     ->get();
+                  $trandate = $value['trandate'];
+
+                  $data=ChallanInfo::where('transaction_id', $value['tranid'])
+                                   ->where('transaction_date', $trandate)
+                                   ->get();
 
                     if(count($data) == 0){
                         $challan_info   = New ChallanInfo;
@@ -55,7 +59,7 @@ class ExcelController extends Controller
                         $challan_info->amount  = $value['amount'];
                         $challan_info->amount  = $value['amount'];
                         $challan_info->transaction_id  = $value['tranid'];
-                        $challan_info->transaction_date = date('Y-m-d', strtotime($value['trandate']));
+                        $challan_info->transaction_date = $trandate;
                         $challan_info->save();                        
                     }
                 }
