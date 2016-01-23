@@ -38,7 +38,7 @@ class ExcelController extends Controller
 
         Excel::selectSheets('RECO')->load($path, function($reader){
             $results= $reader->toArray();
-
+            dd($results);
             foreach ($results as $key => $value) {
 
                 if($value['tranid'] !=null && $value['trandate']!=null){
