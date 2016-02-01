@@ -383,7 +383,7 @@ class AdminController extends Controller
                                     ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
                                     ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
-                                    ->where('orders.status', 'FAILURE')
+                                    ->where('orders.status', '!=' 'SUCCESS')
                                     ->where('candidate_info.reg_status', 'payment_pending');
 
             if($request->type =="form_no")
