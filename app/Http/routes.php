@@ -126,5 +126,9 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::post('/candidate/nee_ii_submitted', ['as' =>'admin.search.nee_ii', 'uses' =>'AdminController@search_nee_ii']);
         Route::get('/report/nee_iii', ['as' =>'genrate.report.nee_iii', 'uses' =>'ExcelController@nee_iii']);
         Route::post('/candidate/nee_iii_submitted', ['as' =>'admin.search.nee_iii', 'uses' =>'AdminController@search_nee_iii']);
+        Route::get('/report/transaction_success', ['as' =>'genrate.report.transaction_success', 'uses' =>'ExcelController@transaction_success']);
+        Route::post('/transaction/success', ['as' =>'admin.search.transaction_success', 'uses' =>'AdminController@transaction_success']);
+        Route::get('/report/transaction_failed', ['as' =>'genrate.report.transaction_failed', 'uses' =>'ExcelController@transaction_failed']);
+        Route::post('/transaction/failed', ['as' =>'admin.search.transaction_failed', 'uses' =>'AdminController@transaction_failed']);
     });
 });
