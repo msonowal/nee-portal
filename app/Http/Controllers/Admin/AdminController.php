@@ -392,6 +392,9 @@ class AdminController extends Controller
             if($request->type =="mobile_no")
                 $results->where('candidates.'.$request->type, $request->value);
 
+            if($request->type =="email")
+                $results->where('candidates.'.$request->type, $request->value);
+
             if($request->type =="name")
                 $results->where('step2.'.$request->type, $request->value);
 
