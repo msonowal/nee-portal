@@ -2,7 +2,6 @@
 @section('page_heading','Failed Transaction List')
 @section('section')
   <div class="col-sm-12">
-	@if($result->count())
 	<div class="box">
 		<div class="box-header">
 			<div class="form-group col-sm-3">
@@ -25,6 +24,7 @@
 			{!! Form::close() !!}
 		</div>
 		<div class="box-body table-responsive col-sm-12">
+		@if($result->count())
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
