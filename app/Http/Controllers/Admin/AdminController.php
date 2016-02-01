@@ -200,7 +200,7 @@ class AdminController extends Controller
                                     ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
                                     ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
-                                    ->where('orders.status', 'FAILURE')
+                                    ->where('orders.status', '!=', 'SUCCESS')
                                     ->where('candidate_info.reg_status', 'payment_pending')
                                     ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no')
                                     ->paginate();
