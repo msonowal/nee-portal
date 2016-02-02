@@ -122,7 +122,7 @@
                             <a href="#"><i class="fa fa-dollar fa-fw"></i> CHALLAN<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.challan.index') }}"> CHALLAN LIST </a>
+                                    <a href="{{ route('admin.challan.index') }}"> CHALLAN IMPORT </a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
