@@ -474,6 +474,8 @@ class AdminController extends Controller
             $centre_location=['all_locations'=>'---All Locations---'] + CentreCapacity::lists('centre_location', 'id')->toArray();
             $quota=['all_quotas'=>'---All Quota---'] + Quota::lists('name', 'id')->toArray();
             $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1');
+            if(count($results) > 0)                 
+              Session::put('info_id', $results->lists('id'));
             $results=$results->paginate();
             $centres=Centre::all();
             foreach ($results as $result => $res)
@@ -486,9 +488,6 @@ class AdminController extends Controller
             $paginator=$results->currentPage();
             Session::put('url', URL::full());
 
-            if(count($results) > 0)                 
-              Session::put('info_id', $results->lists('id'));
-     
             return view($this->content.'candidates.search_submitted', compact('results', 'paginator', 'exams', 'centre', 'centre_location', 'quota'));
         }
     }
