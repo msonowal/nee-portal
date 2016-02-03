@@ -130,5 +130,8 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::post('/transaction/success', ['as' =>'admin.search.transaction_success', 'uses' =>'AdminController@transaction_success']);
         Route::get('/report/transaction_failed', ['as' =>'genrate.report.transaction_failed', 'uses' =>'ExcelController@transaction_failed']);
         Route::post('/transaction/failed', ['as' =>'admin.search.transaction_failed', 'uses' =>'AdminController@transaction_failed']);
+        Route::get('/search/submitted', ['as' =>'admin.search.submitted', 'uses' =>'AdminController@submitted']);
+        Route::post('/search/submitted', ['as' =>'admin.search.search_submitted', 'uses' =>'AdminController@search_submitted']);
+        Route::get('/report/submitted', ['as' =>'genrate.report.submitted', 'uses' =>'ExcelController@submitted_report']);
     });
 });

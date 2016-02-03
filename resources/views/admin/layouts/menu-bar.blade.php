@@ -86,10 +86,7 @@
                             <a href="#"><i class="fa fa-search fa-fw"></i> SEARCH <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('panels') }}"> VERIFIED FORM LIST </a>
-                                </li>
-                                <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('buttons' ) }}"> VIEW FORM DETAILS </a>
+                                    <a href="{{ route('admin.search.submitted') }}"> SUBMITTED FORMS </a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

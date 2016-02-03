@@ -14,6 +14,10 @@ use nee_portal\Models\Step1;
 use nee_portal\Models\Step2;
 use nee_portal\Models\Step3;
 use nee_portal\Models\Order;
+use nee_portal\Models\Exam;
+use nee_portal\Models\Centre;
+use nee_portal\Models\CentreCapacity;
+use nee_portal\Models\Quota;
 
 class AdminController extends Controller
 {
@@ -409,5 +413,85 @@ class AdminController extends Controller
             return view($this->content.'candidates.transaction_failed', compact('result', 'paginator'));                        
         }
     }
+
+    public function submitted(Request $request)
+    {
+        $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.reg_status', 'completed')
+                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email', 'step1.c_pref1')
+                                    ->paginate();
+        
+        $centres=Centre::all();
+        foreach ($results as $result => $res)
+        {
+          $item = $res['c_pref1'];
+          if($item !=NULL)
+              $results[$result]['c_pref1'] = $centres->filter(function($c_pref1) use ($item){if( $c_pref1->centre_code==$item ) return $c_pref1;})->first()->centre_name;
+        } 
+
+        $exams =['all_exams'=>'---All Exam---'] + Exam::lists('exam_name', 'id')->toArray(); 
+        $centre=['all_centres'=>'---All Centre---'] + Centre::lists('centre_name', 'centre_code')->toArray();
+        $centre_location=['all_locations'=>'---All Locations---'] + CentreCapacity::lists('centre_location', 'id')->toArray();
+        $quota=['all_quotas'=>'---All Quota---'] + Quota::lists('name', 'id')->toArray();                           
+        $paginator=0;
+        $paginator=$results->currentPage();
+        Session::put('url', URL::full());
+
+        return view($this->content.'candidates.search_submitted', compact('results', 'paginator', 'exams', 'centre', 'centre_location', 'quota'));
+    }
+
+    public function search_submitted(Request $request)
+    {
+        if($request->exam_id != "" || $request->centre !='' || $request->centre_location !='' || $request->quota)
+        {
+            $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.reg_status', 'completed');
+
+            if($request->exam_id !='all_exams')
+                $results->where('candidate_info.exam_id', $request->exam_id);
+
+            if($request->centre !="all_centres")
+                $results->where('step1.c_pref1', $request->centre);
+
+            if($request->quota !='all_quotas')
+                $results->where('step1.quota', $request->quota);
+
+            if($request->type =="order_info")
+                $results->where('orders.'.$request->type, $request->value);
+
+            $exams =['all_exams'=>'---All Exam---'] + Exam::lists('exam_name', 'id')->toArray(); 
+            $centre=['all_centres'=>'---All Centre---'] + Centre::lists('centre_name', 'centre_code')->toArray();
+            $centre_location=['all_locations'=>'---All Locations---'] + CentreCapacity::lists('centre_location', 'id')->toArray();
+            $quota=['all_quotas'=>'---All Quota---'] + Quota::lists('name', 'id')->toArray();
+            $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1');
+            $results=$results->paginate();
+            $centres=Centre::all();
+            foreach ($results as $result => $res)
+            {
+              $item = $res['c_pref1'];
+              if($item !=NULL)
+                  $results[$result]['c_pref1'] = $centres->filter(function($c_pref1) use ($item){if( $c_pref1->centre_code==$item ) return $c_pref1;})->first()->centre_name;
+            }
+            $paginator=0;
+            $paginator=$results->currentPage();
+            Session::put('url', URL::full());
+
+            if(count($results) > 0)                 
+              Session::put('info_id', $results->lists('id'));
+     
+            return view($this->content.'candidates.search_submitted', compact('results', 'paginator', 'exams', 'centre', 'centre_location', 'quota'));
+        }
+    }
+
 
 }
