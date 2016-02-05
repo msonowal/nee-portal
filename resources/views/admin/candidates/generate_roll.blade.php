@@ -12,7 +12,7 @@
 				       $s_centre_pref1 = (Input::has('c_pref1')) ? Input::get('c_pref1') : null;
 				       $c_pref2 = $centre_pref2;
 				       $s_centre_pref2 = (Input::has('c_pref2')) ? Input::get('c_pref2') : null;
-				       $s_val = (Input::has('pin')) ? Input::get('pin') : null; 
+				       $s_pin = (Input::has('pin')) ? Input::get('pin') : null; 
                  ?>      
                 {!! Form::select('exam_id', $exam_id, $s_exam, array('class'=>'form-control')) !!}
             </div>
@@ -23,7 +23,7 @@
                 {!! Form::select('c_pref2', $c_pref2, $s_centre_pref2, array('id'=>'c_pref2', 'class'=>'form-control')) !!}
             </div>
             <div class="form-group col-sm-3">
-            	{!! Form::text('pin', $s_val, array('class'=>'form-control search-box', 'autocomplete'=>'off', 'placeholder'=>'PIN (optional)')) !!}
+            	{!! Form::text('pin', $s_pin, array('class'=>'form-control search-box', 'autocomplete'=>'off', 'placeholder'=>'PIN (optional)')) !!}
             </div>
             <div class="form-group col-sm-3">    
                 {!! Form::submit('Submit', array('class'=>'btn btn-success')) !!}
