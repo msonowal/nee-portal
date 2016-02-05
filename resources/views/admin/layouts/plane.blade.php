@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="{{ asset("assets/stylesheets/styles.css") }}" />
 </head>
 <body>
-	@yield('body')
 	<script src="{{ asset("assets/scripts/frontend.js") }}" type="text/javascript"></script>
+	@yield('body')
 </body>
 </html>

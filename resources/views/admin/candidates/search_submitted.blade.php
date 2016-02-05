@@ -15,13 +15,13 @@
 				 <?php $centre = $centre;
 				       $s_centre = (Input::has('centre')) ? Input::get('centre') : null;
                  ?>      
-                {!! Form::select('centre', $centre, $s_centre, array('class'=>'form-control', 'required')) !!}
+                {!! Form::select('centre', $centre, $s_centre, array('id'=>'centre', 'class'=>'form-control', 'required')) !!}
             </div>
             <div class="form-group col-sm-3">
 				 <?php $centre_location = $centre_location;
 				       $s_centre_location = (Input::has('centre_location')) ? Input::get('centre_location') : null;
                  ?>      
-                {!! Form::select('centre_location', $centre_location, $s_centre_location, array('class'=>'form-control', 'required')) !!}
+                {!! Form::select('centre_location', $centre_location, $s_centre_location, array('id'=>'centre_location', 'class'=>'form-control', 'required')) !!}
             </div>
             <div class="form-group col-sm-2">
 				 <?php $quota = $quota;
@@ -88,4 +88,32 @@
     	@endif	
 	</div>
 </div>
-@stop
+
+<script type="text/javascript">
+        function getCentreLocation(){
+            var url = '{{ URL::route('centre.get.centre_location') }}';
+            var centre = $('#centre').val();
+
+            if(centre!=''){
+                $.ajax( {
+                    url: url,
+                    type: 'GET',
+                    data: { centre_code: centre }
+                    }).done(function( msg ) {
+
+                    $('#centre_location').empty();
+                    $("<option>").val('').text('---Choose Centre Location---').appendTo('#centre_location');
+                    $.each(msg, function(key, value) {
+                    $("<option>").val(value.id).text(value.centre_location).appendTo('#centre_location');
+                    });
+                    return true;
+                });
+            }else{
+                $('#centre_location').empty();
+            }
+       }
+  $(document).ready(function() {
+      $('#centre').change(function(e){ getCentreLocation(); }); 
+    });  
+</script>
+@stop               

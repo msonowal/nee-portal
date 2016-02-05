@@ -133,5 +133,6 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::get('/search/submitted', ['as' =>'admin.search.submitted', 'uses' =>'AdminController@submitted']);
         Route::post('/search/submitted', ['as' =>'admin.search.search_submitted', 'uses' =>'AdminController@search_submitted']);
         Route::get('/report/submitted', ['as' =>'genrate.report.submitted', 'uses' =>'ExcelController@submitted_report']);
+        Route::get('/get/centre_location', ['as' =>'centre.get.centre_location', 'uses'=> 'AdminController@getCentre_location']);
     });
 });

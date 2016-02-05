@@ -466,14 +466,14 @@ class AdminController extends Controller
             if($request->quota !='all_quotas')
                 $results->where('step1.quota', $request->quota);
 
-            if($request->type =="order_info")
-                $results->where('orders.'.$request->type, $request->value);
+            if($request->centre_location !='all_locations')
+                $results->where('candidate_info.centre_capacities_id', $request->centre_location);
 
             $exams =['all_exams'=>'---All Exam---'] + Exam::lists('exam_name', 'id')->toArray(); 
             $centre=['all_centres'=>'---All Centre---'] + Centre::lists('centre_name', 'centre_code')->toArray();
             $centre_location=['all_locations'=>'---All Locations---'] + CentreCapacity::lists('centre_location', 'id')->toArray();
             $quota=['all_quotas'=>'---All Quota---'] + Quota::lists('name', 'id')->toArray();
-            $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1');
+            $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'candidate_info.centre_capacities_id');
             if(count($results) > 0)                 
               Session::put('info_id', $results->lists('id'));
             $results=$results->paginate();
@@ -486,10 +486,17 @@ class AdminController extends Controller
             }
             $paginator=0;
             $paginator=$results->currentPage();
+            
             Session::put('url', URL::full());
 
             return view($this->content.'candidates.search_submitted', compact('results', 'paginator', 'exams', 'centre', 'centre_location', 'quota'));
         }
+    }
+
+    public function getCentre_location(Request $request)
+    {
+        $id = $request->centre_code;
+            return CentreCapacity::where('centre_code', $id)->get();
     }
 
 

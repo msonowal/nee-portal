@@ -21,6 +21,7 @@ use nee_portal\Models\VocationalSubject;
 use nee_portal\Models\Centre;
 use nee_portal\Models\Qualification;
 use nee_portal\Models\ExamDetail;
+use nee_portal\Models\CentreCapacity;
 
 
 class ExcelController extends Controller
@@ -586,7 +587,7 @@ class ExcelController extends Controller
                                ->where('orders.status', 'SUCCESS')
                                ->where('candidate_info.reg_status', 'completed')
                                ->whereIn('candidate_info.id', $info_id)
-                               ->select('step2.name as NAME', 'candidate_info.exam_id as EXAM', 'candidate_info.form_no as FORM_NO', 'candidate_info.id as REGISTRATION_NO', 'candidate_info.rollno as ROLL_NO', 'step1.quota as QUOTA', 'step1.reservation_code as RESERVATION_CODE', 'step1.reservation_code as CATEGORY', 'step1.nerist_stud as NERIST_STUDENT', 'candidate_info.q_id as ELIGIBILITY', 'candidate_info.qualification_status as ELIGIBILITY_STATUS', 'step1.admission_in as FOR_ADMISSION_IN', 'step1.voc_subject as VOCATIONAL_SUBJECT', 'step1.branch as BRANCH', 'step1.allied_branch as BRANCH_SUBJECT', 'step1.c_pref1 as CENTRE_PREF1', 'step1.c_pref2 as CENTRE_PREF2', 'candidate_info.paper_code as PAPER_CODE', 'orders.trans_type as PAYMENT_METHOD', 'candidate_info.id as AMOUNT', 'step2.father_name as FATHER_NAME', 'step2.guardian_name as GUARDIAN_NAME', 'step1.gender as GENDER', 'step2.nationality as NATIONALITY', 
+                               ->select('step2.name as NAME', 'candidate_info.exam_id as EXAM', 'candidate_info.form_no as FORM_NO', 'candidate_info.id as REGISTRATION_NO', 'candidate_info.rollno as ROLL_NO', 'step1.quota as QUOTA', 'step1.reservation_code as RESERVATION_CODE', 'step1.reservation_code as CATEGORY', 'step1.nerist_stud as NERIST_STUDENT', 'candidate_info.q_id as ELIGIBILITY', 'candidate_info.qualification_status as ELIGIBILITY_STATUS', 'step1.admission_in as FOR_ADMISSION_IN', 'step1.voc_subject as VOCATIONAL_SUBJECT', 'step1.branch as BRANCH', 'step1.allied_branch as BRANCH_SUBJECT', 'step1.c_pref1 as CENTRE_PREF1', 'step1.c_pref2 as CENTRE_PREF2', 'candidate_info.centre_capacities_id as CENTRE_LOCATION', 'candidate_info.paper_code as PAPER_CODE', 'orders.trans_type as PAYMENT_METHOD', 'candidate_info.id as AMOUNT', 'step2.father_name as FATHER_NAME', 'step2.guardian_name as GUARDIAN_NAME', 'step1.gender as GENDER', 'step2.nationality as NATIONALITY', 
                                 DB::raw('DATE_FORMAT(dob, "%d-%m-%Y") as DOB'), 'candidates.mobile_no as MOBILE_NO.', 'candidates.email as EMAIL_ID', 'step2.emp_status as ARE_YOU_EMPLOYED', 'step2.relationship as RELATIONSHIP_WITH_GUARDIAN', 'step2.state as STATE', 'step2.district as DISTRICT', 'step2.po as PO', 'step2.pin as PIN', 'step2.village as VILLAGE', 'step2.address_line as ADDRESS_LINE')
                                ->get();
 
@@ -598,13 +599,13 @@ class ExcelController extends Controller
           $branches=Branch::all();
           $branch_subjects=AlliedBranch::all();
           $centres=Centre::all();
+          $centre_locations=CentreCapacity::all();
           $voc_subjects=VocationalSubject::all();
           $eligibilites=Qualification::all();
           $eligibles=ExamDetail::all();  
 
         foreach ($results as $result => $res)
         {
-
 
           $item = $res['EXAM'];
           if($item !=NULL)
@@ -641,6 +642,10 @@ class ExcelController extends Controller
           $item = $res['CENTRE_PREF2'];
           if($item !=NULL)
               $results[$result]['CENTRE_PREF2'] = $centres->filter(function($centre) use ($item){if( $centre->centre_code==$item ) return $centre;})->first()->centre_name;         
+          
+          $item = $res['CENTRE_LOCATION'];
+          if($item !=NULL)
+              $results[$result]['CENTRE_LOCATION'] = $centre_locations->filter(function($centre_location) use ($item){if( $centre_location->id==$item ) return $centre_location;})->first()->centre_location;           
 
           $item = $res['VOCATIONAL_SUBJECT'];
           if($item !=NULL)
@@ -671,11 +676,11 @@ class ExcelController extends Controller
                 $excel->setDescription('Candidate informations');
                 $excel->sheet('Sheet1', function($sheet) use($results) {
                     $sheet->freezeFirstRow();
-                    $sheet->cells('A1:AI1', function($cells) {
+                    $sheet->cells('A1:AJ1', function($cells) {
                         $cells->setFontSize(12);
                         $cells->setFontWeight('bold');
                     });
-                $sheet->setAutoFilter('A1:AI1');
+                $sheet->setAutoFilter('A1:AJ1');
                 $sheet->row(1, function($row) {
                     $row->setBackground('#F8F8F8');
                 });
