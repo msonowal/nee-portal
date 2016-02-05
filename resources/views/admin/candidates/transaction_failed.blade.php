@@ -18,9 +18,7 @@
             <div class="form-group col-sm-3">    
                 {!! Form::submit('Search', array('class'=>'btn btn-success')) !!}
 			</div>
-			<div class="form-group col-sm-3">
-				<a href="{{ route('genrate.report.transaction_failed') }}" class="btn btn-info"><i class="fa fa-file-text-o"></i> Generate Report</a>
-			</div>
+			
 			{!! Form::close() !!}
 		</div>
 		<div class="box-body table-responsive col-sm-12">

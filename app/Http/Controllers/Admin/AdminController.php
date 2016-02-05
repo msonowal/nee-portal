@@ -74,9 +74,10 @@ class AdminController extends Controller
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('candidate_info.reg_status', 'completed')
-                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email')
-                                    ->paginate();
-
+                                    ->select('candidate_info.id' ,'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email');
+        if(count($result) > 0)                 
+              Session::put('info_id', $result->lists('id'));
+        $result=$result->paginate();                            
         $paginator=0;
         $paginator=$result->currentPage();
         Session::put('url', URL::full());
@@ -93,9 +94,11 @@ class AdminController extends Controller
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('reg_status', 'completed')
                                     ->where('exam_id', 1)
-                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email')
-                                    ->paginate();
+                                    ->select('candidate_info.id' ,'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email');
 
+        if(count($result) > 0)                 
+              Session::put('info_id', $result->lists('id'));
+        $result=$result->paginate();
         $paginator=0;
         $paginator=$result->currentPage();
         Session::put('url', URL::full());
@@ -112,9 +115,10 @@ class AdminController extends Controller
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('reg_status', 'completed')
                                     ->where('exam_id', 2)
-                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email')
-                                    ->paginate();
-
+                                    ->select('candidate_info.id' ,'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email');
+        if(count($result) > 0)                 
+              Session::put('info_id', $result->lists('id'));
+        $result=$result->paginate();                            
         $paginator=0;
         $paginator=$result->currentPage();
         Session::put('url', URL::full());
@@ -131,9 +135,10 @@ class AdminController extends Controller
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('reg_status', 'completed')
                                     ->where('exam_id', 3)
-                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email')
-                                    ->paginate();
-
+                                    ->select('candidate_info.id' ,'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email');
+        if(count($result) > 0)                 
+              Session::put('info_id', $result->lists('id'));
+        $result=$result->paginate(); 
         $paginator=0;
         $paginator=$result->currentPage();
         Session::put('url', URL::full());
@@ -188,9 +193,11 @@ class AdminController extends Controller
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('candidate_info.reg_status', 'completed')
-                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no')
-                                    ->paginate();
+                                    ->select('candidate_info.id' ,'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
 
+        if(count($result) > 0)                 
+              Session::put('info_id', $result->lists('id'));
+        $result=$result->paginate();                             
         $paginator=0;
         $paginator=$result->currentPage();
         Session::put('url', URL::full());
@@ -206,9 +213,11 @@ class AdminController extends Controller
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     ->where('orders.status', '!=', 'SUCCESS')
                                     ->where('candidate_info.reg_status', 'payment_pending')
-                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no')
-                                    ->paginate();
+                                    ->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
 
+        if(count($result) > 0)                 
+              Session::put('info_id', $result->lists('id'));
+        $result=$result->paginate();                             
         $paginator=0;
         $paginator=$result->currentPage();
         Session::put('url', URL::full());
@@ -239,7 +248,9 @@ class AdminController extends Controller
             if($request->type =="order_info")
                 $results->where('orders.'.$request->type, $request->value);
 
-            $results->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            if(count($results) > 0)                 
+              Session::put('info_id', $results->lists('id'));
             $result=$results->paginate();
             $paginator=0;
             $paginator=$result->currentPage();
@@ -273,6 +284,8 @@ class AdminController extends Controller
                 $results->where('orders.'.$request->type, $request->value);
 
             $results->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            if(count($results) > 0)                 
+              Session::put('info_id', $results->lists('id'));
             $result=$results->paginate();
             $paginator=0;
             $paginator=$result->currentPage();
@@ -305,7 +318,9 @@ class AdminController extends Controller
             if($request->type =="order_info")
                 $results->where('orders.'.$request->type, $request->value);
 
-            $results->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            if(count($results) > 0)                 
+              Session::put('info_id', $results->lists('id'));
             $result=$results->paginate();
             $paginator=0;
             $paginator=$result->currentPage();
@@ -338,7 +353,9 @@ class AdminController extends Controller
             if($request->type =="order_info")
                 $results->where('orders.'.$request->type, $request->value);
 
-            $results->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            if(count($results) > 0)                 
+              Session::put('info_id', $results->lists('id'));
             $result=$results->paginate();
             $paginator=0;
             $paginator=$result->currentPage();
@@ -370,7 +387,9 @@ class AdminController extends Controller
             if($request->type =="order_info")
                 $results->where('orders.'.$request->type, $request->value);
 
-            $results->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            if(count($results) > 0)                 
+              Session::put('info_id', $results->lists('id'));
             $result=$results->paginate();
             $paginator=0;
             $paginator=$result->currentPage();
@@ -405,7 +424,9 @@ class AdminController extends Controller
             if($request->type =="order_info")
                 $results->where('orders.'.$request->type, $request->value);
 
-            $results->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            if(count($results) > 0)                 
+              Session::put('info_id', $results->lists('id'));
             $result=$results->paginate();
             $paginator=0;
             $paginator=$result->currentPage();
@@ -423,9 +444,11 @@ class AdminController extends Controller
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('candidate_info.reg_status', 'completed')
-                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email', 'step1.c_pref1')
-                                    ->paginate();
-        
+                                    ->select('candidate_info.id' ,'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email', 'step1.c_pref1');
+        if(count($results) > 0)                 
+            Session::put('info_id', $results->lists('id'));
+                                    
+        $results=$results->paginate();        
         $centres=Centre::all();
         foreach ($results as $result => $res)
         {
@@ -466,7 +489,7 @@ class AdminController extends Controller
             if($request->quota !='all_quotas')
                 $results->where('step1.quota', $request->quota);
 
-            if($request->centre_location !='all_locations')
+            if($request->centre_location !='' && $request->centre_location !='all_locations')
                 $results->where('candidate_info.centre_capacities_id', $request->centre_location);
 
             $exams =['all_exams'=>'---All Exam---'] + Exam::lists('exam_name', 'id')->toArray(); 
@@ -486,7 +509,7 @@ class AdminController extends Controller
             }
             $paginator=0;
             $paginator=$results->currentPage();
-            
+
             Session::put('url', URL::full());
 
             return view($this->content.'candidates.search_submitted', compact('results', 'paginator', 'exams', 'centre', 'centre_location', 'quota'));
@@ -499,5 +522,83 @@ class AdminController extends Controller
             return CentreCapacity::where('centre_code', $id)->get();
     }
 
+    public function listCandidates()
+    {
+        $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.reg_status', 'completed')
+                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email', 'step1.c_pref1')
+                                    ->paginate();
+        
+        $centres=Centre::all();
+        foreach ($results as $result => $res)
+        {
+          $item = $res['c_pref1'];
+          if($item !=NULL)
+              $results[$result]['c_pref1'] = $centres->filter(function($c_pref1) use ($item){if( $c_pref1->centre_code==$item ) return $c_pref1;})->first()->centre_name;
+        } 
+
+        $exams =[''=>'-Exam Level-'] + Exam::lists('exam_name', 'id')->toArray(); 
+        $centre_pref1=[''=>'-Centre Pref1-'] + Centre::lists('centre_name', 'centre_code')->toArray();
+        $centre_pref2=[''=>'-Centre Pref2-'] + Centre::lists('centre_name', 'centre_code')->toArray();
+        $paginator=0;
+        $paginator=$results->currentPage();
+        Session::put('url', URL::full());
+
+        return view($this->content.'candidates.generate_roll', compact('results', 'paginator', 'exams', 'centre_pref1', 'centre_pref2'));
+    }
+
+    public function showCandidateList(Request $request)
+    {
+        
+            $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.reg_status', 'completed');
+            
+            if($request->exam_id != "" || $request->c_pref1 !='' || $request->c_pref2 !='' || $request->pin !='')
+            {
+            if($request->exam_id !='')
+                $results->where('candidate_info.exam_id', $request->exam_id);
+
+            if($request->c_pref1 !='')
+                $results->where('step1.c_pref1', $request->c_pref1);
+
+            if($request->c_pref2 !='')
+                $results->where('step1.c_pref2', $request->c_pref2);
+
+            if($request->pin !='')
+                $results->where('step2.pin', $request->pin);
+            }
+
+            $exams =[''=>'-Exam Level-'] + Exam::lists('exam_name', 'id')->toArray(); 
+            $centre_pref1=[''=>'-Centre Pref1-'] + Centre::lists('centre_name', 'centre_code')->toArray();
+            $centre_pref2=[''=>'-Centre Pref2-'] + Centre::lists('centre_name', 'centre_code')->toArray();
+            $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'candidate_info.centre_capacities_id');
+            
+            if(count($results) > 0)                 
+              Session::put('info_id', $results->lists('id'));
+            $results=$results->paginate();
+            $centres=Centre::all();
+            foreach ($results as $result => $res)
+            {
+              $item = $res['c_pref1'];
+              if($item !=NULL)
+                  $results[$result]['c_pref1'] = $centres->filter(function($c_pref1) use ($item){if( $c_pref1->centre_code==$item ) return $c_pref1;})->first()->centre_name;
+            }
+            $paginator=0;
+            $paginator=$results->currentPage();
+
+            Session::put('url', URL::full());
+
+            return view($this->content.'candidates.generate_roll', compact('results', 'paginator', 'exams', 'centre_pref1', 'centre_pref2'));
+    }
 
 }

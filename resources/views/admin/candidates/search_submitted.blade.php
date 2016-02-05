@@ -9,25 +9,25 @@
 				 <?php $exam_id = $exams;
 				       $s_exam = (Input::has('exam_id')) ? Input::get('exam_id') : null;
                  ?>      
-                {!! Form::select('exam_id', $exam_id, $s_exam, array('class'=>'form-control', 'required')) !!}
+                {!! Form::select('exam_id', $exam_id, $s_exam, array('class'=>'form-control')) !!}
             </div>
             <div class="form-group col-sm-2">
 				 <?php $centre = $centre;
 				       $s_centre = (Input::has('centre')) ? Input::get('centre') : null;
                  ?>      
-                {!! Form::select('centre', $centre, $s_centre, array('id'=>'centre', 'class'=>'form-control', 'required')) !!}
+                {!! Form::select('centre', $centre, $s_centre, array('id'=>'centre', 'class'=>'form-control')) !!}
             </div>
             <div class="form-group col-sm-3">
 				 <?php $centre_location = $centre_location;
 				       $s_centre_location = (Input::has('centre_location')) ? Input::get('centre_location') : null;
                  ?>      
-                {!! Form::select('centre_location', $centre_location, $s_centre_location, array('id'=>'centre_location', 'class'=>'form-control', 'required')) !!}
+                {!! Form::select('centre_location', $centre_location, $s_centre_location, array('id'=>'centre_location', 'class'=>'form-control')) !!}
             </div>
             <div class="form-group col-sm-2">
 				 <?php $quota = $quota;
 				       $s_quota = (Input::has('quota')) ? Input::get('quota') : null;
                  ?>      
-                {!! Form::select('quota', $quota, $s_quota, array('class'=>'form-control', 'required')) !!}
+                {!! Form::select('quota', $quota, $s_quota, array('class'=>'form-control')) !!}
             </div>
             <div class="form-group col-sm-3">    
                 {!! Form::submit('Search', array('class'=>'btn btn-success')) !!}
@@ -36,7 +36,7 @@
 			{!! Form::close() !!}
 		</div>
 			<div class="form-group col-sm-12">
-				<a href="{{ route('genrate.report.submitted') }}" class="btn btn-info genrate"><i class="fa fa-file-text-o"></i> Generate Report</a>
+				<a href="{{ route('generate.excel.report') }}" class="btn btn-info genrate"><i class="fa fa-file-text-o"></i> Generate Report</a>
 			</div>
 		<div class="box-body table-responsive  col-sm-12">
 		@if($results->count())
