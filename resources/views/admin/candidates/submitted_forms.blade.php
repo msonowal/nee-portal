@@ -1,5 +1,5 @@
 @extends('admin.layouts.main')
-@section('page_heading','Submited Form List')
+@section('page_heading','Submitted Form List')
 @section('section')
   <div class="col-sm-12">
 	<div class="box">
