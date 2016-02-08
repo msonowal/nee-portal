@@ -51,7 +51,7 @@ class AdminAuthController extends Controller
         $auth = Auth::admin()->attempt(['username' => $request->get('username'),'password' => $request->get('password'), 'active' => 'YES']);
 
         if(!$auth){
-            return redirect($this->loginPath)->withErrors('Either user id or password is incorrect!');
+            return redirect($this->loginPath)->withErrors('Either user name or password is incorrect!');
             
         }
 
