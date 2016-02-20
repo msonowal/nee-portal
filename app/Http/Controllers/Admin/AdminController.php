@@ -445,6 +445,7 @@ class AdminController extends Controller
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('candidate_info.reg_status', 'completed')
                                     ->select('candidate_info.id' ,'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email', 'step1.c_pref1');
+        $total=$results->get();
         if(count($results) > 0)                 
             Session::put('info_id', $results->lists('id'));
                                     
@@ -465,7 +466,7 @@ class AdminController extends Controller
         $paginator=$results->currentPage();
         Session::put('url', URL::full());
 
-        return view($this->content.'candidates.search_submitted', compact('results', 'paginator', 'exams', 'centre', 'centre_location', 'quota'));
+        return view($this->content.'candidates.search_submitted', compact('results', 'paginator', 'exams', 'centre', 'centre_location', 'quota', 'total'));
     }
 
     public function search_submitted(Request $request)
@@ -497,6 +498,7 @@ class AdminController extends Controller
             $centre_location=['all_locations'=>'---All Locations---'] + CentreCapacity::lists('centre_location', 'id')->toArray();
             $quota=['all_quotas'=>'---All Quota---'] + Quota::lists('name', 'id')->toArray();
             $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'candidate_info.centre_capacities_id');
+            $total=$results->get();
             if(count($results) > 0)                 
               Session::put('info_id', $results->lists('id'));
             $results=$results->paginate();
@@ -512,7 +514,7 @@ class AdminController extends Controller
 
             Session::put('url', URL::full());
 
-            return view($this->content.'candidates.search_submitted', compact('results', 'paginator', 'exams', 'centre', 'centre_location', 'quota'));
+            return view($this->content.'candidates.search_submitted', compact('results', 'paginator', 'exams', 'centre', 'centre_location', 'quota', 'total'));
         }
     }
 
