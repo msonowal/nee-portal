@@ -35,8 +35,11 @@
 			
 			{!! Form::close() !!}
 		</div>
-			<div class="form-group col-sm-12">
+			<div class="form-group col-sm-3">
 				<a href="{{ route('generate.excel.report') }}" class="btn btn-info genrate"><i class="fa fa-file-text-o"></i> Generate Report</a>
+			</div>
+			<div class="form-group col-sm-9">
+				<h4>Total: {{ count($results) }}</h4>
 			</div>
 		<div class="box-body table-responsive  col-sm-12">
 		@if($results->count())

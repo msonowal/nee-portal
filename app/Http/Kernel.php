@@ -32,5 +32,6 @@ class Kernel extends HttpKernel
         'guest.admin' => \nee_portal\Http\Middleware\RedirectAdminIfAuthenticated::class,
         'guest.candidate' => \nee_portal\Http\Middleware\RedirectCandidateIfAuthenticated::class,
         'acl' => \nee_portal\Http\Middleware\CheckPermission::class,
+        'filter' => \nee_portal\Http\Middleware\Filter::class,
     ];
 }
