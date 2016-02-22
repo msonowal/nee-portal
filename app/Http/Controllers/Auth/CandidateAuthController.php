@@ -47,6 +47,9 @@ class CandidateAuthController extends Controller
 
     public function postRegister(Request $request){
 
+      if(Basehelper::Filter()==true)
+            return redirect()->route('candidate.register')->withErrors(array('message'=>'Process has been closed!'));  
+
         $validator = Validator::make($request->all(), Candidate::$rules);
 
         if ($validator->fails())

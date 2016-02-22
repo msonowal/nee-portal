@@ -27,7 +27,7 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
         Route::post('/home', ['as' => 'candidate.home', 'uses' =>'CandidateController@storeExam']);
         Route::get('/dashboard', ['as' => 'candidate.application.dashboard', 'uses' =>'CandidateController@dashboard']);
         Route::post('/proceed', ['as' => 'candidate.proceed', 'uses' =>'CandidateController@proceed']);
-        Route::get('/application/step', ['as' => 'candidate.application.step', 'uses' =>'RegistrationController@getStep']);
+        Route::get('/application/step', ['middleware'=>'filter','as' => 'candidate.application.step', 'uses' =>'RegistrationController@getStep']);
         Route::get('/application/step1', ['as' => 'candidate.application.step1', 'uses' =>'RegistrationController@showStep1']);
         Route::post('/application/step1', ['as' => 'candidate.application.step1', 'uses' =>'RegistrationController@saveStep1']);
         Route::get('/application/step2', ['as' => 'candidate.application.step2', 'uses' =>'RegistrationController@showStep2']);
@@ -43,9 +43,9 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
         Route::post('/application/edit/step3', ['as' => 'candidate.application.editstep3', 'uses' =>'RegistrationController@updateStep3']);
         Route::post('/submit', ['as' => 'candidate.application.submit', 'uses' =>'RegistrationController@finalSubmit']);
         Route::get('/application/payment', ['as' => 'candidate.application.payment_options', 'uses' =>'RegistrationController@paymentOptions']);
-        Route::post('/application/payment', ['as' => 'candidate.application.payment_options', 'uses' =>'RegistrationController@paymentProceed']);
+        Route::post('/application/payment', ['middleware'=>'filter','as' => 'candidate.application.payment_options', 'uses' =>'RegistrationController@paymentProceed']);
         Route::get('/application/challan', ['as' => 'candidate.application.challan', 'uses' =>'RegistrationController@challan']);
-        Route::post('/application/challan', ['as' => 'candidate.application.challan', 'uses' =>'PaymentController@challanDetail']);
+        Route::post('/application/challan', ['middleware'=>'filter','as' => 'candidate.application.challan', 'uses' =>'PaymentController@challanDetail']);
         Route::get('/application/challan_copy', ['as' => 'candidate.application.challan_copy', 'uses' =>'RegistrationController@challanCopy']);
         Route::get('/error', ['as' => 'candidate.error', 'uses' =>'RegistrationController@showError']);
         Route::get('/application/completed', ['as' => 'candidate.application.completed', 'uses' =>'RegistrationController@completed']);

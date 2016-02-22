@@ -347,4 +347,16 @@ class Basehelper{
         return $registration_no =$exam_id.$paper_code.$centre_code.$form_no;
     }
 
+    public static function Filter()
+    {
+        $current_date=Carbon::today();
+        $closing_date="2016-03-07 00:00:00";
+
+        if($current_date > $closing_date)
+            return true; 
+            
+        return false;       
+            
+    }
+
 }

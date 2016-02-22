@@ -607,6 +607,9 @@ class RegistrationController extends Controller
         if(!Basehelper::checkSession())
             return redirect()->route($this->content.'dashboard');
 
+        if(Basehelper::Filter()==true)
+            return redirect()->route('candidate.application.payment_options')->withErrors(array('message'=>'Process has been closed!'));  
+
         try{
             $id=Auth::candidate()->get()->id;
             $candidate=Candidate::where('id', $id)->first();
