@@ -49,8 +49,11 @@
 					{!! Form::hidden('take', Input::get('take'))!!}
 			{!! Form::submit('Generate Roll Numbers', array('class'=>'btn btn-success')) !!}
 			</div>
-			<div class="form-group col-sm-9">
+			<div class="form-group col-sm-3">
 				<h4>Total: {{ count($total) }}</h4>
+			</div>
+			<div class="form-group col-sm-3">
+				<h4>Centre Capacity: {{ $centre_capacity }}</h4>
 			</div>
 			{!! Form::close() !!}
 		   @endif	

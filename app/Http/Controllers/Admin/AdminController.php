@@ -566,6 +566,9 @@ class AdminController extends Controller
 
     public function showCandidateList(Request $request)
     {
+        if(empty($request->c_pref1 || $request->c_pref2))
+           return redirect()->route('admin.generate.roll_no')->with(array('message'=>'Centre Pref1 or Centre Pref2 is required!'));
+
         if(empty($request->take))
            return redirect()->route('admin.generate.roll_no')->with(array('message'=>'No. of take is required!'));
    
@@ -585,14 +588,29 @@ class AdminController extends Controller
                 $results->where('candidate_info.exam_id', $request->exam_id);
 
             if($request->c_pref1 !='')
+            {
                 $results->where('step1.c_pref1', $request->c_pref1);
+                $centre_code=$request->c_pref1;   
+            }    
 
             if($request->c_pref2 !='')
+            {
                 $results->where('step1.c_pref2', $request->c_pref2);
+                $centre_code=$request->c_pref2; 
+            } 
 
             if($request->pin !='')
                 $results->where('step2.pin', $request->pin);
             }
+
+            $centre =Centre::join('centre_capacities', 'centres.centre_code', '=', 'centre_capacities.centre_code')
+                            ->where('centres.centre_code', $centre_code)->first();
+            
+            $centre_capacity=$centre->centre_capacity;    
+            $nee_i=$centre->NEEI;
+            $nee_ii=$centre->NEEII;
+            $nee_iii=$centre->NEEIII;
+            $centre_capacity=$centre_capacity-($nee_i+$nee_ii+$nee_iii);
 
             $exams =[''=>'-Exam Level-'] + Exam::lists('exam_name', 'id')->toArray(); 
             $centre_pref1=[''=>'-Centre Pref1-'] + Centre::lists('centre_name', 'centre_code')->toArray();
@@ -617,11 +635,9 @@ class AdminController extends Controller
               if($item !=NULL)
                   $results[$result]['c_pref2'] = $centres->filter(function($c_pref1) use ($item){if( $c_pref1->centre_code==$item ) return $c_pref1;})->first()->centre_name;
             }
-            //$paginator=0;
-            //$paginator=$results->currentPage();
             Session::put('url', URL::full());
 
-            return view($this->content.'candidates.generate_roll', compact('results', 'paginator', 'exams', 'centre_pref1', 'centre_pref2', 'total'));
+            return view($this->content.'candidates.generate_roll', compact('results', 'paginator', 'exams', 'centre_pref1', 'centre_pref2', 'total', 'centre_capacity'));
     }
 
     public function generateRoll_no(Request $request)
