@@ -14,12 +14,11 @@ class CreateCentresTable extends Migration
     {
         Schema::create('centres', function (Blueprint $table) {
             $table->increments('centre_code');
-            //$table->integer('centre_code')->unsigned();
             $table->string('centre_name', 55);
             $table->string('centre_state', 55);
-            $table->integer('NEE I', false, false)->defualt(0);
-            $table->integer('NEE II', false, false)->defualt(0);
-            $table->integer('NEE III', false, false)->defualt(0);
+            $table->integer('NEEI', false, false)->defualt(0);
+            $table->integer('NEEII', false, false)->defualt(0);
+            $table->integer('NEEIII', false, false)->defualt(0);
             $table->timestamps();
         });
     }

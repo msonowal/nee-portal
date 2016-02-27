@@ -130,5 +130,6 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::get('/get/centre_location', ['as' =>'centre.get.centre_location', 'uses'=> 'AdminController@getCentre_location']);
         Route::get('/generate/roll_no', ['as' =>'admin.generate.roll_no', 'uses'=> 'AdminController@listCandidates']);
         Route::post('/generate/roll_no', ['as' =>'admin.search.candidate_list', 'uses'=> 'AdminController@showCandidateList']);
+        Route::put('/generate/roll_no', ['as' =>'admin.roll_no.generate', 'uses'=> 'AdminController@generateRoll_no']);
     });
 });

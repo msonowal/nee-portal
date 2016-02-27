@@ -526,43 +526,57 @@ class AdminController extends Controller
 
     public function listCandidates()
     {
-        $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+        /*$results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
                                     ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
                                     ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
                                     ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.rollno', '=', NULL)
                                     ->where('candidate_info.reg_status', 'completed')
-                                    ->select('exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email', 'step1.c_pref1')
-                                    ->paginate();
-        
+                                    ->take(5)
+                                    ->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email', 'step1.c_pref1', 'step1.c_pref2');
+
+        $total=$results->get();                            
+        if(count($results) > 0)                 
+            Session::put('info_id', $results->lists('id')); 
+
+        $results=$results->paginate(30);   
         $centres=Centre::all();
         foreach ($results as $result => $res)
         {
           $item = $res['c_pref1'];
           if($item !=NULL)
               $results[$result]['c_pref1'] = $centres->filter(function($c_pref1) use ($item){if( $c_pref1->centre_code==$item ) return $c_pref1;})->first()->centre_name;
+          
+          $item = $res['c_pref2'];
+          if($item !=NULL)
+              $results[$result]['c_pref2'] = $centres->filter(function($c_pref1) use ($item){if( $c_pref1->centre_code==$item ) return $c_pref1;})->first()->centre_name;
         } 
-
+        */    
         $exams =[''=>'-Exam Level-'] + Exam::lists('exam_name', 'id')->toArray(); 
         $centre_pref1=[''=>'-Centre Pref1-'] + Centre::lists('centre_name', 'centre_code')->toArray();
         $centre_pref2=[''=>'-Centre Pref2-'] + Centre::lists('centre_name', 'centre_code')->toArray();
-        $paginator=0;
-        $paginator=$results->currentPage();
+        //$paginator=0;
+        //$paginator=$results->currentPage();
         Session::put('url', URL::full());
-
-        return view($this->content.'candidates.generate_roll', compact('results', 'paginator', 'exams', 'centre_pref1', 'centre_pref2'));
+        
+        return view($this->content.'candidates.generate_roll', compact('exams', 'centre_pref1', 'centre_pref2', 'total'));
     }
 
     public function showCandidateList(Request $request)
     {
-        
+        if(empty($request->take))
+           return redirect()->route('admin.generate.roll_no')->with(array('message'=>'No. of take is required!'));
+   
             $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
                                     ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
                                     ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
                                     ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.rollno', '=', NULL)
+                                    ->take($request->take)
                                     ->where('candidate_info.reg_status', 'completed');
             
             if($request->exam_id != "" || $request->c_pref1 !='' || $request->c_pref2 !='' || $request->pin !='')
@@ -583,24 +597,128 @@ class AdminController extends Controller
             $exams =[''=>'-Exam Level-'] + Exam::lists('exam_name', 'id')->toArray(); 
             $centre_pref1=[''=>'-Centre Pref1-'] + Centre::lists('centre_name', 'centre_code')->toArray();
             $centre_pref2=[''=>'-Centre Pref2-'] + Centre::lists('centre_name', 'centre_code')->toArray();
-            $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'candidate_info.centre_capacities_id');
+            $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.centre_capacities_id');
             
+            $total=$results->get();                            
+            if(count($results) > 0)                 
+            Session::put('info_id', $results->lists('id'));                            
+
             if(count($results) > 0)                 
               Session::put('info_id', $results->lists('id'));
-            $results=$results->paginate();
+
+            $results=$results->get(); 
             $centres=Centre::all();
             foreach ($results as $result => $res)
             {
               $item = $res['c_pref1'];
               if($item !=NULL)
                   $results[$result]['c_pref1'] = $centres->filter(function($c_pref1) use ($item){if( $c_pref1->centre_code==$item ) return $c_pref1;})->first()->centre_name;
+              $item = $res['c_pref2'];
+              if($item !=NULL)
+                  $results[$result]['c_pref2'] = $centres->filter(function($c_pref1) use ($item){if( $c_pref1->centre_code==$item ) return $c_pref1;})->first()->centre_name;
             }
-            $paginator=0;
-            $paginator=$results->currentPage();
-
+            //$paginator=0;
+            //$paginator=$results->currentPage();
             Session::put('url', URL::full());
 
-            return view($this->content.'candidates.generate_roll', compact('results', 'paginator', 'exams', 'centre_pref1', 'centre_pref2'));
+            return view($this->content.'candidates.generate_roll', compact('results', 'paginator', 'exams', 'centre_pref1', 'centre_pref2', 'total'));
+    }
+
+    public function generateRoll_no(Request $request)
+    {
+        if(empty($request->c_pref1 || $request->c_pref2))
+           return redirect()->route('admin.generate.roll_no')->with(array('message'=>'Centre Pref1 or Centre Pref2 is required!'));
+        
+        if(empty($request->take))
+           return redirect()->route('admin.generate.roll_no')->with(array('message'=>'No. of take is required!'));
+
+        $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->take($request->take)
+                                    ->where('candidate_info.reg_status', 'completed');
+
+        if($request->exam_id != "" || $request->c_pref1 !='' || $request->c_pref2 !='' || $request->pin !='')
+        {
+            if($request->exam_id !='')
+                $results->where('candidate_info.exam_id', $request->exam_id);
+
+            if($request->c_pref1 !='')
+            {
+                $results->where('step1.c_pref1', $request->c_pref1);
+                $centre_code=$request->c_pref1;   
+            }    
+
+            if($request->c_pref2 !='')
+            {
+                $results->where('step1.c_pref2', $request->c_pref2);
+                $centre_code=$request->c_pref2; 
+            }    
+
+            if($request->pin !='')
+                $results->where('step2.pin', $request->pin);
+        }
+
+        $results->select('candidate_info.id', 'candidate_info.rollno', 'candidate_info.exam_id', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.paper_code');
+        $results=$results->get();                                
+        $exam_id  =$request->exam_id;                            
+        $centre =Centre::where('centre_code', $centre_code)->first();
+
+        if($exam_id==1)
+        {
+            $roll=$centre->NEEI;
+            $exam='NEEI';
+        }    
+            
+        if($exam_id==2){
+            $roll=$centre->NEEII;
+            $exam='NEEII';
+        }
+
+        if($exam_id==3){
+            $roll=$centre->NEEIII;
+            $exam='NEEIII';
+        }
+
+        foreach ($results as $result => $res) {
+        $candidate_info =new CandidateInfo();
+        $centres =new Centre();
+
+        if($request->c_pref1!='')
+        {
+           $c_pref=$res->c_pref1;   
+        } 
+
+        if($request->c_pref2!='')
+        {
+           $c_pref=$res->c_pref2;
+        } 
+
+        if(strlen($c_pref) < 2)
+        {
+            $c_pref='0'.$c_pref;
+        } 
+
+        $roll=$roll+1;
+        if(strlen($roll)==1)
+            $roll="000".$roll;
+
+        if(strlen($roll)==2)
+            $roll="00".$roll;
+
+        if(strlen($roll)==3)
+            $roll="0".$roll;
+
+        if(strlen($roll)==4)
+            $roll=$roll;
+        
+        $roll_no =$res->exam_id.$c_pref.$res->paper_code.$roll;
+        $candidate_info->where('id', $res->id)
+                        ->update(['rollno' => $roll_no]);
+        $centres->where('centre_code', $request->centre)
+                    ->update([$exam => $roll]);               
+      }
+
+      return redirect()->route('admin.generate.roll_no')->with(array('message'=>'Roll no. successfully generated!'));
     }
 
 }

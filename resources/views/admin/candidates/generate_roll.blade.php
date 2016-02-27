@@ -12,7 +12,8 @@
 				       $s_centre_pref1 = (Input::has('c_pref1')) ? Input::get('c_pref1') : null;
 				       $c_pref2 = $centre_pref2;
 				       $s_centre_pref2 = (Input::has('c_pref2')) ? Input::get('c_pref2') : null;
-				       $s_pin = (Input::has('pin')) ? Input::get('pin') : null; 
+				       $s_pin = (Input::has('pin')) ? Input::get('pin') : null;
+				       $take = (Input::has('take')) ? Input::get('take') : null; 
                  ?>      
                 {!! Form::select('exam_id', $exam_id, $s_exam, array('class'=>'form-control')) !!}
             </div>
@@ -22,8 +23,11 @@
             <div class="form-group col-sm-2">
                 {!! Form::select('c_pref2', $c_pref2, $s_centre_pref2, array('id'=>'c_pref2', 'class'=>'form-control')) !!}
             </div>
-            <div class="form-group col-sm-3">
+            <div class="form-group col-sm-2">
             	{!! Form::text('pin', $s_pin, array('class'=>'form-control search-box', 'autocomplete'=>'off', 'placeholder'=>'PIN (optional)')) !!}
+            </div>
+            <div class="form-group col-sm-2">
+            	{!! Form::text('take', $take, array('class'=>'form-control search-box', 'autocomplete'=>'off', 'placeholder'=>'No. of take', 'required'=>'true')) !!}
             </div>
             <div class="form-group col-sm-3">    
                 {!! Form::submit('Submit', array('class'=>'btn btn-success')) !!}
@@ -31,9 +35,26 @@
 			
 			{!! Form::close() !!}
 		</div>
-			<div class="form-group col-sm-12">
-				<a href="{{ route('generate.excel.report') }}" class="btn btn-info genrate"><i class="fa fa-file-text-o"></i> Generate Report</a>
+		@if(!empty($results) && $results->count())
+			@if(Input::has('exam_id') || Input::has('c_pref1') || Input::has('c_pref2') || Input::has('pin') || Input::has('take'))
+			
+			<div class="form-group col-sm-3">
+			{!! Form::open(array('route'=>'admin.roll_no.generate', 'id' => 'generate_roll_nos', 'class'=>'form-horizontal', 'method'=>'PUT')) !!}
+				@if(Input::has('c_pref2'))
+					{!! Form::hidden('c_pref2', Input::get('c_pref2')) !!}
+				@else
+					{!! Form::hidden('c_pref1', Input::get('c_pref1')) !!}
+				@endif
+					{!! Form::hidden('exam_id', Input::get('exam_id'))!!}
+					{!! Form::hidden('take', Input::get('take'))!!}
+			{!! Form::submit('Generate Roll Numbers', array('class'=>'btn btn-success')) !!}
 			</div>
+			<div class="form-group col-sm-9">
+				<h4>Total: {{ count($total) }}</h4>
+			</div>
+			{!! Form::close() !!}
+		   @endif	
+		@endif	
 		<div class="box-body table-responsive  col-sm-12">
 		@if(!empty($results) && $results->count())
 		<table class="table table-bordered table-striped">
@@ -45,7 +66,7 @@
 					<th>Form No.</th>
 					<th>Mobile No.</th>
 					<th>Centre Pref 1</th>
-					<th>Registration Date</th>
+					<th>Centre Pref 2</th>
 					<th>Transaction Type</th>
 					<th>Order No.</th>
 					<th>View</th>
@@ -53,7 +74,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			<?php $i=($paginator-1)*($results->perPage())+1; ?>
+			<?php $i=1; ?>
 			@foreach($results as $res)
 				<tr>
 					<td align="center">{{ $i }}</td>
@@ -62,7 +83,7 @@
 					<td >{{ $res->form_no }}</td>
 					<td >{{ $res->mobile_no }}</td>
 					<td >{{ $res->c_pref1 }}</td>
-					<td >{{ $res->created_at->format('d-m-Y') }}</td>
+					<td >{{ $res->c_pref2 }}</td>
 					<td >{{ $res->trans_type }}</td>
 					<td >{{ $res->order_info }}</td>
 					<td >
@@ -76,10 +97,9 @@
 			</tbody>
 		</table>
 		</div>
-		{!! $results->render() !!}
 		@else
 			<div class="alert alert-warning" style="text-align:center;">
-				 No records found.
+				 Records not found.
 			</div>    		
     	@endif	
 	</div>
