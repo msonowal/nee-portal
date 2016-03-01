@@ -131,5 +131,12 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::get('/generate/roll_no', ['as' =>'admin.generate.roll_no', 'uses'=> 'AdminController@listCandidates']);
         Route::post('/generate/roll_no', ['as' =>'admin.search.candidate_list', 'uses'=> 'AdminController@showCandidateList']);
         Route::put('/generate/roll_no', ['as' =>'admin.roll_no.generate', 'uses'=> 'AdminController@generateRoll_no']);
+        Route::get('/candidate/roll_no_list', ['as' =>'admin.candidate.roll_no_list', 'uses'=> 'AdminController@roll_no_list']);
+        Route::post('/candidate/roll_no_list', ['as' =>'admin.candidate.roll_no_lists', 'uses'=> 'AdminController@showRollList']);
+        Route::get('/candidate/allocate_centre', ['as' =>'admin.candidate.allocate_centre', 'uses'=> 'AdminController@showCentreAllocation']);
+        Route::post('/candidate/allocate_centre', ['as' =>'admin.candidate.search_centre', 'uses'=> 'AdminController@searchCentre']);
+        Route::put('/candidate/allocate_centre', ['as' =>'admin.candidate.centre_allocation', 'uses'=> 'AdminController@doCentreAllocation']);
+        Route::get('/candidate/admit_card_list', ['as' =>'admin.candidate.admit_card_list', 'uses'=> 'AdminController@admit_card_list']);
+        Route::post('/candidate/admit_card_list', ['as' =>'admin.candidate.admit_card_lists', 'uses'=> 'AdminController@showAdmitCardList']);
     });
 });

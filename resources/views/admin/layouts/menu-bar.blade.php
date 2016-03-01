@@ -74,13 +74,16 @@
                             <a href="#"><i class="fa fa-gears fa-fw"></i> CENTRE ALLOCATION <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.generate.roll_no') }}"> Generate Roll No. </a>
+                                    <a href="{{ route('admin.generate.roll_no') }}"> Roll No. Generation </a>
                                 </li>
                                 <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('buttons' ) }}"> Allocate Centre </a>
+                                    <a href="{{ route('admin.candidate.allocate_centre') }}"> Centre Allocation </a>
                                 </li>
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.generate.roll_no') }}"> Roll No. List</a>
+                                    <a href="{{ route('admin.candidate.roll_no_list') }}"> Roll No. List </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.candidate.admit_card_list') }}"> Admit Card List </a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

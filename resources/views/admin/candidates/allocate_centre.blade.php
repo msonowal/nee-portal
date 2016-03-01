@@ -1,27 +1,27 @@
 @extends('admin.layouts.main')
-@section('page_heading','Roll No. Generation')
+@section('page_heading','Centre Allocation')
 @section('section')
   <div class="col-sm-12">
 	<div class="box">
 		<div class="box-header">
 			<div class="form-group col-sm-2">
-			{!! Form::open(array('route'=>'admin.search.candidate_list', 'id' => 'applicant_search_form', 'class'=>'form-horizontal')) !!}
+			{!! Form::open(array('route'=>'admin.candidate.search_centre', 'id' => 'applicant_search_form', 'class'=>'form-horizontal')) !!}
 				 <?php $exam_id = $exams;
 				       $s_exam = (Input::has('exam_id')) ? Input::get('exam_id') : null;
 				       $c_pref1 = $centre_pref1;
 				       $s_centre_pref1 = (Input::has('c_pref1')) ? Input::get('c_pref1') : null;
-				       $c_pref2 = $centre_pref2;
-				       $s_centre_pref2 = (Input::has('c_pref2')) ? Input::get('c_pref2') : null;
+				       $centre_location = $centre_locations;
+				       $s_centre_location = (Input::has('centre_location')) ? Input::get('centre_location') : null;
 				       $s_pin = (Input::has('pin')) ? Input::get('pin') : null;
 				       $take = (Input::has('take')) ? Input::get('take') : null; 
                  ?>      
-                {!! Form::select('exam_id', $exam_id, $s_exam, array('class'=>'form-control', 'required'=>'true')) !!}
+            {!! Form::select('exam_id', $exam_id, $s_exam, array('class'=>'form-control', 'required'=>'true')) !!}
             </div>
             <div class="form-group col-sm-2">
-                {!! Form::select('c_pref1', $c_pref1, $s_centre_pref1, array('id'=>'c_pref1', 'class'=>'form-control')) !!}
+                {!! Form::select('c_pref1', $c_pref1, $s_centre_pref1, array('id'=>'c_pref1', 'class'=>'form-control', 'required'=>'true')) !!}
             </div>
             <div class="form-group col-sm-2">
-                {!! Form::select('c_pref2', $c_pref2, $s_centre_pref2, array('id'=>'c_pref2', 'class'=>'form-control')) !!}
+                {!! Form::select('centre_location', $centre_location, $s_centre_location, array('id'=>'centre_location', 'class'=>'form-control', 'required'=>'true')) !!}
             </div>
             <div class="form-group col-sm-2">
             	{!! Form::text('pin', $s_pin, array('class'=>'form-control search-box', 'autocomplete'=>'off', 'placeholder'=>'PIN (optional)')) !!}
@@ -36,18 +36,15 @@
 			{!! Form::close() !!}
 		</div>
 		@if(!empty($results) && $results->count())
-			@if(Input::has('exam_id') || Input::has('c_pref1') || Input::has('c_pref2') || Input::has('pin') || Input::has('take'))
+			@if(Input::has('exam_id') || Input::has('c_pref1') || Input::has('pin') || Input::has('take'))
 			
 			<div class="form-group col-sm-3">
-			{!! Form::open(array('route'=>'admin.roll_no.generate', 'id' => 'generate_roll_nos', 'class'=>'form-horizontal', 'method'=>'PUT')) !!}
-				@if(Input::has('c_pref2'))
-					{!! Form::hidden('c_pref2', Input::get('c_pref2')) !!}
-				@else
+			{!! Form::open(array('route'=>'admin.candidate.centre_allocation', 'id' => 'generate_roll_nos', 'class'=>'form-horizontal', 'method'=>'PUT')) !!}
 					{!! Form::hidden('c_pref1', Input::get('c_pref1')) !!}
-				@endif
 					{!! Form::hidden('exam_id', Input::get('exam_id'))!!}
 					{!! Form::hidden('take', Input::get('take'))!!}
-			{!! Form::submit('Generate Roll Numbers', array('class'=>'btn btn-success')) !!}
+					{!! Form::hidden('centre_location', Input::get('centre_location'))!!}
+			{!! Form::submit('Allocate Centre', array('class'=>'btn btn-success')) !!}
 			</div>
 			<div class="form-group col-sm-3">
 				<h4>Total: {{ count($total) }}</h4>
@@ -57,6 +54,9 @@
 			</div>
 			<div class="form-group col-sm-3">
 				<h4>Centre Capacity: {{ $centre_capacity }}</h4>
+			</div>
+			<div class="form-group col-sm-3">
+				<h4>Location Capacity: {{ $location_capacity }}</h4>
 			</div>
 			{!! Form::close() !!}
 		   @endif	
@@ -71,8 +71,7 @@
 					<th>Name</th>
 					<th>Form No.</th>
 					<th>Mobile No.</th>
-					<th>Centre Pref 1</th>
-					<th>Centre Pref 2</th>
+					<th>Centre</th>
 					<th>Transaction Type</th>
 					<th>Order No.</th>
 					<th>View</th>
@@ -89,7 +88,6 @@
 					<td >{{ $res->form_no }}</td>
 					<td >{{ $res->mobile_no }}</td>
 					<td >{{ $res->c_pref1 }}</td>
-					<td >{{ $res->c_pref2 }}</td>
 					<td >{{ $res->trans_type }}</td>
 					<td >{{ $res->order_info }}</td>
 					<td >
@@ -110,4 +108,32 @@
     	@endif	
 	</div>
 </div>
+
+<script type="text/javascript">
+        function getCentreLocation(){
+            var url = '{{ URL::route('centre.get.centre_location') }}';
+            var centre = $('#c_pref1').val();
+
+            if(centre!=''){
+                $.ajax( {
+                    url: url,
+                    type: 'GET',
+                    data: { centre_code: centre }
+                    }).done(function( msg ) {
+
+                    $('#centre_location').empty();
+                    $("<option>").val('').text('---Choose Centre Location---').appendTo('#centre_location');
+                    $.each(msg, function(key, value) {
+                    $("<option>").val(value.id).text(value.centre_location).appendTo('#centre_location');
+                    });
+                    return true;
+                });
+            }else{
+                $('#centre_location').empty();
+            }
+       }
+  $(document).ready(function() {
+      $('#c_pref1').change(function(e){ getCentreLocation(); }); 
+    });  
+</script>
 @stop               
