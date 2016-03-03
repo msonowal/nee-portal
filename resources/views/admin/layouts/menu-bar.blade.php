@@ -79,12 +79,7 @@
                                 <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
                                     <a href="{{ route('admin.candidate.allocate_centre') }}"> Centre Allocation </a>
                                 </li>
-                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.candidate.roll_no_list') }}"> Roll No. List </a>
-                                </li>
-                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.candidate.admit_card_list') }}"> Admit Card List </a>
-                                </li>
+                                
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
@@ -101,10 +96,16 @@
                             <a href="#"><i class="fa fa-pencil fa-fw"></i> REPORT <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('panels') }}"> TOTAL FORM SUBMITTED </a>
+                                    <a href="{{ route('admin.candidate.roll_no_list') }}"> Roll No. List </a>
                                 </li>
-                                <li {{ (Request::is('*buttons') ? 'class="active"' : '') }}>
-                                    <a href="{{ url ('buttons' ) }}"> PAYMENT LIST </a>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.candidate.admit_card_list') }}"> Admit Card List </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.candidate.rollsheet') }}"> Rollsheet </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.candidate.admit_card_list') }}"> Seat Label </a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

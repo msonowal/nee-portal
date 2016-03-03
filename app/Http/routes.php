@@ -138,5 +138,8 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::put('/candidate/allocate_centre', ['as' =>'admin.candidate.centre_allocation', 'uses'=> 'AdminController@doCentreAllocation']);
         Route::get('/candidate/admit_card_list', ['as' =>'admin.candidate.admit_card_list', 'uses'=> 'AdminController@admit_card_list']);
         Route::post('/candidate/admit_card_list', ['as' =>'admin.candidate.admit_card_lists', 'uses'=> 'AdminController@showAdmitCardList']);
+        Route::get('/candidate/rollsheet', ['as' =>'admin.candidate.rollsheet', 'uses'=> 'AdminController@rollsheet']);
+        Route::post('/candidate/rollsheet', ['as' =>'admin.candidate.rollsheets', 'uses'=> 'AdminController@showRollSheet']);
+        Route::get('/candidate/admit_card/{id}', ['as' =>'admin.candidate.admit_card', 'uses'=> 'AdminController@admit_card']);
     });
 });

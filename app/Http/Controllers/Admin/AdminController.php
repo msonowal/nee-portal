@@ -1017,4 +1017,125 @@ class AdminController extends Controller
             return view($this->content.'candidates.admit_card_list', compact('results', 'paginator', 'exams', 'centre_pref1', 'total', 'centre_capacity', 'displayed', 'centre_locations'));
     }
 
+    public function rollsheet()
+    {
+        $exams =[''=>'-Exam Level-'] + Exam::lists('exam_name', 'id')->toArray(); 
+        $centre_pref1=[''=>'--Centre--'] + Centre::lists('centre_name', 'centre_code')->toArray();
+        $centre_locations=[''=>'---Centre Location---'] + CentreCapacity::lists('centre_location', 'id')->toArray();        
+        return view($this->content.'candidates.rollsheet', compact('exams', 'centre_pref1', 'total', 'centre_locations'));
+    }
+
+    public function showRollSheet(Request $request)
+    {
+        if(empty($request->c_pref1))
+           return redirect()->route('admin.candidate.roll_no_list')->with(array('message'=>'Centre Pref1 or Centre Pref2 is required!'));
+
+            $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('centre_capacities', 'centre_capacities.id', '=', 'candidate_info.centre_capacities_id')
+                                    ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.rollno', '!=', '')
+                                    ->where('candidate_info.centre_capacities_id', '!=', '')
+                                    ->where('candidate_info.reg_status', 'completed');
+            
+            if($request->exam_id != "" || $request->c_pref1 !='' || $request->pin !='')
+            {
+            if($request->exam_id !='')
+                $results->where('candidate_info.exam_id', $request->exam_id);
+
+            if($request->c_pref1 !='')
+            {
+                $centre_code=$request->c_pref1;
+                $results->where(function ($query) use($centre_code){
+                            $query->where('step1.c_pref1', $centre_code)
+                            ->orwhere('step1.c_pref2', $centre_code);
+                        });
+            } 
+
+            if($request->centre_location !='')
+                $results->where('candidate_info.centre_capacities_id', $request->centre_location);   
+
+            if($request->pin !='')
+                $results->where('step2.pin', $request->pin);
+            }
+
+            $centre =Centre::join('centre_capacities', 'centres.centre_code', '=', 'centre_capacities.centre_code')
+                            ->where('centres.centre_code', $centre_code)->first();
+            
+            $centre_capacity=$centre->centre_capacity;    
+            $nee_i=$centre->NEEI;
+            $nee_ii=$centre->NEEII;
+            $nee_iii=$centre->NEEIII;
+
+            if($request->exam_id==1)
+                $centre_capacity=$centre_capacity-$nee_i;
+
+            if($request->exam_id==2 || $request->exam_id==3)
+                $centre_capacity=$centre_capacity-($nee_ii+$nee_iii);
+
+            $exams =[''=>'-Exam Level-'] + Exam::lists('exam_name', 'id')->toArray(); 
+            $centre_pref1=[''=>'-Centre Pref1-'] + Centre::lists('centre_name', 'centre_code')->toArray();
+            $centre_locations=[''=>'---Centre Location---'] + CentreCapacity::lists('centre_location', 'id')->toArray();
+            $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.centre_capacities_id', 'candidate_info.rollno');
+            
+            $total=$results->get();
+            $displayed=$results->get();
+
+            $results=$results->get(); 
+            $centres=Centre::all();
+            $centre_capacities=CentreCapacity::all();
+            foreach ($results as $result => $res)
+            {
+              $item = $res['c_pref1'];
+              if($item !=NULL)
+                  $results[$result]['c_pref1'] = $centres->filter(function($c_pref1) use ($item){if( $c_pref1->centre_code==$item ) return $c_pref1;})->first()->centre_name;
+              $item = $res['centre_capacities_id'];
+              if($item !=NULL)
+                  $results[$result]['centre_capacities_id'] = $centre_capacities->filter(function($centre_capacity) use ($item){if( $centre_capacity->id==$item ) return $centre_capacity;})->first()->centre_location;
+            }
+
+            return view($this->content.'candidates.rollsheet', compact('results', 'paginator', 'exams', 'centre_pref1', 'total', 'centre_capacity', 'displayed', 'centre_locations'));
+    }
+
+
+    public function admit_card($info_id)
+    {
+        $step1  =   Step1::where('candidate_info_id', $info_id)->firstOrFail();
+            $step2  =   Step2::where('candidate_info_id', $info_id)->firstOrFail();
+            $step3  =   Step3::where('candidate_info_id', $info_id)->firstOrFail();
+            $candidate_info    = CandidateInfo::where('id', $info_id)->firstOrFail();
+            $candidate  = Candidate::where('id', $candidate_info->candidate_id)->firstOrFail();
+            $order = Order::where('candidate_info_id', $info_id)->where('status', 'SUCCESS')->orderBy('id', 'desc')->first();
+            
+            $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
+            $step1->category= Basehelper::getCategory($step1->reservation_code);
+            $step1->quota= Basehelper::getQuota($step1->quota);
+            $candidate_info->q_id=Basehelper::getQualification($candidate_info->q_id);
+            $step1->admission_in= Basehelper::getAdmissionIn($step1->admission_in);
+            $step2->state= Basehelper::getState($step2->state);
+            $step2->district= Basehelper::getDistrict($step2->district);
+            $step1->branch= Basehelper::getBranch($step1->branch);
+            $step1->allied_branch= Basehelper::getAlliedBranch($step1->allied_branch);
+            $step1->c_pref1= Basehelper::getCentre($step1->c_pref1);
+            $step1->c_pref2= Basehelper::getCentre($step1->c_pref2);
+            $amount=Basehelper::getPayableAmount($info_id);
+
+            $registration_no= Basehelper::getRegistrationNo($info_id);
+            $step1->voc_subject= Basehelper::getVocSubject($step1->voc_subject);
+
+            if($step1->branch == NULL)
+                $step1->branch = 'NA';
+
+            if($step1->allied_branch == NULL)
+                $step1->allied_branch = 'NA';
+
+            if($step1->voc_subject == NULL)
+                $step1->voc_subject = 'NA';
+
+            return view($this->content.'candidates.admit_card', compact('step1', 'step2', 'step3', 'candidate', 'candidate_info', 'order', 'amount', 'registration_no'));
+    }
+
 }

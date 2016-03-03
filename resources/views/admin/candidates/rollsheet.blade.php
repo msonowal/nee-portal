@@ -1,11 +1,11 @@
 @extends('admin.layouts.main')
-@section('page_heading','Admit Card List')
+@section('page_heading','RollSheet')
 @section('section')
   <div class="col-sm-12">
 	<div class="box">
 		<div class="box-header">
 			<div class="form-group col-sm-2">
-			{!! Form::open(array('route'=>'admin.candidate.admit_card_lists', 'id' => 'applicant_search_form', 'class'=>'form-horizontal')) !!}
+			{!! Form::open(array('route'=>'admin.candidate.rollsheets', 'id' => 'applicant_search_form', 'class'=>'form-horizontal')) !!}
 				 <?php $exam_id = $exams;
 				       $s_exam = (Input::has('exam_id')) ? Input::get('exam_id') : null;
 				       $c_pref1 = $centre_pref1;
@@ -79,7 +79,7 @@
 					<td >{{ $res->trans_type }}</td>
 					<td >{{ $res->order_info }}</td>
 					<td >
-						<a target="_blank" href="{!! URL::Route('admin.candidate.admit_card', array($res->info_id)) !!}", class="btn btn-info btn-md pull-left">
+						<a target="_blank" href="{!! URL::Route('admin.candidate.view_confirmation', array($res->info_id)) !!}", class="btn btn-info btn-md pull-left">
 							<i class="fa fa-eye"></i>
 						</a>
 					</td>
