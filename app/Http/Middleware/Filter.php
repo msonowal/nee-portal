@@ -34,9 +34,9 @@ class Filter
 
         if (!$this->filter->guest()) {
 
-          $current_date=Carbon::today();
-          $closing_date="2016-03-07 00:00:00";
-          $challan_vrf_date="2016-03-15 00:00:00";
+          $current_date=Carbon::now();
+          $closing_date="2016-03-08 08:00:00";
+          $challan_vrf_date="2016-03-16 00:00:00";
 
           if($current_date > $closing_date){
             $candidate= CandidateInfo::where('id', $this->info_id)->firstOrFail();

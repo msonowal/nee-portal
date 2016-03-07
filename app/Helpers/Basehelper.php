@@ -354,8 +354,8 @@ class Basehelper{
 
     public static function Filter()
     {
-        $current_date=Carbon::today();
-        $closing_date="2016-03-07 00:00:00";
+        $current_date=Carbon::now();
+        $closing_date="2016-03-08 08:00:00";
 
         if($current_date > $closing_date)
             return true; 
