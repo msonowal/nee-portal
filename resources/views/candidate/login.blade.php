@@ -6,14 +6,19 @@
 		    <div class="row">
 					{!! form($form) !!}
 
-			<div class="input-field col m6">
+			<div class="input-field col m3">
             <a class="btn waves-effect waves-light blue" href="{{ route('candidate.register') }}">
-             Register New Acount
+             Register
             </a>
-        </div>
-				<div class="input-field col m6">
+            </div>
+            <div class="input-field col m5">
+            <a class="btn waves-effect waves-light blue" href="{{ route('candidate.forgot') }}">
+             Forgot Password?
+            </a>
+            </div>
+				<div class="input-field col m4">
 	            <a class="btn waves-effect waves-light blue" href="{{ route('candidate.otp.activate') }}">
-	            &nbsp; Activate via OTP
+	            Activate a/c
 	            </a>
 	        </div>
 			</div>

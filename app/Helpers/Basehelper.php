@@ -200,6 +200,11 @@ class Basehelper{
         return $return = Exam::where('id', $id)->pluck($return);
     }
 
+    public static function getExamDate($id, $return = 'start_date')
+    {
+        return $return = Exam::where('id', $id)->pluck($return);
+    }
+
     public static function getQualification($id, $return = 'qualification')
     {
         return $return = Qualification::where('id', $id)->pluck($return);

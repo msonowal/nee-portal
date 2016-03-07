@@ -13,6 +13,10 @@ Route::get('/candidate/otp/activate', ['as' => 'candidate.otp.activate', 'uses' 
 Route::post('/candidate/otp/activate', ['as' => 'candidate.otp.activate', 'uses' => 'Auth\CandidateAuthController@activateOTP']);
 Route::get('/candidate/otp/resend', ['as' => 'candidate.otp.resend', 'uses' => 'Auth\CandidateAuthController@resendOTP']);
 Route::post('/candidate/otp/resend', ['as' => 'candidate.otp.resend', 'uses' => 'Auth\CandidateAuthController@resendOTP']);
+Route::get('candidate/forgot', array('as' => 'candidate.forgot', 'uses' => 'Auth\CandidateAuthController@showforgot'));
+Route::post('candidate/forgot', array('as' => 'candidates.forgot', 'uses' => 'Auth\CandidateAuthController@doforgot'));
+Route::get('candidate/change_password', array('as' => 'candidate.change_password', 'uses' => 'Auth\CandidateAuthController@showChange_password'));
+Route::post('candidate/change_password', array('as' => 'candidate.changepassword', 'uses' => 'Auth\CandidateAuthController@doChange_password'));
 
 Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
     Route::group(['middleware'=>['auth.candidate']], function() {

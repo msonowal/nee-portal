@@ -2,21 +2,21 @@
   <html>
     <head>
       <title> NEE Portal {!! $year=Date('Y') !!}</title>
-      <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
    </head>
 
 <style type="text/css">
 	div.block-1{
 		border:0px solid #000;
-		height: 1028px;
+		height: 853px;
 		width: 760px;
 		margin: auto;
 		margin-top: 20px;
-		padding: 5px 5px 5px 5px;
+		margin-bottom: 100px;
+		padding: 0px 5px 5px 5px;
 	}
 	div.block-2{
 		border:1px solid #000;
-		height: 171px;
+		height: 201px;
 		width: 748px;
 		margin: auto;
 		margin-top: 0px;
@@ -24,19 +24,15 @@
 	div.block-3{
 		border:0px solid #000;
 		height: 170px;
-		width: 130px;
+		width: 154px;
 		text-align: center;
 	}
 	div.block-4{
 		border:0px solid #000;
 		height: 170px;
-		width: 580px;
+		width: 490px;
 		text-align: center;
-		margin-left: 34px;
-		font-family: 'Roboto Mono';
-		font-style: normal;
-  		font-weight: 400;
-  		font-size: 16px;
+		margin-left: 100px;
 	}
 	div.block-5{
 		border:1px solid #000;
@@ -54,27 +50,19 @@
 		color: #fff;
 		padding: 6px 0px 0px 4px;
 		background-color: #F44336;
-		font-family: 'Roboto Mono';
-		font-style: normal;
-  		font-weight: 400;
-  		font-size: 18px;
+		font-weight: bold;
 	}
 	div.block-7{
 		border:1px solid #000;
-		height: 408px;
-		width: 749px;
+		height: 330px;
+		width: 748px;
 		margin: auto;
 		margin-top: 0px;
 		margin-bottom: 0px;
-		border-right: 0px;
-		font-family: 'Roboto Mono';
-		font-style: normal;
-  		font-weight: 400;
-  		font-size: 12px;
 	}
 	div.block-8{
 		border:0px solid #000;
-		width: 740px;
+		width: 752px;
 		text-align: center;
 	}
 	div.block-9{
@@ -85,23 +73,17 @@
 	}
 	div.block-10{
 		border:1px solid #000;
-		height: 360px;
+		height: 440px;
 		width: 738px;
 		margin: auto;
 		padding-left: 5px;
 		padding-right: 5px;
 		padding-top: 5px;
-		margin-bottom: 10px;
-		font-family: 'Roboto Mono';
-		font-style: normal;
-  		font-weight: 400;
-  		font-size: 11px;
 	}
 	div.block-11{
 		border:1px solid #000;
 		height: 40px;
 		width: 747px;
-		
 	}
 	.table-1{
 		border: 0px solid #5F5959;
@@ -117,52 +99,44 @@
 		table-layout: fixed;
 
 	}
-	.table-3{
-		border: 0px solid #5F5959;
-		width: 100%;
-		margin: auto;
-		height: 167px;
-		table-layout: fixed;
-	}
 	td{
 		border:1px solid #000;
 		border-top: 0px;
 		border-left: 0px;
-		padding-left: 5px;
 	}
 	.image{
 		width: 130px;
 		height: 148px;
-		padding: 10px 0px 1px 0px;
-	}
-	.image-ms{
-		width: 100px;
-		height: 50px;
+		padding: 20px 3px 3px 5px;
 	}
 	@media print {
    	.noprint{
       display: none !important;
    }
+
 }
 	
 </style>
-<body style="padding-top: 10px;">
+<body>
 <div style="float:right"><button class="noprint" onclick='window.print()'>Print</button></div>
 <div class="block-1">
 	<div class="block-2">
 	<div class="block-4" style="float:left;">
 		<br/>
-		<P>North Eastern Regional Institute of Science and Technology </p>
-		<p>Deemed University under MHRD, Govt. of India</p>
-		<p>Nirjuli:791109, Arunachal Pradesh</p>
+		<h3><P>North Eastern Regional Institute of Science and Technology </p></h3>
+		<h3><p>Deemed University under MHRD, Govt. of India</p></h3>
+		<h4><p>Nirjuli:791109, Arunachal Pradesh</p></h4>
 	</div>
 	<div class="block-3" style="float:left;">
 		<img src="{{ asset('images/logo.png') }}" class="image">
 	</div>
+	<div class="block-9" style="float:left;">
+		<h2 style="margin:1px;">ADMIT CARD for NERIST Entrance Examination-{!! Date('Y') !!}</h2>
+	</div>
 	</div>
 	<div class="block-6">
-	<div class="block-8" style="float:left; margin:0px;">
-		ADMIT CARD for NERIST Entrance Examination-{!! Date('Y') !!}
+	<div class="block-8" style="float:left; margin:4px;">
+		
 	</div>
 	</div>
 	<div class="block-7">
@@ -170,7 +144,7 @@
 		<table class="table-1" cellspacing="0" cellpadding="3">
 			<tr>
 				<td>
-					Centre Code : {{ $centre_code}}({{ $centre_name }})
+					Centre Code : 07 (Itanagar)
 				</td>
 				<td>
 					Exam
@@ -181,75 +155,44 @@
 			</tr>
 			<tr>
 				<td>
-					Centre Location of Examination :
+					Centre of Examination :
 				</td>
 				<td>
-					{{ $exam_name }}
+					NEE I
 				</td>
 				<td>
-					{{ $candidate_info->rollno }}
+					107100001
 				</td>
 			</tr>
 		</table>
 		<table class="table-2" cellspacing="0" cellpadding="3">
-			
-			        <tr>
-			          <td width="240" rowspan="3" valign="top">{{ $candidate_info->centre_capacities_id }}</td>
-			          <td height="20" colspan="2" align="center" valign="middle">Date and Time of Exam</td>
-			          <td width="140" rowspan="7" align="center">{!! Html::image($step3->getPhoto(), '', array('height' => '150px','width' => '140px')) !!} Candidate's Photo</td>
-          </tr>
-	        <tr>
-			  <td width="23%" colspan="2" height="20">
-				  {{ $exam_date }}</td>
+			<tr>
+				<td>
+					Centre Code : 07 (Itanagar)
+				</td>
+				<td>
+					Exam
+				</td>
+				<td>
+					Roll Number
+				</td>
 			</tr>
 			<tr>
-			  <td height="20">Date of Birth</td>
-		      <td height="20">{{ $step1->dob }}</td>
-		  </tr>
-			<tr>
-			  <td width="240">Candidate's Name :</td>
-			  <td height="20">Gender</td>
-		      <td height="20">{{ $step1->gender }}</td>
-		  </tr>
-			<tr>
-			  <td height="32">{{ $step2->name }}</td>
-		      <td height="8">Registration No.</td>
-		      <td height="8">{{ $registration_no }}</td>
-		  </tr>
-			<tr>
-			  <td>Father/Guardian's Name:</td>
-		      <td height="4">Reservation Code</td>
-		      <td height="4">{{ $step1->reservation_code }}</td>
-		  </tr>
-			<tr>
-			  <td height="32">{{ $step2->father_name}}</td>
-			  <td height="4">Category</td>
-		      <td height="4">{{ $step1->category }}</td>
-		  </tr>
+				<td>
+					Centre of Examination :
+				</td>
+				<td>
+					NEE I
+				</td>
+				<td>
+					107100001
+				</td>
+			</tr>
 		</table>
-		<table class="table-3" cellspacing="0" cellpadding="3">
-			<tr>
-				<td width="240">
-					Complete Address:</td>
-		  <td width="24%">
-				Paper Code			</td>
-		  <td width="24%">{{ $candidate_info->paper_code }}</td>
-		  <td width="140" rowspan="3" align="center" valign="middle"> {!! Html::image($step3->getSignature(), '', array('height' => '40px','width' => '140px')) !!} Candidate's Signature</td>
-		  </tr>
-			<tr>
-			  <td rowspan="2" valign="top">{{ $step2->village }}, {{ $step2->po }}, {{ $step2->pin }}, {{ $step2->district }}, {{ $step2->state }}</td>
-			  <td height="50">{{ $sub_type }}</td>
-		      <td>{{ $subject }}</td>
-		  </tr>
-			<tr>
-			  <td height="92" colspan="2" align="center" valign="top"><img src="{{ asset('images/ms2015.jpg') }}" class="image-ms"><br/>
-	           Member Secretary, NEE</td>
-		  </tr>
-		</table>
-	  </div>
+		</div>
 	</div>
 	<div class="block-6">
-		<div class="block-8">
+		<div class="block-8" style="float:left; margin:4px;">
 			INSTRUCTIONS FOR THE CANDIDATES
 		</div>
 	</div>
@@ -264,7 +207,7 @@ expected to take their seats at least 20 minutes before the start of the examina
         5. Candidates must preserve the admit card till the counselling / admission process is over.<br/>
         6. Candidates may leave the examination hall after the expiry of 1 hour from the start of the exam. However, he/she
 will have to submit question paper to the invigilator which may be collected after the examination is over.<br/>
-		7. To answer a question in the OMR answer sheet for NEE‐{{ Date('Y') }}, a candidate needs to darken the appropriate bubble by
+		7. To answer a question in the OMR answer sheet for NEE‐2015, a candidate needs to darken the appropriate bubble by<br/>
 BLACK BALL POINT PEN only. If a candidate darkens more than one answer it will be treated as incorrect.<br/>
 		8. Calculators / Log Tables, etc are not allowed for NEE‐I. Non programmable calculators are allowed for NEE‐II and
 NEE‐III.<br/>

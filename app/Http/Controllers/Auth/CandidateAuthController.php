@@ -203,4 +203,68 @@ class CandidateAuthController extends Controller
         Auth::candidate()->logout();
         return Redirect::route('candidate.login');
     }
+
+    public function showforgot()
+  {
+    return view($this->content.'forgot_password');
+  }
+
+  public function doforgot(Request $request)
+  {
+    $validator = Validator::make($data = $request->all(), ['email'=>'required|email']);
+
+    if ($validator->fails())
+    {
+      return Redirect::back()->withErrors($validator)->withInput();
+    }
+
+    $candidate = Candidate::where('email', $request->get('email'))->first();
+
+    if(!empty($candidate) && $candidate->count() > 0) :
+        $mobile_no=$candidate->mobile_no;
+        $confirm_code = rand(200000 , 900000);
+        $candidate->confirm_code = $confirm_code;
+        $email = ['email' => $request->get('email')];
+        $candidate->save();
+
+        $message = 'For changing your NEE password, OTP is '.$confirm_code;
+        Basehelper::sendSMS($mobile_no, $message);
+
+      return Redirect::route('candidate.change_password')->withInput($email)->with('message', 'OTP(One time Password) has been sent to your registered mobile '.$mobile_no.'. Now change your password by providing following details.');
+    else :
+      return Redirect::back()->withErrors(['errors'=>'Email id not exists. Please try again.'])->withInput();
+    endif;
+  }
+
+  public function showChange_password()
+  {
+    return view($this->content.'change_password');
+  }
+
+  public function doChange_password(Request $request)
+  {
+    $rule=['otp'=>'required',
+         'password'=> 'confirmed|required'];
+
+    $message=['otp.required' =>'OTP(One Time Password is required)',
+          'password.confirmed' => 'New password and confirmed new password does not match!'
+          ];
+    $validator = Validator::make($data=$request->all(), $rule, $message);
+
+    if($validator->fails())
+      return Redirect::back()->withInput()->withErrors($validator);
+
+    $candidate=Candidate::where('email', $request->get('email'))->where('confirm_code', $request->get('otp'))->first();
+    
+    if(!empty($candidate) && $candidate->count() > 0){
+      $email = ['email' => $request->get('email')];
+      $candidate->password = Hash::make(trim($request->get('password')));
+      $candidate->confirm_code = NULL;
+      $candidate->save();
+
+      return Redirect::route('candidate.login')->withInput($email)->with('message','Password has been changed successfully! Now you can login with your new password.');
+    }
+
+    return Redirect::route('candidate.forgot')->withErrors(['message'=>'OTP does not match! Please try again.']);
+  }
 }
