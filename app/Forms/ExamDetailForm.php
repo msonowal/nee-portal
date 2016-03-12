@@ -14,15 +14,15 @@ class ExamDetailForm extends Form
     {
 
 	      $this->add('eligible_for', 'text', [
-	          'attr' => ['required', 'maxlength' => '10', 'placeholder'=> 'Eligible for Admission to'],
-	          'label' => 'Eligible for Admission to',
-	          'wrapper' => ['class' => 'form-group'] 
+	          'attr' => ['required', 'maxlength' => '10', 'placeholder'=> 'Eligible for Admission to', 'class'=>'form-control'],
+	          'label' => false,
+	          'wrapper' => ['class' => 'form-group  col-md-12'] 
 	      ]);
 
 	      $this->add('paper_code', 'text', [
-	          'attr' => ['required|numeric', 'placeholder'=> 'Paper Code'],
-	          'label' => 'Paper Code',
-	          'wrapper' => ['class' => 'form-group'] 
+	          'attr' => ['required|numeric', 'placeholder'=> 'Paper Code', 'class'=>'form-control'],
+	          'label' => false,
+	          'wrapper' => ['class' => 'form-group  col-md-12'] 
 	      ]);
 
 

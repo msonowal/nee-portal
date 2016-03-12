@@ -9,21 +9,21 @@ class CentreForm extends Form
     public function buildForm()
     {
           $this->add('centre_code', 'text', [
-	          'attr' => ['required', 'maxlength' => '55', 'placeholder'=> 'Centre Code'],
-	          'label' => 'Centre Code',
-	          'wrapper' => ['class' => 'form-group'] 
+	          'attr' => ['required', 'maxlength' => '55', 'placeholder'=> 'Centre Code', 'class'=>'form-control'],
+	          'label' => false,
+	          'wrapper' => ['class' => 'form-group col-md-12'] 
 	      ]);
 
           $this->add('centre_name', 'text', [
-	          'attr' => ['required', 'maxlength' => '55', 'placeholder'=> 'Centre Name'],
-	          'label' => 'Centre Name',
-	          'wrapper' => ['class' => 'form-group'] 
+	          'attr' => ['required', 'maxlength' => '55', 'placeholder'=> 'Centre Name', 'class'=>'form-control'],
+	          'label' => false,
+	          'wrapper' => ['class' => 'form-group col-md-12'] 
 	      ]);
 
 	      $this->add('centre_state', 'text', [
-	          'attr' => ['required', 'maxlength' => '55', 'placeholder'=> 'Centre State'],
-	          'label' => 'Centre State',
-	          'wrapper' => ['class' => 'form-group'] 
+	          'attr' => ['required', 'maxlength' => '55', 'placeholder'=> 'Centre State', 'class'=>'form-control'],
+	          'label' => false,
+	          'wrapper' => ['class' => 'form-group col-md-12'] 
 	      ]);
 
 	      $this->add('submit', 'submit', [

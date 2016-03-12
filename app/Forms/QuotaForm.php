@@ -9,9 +9,9 @@ class QuotaForm extends Form
     public function buildForm()
     {
           $this->add('name', 'text', [
-	          'attr' => ['required', 'maxlength' => '55', 'placeholder'=> 'Quota Name'],
-	          'label' => 'Quota Name',
-	          'wrapper' => ['class' => 'form-group'] 
+	          'attr' => ['required', 'maxlength' => '55', 'placeholder'=> 'Quota Name', 'class'=>'form-control'],
+	          'label' => false,
+	          'wrapper' => ['class' => 'form-group col-md-12'] 
 	      ]);
 
 	      $this->add('submit', 'submit', [

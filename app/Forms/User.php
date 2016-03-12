@@ -4,37 +4,36 @@ namespace nee_portal\Forms;
 
 use Kris\LaravelFormBuilder\Form;
 
-class ExamForm extends Form
+class User extends Form
 {
     public function buildForm()
     {
-	      $this->add('exam_name', 'select', [
-	      	  'choices' => ['NEE I' => 'NEE I', 'NEE II' => 'NEE II', 'NEE III' => 'NEE III'],
-	          'attr' => ['required', 'placeholder'=> 'Select Exam', 'class'=>'form-control'],
+	      $this->add('username', 'text', [
+	          'attr' => ['required', 'placeholder'=> 'User Name', 'class'=>'form-control'],
 	          'label' => false,
 	          'wrapper' => ['class' => 'form-group  col-md-12'] 
 	      ]);
 
-	      $this->add('description', 'textarea', [
-	          'attr' => ['maxlength' => '150', 'rows' => '2', 'placeholder'=> 'Description of Examination', 'class'=>'form-control'],
+	      $this->add('fullname', 'text', [
+	          'attr' => ['required', 'placeholder'=> 'Full Name', 'class'=>'form-control'],
 	          'label' => false,
 	          'wrapper' => ['class' => 'form-group  col-md-12'] 
 	      ]);
 
-	      $this->add('n_price', 'text', [
-	          'attr' => ['required|numeric', 'placeholder'=> 'Normal Price', 'class'=>'form-control'],
+	      $this->add('mobile_no', 'text', [
+	          'attr' => ['required|numeric', 'maxlength'=>'10', 'placeholder'=> 'Mobile Number', 'class'=>'form-control'],
 	          'label' => false,
 	          'wrapper' => ['class' => 'form-group  col-md-12'] 
 	      ]);
 
-	      $this->add('scst_price', 'text', [
-	          'attr' => ['required|numeric', 'placeholder'=> 'SC, ST Price', 'class'=>'form-control'],
+	      $this->add('email', 'email', [
+	          'attr' => ['required', 'placeholder'=> 'Email Address', 'class'=>'form-control'],
 	          'label' => false,
 	          'wrapper' => ['class' => 'form-group  col-md-12'] 
 	      ]);
 
-	      $this->add('start_date', 'text', [
-	          'attr' => ['required', 'maxlength' => '55', 'placeholder'=> 'Exam Start Date', 'class'=>'form-control'],
+	      $this->add('password', 'password', [
+	          'attr' => ['required', 'placeholder'=> 'Password', 'class'=>'form-control'],
 	          'label' => false,
 	          'wrapper' => ['class' => 'form-group  col-md-12'] 
 	      ]);
@@ -43,7 +42,7 @@ class ExamForm extends Form
 	      	  'choices' => ['YES' => 'YES', 'NO' => 'NO'],
 	      	  'selected' => ['YES'],
 	      	  'expanded' => true,		
-	          'attr' => ['required'],
+	          'attr' => ['required', 'class'=>'form-control'],
 	          'wrapper' => ['class' => 'form-group  col-md-12'] 
 	      ]);
 

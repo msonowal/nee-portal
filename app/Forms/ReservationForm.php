@@ -12,21 +12,21 @@ class ReservationForm extends Form
     {
         $this->add('quota_id', 'select', [
         	  'choices' => Quota::lists('name', 'id')->all(),		
-	          'attr' => ['required'],
-	          'label' => 'Quota',
-	          'wrapper' => ['class' => 'form-group'] 
+	          'attr' => ['required', 'class'=>'form-control'],
+	          'label' => false,
+	          'wrapper' => ['class' => 'form-group col-md-12'] 
 	      ]);
 
           $this->add('reservation_code', 'text', [
-	          'attr' => ['required', 'placeholder'=> 'Reservation Code'],
-	          'label' => 'Reservation Code',
-	          'wrapper' => ['class' => 'form-group'] 
+	          'attr' => ['required', 'placeholder'=> 'Reservation Code', 'class'=>'form-control'],
+	          'label' => false,
+	          'wrapper' => ['class' => 'form-group col-md-12'] 
 	      ]);
 
 	      $this->add('description', 'text', [
-	          'attr' => ['required', 'maxlength' => '255', 'placeholder'=> 'Description'],
-	          'label' => 'Description',
-	          'wrapper' => ['class' => 'form-group'] 
+	          'attr' => ['required', 'maxlength' => '255', 'placeholder'=> 'Description', 'class'=>'form-control'],
+	          'label' => false,
+	          'wrapper' => ['class' => 'form-group col-md-12'] 
 	      ]);
 
 	      $this->add('submit', 'submit', [

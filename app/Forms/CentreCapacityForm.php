@@ -12,21 +12,21 @@ class CentreCapacityForm extends Form
     {
         $this->add('centre_code', 'select', [
         	  'choices' => Centre::lists('centre_name', 'centre_code')->all(),		
-	          'attr' => ['required'],
-	          'label' => 'Centre',
-	          'wrapper' => ['class' => 'form-group'] 
+	          'attr' => ['required', 'class'=>'form-control'],
+	          'label' => false,
+	          'wrapper' => ['class' => 'form-group col-md-12'] 
 	      ]);
 
           $this->add('centre_location', 'textarea', [
-	          'attr' => ['required', 'maxlength' => '150', 'rows' =>'3', 'placeholder'=> 'Centre Location'],
-	          'label' => 'Centre Location',
-	          'wrapper' => ['class' => 'form-group'] 
+	          'attr' => ['required', 'maxlength' => '150', 'rows' =>'3', 'placeholder'=> 'Centre Location', 'class'=>'form-control'],
+	          'label' => false,
+	          'wrapper' => ['class' => 'form-group col-md-12'] 
 	      ]);
 
 	      $this->add('centre_capacity', 'text', [
-	          'attr' => ['required', 'maxlength' => '4', 'placeholder'=> 'Centre Capacity'],
-	          'label' => 'Centre Capacity',
-	          'wrapper' => ['class' => 'form-group'] 
+	          'attr' => ['required', 'maxlength' => '4', 'placeholder'=> 'Centre Capacity', 'class'=>'form-control'],
+	          'label' => false,
+	          'wrapper' => ['class' => 'form-group col-md-12'] 
 	      ]);
 
 	      $this->add('submit', 'submit', [

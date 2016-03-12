@@ -96,9 +96,10 @@ Route::group(['prefix'=>'admin', 'namespace' => 'Admin'], function() {
     });
 });
 
-//Master Entry
+//Admin
 Route::group(['middleware'=>['auth.admin']], function() {
 
+//Master Entry
      Route::group(['prefix'=>'admin/masterentry', 'namespace'=>'Admin\MasterEntry'], function() {
 
         Route::resource('/exam', 'ExamController', ['except' => ['show']]);
@@ -113,6 +114,7 @@ Route::group(['middleware'=>['auth.admin']], function() {
      });
 
      Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
+        Route::resource('/user', 'UserController', ['except' => ['show']]);
         Route::get('/challan', ['as' => 'admin.challan.index', 'uses' =>'AdminController@challan']);
         Route::post('/challan/import', ['as' => 'admin.challan.import', 'uses' =>'ExcelController@challanImport']);
         Route::get('/candidate/submitted_forms', ['as' => 'admin.candidate.submittedform', 'uses' =>'AdminController@submittedForm']);

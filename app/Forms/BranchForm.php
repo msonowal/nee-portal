@@ -9,9 +9,9 @@ class BranchForm extends Form
     public function buildForm()
     {
           $this->add('branch_name', 'text', [
-	          'attr' => ['required', 'maxlength' => '150', 'placeholder'=> 'Branch Name'],
-	          'label' => 'Branch Name',
-	          'wrapper' => ['class' => 'form-group'] 
+	          'attr' => ['required', 'maxlength' => '150', 'placeholder'=> 'Branch Name', 'class'=>'form-control'],
+	          'label' => false,
+	          'wrapper' => ['class' => 'form-group col-md-12'] 
 	      ]);
 
 	      $this->add('submit', 'submit', [

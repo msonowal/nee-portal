@@ -23,11 +23,13 @@ class Admin extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['username', 'first_name', 'last_name', 'mobile_no', 'email', 'password', 'role'];
+    protected $fillable = ['username', 'fullname', 'mobile_no', 'email', 'password', 'active'];
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    public static $rules=['username'=>'required', 'fullname'=>'required', 'mobile_no'=>'required', 'email'=>'required', 'password'=>'required', 'active'=>'required'];
 }

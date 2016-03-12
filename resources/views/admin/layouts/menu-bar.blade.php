@@ -4,6 +4,9 @@
                         <li {{ (Request::is('/') ? 'class="active"' : '') }}>
                             <a href="{{ url ('admin/dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> DASHBOARD</a>
                         </li>
+                        <li {{ (Request::is('*index') ? 'class="active"' : '') }}>
+                            <a href="{{ url ('admin/user') }}"><i class="fa fa-user fa-fw"></i> User </a>
+                        </li>
                         <li >
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> MASTER ENTRY <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">

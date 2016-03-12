@@ -364,4 +364,9 @@ class Basehelper{
             
     }
 
+    public static function CheckUser()
+    {
+        return Auth::admin()->get()->id();
+    }
+
 }

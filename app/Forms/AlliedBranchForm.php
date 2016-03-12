@@ -11,15 +11,15 @@ class AlliedBranchForm extends Form
     {
           $this->add('branch_id', 'select', [
         	  'choices' => Branch::lists('branch_name', 'id')->all(),		
-	          'attr' => ['required'],
-	          'label' => 'Branch Name',
-	          'wrapper' => ['class' => 'form-group'] 
+	          'attr' => ['required', 'class'=>'form-control'],
+	          'label' => false,
+	          'wrapper' => ['class' => 'form-group col-md-12'] 
 	      ]);
 
 	      $this->add('allied_branch', 'text', [
-	          'attr' => ['required', 'placeholder'=> 'Allied Branch'],
-	          'label' => 'Allied Branch',
-	          'wrapper' => ['class' => 'form-group'] 
+	          'attr' => ['required', 'placeholder'=> 'Allied Branch', 'class'=>'form-control'],
+	          'label' => false,
+	          'wrapper' => ['class' => 'form-group col-md-12'] 
 	      ]);
 
 	      $this->add('submit', 'submit', [
