@@ -32,7 +32,6 @@
             <div class="form-group col-sm-2">    
                 {!! Form::submit('Submit', array('class'=>'btn btn-success')) !!}
 			</div>
-			
 			{!! Form::close() !!}
 		</div>
 		@if(!empty($results) && $results->count())

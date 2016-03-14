@@ -7,29 +7,30 @@
 			<div class="form-group col-sm-2">
 			{!! Form::open(array('route'=>'admin.search.search_submitted', 'id' => 'applicant_search_form', 'class'=>'form-horizontal')) !!}
 				 <?php $exam_id = $exams;
+				       $centre = $centre;
+				       $centre_location = $centre_location;
+				       $quota = $quota;
 				       $s_exam = (Input::has('exam_id')) ? Input::get('exam_id') : null;
+				       $paper_code = (Input::has('paper_code')) ? Input::get('paper_code') : null;
+				       $s_centre = (Input::has('centre')) ? Input::get('centre') : null;
+				       $s_centre_location = (Input::has('centre_location')) ? Input::get('centre_location') : null;
+				       $s_quota = (Input::has('quota')) ? Input::get('quota') : null;
                  ?>      
                 {!! Form::select('exam_id', $exam_id, $s_exam, array('class'=>'form-control')) !!}
             </div>
             <div class="form-group col-sm-2">
-				 <?php $centre = $centre;
-				       $s_centre = (Input::has('centre')) ? Input::get('centre') : null;
-                 ?>      
                 {!! Form::select('centre', $centre, $s_centre, array('id'=>'centre', 'class'=>'form-control')) !!}
             </div>
-            <div class="form-group col-sm-3">
-				 <?php $centre_location = $centre_location;
-				       $s_centre_location = (Input::has('centre_location')) ? Input::get('centre_location') : null;
-                 ?>      
+            <div class="form-group col-sm-2">
                 {!! Form::select('centre_location', $centre_location, $s_centre_location, array('id'=>'centre_location', 'class'=>'form-control')) !!}
             </div>
             <div class="form-group col-sm-2">
-				 <?php $quota = $quota;
-				       $s_quota = (Input::has('quota')) ? Input::get('quota') : null;
-                 ?>      
                 {!! Form::select('quota', $quota, $s_quota, array('class'=>'form-control')) !!}
             </div>
-            <div class="form-group col-sm-3">    
+            <div class="form-group col-sm-2">
+            	{!! Form::text('paper_code', $paper_code, array('class'=>'form-control search-box', 'autocomplete'=>'off', 'placeholder'=>'Paper code')) !!}
+            </div>
+            <div class="form-group col-sm-2">    
                 {!! Form::submit('Search', array('class'=>'btn btn-success')) !!}
 			</div>
 			

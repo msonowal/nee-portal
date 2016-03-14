@@ -490,6 +490,9 @@ class AdminController extends Controller
             if($request->quota !='all_quotas')
                 $results->where('step1.quota', $request->quota);
 
+            if($request->paper_code !='')
+                $results->where('candidate_info.paper_code', $request->paper_code);
+
             if($request->centre_location !='' && $request->centre_location !='all_locations')
                 $results->where('candidate_info.centre_capacities_id', $request->centre_location);
 
