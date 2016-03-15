@@ -33,5 +33,6 @@ class Kernel extends HttpKernel
         'guest.candidate' => \nee_portal\Http\Middleware\RedirectCandidateIfAuthenticated::class,
         'acl' => \nee_portal\Http\Middleware\CheckPermission::class,
         'filter' => \nee_portal\Http\Middleware\Filter::class,
+        'permission' => \nee_portal\Http\Middleware\Permission::class,
     ];
 }

@@ -50,6 +50,9 @@ class CentreCapacityController extends Controller
      */
     public function create(formBuilder $formBuilder)
     {
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
+
         $form=$formBuilder->create('nee_portal\Forms\CentreCapacityForm',
 
             ['method' =>'POST',
@@ -105,6 +108,9 @@ class CentreCapacityController extends Controller
      */
     public function edit($id, FormBuilder $formBuilder){
 
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
+
             $centre_capacity  = CentreCapacity::findOrFail($id);
 
                 $form    = $formBuilder->create('nee_portal\Forms\CentreCapacityForm',
@@ -153,6 +159,9 @@ class CentreCapacityController extends Controller
      */
     public function destroy($id)
     {
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
+        
         CentreCapacity::destroy($id);
 
         if(Session::has('url')){

@@ -14,7 +14,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 
 use Illuminate\Database\QueryException;
 
-use Redirect;
+use Redirect, Basehelper;
 
 class ExamController extends Controller
 {
@@ -43,6 +43,9 @@ class ExamController extends Controller
      */
     public function create(FormBuilder $formBuilder)
     {
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!'));  
+
         $form=$formBuilder->create('nee_portal\Forms\ExamForm',
 
             ['method' =>'POST',
@@ -90,6 +93,9 @@ class ExamController extends Controller
     
     public function edit($id, FormBuilder $formBuilder){
 
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
+
             $exam  = Exam::findOrFail($id);
 
                 $form    = $formBuilder->create('nee_portal\Forms\ExamForm',
@@ -133,6 +139,8 @@ class ExamController extends Controller
      */
     public function destroy($id)
     {
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
 
         try{
                  Exam::destroy($id);

@@ -56,6 +56,9 @@ class ExamDetailController extends Controller
      */
     public function create(FormBuilder $formBuilder)
     {
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
+
         $form=$formBuilder->create('nee_portal\Forms\ExamDetailForm',
 
             ['method' =>'POST',
@@ -111,6 +114,9 @@ class ExamDetailController extends Controller
     
     public function edit($id, FormBuilder $formBuilder){
 
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
+
             $exam_detail  = ExamDetail::findOrFail($id);
 
                 $form    = $formBuilder->create('nee_portal\Forms\ExamDetailForm',
@@ -154,6 +160,9 @@ class ExamDetailController extends Controller
      */
     public function destroy($id)
     {
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
+        
             try{
                  ExamDetail::destroy($id);
 

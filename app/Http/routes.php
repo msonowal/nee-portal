@@ -116,7 +116,7 @@ Route::group(['middleware'=>['auth.admin']], function() {
      Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
         Route::resource('/user', 'UserController', ['except' => ['show']]);
         Route::get('/challan', ['as' => 'admin.challan.index', 'uses' =>'AdminController@challan']);
-        Route::post('/challan/import', ['as' => 'admin.challan.import', 'uses' =>'ExcelController@challanImport']);
+        Route::post('/challan/import', ['middleware'=>'permission', 'as' => 'admin.challan.import', 'uses' =>'ExcelController@challanImport']);
         Route::get('/candidate/submitted_forms', ['as' => 'admin.candidate.submittedform', 'uses' =>'AdminController@submittedForm']);
         Route::get('/candidate/nee_i_submitted', ['as' => 'admin.candidate.nee_i_submitted', 'uses' =>'AdminController@nee_i_submitted']);
         Route::get('/candidate/nee_ii_submitted', ['as' => 'admin.candidate.nee_ii_submitted', 'uses' =>'AdminController@nee_ii_submitted']);
@@ -135,12 +135,12 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::get('/excel/report', ['as' =>'generate.excel.report', 'uses' =>'ExcelController@submitted_report']);
         Route::get('/get/centre_location', ['as' =>'centre.get.centre_location', 'uses'=> 'AdminController@getCentre_location']);
         Route::get('/generate/roll_no', ['as' =>'admin.generate.roll_no', 'uses'=> 'AdminController@listCandidates']);
-        Route::post('/generate/roll_no', ['as' =>'admin.search.candidate_list', 'uses'=> 'AdminController@showCandidateList']);
+        Route::post('/generate/roll_no', ['middleware'=>'permission','as' =>'admin.search.candidate_list', 'uses'=> 'AdminController@showCandidateList']);
         Route::put('/generate/roll_no', ['as' =>'admin.roll_no.generate', 'uses'=> 'AdminController@generateRoll_no']);
         Route::get('/candidate/roll_no_list', ['as' =>'admin.candidate.roll_no_list', 'uses'=> 'AdminController@roll_no_list']);
         Route::post('/candidate/roll_no_list', ['as' =>'admin.candidate.roll_no_lists', 'uses'=> 'AdminController@showRollList']);
         Route::get('/candidate/allocate_centre', ['as' =>'admin.candidate.allocate_centre', 'uses'=> 'AdminController@showCentreAllocation']);
-        Route::post('/candidate/allocate_centre', ['as' =>'admin.candidate.search_centre', 'uses'=> 'AdminController@searchCentre']);
+        Route::post('/candidate/allocate_centre', ['middleware'=>'permission','as' =>'admin.candidate.search_centre', 'uses'=> 'AdminController@searchCentre']);
         Route::put('/candidate/allocate_centre', ['as' =>'admin.candidate.centre_allocation', 'uses'=> 'AdminController@doCentreAllocation']);
         Route::get('/candidate/admit_card_list', ['as' =>'admin.candidate.admit_card_list', 'uses'=> 'AdminController@admit_card_list']);
         Route::post('/candidate/admit_card_list', ['as' =>'admin.candidate.admit_card_lists', 'uses'=> 'AdminController@showAdmitCardList']);

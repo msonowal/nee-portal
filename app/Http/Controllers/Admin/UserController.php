@@ -10,7 +10,7 @@ use nee_portal\Models\Admin;
 use Illuminate\Database\QueryException;
 use Kris\LaravelFormBuilder\FormBuilder;
 
-use Redirect, Hash;
+use Redirect, Hash, Basehelper;
 
 class UserController extends Controller
 {

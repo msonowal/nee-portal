@@ -14,7 +14,7 @@ use nee_portal\Models\AlliedBranch;
 use nee_portal\Models\Reservation;
 use nee_portal\Models\State;
 use nee_portal\Models\District;
-use Session, Log, Route;
+use Session, Log, Route, Auth;
 use nee_portal\Models\Step1;
 use Carbon\Carbon;
 use nee_portal\Models\VocationalSubject;
@@ -364,9 +364,14 @@ class Basehelper{
             
     }
 
-    public static function CheckUser()
+    public static function Permission()
     {
-        return Auth::admin()->get()->id();
+        $id=Auth::admin()->get()->id;
+
+        if($id!='1')
+            return true; 
+            
+        return false;       
     }
 
 }

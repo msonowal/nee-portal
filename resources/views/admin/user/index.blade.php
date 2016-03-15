@@ -29,9 +29,15 @@
 							<i class="fa fa-edit"></i>
 						</a>
                         {!! Form::open(array('method'=>'DELETE', 'route'=>array('admin.user.destroy', $res->id))) !!}
-                            <button type="submit" class="btn btn-danger btn-md pull-right">
+                            @if($res->id=="1")
+                            <button type="submit" class="btn btn-danger btn-md pull-right disabled">
                       				<i class="fa fa-trash"></i>
                   			</button>
+                  			@else
+                  			<button type="submit" class="btn btn-danger btn-md pull-right">
+                      				<i class="fa fa-trash"></i>
+                  			</button>
+                  			@endif
                         {!! Form::close() !!}
 					</td>
 				</tr>

@@ -14,7 +14,7 @@ use Illuminate\Database\QueryException;
 
 use Kris\LaravelFormBuilder\FormBuilder;
 
-use Redirect;
+use Redirect, Basehelper;
 
 class QuotaController extends Controller
 {
@@ -43,6 +43,9 @@ class QuotaController extends Controller
      */
     public function create(formBuilder $formBuilder)
     {
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
+
         $form=$formBuilder->create('nee_portal\Forms\QuotaForm',
 
             ['method' =>'POST',
@@ -88,6 +91,9 @@ class QuotaController extends Controller
      */
     public function edit($id, FormBuilder $formBuilder){
 
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
+
             $quota  = Quota::findOrFail($id);
 
                 $form    = $formBuilder->create('nee_portal\Forms\QuotaForm',
@@ -131,6 +137,9 @@ class QuotaController extends Controller
      */
     public function destroy($id)
     {
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
+        
             try{
 
               Quota::destroy($id);

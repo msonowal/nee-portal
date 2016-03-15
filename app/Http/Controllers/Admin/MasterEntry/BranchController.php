@@ -14,7 +14,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 
 use Illuminate\Database\QueryException;
 
-use Redirect;
+use Redirect, Basehelper;
 
 class BranchController extends Controller
 {
@@ -43,6 +43,9 @@ class BranchController extends Controller
      */
     public function create(formBuilder $formBuilder)
     {
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
+
         $form=$formBuilder->create('nee_portal\Forms\BranchForm',
 
             ['method' =>'POST',
@@ -88,6 +91,9 @@ class BranchController extends Controller
      */
     public function edit($id, FormBuilder $formBuilder){
 
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
+
             $branch  = Branch::findOrFail($id);
 
                 $form    = $formBuilder->create('nee_portal\Forms\BranchForm',
@@ -131,6 +137,9 @@ class BranchController extends Controller
      */
     public function destroy($id)
     {
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
+        
         try{
 
               Branch::destroy($id);

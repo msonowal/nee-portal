@@ -57,6 +57,9 @@ class ReservationController extends Controller
      */
     public function create(formBuilder $formBuilder)
     {
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
+
         $form=$formBuilder->create('nee_portal\Forms\ReservationForm',
 
             ['method' =>'POST',
@@ -112,6 +115,9 @@ class ReservationController extends Controller
      */
     public function edit($id, FormBuilder $formBuilder){
 
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
+
             $reservsation  = Reservation::where('reservation_code', $id)->firstOrFail();
 
                 $form    = $formBuilder->create('nee_portal\Forms\ReservationForm',
@@ -160,6 +166,8 @@ class ReservationController extends Controller
      */
     public function destroy($id)
     {
+        if(Basehelper::Permission()==true)
+            return back()->with(array('message'=>'Access Denied!')); 
         
         try{
 

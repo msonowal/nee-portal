@@ -31,5 +31,5 @@ class Admin extends Model implements AuthenticatableContract,
      */
     protected $hidden = ['password', 'remember_token'];
 
-    public static $rules=['username'=>'required', 'fullname'=>'required', 'mobile_no'=>'required', 'email'=>'required', 'password'=>'required', 'active'=>'required'];
+    public static $rules=['username'=>'required|unique:admins,username', 'fullname'=>'required', 'mobile_no'=>'required|unique:admins,mobile_no', 'email'=>'required||unique:admins,email', 'password'=>'required', 'active'=>'required'];
 }
