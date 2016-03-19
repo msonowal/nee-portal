@@ -107,10 +107,10 @@
                                     <a href="{{ route('admin.candidate.admit_card_list') }}"> Admit Card List </a>
                                 </li>
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.candidate.rollsheet') }}"> Rollsheet </a>
+                                    <a href="{{ route('admin.rollsheet') }}"> Roll Sheet </a>
                                 </li>
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.candidate.admit_card_list') }}"> Seat Label </a>
+                                    <a href="{{ route('admin.seat_label') }}"> Seat Label </a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
