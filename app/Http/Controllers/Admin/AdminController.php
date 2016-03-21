@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use nee_portal\Http\Requests;
 use nee_portal\Http\Controllers\Controller;
 use nee_portal\Models\ChallanInfo;
-use Session, URL, Validator, Basehelper;
+use Session, URL, Validator, Basehelper, DB;
 use nee_portal\Models\CandidateInfo;
 use nee_portal\Models\Candidate;
 use nee_portal\Models\Step1;
@@ -56,14 +56,29 @@ class AdminController extends Controller
     public function challan()
     {
         $result=ChallanInfo::paginate();
-
-        $paginator=0;
+        //$result=DB::select(DB::raw("SELECT * FROM `nee_challan_info` WHERE transaction_id not in ( SELECT `tansaction_id` as transaction_id FROM `nee_orders` WHERE `trans_type` = 'challan') ORDER BY `transaction_id` ASC"));
+        //$result=$result->paginate();
+         $paginator=0;
 
         $paginator=$result->currentPage();
-
+        //$result=$result;
         Session::put('url', URL::full());
 
         return view($this->content.'challan.import', compact('result', 'paginator'));
+    }
+
+    public function challan_pending()
+    {
+        //$result=ChallanInfo::paginate();
+        $result=DB::select(DB::raw("SELECT * FROM `nee_challan_info` WHERE transaction_id not in ( SELECT `tansaction_id` as transaction_id FROM `nee_orders` WHERE `trans_type` = 'challan') ORDER BY `transaction_id` ASC"));
+        //$result=$result->paginate();
+         //$paginator=0;
+
+        //$paginator=$result->currentPage();
+        $result=$result;
+        Session::put('url', URL::full());
+
+        return view($this->content.'challan.pending', compact('result', 'paginator'));
     }
 
     public function submittedForm()

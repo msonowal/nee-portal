@@ -149,5 +149,6 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::get('/candidate/admit_card/{id}', ['as' =>'admin.candidate.admit_card', 'uses'=> 'AdminController@admit_card']);
         Route::get('/candidate/seat_label', ['as' =>'admin.seat_label', 'uses'=> 'AdminController@seat_label']);
         Route::post('/candidate/seat_label', ['as' =>'admin.seat_label', 'uses'=> 'AdminController@showSeat_label']);
+        Route::get('/challan/pending', ['as' => 'admin.challan.pending', 'uses' =>'AdminController@challan_pending']);
     });
 });
