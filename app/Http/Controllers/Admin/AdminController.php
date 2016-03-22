@@ -1330,7 +1330,7 @@ class AdminController extends Controller
                                     //->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     //->where('orders.status', 'SUCCESS')
                                     ->where('candidate_info.reg_status', 'payment_pending');
-
+            //dd($results);                        
             if($request->type =="form_no")
                 $results->where('candidate_info.'.$request->type, $request->value);
 
@@ -1338,7 +1338,7 @@ class AdminController extends Controller
                 $results->where('candidates.'.$request->type, $request->value);
 
             if($request->type =="name")
-                $results->where('step2.'.$request->type, $request->value);
+                $results->where('step2.'.$request->type, 'like', "%".$request->value."%");
 
             //if($request->type =="order_info")
                 //$results->where('orders.'.$request->type, $request->value);
@@ -1346,6 +1346,7 @@ class AdminController extends Controller
             $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'candidate_info.created_at', 'candidates.mobile_no');
             if(count($results) > 0)                 
               Session::put('info_id', $results->lists('id'));
+            //dd($results);
             $result=$results->paginate();
             $paginator=0;
             $paginator=$result->currentPage();

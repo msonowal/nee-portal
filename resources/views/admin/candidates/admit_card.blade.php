@@ -254,26 +254,25 @@
 		</div>
 	</div>
 	<div class="block-10">
-		1. Please do not forget to bring <strong>BLACK BALL POINT PEN</strong> to darken the appropriate choices. If a candidate darkens more than one answer it will be treated as incorrect.<br/>	
-		2. Please check in the Admit Card carefully for your name, exam, date of birth, gender, reservation code. In case of any
-discrepancy, candidate may submit an application for necessary correction/change to the centre representative of NEE at
-their respective examination centres during NEE exam addressed to Chairman, NEE.<br/>
+		1. Please do not forget to bring <strong>BLACK BALL POINT PEN</strong> to darken the appropriate choices.<br/>
+		2. <strong><u>Mobile Phones</u></strong> or any other electronic gadgets are <strong><u>strictly prohibited</u></strong> in the examination hall. Candidates are advised not to bring expensive personal items in the exam centre.<br/>
         3. Report 1 hour before the commencement of the examination at the examination centre. All the candidates are
 expected to take their seats at least 20 minutes before the start of the examination.<br/>
         4. No candidate without admit card shall be allowed to sit in the examination by the centre superintendent.<br/>
-        5. Entry to the examination hall is strictly forbidden after the first 30 minutes from the start of the examination.<br/>
+        5. Entry to the examination hall is strictly forbidden after the first 30 minutes from the start of the examination, i.e, after 10.30 a.m.<br/>
         6. Candidates must preserve the admit card till the counselling / admission process is over.<br/>
         7. Candidates may leave the examination hall after the expiry of 1 hour from the start of the exam. However, he/she
 will have to submit question paper to the invigilator which may be collected after the examination is over.<br/>
-		8. Calculators / Log Tables, etc are not allowed for NEE‐I. Non programmable calculators are allowed for NEE‐II and
+		8. Calculators / Log Tables, etc are <strong><u>not allowed for NEE‐I</u></strong>. Non programmable calculators are allowed for NEE‐II and
 NEE‐III.<br/>
-		9. Mobile Phones or any other electronic gadgets are strictly prohibited in the examination hall.<br/>
+		9.  If a candidate darkens more than one answer it will be treated as incorrect.<br/>	
 	   10. Adoption of any kind of unfair means or taking part in any act of impersonation in the examination will render the
 candidate liable for cancellation of his/her OMR answer sheet and forfeiture of his/her claim for admission. Decision of
 the centre superintendent / NERIST authorities shall be final in this regard.<br/>
        11. The Admit Card is issued provisionally to the candidate subject to his/her satisfying the eligibility condition at the
 time of admission.<br/>
-	   12. In case of any dispute the decision of Chairman, NEE will be final.
+	   12. The selected or wait listed candidates may bring an affidavit in case of any mistakes in admit card, i.e., spelling mistake in name of candidate/father/guardian, gender and address at the time of counselling.<br/> 
+	   13. In case of any dispute the decision of Chairman, NEE will be final.
 	</div>
   </div>
 </div>
