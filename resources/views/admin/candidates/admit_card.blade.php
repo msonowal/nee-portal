@@ -254,18 +254,17 @@
 		</div>
 	</div>
 	<div class="block-10">
-		1. Please check in the Admit Card carefully for your name, exam, date of birth, gender, reservation code. In case of any
+		1. Please do not forget to bring <strong>BLACK BALL POINT PEN</strong> to darken the appropriate choices. If a candidate darkens more than one answer it will be treated as incorrect.<br/>	
+		2. Please check in the Admit Card carefully for your name, exam, date of birth, gender, reservation code. In case of any
 discrepancy, candidate may submit an application for necessary correction/change to the centre representative of NEE at
 their respective examination centres during NEE exam addressed to Chairman, NEE.<br/>
-        2. Report 1 hour before the commencement of the examination at the examination centre. All the candidates are
+        3. Report 1 hour before the commencement of the examination at the examination centre. All the candidates are
 expected to take their seats at least 20 minutes before the start of the examination.<br/>
-        3. No candidate without admit card shall be allowed to sit in the examination by the centre superintendent.<br/>
-        4. Entry to the examination hall is strictly forbidden after the first 30 minutes from the start of the examination.<br/>
-        5. Candidates must preserve the admit card till the counselling / admission process is over.<br/>
-        6. Candidates may leave the examination hall after the expiry of 1 hour from the start of the exam. However, he/she
+        4. No candidate without admit card shall be allowed to sit in the examination by the centre superintendent.<br/>
+        5. Entry to the examination hall is strictly forbidden after the first 30 minutes from the start of the examination.<br/>
+        6. Candidates must preserve the admit card till the counselling / admission process is over.<br/>
+        7. Candidates may leave the examination hall after the expiry of 1 hour from the start of the exam. However, he/she
 will have to submit question paper to the invigilator which may be collected after the examination is over.<br/>
-		7. To answer a question in the OMR answer sheet for NEE‐{{ Date('Y') }}, a candidate needs to darken the appropriate bubble by
-BLACK BALL POINT PEN only. If a candidate darkens more than one answer it will be treated as incorrect.<br/>
 		8. Calculators / Log Tables, etc are not allowed for NEE‐I. Non programmable calculators are allowed for NEE‐II and
 NEE‐III.<br/>
 		9. Mobile Phones or any other electronic gadgets are strictly prohibited in the examination hall.<br/>

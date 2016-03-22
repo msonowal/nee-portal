@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use nee_portal\Http\Requests;
 use nee_portal\Http\Controllers\Controller;
 use nee_portal\Models\ChallanInfo;
-use Session, URL, Validator, Basehelper, DB;
+use Session, URL, Validator, Basehelper, DB, Auth, Carbon;
 use nee_portal\Models\CandidateInfo;
 use nee_portal\Models\Candidate;
 use nee_portal\Models\Step1;
@@ -1250,6 +1250,183 @@ class AdminController extends Controller
                 $sub_type="Vocational Subject";
             }    
             return view($this->content.'candidates.admit_card', compact('step1', 'step2', 'step3', 'candidate', 'candidate_info', 'order', 'amount', 'registration_no', 'exam_date', 'exam_name', 'subject', 'sub_type', 'centre_code', 'centre_name'));
+    }
+
+    public function list_user()
+    {
+        $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    //->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    //->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.reg_status', 'payment_pending')
+                                    ->select('candidates.id','candidate_info.id' ,'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email');
+        if(count($result) > 0)                 
+              Session::put('info_id', $result->lists('id'));
+        $result=$result->paginate();                            
+        $paginator=0;
+        $paginator=$result->currentPage();
+        Session::put('url', URL::full());
+
+        return view($this->content.'candidates.preview_user', compact('result', 'paginator'));
+    }
+
+    public function access_user($id){
+    
+          //Auth::loginUsingId('candidate', $id);
+        //$user=Candidate::find($id);
+        //Auth::candidate($user);
+        //dd(Auth::check());
+        
+        return redirect()->route('candidate.application.dashboard')->with('message', 'You are logged in as Candidate');
+    }
+
+    public function preview_confirmation($info_id)
+    {
+            $step1  =   Step1::where('candidate_info_id', $info_id)->firstOrFail();
+            $step2  =   Step2::where('candidate_info_id', $info_id)->firstOrFail();
+            $step3  =   Step3::where('candidate_info_id', $info_id)->firstOrFail();
+            $candidate_info    = CandidateInfo::where('id', $info_id)->firstOrFail();
+            $candidate  = Candidate::where('id', $candidate_info->candidate_id)->firstOrFail();
+            //$order = Order::where('candidate_info_id', $info_id)->where('status', 'PENDING')->orderBy('id', 'desc')->first();
+
+            $candidate_info->exam_id= Basehelper::getExam($candidate_info->exam_id);
+            $step1->category= Basehelper::getCategory($step1->reservation_code);
+            $step1->quota= Basehelper::getQuota($step1->quota);
+            $candidate_info->q_id=Basehelper::getQualification($candidate_info->q_id);
+            $step1->admission_in= Basehelper::getAdmissionIn($step1->admission_in);
+            $step2->state= Basehelper::getState($step2->state);
+            $step2->district= Basehelper::getDistrict($step2->district);
+            $step1->branch= Basehelper::getBranch($step1->branch);
+            $step1->allied_branch= Basehelper::getAlliedBranch($step1->allied_branch);
+            $step1->c_pref1= Basehelper::getCentre($step1->c_pref1);
+            $step1->c_pref2= Basehelper::getCentre($step1->c_pref2);
+            $amount=Basehelper::getPayableAmount($info_id);
+
+            $registration_no= Basehelper::getRegistrationNo($info_id);
+            $step1->voc_subject= Basehelper::getVocSubject($step1->voc_subject);
+
+            if($step1->branch == NULL)
+                $step1->branch = 'NA';
+
+            if($step1->allied_branch == NULL)
+                $step1->allied_branch = 'NA';
+
+            if($step1->voc_subject == NULL)
+                $step1->voc_subject = 'NA';
+
+            return view($this->content.'candidates.preview_comfirmation', compact('step1', 'step2', 'step3', 'candidate', 'candidate_info', 'order', 'amount', 'registration_no'));
+
+    }
+
+
+    public function searchCandidate(Request $request)
+    {
+        if($request->type != "")
+        {
+            $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    //->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    //->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.reg_status', 'payment_pending');
+
+            if($request->type =="form_no")
+                $results->where('candidate_info.'.$request->type, $request->value);
+
+            if($request->type =="mobile_no")
+                $results->where('candidates.'.$request->type, $request->value);
+
+            if($request->type =="name")
+                $results->where('step2.'.$request->type, $request->value);
+
+            //if($request->type =="order_info")
+                //$results->where('orders.'.$request->type, $request->value);
+
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'candidate_info.created_at', 'candidates.mobile_no');
+            if(count($results) > 0)                 
+              Session::put('info_id', $results->lists('id'));
+            $result=$results->paginate();
+            $paginator=0;
+            $paginator=$result->currentPage();
+            Session::put('url', URL::full());
+            return view($this->content.'candidates.preview_user', compact('result', 'paginator'));                        
+        }
+    }
+
+    public function challan_verification($info_id){
+
+        try{
+            $candidate_info=CandidateInfo::where('id', $info_id)->firstOrFail();
+            $step1 = Step1::where('candidate_info_id', $info_id)->firstOrFail();
+            $step2 = Step2::where('candidate_info_id', $info_id)->firstOrFail();
+            $step3 = Step3::where('candidate_info_id', $info_id)->firstOrFail();
+        }catch(ModelNotFoundException $e){
+
+            return redirect()->route('candidate.error')->withErrors('Record not found!');
+        }
+
+        if($candidate_info->reg_status=="payment_pending"){
+            $info_id=$info_id;
+            return view($this->content.'candidates.challan_verification', compact('info_id'));
+       }
+
+        //return $this->getStep();
+
+    }
+
+    public function verify_challan(Request $request){
+
+            $validator =Validator::make($data = $request->all(), ChallanInfo::$rules);
+
+            if($validator->fails())
+                return back()->withErrors($validator)->withInput();
+
+            $info_id = $request->info_id;
+            $transaction_id=$data['transaction_id'];
+            $date=$data['transaction_date'];
+            $date=Carbon::createFromFormat('d-m-Y', $date);
+            $transaction_date=$date->format('Y-m-d');
+            $candidate_info    = CandidateInfo::where('id', $info_id)->firstOrFail();
+            $candidate  = Candidate::where('id', $candidate_info->candidate_id)->firstOrFail();
+
+            $exist=Order::where('tansaction_id', $transaction_id)->where('transaction_date', $transaction_date)->get();
+            //$candidate=Candidate::where('id', Auth::candidate()->get()->id)->firstOrFail();
+
+            if(count($exist)!=0)
+            {
+                return back()->withErrors('The transaction is already used in another registration.<br/>Please provide the different transaction no.');
+            }
+            $challan_info=ChallanInfo::where('transaction_id', $transaction_id)->where('transaction_date', $transaction_date)->get();
+
+            if(count($challan_info) > 0){
+
+                $order= new Order();
+                $order->candidate_info_id = $info_id;
+                $order->description = 'challan payment';
+                $order->trans_type = 'Challan';
+                $order->mobile_no=$candidate->mobile_no;
+                $order->email=$candidate->email;
+                $order->order_id=$info_id;
+                $order->order_info=$transaction_id;
+                $amount=(Basehelper::getPayableAmount($info_id))+35;
+                $order->amount =$amount;
+                $order->status = 'SUCCESS';
+                $order->tansaction_id = $transaction_id;
+                $order->transaction_date = $transaction_date;
+                $order->save();
+                
+                $candidate_info=CandidateInfo::where('id', $info_id)->first();
+                $candidate_info->reg_status='completed';
+                $candidate_info->save();
+                $form_no=$candidate_info->form_no;
+                //$message = 'Hello, your NEE Online form submission has been successfully completed. Your Form NO is '.$candidate_info->form_no;
+                //Basehelper::sendSMS(Auth::candidate()->get()->mobile_no, $message);
+                return redirect()->route('admin.access.user_account')->with(array('message'=>'Successfully verified. Form no. '.$form_no.''));
+                //return redirect()->action('Candidate\RegistrationController@getStep');
+            }
+
+            return redirect()->route('admin.access.user_account')->with(array('message'=>'The Transaction ID and Transaction Date provided by you does not match!'));
     }
 
 }

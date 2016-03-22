@@ -150,5 +150,12 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::get('/candidate/seat_label', ['as' =>'admin.seat_label', 'uses'=> 'AdminController@seat_label']);
         Route::post('/candidate/seat_label', ['as' =>'admin.seat_label', 'uses'=> 'AdminController@showSeat_label']);
         Route::get('/challan/pending', ['as' => 'admin.challan.pending', 'uses' =>'AdminController@challan_pending']);
+        Route::get('/access/user_account', ['as' => 'admin.access.user_account', 'uses' =>'AdminController@list_user']);
+        Route::get('/preview/confirmation_page/{info_id}', ['as' => 'admin.view.preview_confirmation', 'uses' =>'AdminController@preview_confirmation']);
+        //Route::post('/access/user_account', ['as' => 'admin.access.user_account', 'uses' =>'AdminController@access_user']);
+        Route::post('/search/candidate', ['as' =>'admin.search.candidate', 'uses' =>'AdminController@searchCandidate']);
+        Route::get('/challan/verification/{info_id}', ['as' => 'admin.challan.verification', 'uses' =>'AdminController@challan_verification']);
+        Route::post('/challan/verification', ['as' => 'admin.challan.verifications', 'uses' =>'AdminController@verify_challan']);
+        Route::get('/application/challan_copy', ['as' => 'candidate.application.challan_copy', 'uses' =>'RegistrationController@challanCopy']);
     });
 });

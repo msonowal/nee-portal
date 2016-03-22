@@ -127,7 +127,7 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-                        <li >
+                        <li>
                             <a href="#"><i class="fa fa-dollar fa-fw"></i> CHALLAN<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
@@ -135,6 +135,9 @@
                                 </li>
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
                                     <a href="{{ route('admin.challan.pending') }}"> Challan Pending </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.access.user_account') }}"> Challan verification </a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

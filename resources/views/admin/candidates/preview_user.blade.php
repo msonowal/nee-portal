@@ -1,0 +1,73 @@
+@extends('admin.layouts.main')
+@section('page_heading','Preview user for Challan verification')
+@section('section')
+  <div class="col-sm-12">
+	<div class="box">
+		<div class="box-header">
+			<div class="form-group col-sm-4">
+			{!! Form::open(array('route'=>'admin.search.candidate', 'id' => 'applicant_search_form', 'class'=>'form-horizontal')) !!}
+				 <?php $type = [''=>'--Select--', 'form_no' => 'Form No', 'mobile_no' => 'Mobile No', 'name' => 'Candidate Name'];
+				       $s_type = (Input::has('type')) ? Input::get('type') : null;
+                       $s_val = (Input::has('value')) ? Input::get('value') : null; 
+                 ?>      
+                {!! Form::select('type', $type, $s_type, array('class'=>'form-control', 'required')) !!}
+            </div>
+            <div class="form-group col-sm-4">
+            	{!! Form::text('value', $s_val, array('class'=>'form-control search-box', 'autocomplete'=>'off')) !!}
+            </div>
+            <div class="form-group col-sm-4">    
+                {!! Form::submit('Search', array('class'=>'btn btn-success')) !!}
+			</div>
+			{!! Form::close() !!}
+		</div>
+		<div class="box-body table-responsive  col-sm-12">
+		@if($result->count())
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th width="6%">SL No</th>	
+					<th>Exam</th>
+					<th>Name</th>
+					<th>Form No.</th>
+					<th>Mobile No.</th>
+					<th>Registration Date</th>
+					<th>Transaction Type</th>
+					<th>Order No.</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php $i=($paginator-1)*($result->perPage())+1; ?>
+			@foreach($result as $res)
+				<tr>
+					<td align="center">{{ $i }}</td>
+					<td >{{ $res->exam_name }}</td>
+					<td >{{ $res->name }}</td>
+					<td >{{ $res->form_no }}</td>
+					<td >{{ $res->mobile_no }}</td>
+					<td >{{ $res->created_at->format('d-m-Y') }}</td>
+					<td >{{ $res->trans_type }}</td>
+					<td >{{ $res->order_info }}</td>
+					<td >
+						<a href="{!! URL::Route('admin.challan.verification', array($res->info_id)) !!}", class="btn btn-info btn-md pull-left">
+							<i class="fa fa-edit"></i>
+						</a>
+						<a target="_blank" href="{!! URL::Route('admin.view.preview_confirmation', array($res->info_id)) !!}", class="btn btn-info btn-md pull-right">
+							<i class="fa fa-eye"></i>
+						</a>
+					</td>
+				</tr>
+				<?php $i=$i+1; ?>
+			@endforeach	
+			</tbody>
+		</table>
+		</div>
+		{!! $result->render() !!}
+		@else
+			<div class="alert alert-warning" style="text-align:center;">
+				 No records found.
+			</div>    		
+    	@endif	
+	</div>
+</div>
+@stop
