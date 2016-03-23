@@ -565,7 +565,7 @@ class AdminController extends Controller
                                     ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     ->where('orders.status', 'SUCCESS')
-                                    ->where('candidate_info.rollno', '=', NULL)
+                                    ->where('candidate_info.rollno', '=', Null)
                                     //->take($request->take)
                                     ->where('candidate_info.reg_status', 'completed');
             
@@ -639,6 +639,7 @@ class AdminController extends Controller
 
         $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
                                     ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->where('candidate_info.rollno', '=', Null)
                                     ->take($request->take)
                                     ->where('candidate_info.reg_status', 'completed');
 
@@ -914,6 +915,7 @@ class AdminController extends Controller
                                     ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
                                     ->take($request->take)
                                     ->where('candidate_info.reg_status', 'completed')
+                                    ->where('candidate_info.centre_capacities_id', '=', Null)
                                     ->where('candidate_info.rollno', '!=', '');
 
         if($request->exam_id != "" || $request->c_pref1 !='' || $request->centre_location !='' || $request->pin !='')

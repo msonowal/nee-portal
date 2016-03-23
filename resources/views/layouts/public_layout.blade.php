@@ -27,7 +27,8 @@
       <div class="row center">
         <h5 class="header col s12 light">North Eastern Regional Institute of Science and Technology, Nirjuli (Itanagar) <br />
         <!--<marquee> NERIST Entrance Examination (NEE) 2016 for the sesion 2016-17</marquee>-->
-        <marquee><h4 class="header center red-text"> The Challan verification process will be close soon. It is requested to verify (for those who paid through Challan and did not get registration confirmation page yet) yourself or email us scan copy of Challan with email id, password and exam name in support@neeonline.ac.in</h4></marquee>
+        <!--<marquee><h4 class="header center red-text"> The Challan verification process will be close soon. It is requested to verify (for those who paid through Challan and did not get registration confirmation page yet) yourself or email us scan copy of Challan with email id, password and exam name in support@neeonline.ac.in</h4></marquee>-->
+        <marquee><h4 class="header center red-text">Admit Card for NEE {{ date('Y') }} can be downloaded with affect from 31-03-2016.</h4></marquee>
         </h5>
       </div>
       <!--##### -->
