@@ -16,11 +16,18 @@
 		    the original documents and a set of photo copies of the documents during the time of your admission.
 		</blockquote>
 	  </div>
-	  <div class="col m12">
+	  <div class="col m9">
 			<a class="right btn blue waves-effect waves-light" target="_blank" href="{{ route('candidate.application.view_confirmation') }}">
-			 &nbsp; Click to View 
+			 &nbsp; Confirmation Page 
 			</a>
 	  </div>
+	  <!--
+	  <div class="col m3">
+			<a class="right btn blue waves-effect waves-light" target="_blank" href="{{ route('candidate.application.admit_card') }}">
+			 &nbsp; Admit Card 
+			</a>
+	  </div>
+	  -->
    </div>
 </div>
 @stop

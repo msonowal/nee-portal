@@ -18,6 +18,7 @@ use nee_portal\Models\ChallanInfo;
 use nee_portal\Models\Reservation;
 use nee_portal\Models\AlliedBranch;
 use nee_portal\Models\Order;
+use nee_portal\Models\CentreCapacity;
 
 class RegistrationController extends Controller
 {
@@ -718,5 +719,70 @@ class RegistrationController extends Controller
 
         return $this->getStep();
     }
+
+
+    public function admit_card()
+    {
+            if(!Basehelper::checkSession())
+                return redirect()->route($this->content.'dashboard');
+
+            try{
+                $step1  = Step1::where('candidate_info_id', $this->info_id)->firstOrFail();
+                $step2  = Step2::where('candidate_info_id', $this->info_id)->firstOrFail();
+                $step3  = Step3::where('candidate_info_id', $this->info_id)->firstOrFail();
+                $candidate  = Candidate::where('id', Auth::candidate()->get()->id)->firstOrFail();
+                $candidate_info    =    CandidateInfo::where('id', $this->info_id)->firstOrFail();
+                $centre_locations=CentreCapacity::join('centres', 'centres.centre_code', '=', 'centre_capacities.centre_code')
+                                        ->where('centre_capacities.id', $candidate_info->centre_capacities_id)->firstOrFail();                                   
+              }catch(ModelNotFoundException $e){
+                return redirect()->route('candidate.error')->withErrors('Admit card is not generated yet!');
+            }
+
+            if($candidate_info->reg_status == "completed"){
+            $order = Order::where('candidate_info_id', $this->info_id)->where('status', 'SUCCESS')->orderBy('id', 'desc')->first();
+            
+            $exam_name= Basehelper::getExam($candidate_info->exam_id);
+            $exam_date= Basehelper::getExamDate($candidate_info->exam_id);
+            $step1->category= Basehelper::getCategory($step1->reservation_code);
+            $step1->quota= Basehelper::getQuota($step1->quota);
+            $candidate_info->q_id=Basehelper::getQualification($candidate_info->q_id);
+            $step1->admission_in= Basehelper::getAdmissionIn($step1->admission_in);
+            $step2->state= Basehelper::getState($step2->state);
+            $step2->district= Basehelper::getDistrict($step2->district);
+            $amount=Basehelper::getPayableAmount($this->info_id);
+            $centre_code=$centre_locations->centre_code;
+            $centre_name= Basehelper::getCentre($centre_code);
+            $candidate_info->centre_capacities_id=$centre_locations->centre_location;
+
+            if(strlen($centre_code) < 2)
+                $centre_code="0".$centre_code;
+
+            $registration_no= Basehelper::getRegistrationNo($this->info_id);
+            $sub_type="Voc./Branch Subject";
+            $subject="NA";
+
+            if($step1->allied_branch != Null)
+            {
+                $subject= Basehelper::getAlliedBranch($step1->allied_branch);
+                $sub_type="Branch Subject";
+            }
+
+            if($step1->voc_subject != NULL)
+            {
+                $subject= Basehelper::getVocSubject($step1->voc_subject);
+                $sub_type="Vocational Subject";
+            }    
+            return view('candidate.application.admit_card', compact('step1', 'step2', 'step3', 'candidate', 'candidate_info', 'order', 'amount', 'registration_no', 'exam_date', 'exam_name', 'subject', 'sub_type', 'centre_code', 'centre_name'));
+
+            }
+                  
+            //$step1  =   Step1::where('candidate_info_id', $info_id)->firstOrFail();
+            //$step2  =   Step2::where('candidate_info_id', $info_id)->firstOrFail();
+            //$step3  =   Step3::where('candidate_info_id', $info_id)->firstOrFail();
+            //$candidate_info    = CandidateInfo::where('id', $info_id)->firstOrFail();
+            //$candidate  = Candidate::where('id', $candidate_info->candidate_id)->firstOrFail();
+            
+    }
+
 
 }

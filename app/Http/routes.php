@@ -66,6 +66,7 @@ Route::group(['prefix'=>'candidate', 'namespace' => 'Candidate'], function() {
         //Pay U money
         Route::get('/payment/pay_u', ['as' => 'payment.pay_u', 'uses' =>'PaymentController@showPayU']);
         Route::post('/payment/pay_u', ['as' => 'payment.pay_u', 'uses' =>'PaymentController@doPayU']);
+        Route::get('/application/admit_card', ['as' => 'candidate.application.admit_card', 'uses' =>'RegistrationController@admit_card']);
 
     });
 });
