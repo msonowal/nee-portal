@@ -1100,7 +1100,7 @@ class AdminController extends Controller
             $exams =[''=>'-Exam Level-'] + Exam::lists('exam_name', 'id')->toArray(); 
             $centre_pref1=[''=>'-Centre Pref1-'] + Centre::lists('centre_name', 'centre_code')->toArray();
             $centre_locations=[''=>'---Centre Location---'] + CentreCapacity::lists('centre_location', 'id')->toArray();
-            $results->select('candidate_info.id', 'step3.photo', 'step3.signature', 'step1.dob', 'step1.reservation_code', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.centre_capacities_id', 'candidate_info.rollno');
+            $results->select('candidate_info.id', 'step3.photo', 'step3.signature', 'step1.dob', 'step1.reservation_code', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.centre_capacities_id', 'candidate_info.rollno', 'candidate_info.paper_code');
             
             $total=$results->get();
             $displayed=$results->get();
@@ -1271,16 +1271,6 @@ class AdminController extends Controller
         Session::put('url', URL::full());
 
         return view($this->content.'candidates.preview_user', compact('result', 'paginator'));
-    }
-
-    public function access_user($id){
-    
-          //Auth::loginUsingId('candidate', $id);
-        //$user=Candidate::find($id);
-        //Auth::candidate($user);
-        //dd(Auth::check());
-        
-        return redirect()->route('candidate.application.dashboard')->with('message', 'You are logged in as Candidate');
     }
 
     public function preview_confirmation($info_id)

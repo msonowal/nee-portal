@@ -146,7 +146,7 @@ fieldset[disabled] .btn-aug.active {
     <tr>
       <th width="8%" scope="col"> Sl. No.</th>
       <th width="23%" scope="col">Name with DOB</th>
-      <th width="8%" scope="col">Reservation</th>
+      <th width="8%" scope="col">Reservation&Paper Code</th>
       <th width="15%" scope="col">Roll No</th>
       <th width="12%" scope="col">Photo</th>
       <th width="26%" scope="col">Signature</th>
@@ -212,7 +212,7 @@ fieldset[disabled] .btn-aug.active {
     <tr>
       <th width="8%" scope="col"> Sl. No.</th>
       <th width="23%" scope="col">Name with DOB</th>
-      <th width="8%" scope="col">Reservation</th>
+      <th width="8%" scope="col">Reservation&Paper Code</th>
       <th width="15%" scope="col">Roll No</th>
       <th width="12%" scope="col">Photo</th>
       <th width="26%" scope="col">Signature</th>
@@ -226,8 +226,8 @@ fieldset[disabled] .btn-aug.active {
     <tr>
       <td class="container">{{$sl_no}}</td>
       <td class="container"> {{ $result->name }}<br>({{ $result->dob }})</td>
-      <td class="container"> {{ $result->reservation_code }}</td>
-      <td class="container"> {{ $result->rollno }} </td>
+      <td class="container"> {{ $result->reservation_code }}<br/>({{ $result->paper_code }})</td>
+      <td class="container"> {{ $result->rollno }}</td>
       <td class="container"> 
         {!! Html::image('images/image.php?photo_url='.$result->photo, 'photo', ['width' => "74", 'height'=>"70px"]) !!}
       </td>

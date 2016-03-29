@@ -10,7 +10,7 @@
     <td width="913" colspan="2" valign="top">
 	@foreach($results as $res)
       <strong>
-      <textarea name="seat_label" cols="11" rows="2" style="font-family: Arial; font-size: 18pt; font-weight: bold; text-align: center; border-style: solid; border-color:#000000 border-width: 2; padding-left:0px; padding-right:40px; padding-top:15px; margin:5px; padding-bottom:0px; background:url({{ asset('images/seat_label.jpg') }})">
+      <textarea name="seat_label" cols="11" rows="2" style="font-family: Arial; font-size: 18pt; font-weight: bold; text-align: center; border-style: solid; border-color:#000000 border-width: 2; padding-left:0px; padding-right:40px; padding-top:15px; margin:5px; padding-bottom:0px; background:url({{ asset('images/seat_label.jpg') }})">&nbsp;
       {{ $res->rollno }}</textarea>
       </strong>
   @endforeach
