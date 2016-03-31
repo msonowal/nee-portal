@@ -835,7 +835,7 @@ class AdminController extends Controller
 
             if($request->c_pref1 !='')
             {
-               return $centre_code=$request->c_pref1;
+                $centre_code=$request->c_pref1;
                 // $results->where(function ($query) use($centre_code){
                 //             $query->where('step1.c_pref1', $centre_code)
                 //             ->orwhere('step1.c_pref2', $centre_code);
@@ -892,7 +892,7 @@ class AdminController extends Controller
 
         if(empty($request->take))
            return redirect()->route('admin.candidate.allocate_centre')->with(array('message'=>'No. of take is required!'));
-   
+        
             $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
                                     ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
                                     ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
