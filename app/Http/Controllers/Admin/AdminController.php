@@ -835,7 +835,7 @@ class AdminController extends Controller
 
             if($request->c_pref1 !='')
             {
-                $centre_code=$request->c_pref1;
+               return $centre_code=$request->c_pref1;
                 // $results->where(function ($query) use($centre_code){
                 //             $query->where('step1.c_pref1', $centre_code)
                 //             ->orwhere('step1.c_pref2', $centre_code);
