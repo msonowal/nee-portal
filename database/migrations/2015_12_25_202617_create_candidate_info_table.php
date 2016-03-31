@@ -20,6 +20,7 @@ class CreateCandidateInfoTable extends Migration
             $table->enum('qualification_status', array('PASSED', 'APPEARING/APPEARED'));
             $table->string('form_no', 10)->nullable();
             $table->string('rollno', 20)->nullable();
+            $table->integer('exam_centre')->nullable()->unsigned();
             $table->enum('reg_status', array('not_submitted', 'payment_pending', 'completed'))->default('not_submitted');
             $table->integer('paper_code')->nullable();
             //$table->date('reg_date')->nullable()->comment('registration date');
