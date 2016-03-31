@@ -78,8 +78,8 @@
 					<th>Form No.</th>
 					<th>Roll No.</th>
 					<th>Centre</th>
-					<th>Transaction Type</th>
-					<th>Order No.</th>
+					<th>Pin</th>
+					<th>Paper Code</th>
 					<th>View</th>
 
 				</tr>
@@ -94,8 +94,8 @@
 					<td >{{ $res->form_no }}</td>
 					<td >{{ $res->rollno }}</td>
 					<td >{{ $res->c_pref1 }}</td>
-					<td >{{ $res->trans_type }}</td>
-					<td >{{ $res->order_info }}</td>
+					<td >{{ $res->pin }}</td>
+					<td >{{ $res->paper_code }}</td>
 					<td >
 						<a target="_blank" href="{!! URL::Route('admin.candidate.view_confirmation', array($res->info_id)) !!}", class="btn btn-info btn-md pull-left">
 							<i class="fa fa-eye"></i>

@@ -13,7 +13,8 @@
 				       $c_pref2 = $centre_pref2;
 				       $s_centre_pref2 = (Input::has('c_pref2')) ? Input::get('c_pref2') : null;
 				       $s_pin = (Input::has('pin')) ? Input::get('pin') : null;
-				       $take = (Input::has('take')) ? Input::get('take') : null; 
+				       $take = (Input::has('take')) ? Input::get('take') : null;
+				       $paper_code = (Input::has('paper_code')) ? Input::get('paper_code') : null; 
                  ?>      
                 {!! Form::select('exam_id', $exam_id, $s_exam, array('class'=>'form-control', 'required'=>'true')) !!}
             </div>
@@ -28,6 +29,9 @@
             </div>
             <div class="form-group col-sm-2">
             	{!! Form::text('take', $take, array('class'=>'form-control search-box', 'autocomplete'=>'off', 'placeholder'=>'No. of take', 'required'=>'true')) !!}
+            </div>
+            <div class="form-group col-sm-2">
+            	{!! Form::text('paper_code', $paper_code, array('class'=>'form-control search-box', 'autocomplete'=>'off', 'placeholder'=>'Paper code')) !!}
             </div>
             <div class="form-group col-sm-2">    
                 {!! Form::submit('Submit', array('class'=>'btn btn-success')) !!}
@@ -48,6 +52,7 @@
 					{!! Form::hidden('exam_id', Input::get('exam_id'))!!}
 					{!! Form::hidden('pin', Input::get('pin'))!!}
 					{!! Form::hidden('take', Input::get('take'))!!}
+					{!! Form::hidden('paper_code', Input::get('paper_code'))!!}
 			{!! Form::submit('Generate Roll Numbers', array('class'=>'btn btn-success')) !!}
 			</div>
 			<div class="form-group col-sm-3">
@@ -74,8 +79,8 @@
 					<th>Mobile No.</th>
 					<th>Centre Pref 1</th>
 					<th>Centre Pref 2</th>
-					<th>Transaction Type</th>
-					<th>Order No.</th>
+					<th>Pin</th>
+					<th>Paper Code</th>
 					<th>View</th>
 
 				</tr>
@@ -91,8 +96,8 @@
 					<td >{{ $res->mobile_no }}</td>
 					<td >{{ $res->c_pref1 }}</td>
 					<td >{{ $res->c_pref2 }}</td>
-					<td >{{ $res->trans_type }}</td>
-					<td >{{ $res->order_info }}</td>
+					<td >{{ $res->pin }}</td>
+					<td >{{ $res->paper_code }}</td>
 					<td >
 						<a target="_blank" href="{!! URL::Route('admin.candidate.view_confirmation', array($res->info_id)) !!}", class="btn btn-info btn-md pull-left">
 							<i class="fa fa-eye"></i>

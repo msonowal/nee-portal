@@ -589,6 +589,9 @@ class AdminController extends Controller
 
             if($request->pin !='')
                 $results->where('step2.pin', $request->pin);
+
+            if($request->paper_code !='')
+                $results->where('candidate_info.paper_code', $request->paper_code);
             }
 
             $centre =Centre::join('centre_capacities', 'centres.centre_code', '=', 'centre_capacities.centre_code')
@@ -608,7 +611,7 @@ class AdminController extends Controller
             $exams =[''=>'-Exam Level-'] + Exam::lists('exam_name', 'id')->toArray(); 
             $centre_pref1=[''=>'-Centre Pref1-'] + Centre::lists('centre_name', 'centre_code')->toArray();
             $centre_pref2=[''=>'-Centre Pref2-'] + Centre::lists('centre_name', 'centre_code')->toArray();
-            $results->select('candidate_info.id', 'candidate_info.paper_code', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.centre_capacities_id');
+            $results->select('candidate_info.id', 'candidate_info.paper_code', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.centre_capacities_id', 'step2.pin');
             
             $total=$results->get();
             $results=$results->take($request->take); 
@@ -657,6 +660,9 @@ class AdminController extends Controller
                 if($request->pin !='')
                     $results->where('step2.pin', $request->pin);
 
+                if($request->paper_code !='')
+                     $results->where('candidate_info.paper_code', $request->paper_code);
+
             }    
 
             if($request->c_pref2 !='')
@@ -692,7 +698,10 @@ class AdminController extends Controller
                                     ->where('candidate_info.exam_id', $request->exam_id)
                                     ->orderBy('candidate_info.paper_code', 'asc');
                 if($request->pin !='')
-                    $results2->where('step2.pin', $request->pin);                    
+                    $results2->where('step2.pin', $request->pin); 
+
+                if($request->paper_code !='')
+                       $results2->where('candidate_info.paper_code', $request->paper_code);                       
             }    
 
             
@@ -959,7 +968,7 @@ class AdminController extends Controller
             $exams =[''=>'-Exam Level-'] + Exam::lists('exam_name', 'id')->toArray(); 
             $centre_pref1=[''=>'-Centre Pref1-'] + Centre::lists('centre_name', 'centre_code')->toArray();
             $centre_locations=[''=>'---Centre Location---'] + CentreCapacity::lists('centre_location', 'id')->toArray();
-            $results->select('candidate_info.id', 'candidate_info.rollno', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.centre_capacities_id');
+            $results->select('candidate_info.id', 'candidate_info.rollno', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.centre_capacities_id', 'candidate_info.paper_code', 'pin');
             
             $total=$results->get();
             $results=$results->take($request->take); 
