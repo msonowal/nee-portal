@@ -4,7 +4,7 @@
   <div class="col-sm-12">
 	<div class="box">
 		<div class="box-header">
-			<div class="form-group col-sm-2">
+			<div class="form-group col-sm-4">
 			{!! Form::open(array('route'=>'admin.candidate.search_centre', 'id' => 'applicant_search_form', 'class'=>'form-horizontal')) !!}
 				 <?php $exam_id = $exams;
 				       $s_exam = (Input::has('exam_id')) ? Input::get('exam_id') : null;
@@ -14,20 +14,24 @@
 				       $s_centre_location = (Input::has('centre_location')) ? Input::get('centre_location') : null;
 				       $s_pin = (Input::has('pin')) ? Input::get('pin') : null;
 				       $take = (Input::has('take')) ? Input::get('take') : null; 
+				       $paper_code = (Input::has('paper_code')) ? Input::get('paper_code') : null;
                  ?>      
             {!! Form::select('exam_id', $exam_id, $s_exam, array('class'=>'form-control', 'required'=>'true')) !!}
             </div>
-            <div class="form-group col-sm-2">
+            <div class="form-group col-sm-4">
                 {!! Form::select('c_pref1', $c_pref1, $s_centre_pref1, array('id'=>'c_pref1', 'class'=>'form-control', 'required'=>'true')) !!}
             </div>
-            <div class="form-group col-sm-2">
+            <div class="form-group col-sm-4">
                 {!! Form::select('centre_location', $centre_location, $s_centre_location, array('id'=>'centre_location', 'class'=>'form-control', 'required'=>'true')) !!}
             </div>
-            <div class="form-group col-sm-2">
+            <div class="form-group col-sm-3">
             	{!! Form::text('pin', $s_pin, array('class'=>'form-control search-box', 'autocomplete'=>'off', 'placeholder'=>'PIN (optional)')) !!}
             </div>
             <div class="form-group col-sm-2">
             	{!! Form::text('take', $take, array('class'=>'form-control search-box', 'autocomplete'=>'off', 'placeholder'=>'No. of take', 'required'=>'true')) !!}
+            </div>
+            <div class="form-group col-sm-2">
+            	{!! Form::text('paper_code', $paper_code, array('class'=>'form-control search-box', 'autocomplete'=>'off', 'placeholder'=>'Paper code')) !!}
             </div>
             <div class="form-group col-sm-2">    
                 {!! Form::submit('Submit', array('class'=>'btn btn-success')) !!}
@@ -36,13 +40,15 @@
 			{!! Form::close() !!}
 		</div>
 		@if(!empty($results) && $results->count())
-			@if(Input::has('exam_id') || Input::has('c_pref1') || Input::has('pin') || Input::has('take'))
+			@if(Input::has('exam_id') || Input::has('c_pref1') || Input::has('pin') || Input::has('take') || Input::has('paper_code'))
 			
 			<div class="form-group col-sm-3">
 			{!! Form::open(array('route'=>'admin.candidate.centre_allocation', 'id' => 'generate_roll_nos', 'class'=>'form-horizontal', 'method'=>'PUT')) !!}
 					{!! Form::hidden('c_pref1', Input::get('c_pref1')) !!}
 					{!! Form::hidden('exam_id', Input::get('exam_id'))!!}
 					{!! Form::hidden('take', Input::get('take'))!!}
+					{!! Form::hidden('pin', Input::get('pin'))!!}
+					{!! Form::hidden('paper_code', Input::get('paper_code'))!!}
 					{!! Form::hidden('centre_location', Input::get('centre_location'))!!}
 			{!! Form::submit('Allocate Centre', array('class'=>'btn btn-success')) !!}
 			</div>

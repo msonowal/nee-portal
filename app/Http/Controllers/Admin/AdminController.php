@@ -646,6 +646,7 @@ class AdminController extends Controller
             {
                 $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
                                     ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->where('candidate_info.reg_status', 'completed')
                                     ->where('candidate_info.exam_id', $request->exam_id)
                                     ->orderBy('candidate_info.paper_code', 'asc');
@@ -662,6 +663,7 @@ class AdminController extends Controller
             {
                 $data=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
                                     ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->where('step1.c_pref1', $request->c_pref2)
                                     ->where('candidate_info.exam_id', '=', $request->exam_id)
                                     ->where('candidate_info.rollno', '=', Null)
@@ -672,6 +674,7 @@ class AdminController extends Controller
 
                 $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
                                     ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->where('candidate_info.reg_status', 'completed')
                                     ->where('candidate_info.exam_id', $request->exam_id)
                                     ->where('candidate_info.exam_centre', $request->c_pref2)
@@ -682,6 +685,7 @@ class AdminController extends Controller
 
                 $results2=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
                                     ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->where('candidate_info.reg_status', 'completed')
                                     ->where('candidate_info.rollno', '=', Null)
                                     ->where('step1.c_pref2', $request->c_pref2)
@@ -920,6 +924,9 @@ class AdminController extends Controller
 
             if($request->pin !='')
                 $results->where('step2.pin', $request->pin);
+
+            if($request->paper_code !='')
+                $results->where('candidate_info.paper_code', $request->paper_code);
             }
 
             $centre =Centre::join('centre_capacities', 'centres.centre_code', '=', 'centre_capacities.centre_code')
@@ -982,6 +989,7 @@ class AdminController extends Controller
 
         $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
                                     ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->take($request->take)
                                     ->where('candidate_info.reg_status', 'completed')
                                     ->where('candidate_info.centre_capacities_id', '=', Null)
@@ -1005,6 +1013,9 @@ class AdminController extends Controller
 
             if($request->pin !='')
                 $results->where('step2.pin', $request->pin);
+
+            if($request->paper_code !='')
+                $results->where('candidate_info.paper_code', $request->paper_code);
         
 
         $results->select('candidate_info.id', 'candidate_info.rollno', 'candidate_info.exam_id', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.paper_code');

@@ -46,6 +46,7 @@
 					{!! Form::hidden('c_pref1', Input::get('c_pref1')) !!}
 				@endif
 					{!! Form::hidden('exam_id', Input::get('exam_id'))!!}
+					{!! Form::hidden('pin', Input::get('pin'))!!}
 					{!! Form::hidden('take', Input::get('take'))!!}
 			{!! Form::submit('Generate Roll Numbers', array('class'=>'btn btn-success')) !!}
 			</div>
