@@ -31,7 +31,7 @@
             	{!! Form::text('take', $take, array('class'=>'form-control search-box', 'autocomplete'=>'off', 'placeholder'=>'No. of take', 'required'=>'true')) !!}
             </div>
             <div class="form-group col-sm-2">
-            	{!! Form::text('paper_code', $paper_code, array('class'=>'form-control search-box', 'autocomplete'=>'off', 'placeholder'=>'Paper code')) !!}
+            	{!! Form::text('paper_code', $paper_code, array('class'=>'form-control search-box', 'autocomplete'=>'off', 'placeholder'=>'Paper code( or use voc for voc subject)')) !!}
             </div>
             <div class="form-group col-sm-2">    
                 {!! Form::submit('Submit', array('class'=>'btn btn-success')) !!}
