@@ -52,8 +52,6 @@
 					<th>Name</th>
 					<th>Form No.</th>
 					<th>Roll No.</th>
-					<th>Centre Pref 1</th>
-					<th>Centre Pref 2</th>
 					<th>Transaction Type</th>
 					<th>Order No.</th>
 					<th>View</th>
@@ -69,8 +67,6 @@
 					<td >{{ $res->name }}</td>
 					<td >{{ $res->form_no }}</td>
 					<td >{{ $res->rollno }}</td>
-					<td >{{ $res->c_pref1 }}</td>
-					<td >{{ $res->c_pref2 }}</td>
 					<td >{{ $res->trans_type }}</td>
 					<td >{{ $res->order_info }}</td>
 					<td >

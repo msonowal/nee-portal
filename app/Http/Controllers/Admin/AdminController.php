@@ -567,7 +567,8 @@ class AdminController extends Controller
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('candidate_info.rollno', '=', Null)
                                     //->take($request->take)
-                                    ->where('candidate_info.reg_status', 'completed');
+                                    ->where('candidate_info.reg_status', 'completed')
+                                    ->orderBy('candidate_info.paper_code', 'asc');
             
             if($request->exam_id != "" || $request->c_pref1 !='' || $request->c_pref2 !='' || $request->pin !='')
             {
@@ -607,13 +608,15 @@ class AdminController extends Controller
             $exams =[''=>'-Exam Level-'] + Exam::lists('exam_name', 'id')->toArray(); 
             $centre_pref1=[''=>'-Centre Pref1-'] + Centre::lists('centre_name', 'centre_code')->toArray();
             $centre_pref2=[''=>'-Centre Pref2-'] + Centre::lists('centre_name', 'centre_code')->toArray();
-            $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.centre_capacities_id');
+            $results->select('candidate_info.id', 'candidate_info.paper_code', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.centre_capacities_id');
             
             $total=$results->get();
             $results=$results->take($request->take); 
             $displayed=$results->get();
 
             $results=$results->get(); 
+
+            //var_dump($results);
             $centres=Centre::all();
             foreach ($results as $result => $res)
             {
@@ -637,35 +640,60 @@ class AdminController extends Controller
         if(empty($request->take))
            return redirect()->route('admin.generate.roll_no')->with(array('message'=>'No. of take is required!'));
 
-        $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
-                                    ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
-                                    ->where('candidate_info.rollno', '=', Null)
-                                    ->take($request->take)
-                                    ->where('candidate_info.reg_status', 'completed');
-
         if($request->exam_id != "" || $request->c_pref1 !='' || $request->c_pref2 !='' || $request->pin !='')
         {
-            if($request->exam_id !='')
-                $results->where('candidate_info.exam_id', $request->exam_id);
-
             if($request->c_pref1 !='')
             {
-                $results->where('step1.c_pref1', $request->c_pref1);
-                $centre_code=$request->c_pref1;   
+                $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->where('candidate_info.reg_status', 'completed')
+                                    ->where('candidate_info.exam_id', $request->exam_id)
+                                    ->orderBy('candidate_info.paper_code', 'asc');
+                $results->where('step1.c_pref1', $request->c_pref1)
+                        ->where('candidate_info.rollno', '=', Null);
+                $centre_code=$request->c_pref1;
+
+                if($request->pin !='')
+                    $results->where('step2.pin', $request->pin);
+
             }    
 
             if($request->c_pref2 !='')
             {
-                $results->where('step1.c_pref2', $request->c_pref2);
-                $centre_code=$request->c_pref2; 
+                $data=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->where('step1.c_pref1', $request->c_pref2)
+                                    ->where('candidate_info.exam_id', '=', $request->exam_id)
+                                    ->where('candidate_info.rollno', '=', Null)
+                                    ->where('candidate_info.reg_status', 'completed')->first();
+
+                if(count($data) > 0)
+                       return redirect()->route('admin.generate.roll_no')->with(array('message'=>'Centre Pref1 is not completed!'));                     
+
+                $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->where('candidate_info.reg_status', 'completed')
+                                    ->where('candidate_info.exam_id', $request->exam_id)
+                                    ->where('candidate_info.exam_centre', $request->c_pref2)
+                                    ->where('candidate_info.rollno', '!=', '')
+                                    ->orderBy('candidate_info.paper_code', 'asc');   
+        
+                $centre_code=$request->c_pref2;
+
+                $results2=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('step1', 'candidate_info.id', '=', 'step1.candidate_info_id')
+                                    ->where('candidate_info.reg_status', 'completed')
+                                    ->where('candidate_info.rollno', '=', Null)
+                                    ->where('step1.c_pref2', $request->c_pref2)
+                                    ->where('candidate_info.exam_id', $request->exam_id)
+                                    ->orderBy('candidate_info.paper_code', 'asc');
+                if($request->pin !='')
+                    $results2->where('step2.pin', $request->pin);                    
             }    
 
-            if($request->pin !='')
-                $results->where('step2.pin', $request->pin);
+            
         }
-
-        $results->select('candidate_info.id', 'candidate_info.rollno', 'candidate_info.exam_id', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.paper_code');
-        $results=$results->get();                                
+                                  
         $exam_id  =$request->exam_id;                            
         $centre =Centre::where('centre_code', $centre_code)->first();
 
@@ -685,23 +713,69 @@ class AdminController extends Controller
             $exam='NEEIII';
         }
 
-        foreach ($results as $result => $res) {
-        $candidate_info =new CandidateInfo();
+        if($request->c_pref1 !='')
+        {
+            $results->select('candidate_info.id', 'candidate_info.rollno', 'candidate_info.exam_id', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.paper_code');
+            $results->take($request->take);
+            $result=$results->get();
+        }    
+              
+
+        if($request->c_pref2 !='')
+        {
+            $results->select('candidate_info.id', 'candidate_info.rollno', 'candidate_info.exam_id', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.paper_code');
+            $results2->select('candidate_info.id', 'candidate_info.rollno', 'candidate_info.exam_id', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.paper_code');
+            $results->take($roll);
+            $results2->take($request->take);  
+            $roll=0;
+            $results=$results->get();
+            $results2=$results2->get();
+           //dump($results2);
+            $result = [];
+            foreach($results as $k => $v) {
+                $result[$k]['id'] = $v->id;
+                $result[$k]['rollno'] = $v->rollno;
+                $result[$k]['exam_id'] = $v->exam_id;
+                $result[$k]['c_pref1'] = $v->c_pref1;
+                $result[$k]['c_pref2'] = $v->c_pref2;
+                $result[$k]['paper_code'] = $v->paper_code;
+            }
+
+            foreach($results2 as $k => $v) {
+                $result[count($results)+$k]['id'] = $v->id;
+                $result[count($results)+$k]['rollno'] = $v->rollno;
+                $result[count($results)+$k]['exam_id'] = $v->exam_id;
+                $result[count($results)+$k]['c_pref1'] = $v->c_pref1;
+                $result[count($results)+$k]['c_pref2'] = $v->c_pref2;
+                $result[count($results)+$k]['paper_code'] = $v->paper_code;
+            }
+
+            $sort_col=[];
+            $col='id';
+            foreach ($result as $key=> $row) {
+              $sort_col[$key] = $row[$col];
+            }
+
+            $result=CandidateInfo::whereIn('id', $sort_col)->orderBy('paper_code', 'asc')->get();
+
+        } 
+        
+        foreach ($result as $ress => $res) {
         $centres =new Centre();
 
         if($request->c_pref1!='')
         {
-           $c_pref=$res->c_pref1;   
+           $c_pref=$request->c_pref1;   
         } 
 
         if($request->c_pref2!='')
         {
-           $c_pref=$res->c_pref2;
+           $c_pref=$request->c_pref2;
         } 
 
         if(strlen($c_pref) < 2)
         {
-            $c_pref='0'.$c_pref;
+           $c_pref='0'.$c_pref;
         } 
 
         $roll=$roll+1;
@@ -720,12 +794,14 @@ class AdminController extends Controller
         if(strlen($roll)==4)
             $roll=$roll;
 
-        $roll_no =$res->exam_id.$c_pref.$res->paper_code.$roll;
-        $candidate_info->where('id', $res->id)
-                        ->update(['rollno' => $roll_no]);
-                       
-      }
+        $roll_no = $res->exam_id.$c_pref.$res->paper_code.$roll;
 
+        $candidate_info = CandidateInfo::findOrFail($res->id);
+        $candidate_info->rollno = $roll_no;
+        $candidate_info->exam_centre = $centre_code;
+        $candidate_info->save();
+      }
+      
       return redirect()->route('admin.generate.roll_no')->with(array('message'=>'Roll no. successfully generated!'));
     }
 
@@ -733,7 +809,7 @@ class AdminController extends Controller
     {
         
         $exams =[''=>'-Exam Level-'] + Exam::lists('exam_name', 'id')->toArray(); 
-        $centre_pref1=[''=>'-Centre Pref1-'] + Centre::lists('centre_name', 'centre_code')->toArray();
+        $centre_pref1=[''=>'--Centre--'] + Centre::lists('centre_name', 'centre_code')->toArray();
         
         return view($this->content.'candidates.roll_no_list', compact('exams', 'centre_pref1', 'total'));
     }
@@ -750,8 +826,8 @@ class AdminController extends Controller
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('candidate_info.rollno', '!=', '')
-                                    ->where('candidate_info.reg_status', 'completed');
-            
+                                    ->where('candidate_info.reg_status', 'completed')
+                                    ->orderBy('candidate_info.rollno', 'asc');
             if($request->exam_id != "" || $request->c_pref1 !='' || $request->pin !='')
             {
             if($request->exam_id !='')
@@ -760,10 +836,11 @@ class AdminController extends Controller
             if($request->c_pref1 !='')
             {
                 $centre_code=$request->c_pref1;
-                $results->where(function ($query) use($centre_code){
-                            $query->where('step1.c_pref1', $centre_code)
-                            ->orwhere('step1.c_pref2', $centre_code);
-                        });
+                // $results->where(function ($query) use($centre_code){
+                //             $query->where('step1.c_pref1', $centre_code)
+                //             ->orwhere('step1.c_pref2', $centre_code);
+                //         })->get();
+                $results->where('candidate_info.exam_centre', $centre_code);
             }    
 
             if($request->pin !='')
@@ -785,8 +862,8 @@ class AdminController extends Controller
                 $centre_capacity=$centre_capacity-($nee_ii+$nee_iii);
 
             $exams =[''=>'-Exam Level-'] + Exam::lists('exam_name', 'id')->toArray(); 
-            $centre_pref1=[''=>'-Centre Pref1-'] + Centre::lists('centre_name', 'centre_code')->toArray();
-            $centre_pref2=[''=>'-Centre Pref2-'] + Centre::lists('centre_name', 'centre_code')->toArray();
+            $centre_pref1=[''=>'--Centre--'] + Centre::lists('centre_name', 'centre_code')->toArray();
+            //$centre_pref2=[''=>'-Centre Pref2-'] + Centre::lists('centre_name', 'centre_code')->toArray();
             $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.centre_capacities_id', 'candidate_info.rollno');
             
             $total=$results->get();
@@ -794,15 +871,6 @@ class AdminController extends Controller
 
             $results=$results->get(); 
             $centres=Centre::all();
-            foreach ($results as $result => $res)
-            {
-              $item = $res['c_pref1'];
-              if($item !=NULL)
-                  $results[$result]['c_pref1'] = $centres->filter(function($c_pref1) use ($item){if( $c_pref1->centre_code==$item ) return $c_pref1;})->first()->centre_name;
-              $item = $res['c_pref2'];
-              if($item !=NULL)
-                  $results[$result]['c_pref2'] = $centres->filter(function($c_pref1) use ($item){if( $c_pref1->centre_code==$item ) return $c_pref1;})->first()->centre_name;
-            }
 
             return view($this->content.'candidates.roll_no_list', compact('results', 'paginator', 'exams', 'centre_pref1', 'centre_pref2', 'total', 'centre_capacity', 'displayed'));
     }
@@ -833,8 +901,8 @@ class AdminController extends Controller
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('candidate_info.rollno', '!=', '')
                                     ->where('candidate_info.centre_capacities_id', '=', Null)
-                                    ->where('candidate_info.reg_status', 'completed');
-            
+                                    ->where('candidate_info.reg_status', 'completed')
+                                    ->orderBy('candidate_info.rollno', 'asc');          
             if($request->exam_id != "" || $request->c_pref1 !='' || $request->pin !='')
             {
             if($request->exam_id !='')
@@ -843,10 +911,11 @@ class AdminController extends Controller
             if($request->c_pref1 !='')
             {
                 $centre_code=$request->c_pref1;
-                $results->where(function ($query) use($centre_code){
-                            $query->where('step1.c_pref1', $centre_code)
-                            ->orwhere('step1.c_pref2', $centre_code);
-                        });
+                // $results->where(function ($query) use($centre_code){
+                //             $query->where('step1.c_pref1', $centre_code)
+                //             ->orwhere('step1.c_pref2', $centre_code);
+                //         });
+                $results->where('candidate_info.exam_centre', $centre_code);
             }    
 
             if($request->pin !='')
@@ -883,7 +952,7 @@ class AdminController extends Controller
             $exams =[''=>'-Exam Level-'] + Exam::lists('exam_name', 'id')->toArray(); 
             $centre_pref1=[''=>'-Centre Pref1-'] + Centre::lists('centre_name', 'centre_code')->toArray();
             $centre_locations=[''=>'---Centre Location---'] + CentreCapacity::lists('centre_location', 'id')->toArray();
-            $results->select('candidate_info.id', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.centre_capacities_id');
+            $results->select('candidate_info.id', 'candidate_info.rollno', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.centre_capacities_id');
             
             $total=$results->get();
             $results=$results->take($request->take); 
@@ -916,7 +985,8 @@ class AdminController extends Controller
                                     ->take($request->take)
                                     ->where('candidate_info.reg_status', 'completed')
                                     ->where('candidate_info.centre_capacities_id', '=', Null)
-                                    ->where('candidate_info.rollno', '!=', '');
+                                    ->where('candidate_info.rollno', '!=', '')
+                                    ->orderBy('candidate_info.rollno', 'asc');
 
         if($request->exam_id != "" || $request->c_pref1 !='' || $request->centre_location !='' || $request->pin !='')
         {
@@ -926,10 +996,11 @@ class AdminController extends Controller
             if($request->c_pref1 !='')
             {
                 $centre_code=$request->c_pref1;
-                $results->where(function ($query) use($centre_code){
-                            $query->where('step1.c_pref1', $centre_code)
-                            ->orwhere('step1.c_pref2', $centre_code);
-                });
+                // $results->where(function ($query) use($centre_code){
+                //             $query->where('step1.c_pref1', $centre_code)
+                //             ->orwhere('step1.c_pref2', $centre_code);
+                // });
+                $results->where('candidate_info.exam_centre', $centre_code);
             }
 
             if($request->pin !='')
@@ -965,7 +1036,7 @@ class AdminController extends Controller
     public function showAdmitCardList(Request $request)
     {
         if(empty($request->c_pref1))
-           return redirect()->route('admin.candidate.roll_no_list')->with(array('message'=>'Centre Pref1 or Centre Pref2 is required!'));
+           return redirect()->route('admin.candidate.admit_card_list')->with(array('message'=>'Centre Pref1 or Centre Pref2 is required!'));
 
             $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
                                     ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
@@ -976,7 +1047,8 @@ class AdminController extends Controller
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('candidate_info.rollno', '!=', '')
                                     ->where('candidate_info.centre_capacities_id', '!=', '')
-                                    ->where('candidate_info.reg_status', 'completed');
+                                    ->where('candidate_info.reg_status', 'completed')
+                                    ->orderBy('candidate_info.rollno', 'asc');
             
             if($request->exam_id != "" || $request->c_pref1 !='' || $request->pin !='')
             {
@@ -986,10 +1058,11 @@ class AdminController extends Controller
             if($request->c_pref1 !='')
             {
                 $centre_code=$request->c_pref1;
-                $results->where(function ($query) use($centre_code){
-                            $query->where('step1.c_pref1', $centre_code)
-                            ->orwhere('step1.c_pref2', $centre_code);
-                        });
+                // $results->where(function ($query) use($centre_code){
+                //             $query->where('step1.c_pref1', $centre_code)
+                //             ->orwhere('step1.c_pref2', $centre_code);
+                //         });
+                $results->where('candidate_info.exam_centre', $centre_code);
             } 
 
             if($request->centre_location !='')
@@ -1060,7 +1133,8 @@ class AdminController extends Controller
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('candidate_info.rollno', '!=', '')
                                     ->where('candidate_info.centre_capacities_id', '!=', '')
-                                    ->where('candidate_info.reg_status', 'completed');
+                                    ->where('candidate_info.reg_status', 'completed')
+                                    ->orderBy('candidate_info.rollno', 'asc');
             
             if($request->exam_id != "" || $request->c_pref1 !='' || $request->pin !='')
             {
@@ -1070,10 +1144,11 @@ class AdminController extends Controller
             if($request->c_pref1 !='')
             {
                 $centre_code=$request->c_pref1;
-                $results->where(function ($query) use($centre_code){
-                            $query->where('step1.c_pref1', $centre_code)
-                            ->orwhere('step1.c_pref2', $centre_code);
-                        });
+                // $results->where(function ($query) use($centre_code){
+                //             $query->where('step1.c_pref1', $centre_code)
+                //             ->orwhere('step1.c_pref2', $centre_code);
+                //         });
+                $results->where('candidate_info.exam_centre', $centre_code);
             } 
 
             if($request->centre_location !='')
@@ -1147,7 +1222,8 @@ class AdminController extends Controller
                                     ->where('orders.status', 'SUCCESS')
                                     ->where('candidate_info.rollno', '!=', '')
                                     ->where('candidate_info.centre_capacities_id', '!=', '')
-                                    ->where('candidate_info.reg_status', 'completed');
+                                    ->where('candidate_info.reg_status', 'completed')
+                                    ->orderBy('candidate_info.rollno', 'asc');
             
             if($request->exam_id != "" || $request->c_pref1 !='' || $request->pin !='')
             {
@@ -1157,10 +1233,11 @@ class AdminController extends Controller
             if($request->c_pref1 !='')
             {
                 $centre_code=$request->c_pref1;
-                $results->where(function ($query) use($centre_code){
-                            $query->where('step1.c_pref1', $centre_code)
-                            ->orwhere('step1.c_pref2', $centre_code);
-                        });
+                // $results->where(function ($query) use($centre_code){
+                //             $query->where('step1.c_pref1', $centre_code)
+                //             ->orwhere('step1.c_pref2', $centre_code);
+                //         });
+                $results->where('candidate_info.exam_centre', $centre_code);
             } 
 
             if($request->centre_location !='')

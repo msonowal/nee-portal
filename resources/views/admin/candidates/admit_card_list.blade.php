@@ -56,7 +56,6 @@
 					<th>Name</th>
 					<th>Form No.</th>
 					<th>Roll No.</th>
-					<th>Centre</th>
 					<th>Centre location</th>
 					<th>Transaction Type</th>
 					<th>Order No.</th>
@@ -73,7 +72,6 @@
 					<td >{{ $res->name }}</td>
 					<td >{{ $res->form_no }}</td>
 					<td >{{ $res->rollno }}</td>
-					<td >{{ $res->c_pref1 }}</td>
 					<td >{{ $res->centre_capacities_id }}</td>
 					<td >{{ $res->trans_type }}</td>
 					<td >{{ $res->order_info }}</td>
