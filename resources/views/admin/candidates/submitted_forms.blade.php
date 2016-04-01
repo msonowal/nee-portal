@@ -53,10 +53,10 @@
 					<td >{{ $res->trans_type }}</td>
 					<td >{{ $res->order_info }}</td>
 					<td >
-						<a target="_blank" href="{!! URL::Route('admin.candidate.view_confirmation', array($res->info_id)) !!}", class="btn btn-info btn-md pull-left">
+						<a target="_blank" href="{!! URL::Route('admin.candidate.view_confirmation', array($res->info_id)) !!}", id="confirmation_page" data-toggle="tooltip" data-placement="left" data-original-title="Confirmation Page" class="btn btn-info btn-md pull-left">
 							<i class="fa fa-eye"></i>
 						</a>
-						<a target="_blank" href="{!! URL::Route('admin.candidate.admit_card', array($res->info_id)) !!}", class="btn btn-info btn-md pull-right">
+						<a target="_blank" href="{!! URL::Route('admin.candidate.admit_card', array($res->info_id)) !!}", id="admit_card" data-toggle="tooltip" data-placement="left" data-original-title="Admit Card" class="btn btn-info btn-md pull-right">
 							<i class="fa fa-eye"></i>
 						</a>
 					</td>
@@ -74,4 +74,10 @@
     	@endif	
 	</div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function() {
+            $('#confirmation_page').tooltip();
+            $('#admit_card').tooltip();
+        });
+</script>
 @stop
