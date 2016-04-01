@@ -303,7 +303,7 @@ fieldset[disabled] .btn-aug.active {
     </div>
 
   </div>
-	  <div style="margin-top:120px;">
+	  <div style="margin-top:100px;">
 		  <div style="float:left; width:225px;">
 		    <p style="margin:0px;"> Signature of NEE Representative</p>
 		  </div>

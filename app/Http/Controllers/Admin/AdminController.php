@@ -1407,6 +1407,9 @@ class AdminController extends Controller
             $step2  =   Step2::where('candidate_info_id', $info_id)->firstOrFail();
             $step3  =   Step3::where('candidate_info_id', $info_id)->firstOrFail();
             $candidate_info    = CandidateInfo::where('id', $info_id)->firstOrFail();
+            if($candidate_info->rollno ==Null){
+                return redirect()->route('admin.candidate.submittedform')->with(array('message'=>'Admit Card is not generated yet!'));
+            }
             $candidate  = Candidate::where('id', $candidate_info->candidate_id)->firstOrFail();
             $order = Order::where('candidate_info_id', $info_id)->where('status', 'SUCCESS')->orderBy('id', 'desc')->first();
             

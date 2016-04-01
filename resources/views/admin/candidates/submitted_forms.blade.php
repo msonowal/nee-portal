@@ -36,7 +36,7 @@
 					<th>Registration Date</th>
 					<th>Transaction Type</th>
 					<th>Order No.</th>
-					<th>View</th>
+					<th width="10%">View</th>
 
 				</tr>
 			</thead>
@@ -54,6 +54,9 @@
 					<td >{{ $res->order_info }}</td>
 					<td >
 						<a target="_blank" href="{!! URL::Route('admin.candidate.view_confirmation', array($res->info_id)) !!}", class="btn btn-info btn-md pull-left">
+							<i class="fa fa-eye"></i>
+						</a>
+						<a target="_blank" href="{!! URL::Route('admin.candidate.admit_card', array($res->info_id)) !!}", class="btn btn-info btn-md pull-right">
 							<i class="fa fa-eye"></i>
 						</a>
 					</td>
