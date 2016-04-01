@@ -108,7 +108,7 @@ fieldset[disabled] .btn-aug.active {
 <body>
 <button class="no-print btn-aug" onclick="window.print();" title="Please wait untill the page has completely loaded. Then only Click Print">
  Print </button>
-<div style="border:0px solid #C12225; width:670px; height:93px;">
+<div style="border:0px solid #C12225; width:670px; height:93px; margin-top:20px;">
 
   <div style="width:120px; border:0px solid #26E948; height:20px; float:left; overflow:hidden;">
     <p style="margin:0px; margin-left:2px;">
