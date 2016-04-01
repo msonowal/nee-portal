@@ -590,7 +590,7 @@ class AdminController extends Controller
             if($request->pin !='')
             {
                 //$results->where('step2.pin', $request->pin);
-                $results->whereNotIn('step2.pin', [791110,791113, 791111]);
+                //$results->whereNotIn('step2.pin', [791110,791113, 791111]);
             }
 
             if($request->paper_code !='')
@@ -674,8 +674,8 @@ class AdminController extends Controller
 
                 if($request->pin !=''){
 
-                    //$results->where('step2.pin', $request->pin);
-                    $results->whereNotIn('step2.pin', [791110,791113, 791111]);
+                    $results->where('step2.pin', $request->pin);
+                    //$results->whereNotIn('step2.pin', [791110,791113, 791111]);
                 }
 
                 if($request->paper_code !='')
@@ -1244,6 +1244,19 @@ class AdminController extends Controller
 
             if($request->pin !='')
                 $results->where('step2.pin', $request->pin);
+            if($request->paper_code !='')
+                {
+                      // $results2->where('candidate_info.paper_code', $request->paper_code);                       
+                    if($request->paper_code =='voc')
+                    {
+                          $results->whereNotIn('candidate_info.paper_code', [20, 29]); 
+                    } 
+
+                    if($request->paper_code !='voc')
+                    {
+                       $results->where('candidate_info.paper_code', $request->paper_code);  
+                    }
+                }
             }
 
             $centre =Centre::join('centre_capacities', 'centres.centre_code', '=', 'centre_capacities.centre_code')

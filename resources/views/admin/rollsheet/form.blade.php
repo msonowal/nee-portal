@@ -13,7 +13,8 @@
 				       $centre_location = $centre_locations;
 				       $s_centre_location = (Input::has('centre_location')) ? Input::get('centre_location') : null;
 				       $s_pin = (Input::has('pin')) ? Input::get('pin') : null;
-				       $take = (Input::has('take')) ? Input::get('take') : null; 
+				       $take = (Input::has('take')) ? Input::get('take') : null;
+				       $paper_code = (Input::has('paper_code')) ? Input::get('paper_code') : null;  
                  ?>      
                 {!! Form::select('exam_id', $exam_id, $s_exam, array('class'=>'form-control', 'required'=>'true')) !!}
             </div>
@@ -22,6 +23,9 @@
             </div>
             <div class="form-group col-sm-3">
                 {!! Form::select('centre_location', $centre_location, $s_centre_location, array('id'=>'centre_location', 'class'=>'form-control')) !!}
+            </div>
+            <div class="form-group col-sm-4">
+            	{!! Form::text('paper_code', $paper_code, array('class'=>'form-control search-box', 'autocomplete'=>'off', 'placeholder'=>'Paper code (or use voc for voc subject)')) !!}
             </div>
             <div class="form-group col-sm-3">    
                 {!! Form::submit('Submit', array('class'=>'btn btn-success')) !!}
