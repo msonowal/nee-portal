@@ -21,13 +21,13 @@
 			 &nbsp; Confirmation Page 
 			</a>
 	  </div>
-	  <!--
+	  
 	  <div class="col m3">
 			<a class="right btn blue waves-effect waves-light" target="_blank" href="{{ route('candidate.application.admit_card') }}">
 			 &nbsp; Admit Card 
 			</a>
 	  </div>
-	  -->
+	  
    </div>
 </div>
 @stop
