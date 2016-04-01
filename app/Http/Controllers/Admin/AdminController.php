@@ -973,8 +973,8 @@ class AdminController extends Controller
 
             if($request->pin !='')
             {
-                //$results->where('step2.pin', $request->pin);
-                $results->whereNotIn('step2.pin', [791110,791113, 791111]);
+                $results->where('step2.pin', $request->pin);
+                //$results->whereNotIn('step2.pin', [791110,791113, 791111]);
             }
                 //$results->where('step2.pin', $request->pin);
 
@@ -1076,8 +1076,8 @@ class AdminController extends Controller
             }
 
             if($request->pin !=''){
-                //$results->where('step2.pin', $request->pin);
-                $results->whereNotIn('step2.pin', [791110,791113, 791111]);
+                $results->where('step2.pin', $request->pin);
+                //$results->whereNotIn('step2.pin', [791110,791113, 791111]);
             }
 
             if($request->paper_code !='')
