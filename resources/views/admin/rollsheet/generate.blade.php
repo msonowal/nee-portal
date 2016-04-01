@@ -264,7 +264,7 @@ fieldset[disabled] .btn-aug.active {
 
 </div>
 
-@endif
+@else
 
 <div style="margin-top:30px;">
   <div style="float:left; width:225px;">
@@ -280,6 +280,7 @@ fieldset[disabled] .btn-aug.active {
   </div>
 
 </div>
+@endif
 
   <div style="width:100%; margin-top:10px; float:left;">
     <div style="width:40%; height:50px; text-align:center; border:0px solid red; float:left;">
