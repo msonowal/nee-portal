@@ -1379,12 +1379,16 @@ class AdminController extends Controller
             $exams =[''=>'-Exam Level-'] + Exam::lists('exam_name', 'id')->toArray(); 
             $centre_pref1=[''=>'-Centre Pref1-'] + Centre::lists('centre_name', 'centre_code')->toArray();
             $centre_locations=[''=>'---Centre Location---'] + CentreCapacity::lists('centre_location', 'id')->toArray();
-            $results->select('candidate_info.id', 'step3.photo', 'step3.signature', 'step1.dob', 'step1.reservation_code', 'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step1.c_pref1', 'step1.c_pref2', 'candidate_info.centre_capacities_id', 'candidate_info.rollno');
+            $results->select('candidate_info.id', 'paper_code', 'candidate_info.centre_capacities_id', 'candidate_info.rollno', 'candidate_info.exam_id');
             
             $total=$results->get();
             $displayed=$results->get();
 
-            $results=$results->get(); 
+            $results=$results->get();
+
+            if(count($results) == 0)
+                 return redirect()->route('admin.seat_label')->with(array('message'=>'No record found!'));
+
             $centres=Centre::all();
             $centre_capacities=CentreCapacity::all();
             foreach ($results as $result => $res)
