@@ -155,6 +155,9 @@ class CandidateAuthController extends Controller
 
     public function resendOTP(Request $request){
 
+      if(Basehelper::Filter()==true)
+            return redirect()->route('candidate.otp.resend')->withErrors(array('message'=>'Process has been closed!'));  
+
     		if($request->has('mobile_no')){
 
     			$messages = ['mobile_no.exists' => 'Mobile No Does not exists in our System'];
