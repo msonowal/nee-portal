@@ -56,7 +56,7 @@
 						<a target="_blank" href="{!! URL::Route('admin.candidate.view_confirmation', array($res->info_id)) !!}", id="confirmation_page" data-toggle="tooltip" data-placement="left" data-original-title="Confirmation Page" class="btn btn-info btn-md pull-left">
 							<i class="fa fa-eye"></i>
 						</a>
-						<a target="_blank" href="{!! URL::Route('admin.candidate.admit_card', array($res->info_id)) !!}", id="admit_card" data-toggle="tooltip" data-placement="left" data-original-title="Admit Card" class="btn btn-info btn-md pull-right">
+						<a target="_blank" href="{!! URL::Route('admin.candidate.admit_card', array($res->info_id)) !!}", id="admit_card" data-toggle="tooltip" data-placement="left" data-original-title="Admit Card" class="btn btn-success btn-md pull-right">
 							<i class="fa fa-eye"></i>
 						</a>
 					</td>
