@@ -69,6 +69,44 @@ class ExcelController extends Controller
         return back()->with('message', 'File processed successfully!');
     }
 
+    public function resultImport(Request $request){
+
+        if(!$request->hasFile('result'))
+            return back()->with('message', 'Please choose a file');
+
+        $filename=$request->result->getClientOriginalName();
+        $destination_path= storage_path().'/result/';
+        $path=$destination_path.$filename;
+        $request->result->move($destination_path, $filename);
+
+        Excel::selectSheets('Sheet1')->load($path, function($reader){
+            //$reader->formatDates(false);
+            //$reader->setDateColumns(array('trandate'))->get();
+            //$reader->setDateFormat('Y-m-d');
+            $results= $reader->toArray();
+            //dd($results);
+            //echo $results;
+            foreach ($results as $key => $value) {
+
+                if($value['2'] !=null){
+
+                  $rollno = $value['2'];
+
+                  $data=CandidateInfo::where('rollno', $rollno)
+                                   ->where('result', '=', NUll)
+                                   ->get();
+
+                    if(count($data) == 1){
+                      $candidate_info =new CandidateInfo();
+                      $candidate_info->where('rollno', $rollno)
+                                     ->update(['result' => 'selected']);                       
+                    }
+                }
+            }
+        });
+        return back()->with('message', 'File processed successfully!');
+    }
+
     public function submitted_report()
     {
         $info_id = Session::pull('info_id');

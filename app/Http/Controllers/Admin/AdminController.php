@@ -1621,4 +1621,24 @@ class AdminController extends Controller
             return redirect()->route('admin.access.user_account')->with(array('message'=>'The Transaction ID and Transaction Date provided by you does not match!'));
     }
 
+    public function result()
+    {
+        $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.reg_status', 'completed')
+                                    ->where('candidate_info.result', 'selected')
+                                    ->select('candidate_info.id' ,'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email');
+        // if(count($result) > 0)                 
+        //       Session::put('info_id', $result->lists('id'));
+        $result=$result->paginate();                            
+        $paginator=0;
+        $paginator=$result->currentPage();
+        Session::put('url', URL::full());
+
+        return view($this->content.'candidates.import_result', compact('result', 'paginator'));
+    }
+
 }

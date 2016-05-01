@@ -156,5 +156,7 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::post('/search/candidate', ['as' =>'admin.search.candidate', 'uses' =>'AdminController@searchCandidate']);
         Route::get('/challan/verification/{info_id}', ['as' => 'admin.challan.verification', 'uses' =>'AdminController@challan_verification']);
         Route::post('/challan/verification', ['middleware'=>'permission', 'as' => 'admin.challan.verifications', 'uses' =>'AdminController@verify_challan']);
+        Route::get('/result', ['as' => 'admin.import.result', 'uses' =>'AdminController@result']);
+        Route::post('/result/import', ['middleware'=>'permission', 'as' => 'admin.result.import', 'uses' =>'ExcelController@resultImport']);
     });
 });
