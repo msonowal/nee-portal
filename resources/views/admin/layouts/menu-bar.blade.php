@@ -149,16 +149,7 @@
                                     <a href="{{ route('admin.import.result') }}"> Selected Candidates</a>
                                 </li>
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.challan.pending') }}"> NEE I Selected Candidates</a>
-                                </li>
-                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.challan.pending') }}"> NEE II Selected Candidates</a>
-                                </li>
-                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.challan.pending') }}"> NEE III Selected Candidates</a>
-                                </li>
-                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.access.user_account') }}"> Address List </a>
+                                    <a href="{{ route('admin.address.list') }}"> Address List </a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

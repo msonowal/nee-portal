@@ -158,5 +158,8 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::post('/challan/verification', ['middleware'=>'permission', 'as' => 'admin.challan.verifications', 'uses' =>'AdminController@verify_challan']);
         Route::get('/result', ['as' => 'admin.import.result', 'uses' =>'AdminController@result']);
         Route::post('/result/import', ['middleware'=>'permission', 'as' => 'admin.result.import', 'uses' =>'ExcelController@resultImport']);
+        Route::post('/result', ['as' =>'admin.search.result', 'uses' =>'AdminController@searchResult']);
+        Route::get('/address', ['as' => 'admin.address.list', 'uses' =>'AdminController@address']);
+        Route::post('/address', ['as' =>'admin.address.generate', 'uses' =>'AdminController@address_list']);
     });
 });
