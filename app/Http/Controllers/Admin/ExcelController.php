@@ -75,7 +75,7 @@ class ExcelController extends Controller
             return back()->with('message', 'Please choose a file');
 
         $filename=$request->result->getClientOriginalName();
-        $destination_path= storage_path().'/result/';
+        $destination_path= storage_path().'/results/';
         $path=$destination_path.$filename;
         $request->result->move($destination_path, $filename);
 
