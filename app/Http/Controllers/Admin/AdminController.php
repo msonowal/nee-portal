@@ -1725,7 +1725,7 @@ class AdminController extends Controller
                 $exam=Exam::where('id', 3)->first();
             }    
                 
-            $results->select('candidate_info.id', 'candidate_info.rollno', 'candidates.mobile_no','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step2.guardian_name', 'step2.village', 'step2.po', 'step2.pin', 'Step2.district', 'step2.state' );
+            $results->select('candidate_info.id', 'candidate_info.rollno', 'candidates.mobile_no','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step2.guardian_name', 'step2.village', 'step2.po', 'step2.pin', 'step2.district', 'step2.state' );
             $results=$results->get();
             
             Session::put('url', URL::full());
