@@ -1747,7 +1747,7 @@ class AdminController extends Controller
             if($request->category != "")
                 $results->where('candidate_info.result_category', $request->category);
             
-            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidate_info.rollno');
             $result=$results->get();
             Session::put('url', URL::full());
             return view($this->content.'result.neei_selected', compact('result'));                        
@@ -1779,7 +1779,7 @@ class AdminController extends Controller
             if($request->category != "")
                 $results->where('candidate_info.result_category', $request->category);
             
-            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidate_info.rollno');
             $result=$results->get();
             Session::put('url', URL::full());
             return view($this->content.'result.neei_wait_listed', compact('result'));                        
@@ -1811,7 +1811,7 @@ class AdminController extends Controller
             if($request->category != "")
                 $results->where('candidate_info.result_category', $request->category);
             
-            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidate_info.rollno');
             $result=$results->get();
             Session::put('url', URL::full());
             return view($this->content.'result.neei_wait_listed_extended', compact('result'));                        
@@ -1846,7 +1846,7 @@ class AdminController extends Controller
             if($request->category != "")
                 $results->where('candidate_info.result_category', $request->category);
             
-            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidate_info.rollno');
             $result=$results->get();
             Session::put('url', URL::full());
             return view($this->content.'result.neeiii_selected', compact('result'));                        
@@ -1878,7 +1878,7 @@ class AdminController extends Controller
             if($request->category != "")
                 $results->where('candidate_info.result_category', $request->category);
             
-            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidate_info.rollno');
             $result=$results->get();
             Session::put('url', URL::full());
             return view($this->content.'result.neeiii_wait_listed', compact('result'));                        
@@ -1910,7 +1910,7 @@ class AdminController extends Controller
             if($request->category != "")
                 $results->where('candidate_info.result_category', $request->category);
             
-            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidate_info.rollno');
             $result=$results->get();
             Session::put('url', URL::full());
             return view($this->content.'result.neeiii_wait_listed_extended', compact('result'));                        
