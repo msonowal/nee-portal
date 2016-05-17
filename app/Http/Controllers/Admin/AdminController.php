@@ -1679,48 +1679,60 @@ class AdminController extends Controller
 
     public function address()
     {
-        $result=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
-                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
-                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
-                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
-                                    ->where('orders.status', 'SUCCESS')
-                                    ->where('candidate_info.reg_status', 'completed')
-                                    ->where('candidate_info.result', 'selected')
-                                    ->select('candidate_info.id' ,'exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidates.email');
-        // if(count($result) > 0)                 
-        //       Session::put('info_id', $result->lists('id'));
-        $result=$result->paginate();                            
-        $paginator=0;
-        $paginator=$result->currentPage();
-        Session::put('url', URL::full());
-
-        return view($this->content.'candidates.address_list', compact('result', 'paginator'));
+        return view($this->content.'candidates.address_list');
     }
 
     public function address_list(Request $request)
     {
-        if($request->type != "")
+        if($request->type != "" && $request->exam != "")
         {
             $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
                                     ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
                                     ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
                                     ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
                                     ->where('orders.status', 'SUCCESS')
-                                    ->where('candidate_info.exam_id', '=', $request->type)
-                                    ->where('candidate_info.result', 'selected')
+                                    ->orderBy('candidate_info.rank', 'asc')
                                     ->where('candidate_info.reg_status', 'completed');
+            if($request->type != "")
+                $results->where('candidate_info.result_heading', $request->type);
 
+            if($request->result_type != "")
+                $results->where('candidate_info.result_type', $request->result_type);
+            
+            if($request->exam == "neei")
+            {
+                $results->where('candidate_info.exam_id', 1);
+                $exam=Exam::where('id', 1)->first();
+            }    
+
+            if($request->exam == "neeii_pcb")
+            {
+                $results->where('candidate_info.exam_id', 2)
+                        ->where('candidate_info.paper_code', '=', 29);
+                $exam=Exam::where('id', 2)->first();            
+            }    
+
+            if($request->exam == "neeii_pcm_voc")
+            {
+               $results->where('candidate_info.exam_id', 2)
+                        ->where('candidate_info.paper_code', '!=', 29);
+               $exam=Exam::where('id', 2)->first();          
+            }    
+                            
+            if($request->exam == "neeiii")
+            {
+                $results->where('candidate_info.exam_id', 3);
+                $exam=Exam::where('id', 3)->first();
+            }    
+                
             $results->select('candidate_info.id', 'candidate_info.rollno', 'candidates.mobile_no','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'step2.guardian_name', 'step2.village', 'step2.po', 'step2.pin', 'Step2.district', 'step2.state' );
-            if(count($results) > 0)                 
-              Session::put('info_id', $results->lists('id'));
-            $results=$results->paginate();
-            $paginator=0;
-            $paginator=$results->currentPage();
-            $exam=Exam::where('id', $request->type)->first();
+            $results=$results->get();
+            
             Session::put('url', URL::full());
-            return view($this->content.'candidates.generate_address', compact('results', 'paginator', 'exam'));                        
+            return view($this->content.'candidates.generate_address', compact('results', 'exam'));                        
         }
     }
+
     //NEE I Result Start
     public function nee_iSelected()
     {
@@ -1916,5 +1928,207 @@ class AdminController extends Controller
             return view($this->content.'result.neeiii_wait_listed_extended', compact('result'));                        
         }
     }
+
+    //NEE II(Forestry) Result Start
+
+    public function nee_ii_pcbSelected()
+    {
+        return view($this->content.'result.neeii_pcb_selected');
+    }
+
+    public function neeii_pcb_Selected(Request $request)
+    {
+        if($request->type != "" && $request->category != "")
+        {
+            $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.exam_id', '=', 2)
+                                    ->where('candidate_info.paper_code', '=', 29)
+                                    ->where('candidate_info.result_heading', '=', 'LIST OF SELECTED CANDIDATES')
+                                    ->orderBy('candidate_info.rank', 'asc')
+                                    ->where('candidate_info.reg_status', 'completed');
+
+            if($request->type != "")
+                $results->where('candidate_info.result_type', $request->type);
+
+            if($request->category != "")
+                $results->where('candidate_info.result_category', $request->category);
+            
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidate_info.rollno');
+            $result=$results->get();
+            Session::put('url', URL::full());
+            return view($this->content.'result.neeii_pcb_selected', compact('result'));                        
+        }
+    }
+
+    public function nee_ii_pcbWaitListed()
+    {
+        return view($this->content.'result.neeii_pcb_wait_listed');
+    }
+
+    public function neeii_pcb_WaitListed(Request $request)
+    {
+        if($request->type != "" && $request->category != "")
+        {
+            $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.exam_id', '=', 2)
+                                    ->where('candidate_info.paper_code', '=', 29)
+                                    ->where('candidate_info.result_heading', '=', 'LIST OF WAIT LISTED CANDIDATES')
+                                    ->orderBy('candidate_info.rank', 'asc')
+                                    ->where('candidate_info.reg_status', 'completed');
+
+            if($request->type != "")
+                $results->where('candidate_info.result_type', $request->type);
+
+            if($request->category != "")
+                $results->where('candidate_info.result_category', $request->category);
+            
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidate_info.rollno');
+            $result=$results->get();
+            Session::put('url', URL::full());
+            return view($this->content.'result.neeii_pcb_wait_listed', compact('result'));                        
+        }
+    }
+
+    public function nee_ii_pcbWaitListedExtended()
+    {
+        return view($this->content.'result.neeii_pcb_wait_listed_extended');
+    }
+
+    public function neeii_pcb_WaitListedExtended(Request $request)
+    {
+        if($request->type != "" && $request->category != "")
+        {
+            $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.exam_id', '=', 2)
+                                    ->where('candidate_info.paper_code', '=', 29)
+                                    ->where('candidate_info.result_heading', '=', 'LIST OF WAIT LISTED CANDIDATES (EXTENDED)')
+                                    ->orderBy('candidate_info.rank', 'asc')
+                                    ->where('candidate_info.reg_status', 'completed');
+
+            if($request->type != "")
+                $results->where('candidate_info.result_type', $request->type);
+
+            if($request->category != "")
+                $results->where('candidate_info.result_category', $request->category);
+            
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidate_info.rollno');
+            $result=$results->get();
+            Session::put('url', URL::full());
+            return view($this->content.'result.neeii_pcb_wait_listed_extended', compact('result'));                        
+        }
+    }
+
+//NEE II(PCM_VOC) Result Start
+
+    public function nee_ii_pcm_vocSelected()
+    {
+        return view($this->content.'result.neeii_pcm_voc_selected');
+    }
+
+    public function neeii_pcm_voc_Selected(Request $request)
+    {
+        if($request->type != "" && $request->category != "")
+        {
+            $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.exam_id', '=', 2)
+                                    ->where('candidate_info.paper_code', '!=', 29)
+                                    ->where('candidate_info.result_heading', '=', 'LIST OF SELECTED CANDIDATES')
+                                    ->orderBy('candidate_info.rank', 'asc')
+                                    ->where('candidate_info.reg_status', 'completed');
+
+            if($request->type != "")
+                $results->where('candidate_info.result_type', $request->type);
+
+            if($request->category != "")
+                $results->where('candidate_info.result_category', $request->category);
+            
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidate_info.rollno');
+            $result=$results->get();
+            Session::put('url', URL::full());
+            return view($this->content.'result.neeii_pcm_voc_selected', compact('result'));                        
+        }
+    }
+
+    public function nee_ii_pcm_vocWaitListed()
+    {
+        return view($this->content.'result.neeii_pcm_voc_wait_listed');
+    }
+
+    public function neeii_pcm_voc_WaitListed(Request $request)
+    {
+        if($request->type != "" && $request->category != "")
+        {
+            $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.exam_id', '=', 2)
+                                    ->where('candidate_info.paper_code', '!=', 29)
+                                    ->where('candidate_info.result_heading', '=', 'LIST OF WAIT LISTED CANDIDATES')
+                                    ->orderBy('candidate_info.rank', 'asc')
+                                    ->where('candidate_info.reg_status', 'completed');
+
+            if($request->type != "")
+                $results->where('candidate_info.result_type', $request->type);
+
+            if($request->category != "")
+                $results->where('candidate_info.result_category', $request->category);
+            
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidate_info.rollno');
+            $result=$results->get();
+            Session::put('url', URL::full());
+            return view($this->content.'result.neeii_pcm_voc_wait_listed', compact('result'));                        
+        }
+    }
+
+    public function nee_ii_pcm_vocWaitListedExtended()
+    {
+        return view($this->content.'result.neeii_pcm_voc_wait_listed_extended');
+    }
+
+    public function neeii_pcm_voc_WaitListedExtended(Request $request)
+    {
+        if($request->type != "" && $request->category != "")
+        {
+            $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.exam_id', '=', 2)
+                                    ->where('candidate_info.paper_code', '!=', 29)
+                                    ->where('candidate_info.result_heading', '=', 'LIST OF WAIT LISTED CANDIDATES (EXTENDED)')
+                                    ->orderBy('candidate_info.rank', 'asc')
+                                    ->where('candidate_info.reg_status', 'completed');
+
+            if($request->type != "")
+                $results->where('candidate_info.result_type', $request->type);
+
+            if($request->category != "")
+                $results->where('candidate_info.result_category', $request->category);
+            
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no', 'candidate_info.rollno');
+            $result=$results->get();
+            Session::put('url', URL::full());
+            return view($this->content.'result.neeii_pcm_voc_wait_listed_extended', compact('result'));                        
+        }
+    }    
 
 }

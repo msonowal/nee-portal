@@ -143,7 +143,7 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-dollar fa-fw"></i> Result<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-pencil fa-fw"></i> Result<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                              @if(Auth::admin()->get()->id=="1")
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
@@ -160,6 +160,24 @@
                                     <a href="{{ route('admin.nee_i.wait_listed_extended') }}"> NEE I Wait Listed(Extended) </a>
                                 </li>
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.nee_ii_pcb.selected') }}"> NEE II(Forestry) Selected </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.nee_ii_pcb.wait_listed') }}"> NEE II(Forestry) Wait Listed </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.nee_ii_pcb.wait_listed_extended') }}"> NEE II(Forestry) Wait Listed(Extended) </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.nee_ii_pcm_voc.selected') }}"> NEE II(Tech) Selected </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.nee_ii_pcm_voc.wait_listed') }}"> NEE II(Tech) Wait Listed </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.nee_ii_pcm_voc.wait_listed_extended') }}"> NEE II(Tech) Wait Listed(Extended) </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
                                     <a href="{{ route('admin.nee_iii.selected') }}"> NEE III Selected </a>
                                 </li>
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
@@ -168,8 +186,14 @@
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
                                     <a href="{{ route('admin.nee_iii.wait_listed_extended') }}"> NEE III Wait Listed(Extended) </a>
                                 </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-pencil fa-fw"></i> Address<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.address.list') }}"> Address List </a>
+                                    <a href="{{ route('admin.address.list') }}"> Address Label </a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

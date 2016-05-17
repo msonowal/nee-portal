@@ -169,6 +169,20 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::get('/nee_i/wait_listed_extended', ['as' => 'admin.nee_i.wait_listed_extended', 'uses' =>'AdminController@nee_iWaitListedExtended']);
         Route::post('/nee_i/wait_listed_extended', ['as' =>'admin.search.neei_wait_listed_extended', 'uses' =>'AdminController@neei_WaitListedExtended']);
 
+        Route::get('/nee_ii_forestry/selected', ['as' => 'admin.nee_ii_pcb.selected', 'uses' =>'AdminController@nee_ii_pcbSelected']);
+        Route::post('/nee_ii_forestry/selected', ['as' =>'admin.search.neeii_pcb_selected', 'uses' =>'AdminController@neeii_pcb_Selected']);
+        Route::get('/nee_ii_forestry/wait_listed', ['as' => 'admin.nee_ii_pcb.wait_listed', 'uses' =>'AdminController@nee_ii_pcbWaitListed']);
+        Route::post('/nee_ii_forestry/wait_listed', ['as' =>'admin.search.neeii_pcb_wait_listed', 'uses' =>'AdminController@neeii_pcb_WaitListed']);
+        Route::get('/nee_ii_forestry/wait_listed_extended', ['as' => 'admin.nee_ii_pcb.wait_listed_extended', 'uses' =>'AdminController@nee_ii_pcbWaitListedExtended']);
+        Route::post('/nee_ii_forestry/wait_listed_extended', ['as' =>'admin.search.neeii_pcb_wait_listed_extended', 'uses' =>'AdminController@neeii_pcb_WaitListedExtended']);
+
+        Route::get('/nee_ii_pcm_voc/selected', ['as' => 'admin.nee_ii_pcm_voc.selected', 'uses' =>'AdminController@nee_ii_pcm_vocSelected']);
+        Route::post('/nee_ii_pcm_voc/selected', ['as' =>'admin.search.neeii_pcm_voc_selected', 'uses' =>'AdminController@neeii_pcm_voc_Selected']);
+        Route::get('/nee_ii_pcm_voc/wait_listed', ['as' => 'admin.nee_ii_pcm_voc.wait_listed', 'uses' =>'AdminController@nee_ii_pcm_vocWaitListed']);
+        Route::post('/nee_ii_pcm_voc/wait_listed', ['as' =>'admin.search.neeii_pcm_voc_wait_listed', 'uses' =>'AdminController@neeii_pcm_voc_WaitListed']);
+        Route::get('/nee_ii_pcm_voc/wait_listed_extended', ['as' => 'admin.nee_ii_pcm_voc.wait_listed_extended', 'uses' =>'AdminController@nee_ii_pcm_vocWaitListedExtended']);
+        Route::post('/nee_ii_pcm_voc/wait_listed_extended', ['as' =>'admin.search.neeii_pcm_voc_wait_listed_extended', 'uses' =>'AdminController@neeii_pcm_voc_WaitListedExtended']);
+
         Route::get('/nee_iii/selected', ['as' => 'admin.nee_iii.selected', 'uses' =>'AdminController@nee_iiiSelected']);
         Route::post('/nee_iii/selected', ['as' =>'admin.search.neeiii_selected', 'uses' =>'AdminController@neeiii_Selected']);
         Route::get('/nee_iii/wait_listed', ['as' => 'admin.nee_iii.wait_listed', 'uses' =>'AdminController@nee_iiiWaitListed']);
