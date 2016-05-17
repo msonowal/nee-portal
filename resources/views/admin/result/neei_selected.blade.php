@@ -1,34 +1,20 @@
 @extends('admin.layouts.main')
-@section('page_heading','&emsp;Import Result of Candidates')
+@section('page_heading','&emsp;NEE I Selected')
 @section('section')
-	<div class="col-sm-12">
-	<div class="box">
-		<div class="box-header">
-		{!! Form::open(array('route' => 'admin.result.import', 'files' =>true)) !!}
-			<div class="col-sm-6">
-
-          		{!! Form::file('result', '', ['class'=>'validate', 'required']) !!}
-        	</div> 
-            <div class="form-group col-sm-6">
-            	<button type="submit" class="btn btn-default">Import</button>
-            </div>
-         {!! Form::close() !!}   
-	</div>
-   </div>
- </div> 	
   <div class="col-sm-12">
 	<div class="box">
 		<div class="box-header">
 			<div class="form-group col-sm-3">
-			{!! Form::open(array('route'=>'admin.search.result', 'id' => 'applicant_search_form', 'class'=>'form-horizontal')) !!}
-				 <?php $type = [''=>'--Select--', 'form_no' => 'Form No', 'mobile_no' => 'Mobile No', 'order_info' => 'Order No', 'name' => 'Candidate Name'];
+			{!! Form::open(array('route'=>'admin.search.neei_selected', 'id' => 'applicant_search_form', 'class'=>'form-horizontal')) !!}
+				 <?php $type = [''=>'--Select--', 'PD'=>'PD', 'PRC'=>'PRC', 'ALL INDIA' => 'ALL INDIA', 'ARUNACHAL PRADESH' => 'ARUNACHAL PRADESH', 'ASSAM' => 'ASSAM', 'MEGHALAYA' => 'MEGHALAYA', 'MIZORAM'=>'MIZORAM', 'TRIPURA'=>'TRIPURA', 'NAGALAND'=>'NAGALAND', 'MANIPUR'=>'MANIPUR', 'SIKKIM'=>'SIKKIM', 'FLOATING' =>'FLOATING' ];
+				       $category = [''=>'--Select--', 'FLOATING'=>'FLOATING', 'GE/GEC/OTHERS'=>'GE/GEC/OTHERS', 'GEC & OTHERS' => 'GEC & OTHERS', 'GENERAL' => 'GENERAL', 'MBC/OBC' => 'MBC/OBC', 'NON MIZO PRC' => 'NON MIZO PRC', 'OBC'=>'OBC', 'PD'=>'PD', 'PRC'=>'PRC', 'SC'=>'SC', 'SGEC/CGEC/OTHERS'=>'SGEC/CGEC/OTHERS', 'ST' =>'ST', 'ST-BHUTIA/LEPTCHA'=>'ST-BHUTIA/LEPTCHA', 'ST-GARO'=>'ST-GARO', 'ST-KHASI/JYANTIA'=>'ST-KHASI/JYANTIA', 'ST-OTHER THAN BHUTIA/LEPTCHA'=>'ST-OTHER THAN BHUTIA/LEPTCHA', 'UNRESERVED'=>'UNRESERVED' ];
 				       $s_type = (Input::has('type')) ? Input::get('type') : null;
-                       $s_val = (Input::has('value')) ? Input::get('value') : null; 
+                       $s_category = (Input::has('category')) ? Input::get('category') : null; 
                  ?>      
                 {!! Form::select('type', $type, $s_type, array('class'=>'form-control', 'required')) !!}
             </div>
             <div class="form-group col-sm-3">
-            	{!! Form::text('value', $s_val, array('class'=>'form-control search-box', 'autocomplete'=>'off')) !!}
+            	{!! Form::select('category', $category, $s_category, array('class'=>'form-control', 'required')) !!}
             </div>
             <div class="form-group col-sm-3">    
                 {!! Form::submit('Search', array('class'=>'btn btn-success')) !!}
@@ -39,6 +25,7 @@
 			{!! Form::close() !!}
 		</div>
 		<div class="box-body table-responsive  col-sm-12">
+		@if(Input::get('type') && Input::get('category'))
 		@if($result->count())
 		<table class="table table-bordered table-striped">
 			<thead>
@@ -56,7 +43,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			<?php $i=($paginator-1)*($result->perPage())+1; ?>
+			<?php $i=1; ?>
 			@foreach($result as $res)
 				<tr>
 					<td align="center">{{ $i }}</td>
@@ -78,12 +65,12 @@
 			</tbody>
 		</table>
 		</div>
-		{!! $result->render() !!}
 		@else
 			<div class="alert alert-warning" style="text-align:center;">
 				 No records found.
 			</div>    		
     	@endif	
+    	@endif
 	</div>
 </div>
 <script type="text/javascript">

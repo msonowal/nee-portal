@@ -26,7 +26,10 @@ class CreateCandidateInfoTable extends Migration
             //$table->date('reg_date')->nullable()->comment('registration date');
             $table->string('remarks', 100)->nullable();
             $table->integer('centre_capacities_id')->nullable()->unsigned();
-            $table->string('result', 10)->nullable();
+            $table->string('result_heading', 100)->nullable();
+            $table->integer('rank')->nullable();
+            $table->string('result_type', 50)->nullable();
+            $table->string('result_category', 50)->nullable();
             $table->timestamps();
             $table->foreign('candidate_id')->references('id')->on('candidates');
             $table->foreign('exam_id')->references('id')->on('exams');

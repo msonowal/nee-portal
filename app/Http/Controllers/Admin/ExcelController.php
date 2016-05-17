@@ -88,18 +88,22 @@ class ExcelController extends Controller
             //echo $results;
             foreach ($results as $key => $value) {
 
-                if($value['2'] !=null){
+                if($value['rollno'] !=null){
 
-                  $rollno = $value['2'];
+                  $rollno = $value['rollno'];
+                  $result_heading = $value['heading2'];
+                  $rank = $value['rank'];
+                  $result_type = $value['statename'];
+                  $result_category = $value['report_cat'];
 
                   $data=CandidateInfo::where('rollno', $rollno)
-                                   ->where('result', '=', NUll)
+                                   ->where('result_heading', '=', NUll)
                                    ->get();
 
                     if(count($data) == 1){
                       $candidate_info =new CandidateInfo();
                       $candidate_info->where('rollno', $rollno)
-                                     ->update(['result' => 'selected']);                       
+                                     ->update(['result_heading' => $result_heading, 'rank' => $rank, 'result_type' =>$result_type, 'result_category' =>$result_category]);                       
                     }
                 }
             }

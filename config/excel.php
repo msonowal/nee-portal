@@ -376,7 +376,7 @@ return array(
         */
 
         //'startRow'                => 6, //For challan import
-        'startRow'                => 2, //For result import
+        'startRow'                => 1, //For result import
 
         /*
         |--------------------------------------------------------------------------

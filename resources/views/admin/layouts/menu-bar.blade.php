@@ -145,8 +145,37 @@
                         <li>
                             <a href="#"><i class="fa fa-dollar fa-fw"></i> Result<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
+                             @if(Auth::admin()->get()->id=="1")
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.import.result') }}"> Selected Candidates</a>
+                                    <a href="{{ route('admin.import.result') }}"> Import Result</a>
+                                </li>
+                             @endif   
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.nee_i.selected') }}"> NEE I Selected </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.nee_i.wait_listed') }}"> NEE I Wait Listed </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.address.list') }}"> NEE I Wait Listed(Extended) </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.address.list') }}"> NEE II Selected </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.address.list') }}"> NEE II Wait Listed </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.address.list') }}"> NEE II Wait Listed(Extended) </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.address.list') }}"> NEE III Selected </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.address.list') }}"> NEE III Wait Listed </a>
+                                </li>
+                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
+                                    <a href="{{ route('admin.address.list') }}"> NEE III Wait Listed(Extended) </a>
                                 </li>
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
                                     <a href="{{ route('admin.address.list') }}"> Address List </a>
