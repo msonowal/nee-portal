@@ -157,25 +157,16 @@
                                     <a href="{{ route('admin.nee_i.wait_listed') }}"> NEE I Wait Listed </a>
                                 </li>
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.address.list') }}"> NEE I Wait Listed(Extended) </a>
+                                    <a href="{{ route('admin.nee_i.wait_listed_extended') }}"> NEE I Wait Listed(Extended) </a>
                                 </li>
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.address.list') }}"> NEE II Selected </a>
+                                    <a href="{{ route('admin.nee_iii.selected') }}"> NEE III Selected </a>
                                 </li>
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.address.list') }}"> NEE II Wait Listed </a>
+                                    <a href="{{ route('admin.nee_iii.wait_listed') }}"> NEE III Wait Listed </a>
                                 </li>
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.address.list') }}"> NEE II Wait Listed(Extended) </a>
-                                </li>
-                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.address.list') }}"> NEE III Selected </a>
-                                </li>
-                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.address.list') }}"> NEE III Wait Listed </a>
-                                </li>
-                                <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                                    <a href="{{ route('admin.address.list') }}"> NEE III Wait Listed(Extended) </a>
+                                    <a href="{{ route('admin.nee_iii.wait_listed_extended') }}"> NEE III Wait Listed(Extended) </a>
                                 </li>
                                 <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
                                     <a href="{{ route('admin.address.list') }}"> Address List </a>

@@ -161,9 +161,19 @@ Route::group(['middleware'=>['auth.admin']], function() {
         Route::post('/result', ['as' =>'admin.search.result', 'uses' =>'AdminController@searchResult']);
         Route::get('/address', ['as' => 'admin.address.list', 'uses' =>'AdminController@address']);
         Route::post('/address', ['as' =>'admin.address.generate', 'uses' =>'AdminController@address_list']);
+        
         Route::get('/nee_i/selected', ['as' => 'admin.nee_i.selected', 'uses' =>'AdminController@nee_iSelected']);
         Route::post('/nee_i/selected', ['as' =>'admin.search.neei_selected', 'uses' =>'AdminController@neei_Selected']);
         Route::get('/nee_i/wait_listed', ['as' => 'admin.nee_i.wait_listed', 'uses' =>'AdminController@nee_iWaitListed']);
         Route::post('/nee_i/wait_listed', ['as' =>'admin.search.neei_wait_listed', 'uses' =>'AdminController@neei_WaitListed']);
+        Route::get('/nee_i/wait_listed_extended', ['as' => 'admin.nee_i.wait_listed_extended', 'uses' =>'AdminController@nee_iWaitListedExtended']);
+        Route::post('/nee_i/wait_listed_extended', ['as' =>'admin.search.neei_wait_listed_extended', 'uses' =>'AdminController@neei_WaitListedExtended']);
+
+        Route::get('/nee_iii/selected', ['as' => 'admin.nee_iii.selected', 'uses' =>'AdminController@nee_iiiSelected']);
+        Route::post('/nee_iii/selected', ['as' =>'admin.search.neeiii_selected', 'uses' =>'AdminController@neeiii_Selected']);
+        Route::get('/nee_iii/wait_listed', ['as' => 'admin.nee_iii.wait_listed', 'uses' =>'AdminController@nee_iiiWaitListed']);
+        Route::post('/nee_iii/wait_listed', ['as' =>'admin.search.neeiii_wait_listed', 'uses' =>'AdminController@neeiii_WaitListed']);
+        Route::get('/nee_iii/wait_listed_extended', ['as' => 'admin.nee_iii.wait_listed_extended', 'uses' =>'AdminController@nee_iiiWaitListedExtended']);
+        Route::post('/nee_iii/wait_listed_extended', ['as' =>'admin.search.neeiii_wait_listed_extended', 'uses' =>'AdminController@neeiii_WaitListedExtended']);
     });
 });

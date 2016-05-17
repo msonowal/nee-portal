@@ -1721,7 +1721,7 @@ class AdminController extends Controller
             return view($this->content.'candidates.generate_address', compact('results', 'paginator', 'exam'));                        
         }
     }
-
+    //NEE I Result Start
     public function nee_iSelected()
     {
         return view($this->content.'result.neei_selected');
@@ -1783,6 +1783,137 @@ class AdminController extends Controller
             $result=$results->get();
             Session::put('url', URL::full());
             return view($this->content.'result.neei_wait_listed', compact('result'));                        
+        }
+    }
+
+    public function nee_iWaitListedExtended()
+    {
+        return view($this->content.'result.neei_wait_listed_extended');
+    }
+
+    public function neei_WaitListedExtended(Request $request)
+    {
+        if($request->type != "" && $request->category != "")
+        {
+            $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.exam_id', '=', 1)
+                                    ->where('candidate_info.result_heading', '=', 'LIST OF WAIT LISTED CANDIDATES (EXTENDED)')
+                                    ->orderBy('candidate_info.rank', 'asc')
+                                    ->where('candidate_info.reg_status', 'completed');
+
+            if($request->type != "")
+                $results->where('candidate_info.result_type', $request->type);
+
+            if($request->category != "")
+                $results->where('candidate_info.result_category', $request->category);
+            
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $result=$results->get();
+            Session::put('url', URL::full());
+            return view($this->content.'result.neei_wait_listed_extended', compact('result'));                        
+        }
+    }
+
+
+    //NEE III Result Start
+
+    public function nee_iiiSelected()
+    {
+        return view($this->content.'result.neeiii_selected');
+    }
+
+    public function neeiii_Selected(Request $request)
+    {
+        if($request->type != "" && $request->category != "")
+        {
+            $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.exam_id', '=', 3)
+                                    ->where('candidate_info.result_heading', '=', 'LIST OF SELECTED CANDIDATES')
+                                    ->orderBy('candidate_info.rank', 'asc')
+                                    ->where('candidate_info.reg_status', 'completed');
+
+            if($request->type != "")
+                $results->where('candidate_info.result_type', $request->type);
+
+            if($request->category != "")
+                $results->where('candidate_info.result_category', $request->category);
+            
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $result=$results->get();
+            Session::put('url', URL::full());
+            return view($this->content.'result.neeiii_selected', compact('result'));                        
+        }
+    }
+
+    public function nee_iiiWaitListed()
+    {
+        return view($this->content.'result.neeiii_wait_listed');
+    }
+
+    public function neeiii_WaitListed(Request $request)
+    {
+        if($request->type != "" && $request->category != "")
+        {
+            $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.exam_id', '=', 3)
+                                    ->where('candidate_info.result_heading', '=', 'LIST OF WAIT LISTED CANDIDATES')
+                                    ->orderBy('candidate_info.rank', 'asc')
+                                    ->where('candidate_info.reg_status', 'completed');
+
+            if($request->type != "")
+                $results->where('candidate_info.result_type', $request->type);
+
+            if($request->category != "")
+                $results->where('candidate_info.result_category', $request->category);
+            
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $result=$results->get();
+            Session::put('url', URL::full());
+            return view($this->content.'result.neeiii_wait_listed', compact('result'));                        
+        }
+    }
+
+    public function nee_iiiWaitListedExtended()
+    {
+        return view($this->content.'result.neeiii_wait_listed_extended');
+    }
+
+    public function neeiii_WaitListedExtended(Request $request)
+    {
+        if($request->type != "" && $request->category != "")
+        {
+            $results=CandidateInfo::join('exams', 'exams.id', '=', 'candidate_info.exam_id')
+                                    ->join('candidates', 'candidates.id', '=', 'candidate_info.candidate_id')
+                                    ->join('step2', 'candidate_info.id', '=', 'step2.candidate_info_id')
+                                    ->join('orders', 'candidate_info.id', '=', 'orders.candidate_info_id')
+                                    ->where('orders.status', 'SUCCESS')
+                                    ->where('candidate_info.exam_id', '=', 3)
+                                    ->where('candidate_info.result_heading', '=', 'LIST OF WAIT LISTED CANDIDATES (EXTENDED)')
+                                    ->orderBy('candidate_info.rank', 'asc')
+                                    ->where('candidate_info.reg_status', 'completed');
+
+            if($request->type != "")
+                $results->where('candidate_info.result_type', $request->type);
+
+            if($request->category != "")
+                $results->where('candidate_info.result_category', $request->category);
+            
+            $results->select('candidate_info.id','exams.exam_name', 'step2.name', 'candidate_info.form_no','candidate_info.id as info_id', 'orders.trans_type', 'orders.order_info', 'candidate_info.created_at', 'candidates.mobile_no');
+            $result=$results->get();
+            Session::put('url', URL::full());
+            return view($this->content.'result.neeiii_wait_listed_extended', compact('result'));                        
         }
     }
 

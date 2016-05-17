@@ -92,7 +92,7 @@ class ExcelController extends Controller
 
                   $rollno = $value['rollno'];
                   $result_heading = $value['heading2'];
-                  $rank = $value['rank'];
+                  $rank = $value['rank1'];
                   $result_type = $value['statename'];
                   $result_category = $value['report_cat'];
 
